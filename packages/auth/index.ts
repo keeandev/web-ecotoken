@@ -1,4 +1,28 @@
-export { authOptions } from "./src/auth-options";
-export { getServerSession } from "./src/get-session";
+export { ironOptions } from "./src/session-options";
+export type { IronSessionData } from "iron-session";
+import { IncomingMessage, ServerResponse } from "http";
 
-export type { Session } from "next-auth";
+declare module "iron-session" {
+	interface IronSessionData {
+		user?: {
+			id: string;
+			// will use for logging user out on ip change
+			ipAddress: string;
+		};
+	}
+}
+
+export const getIronSession = (
+	req: IncomingMessage | Request,
+	res: ServerResponse | Response,
+	edge?: boolean
+) => {
+	if (!!edge)
+		return import("./src/get-edge-session").then((session) =>
+			session.getEdgeSession(req, res)
+		);
+	else
+		return import("./src/get-client-session").then((session) =>
+			session.getClientSession(req, res)
+		);
+};

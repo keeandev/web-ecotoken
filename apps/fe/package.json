@@ -1,0 +1,40 @@
+{
+    "name": "@ecotoken/fe",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "clean": "rm -rf .next .turbo node_modules",
+        "start": "next start",
+        "lint": "next lint",
+        "type-check": "tsc --noEmit"
+    },
+    "dependencies": {
+        "@ecotoken/tailwind-config": "*",
+        "@ecotoken/auth": "*",
+        "@ecotoken/db": "*",
+        "@ecotoken/api": "*",
+        "@ecotoken/ui": "*",
+        "@fortawesome/fontawesome-svg-core": "^6.2.0",
+        "@fortawesome/free-solid-svg-icons": "^6.2.0",
+        "@fortawesome/react-fontawesome": "^0.2.0",
+        "@headlessui/react": "^1.7.4",
+        "@tanstack/react-query": "^4.16.1",
+        "@trpc/client": "^10.1.0",
+        "@trpc/next": "^10.1.0",
+        "@trpc/react-query": "^10.1.0",
+        "@trpc/server": "^10.1.0",
+        "class-variance-authority": "^0.2.4",
+        "clsx": "^1.2.1",
+        "next": "^13.0.5",
+        "react": "18.2.0",
+        "react-dom": "18.2.0",
+        "zod": "^3.18.0"
+    },
+    "devDependencies": {
+        "@types/node": "^18.0.0",
+        "@types/react": "^18.0.25",
+        "@types/react-dom": "^18.0.9"
+    }
+}

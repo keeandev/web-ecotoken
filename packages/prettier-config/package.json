@@ -1,0 +1,14 @@
+{
+    "name": "@ecotoken/prettier-config",
+    "private": true,
+    "main": "index.cjs",
+    "version": "0.0.0",
+    "files": [
+        "index.cjs"
+    ],
+    "devDependencies": {
+        "prettier-plugin-prisma": "^4.4.0",
+        "prettier-plugin-tailwindcss": "^0.2.1",
+        "prettier": "^2.7.1"
+    }
+}
