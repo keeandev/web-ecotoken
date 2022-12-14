@@ -1,25 +1,36 @@
 {
-  "name": "@ecotoken/api",
-  "version": "0.0.0",
-  "main": "./index.ts",
-  "types": "./index.ts",
-  "private": true,
-  "scripts": {
-    "clean": "rm -rf .turbo node_modules",
-    "lint": "eslint . --ext .ts,.tsx",
-    "type-check": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@ecotoken/db": "*",
-    "@trpc/client": "^10.1.0",
-    "@trpc/server": "^10.1.0",
-    "jose": "^4.11.1",
-    "next": "^13.0.6",
-    "superjson": "^1.9.1",
-    "zod": "^3.18.0"
-  },
-  "devDependencies": {
-    "eslint": "^8.28.0",
-    "typescript": "^4.9.3"
-  }
+	"name": "@ecotoken/api",
+	"version": "0.0.0",
+	"main": "./index.ts",
+	"types": "./index.ts",
+	"private": true,
+	"scripts": {
+		"clean": "run-script-os",
+		"clean:windows": "del /f /s node_modules",
+		"clean:default": "rm -rf node_modules",
+		"lint": "eslint . --ext .ts,.tsx",
+		"type-check": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@ecotoken/auth": "*",
+		"@ecotoken/db": "*",
+		"argon2": "^0.30.2",
+		"bs58": "^5.0.0",
+		"jose": "^4.11.1",
+		"next": "^13.0.5"
+	},
+	"peerDependencies": {
+		"@trpc/client": "^10.1.0",
+		"@trpc/server": "^10.1.0",
+		"superjson": "^1.9.1",
+		"zod": "^3.18.0"
+	},
+	"devDependencies": {
+		"@trpc/client": "^10.1.0",
+		"@trpc/server": "^10.1.0",
+		"eslint": "^8.28.0",
+		"superjson": "^1.9.1",
+		"typescript": "^4.9.3",
+		"zod": "^3.18.0"
+	}
 }

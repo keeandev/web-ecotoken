@@ -7,8 +7,8 @@
         "index.cjs"
     ],
     "devDependencies": {
+        "prettier": "^2.7.1",
         "prettier-plugin-prisma": "^4.4.0",
-        "prettier-plugin-tailwindcss": "^0.2.1",
-        "prettier": "^2.7.1"
+        "prettier-plugin-tailwindcss": "^0.2.1"
     }
 }

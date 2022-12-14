@@ -29,9 +29,9 @@ model EcoProject {
 }
 
 model User {
-    id            String @id @default(cuid())
-    walletAddress String @unique
-    balance       Int    @default(0)
+    id            String  @id @default(cuid())
+    walletAddress String  @unique
+    emailAddress  String? @unique
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -44,4 +44,22 @@ enum ProjectStatus {
     COMPLETE
     FUNDED
     OPEN
+}
+
+model AdminUser {
+    adminID   String    @id @default(cuid())
+    username  String    @unique
+    password  String
+    email     String
+    firstName String
+    lastName  String
+    lastLogin DateTime?
+    expireAt  DateTime?
+    hits      Int       @default(0)
+    isActive  Boolean   @default(true)
+    isDelete  Boolean   @default(false)
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+
+    @@map("admin_user")
 }

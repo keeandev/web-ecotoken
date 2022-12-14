@@ -1,4 +1,4 @@
-export { ironOptions } from "./src/session-options";
+export { ironOptions } from "./src/iron-session/session-options";
 export type { IronSessionData } from "iron-session";
 import { IncomingMessage, ServerResponse } from "http";
 
@@ -18,11 +18,11 @@ export const getIronSession = (
 	edge?: boolean
 ) => {
 	if (!!edge)
-		return import("./src/get-edge-session").then((session) =>
+		return import("./src/iron-session/get-edge-session").then((session) =>
 			session.getEdgeSession(req, res)
 		);
 	else
-		return import("./src/get-client-session").then((session) =>
+		return import("./src/iron-session/get-client-session").then((session) =>
 			session.getClientSession(req, res)
 		);
 };

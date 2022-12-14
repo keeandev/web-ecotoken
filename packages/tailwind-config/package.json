@@ -1,20 +1,19 @@
 {
-    "name": "@ecotoken/tailwind-config",
-    "private": true,
-    "main": "index.cjs",
-    "version": "0.0.0",
-    "files": [
-        "index.cjs",
-        "postcss.js"
-    ],
-    "scripts": {
-        "dev": "tailwind-config-viewer --config index.cjs --port 3002"
-    },
-    "devDependencies": {
-        "autoprefixer": "^10.4.13",
-        "postcss": "^8.4.19",
-        "prettier-plugin-tailwindcss": "^0.2.1",
-        "tailwind-config-viewer": "^1.7.2",
-        "tailwindcss": "^3.2.4"
-    }
+	"name": "@ecotoken/tailwind-config",
+	"private": true,
+	"main": "index.js",
+	"version": "0.0.0",
+	"files": [
+		"index.js",
+		"postcss.js"
+	],
+	"scripts": {
+		"dev": "tailwind-config-viewer --config index.cjs --port 3002"
+	},
+	"devDependencies": {
+		"autoprefixer": "^10.4.13",
+		"postcss": "^8.4.19",
+		"tailwind-config-viewer": "^1.7.2",
+		"tailwindcss": "^3.2.4"
+	}
 }

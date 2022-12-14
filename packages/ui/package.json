@@ -1,22 +1,33 @@
 {
-    "name": "@ecotoken/ui",
-    "main": "./index.ts",
-    "types": "./index.ts",
-    "version": "0.0.0",
-    "scripts": {
-        "type-check": "tsc --noEmit"
-    },
-    "dependencies": {
-        "@fortawesome/fontawesome-svg-core": "^6.2.0",
-        "@fortawesome/free-solid-svg-icons": "^6.2.0",
-        "@fortawesome/react-fontawesome": "^0.2.0",
-        "@headlessui/react": "^1.7.5",
-        "@tanstack/react-table": "^8.7.0",
-        "class-variance-authority": "^0.4.0",
-        "clsx": "^1.2.1"
-    },
-    "peerDependencies": {
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0"
-    }
+	"name": "@ecotoken/ui",
+	"version": "0.0.0",
+	"files": [
+		"components",
+		"assets"
+	],
+	"scripts": {
+		"clean": "run-script-os",
+		"clean:windows": "del /f /s node_modules",
+		"clean:default": "rm -rf node_modules",
+		"type-check": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^6.2.0",
+		"@fortawesome/free-solid-svg-icons": "^6.2.0",
+		"@fortawesome/react-fontawesome": "^0.2.0",
+		"@headlessui/react": "^1.7.4",
+		"@tanstack/react-table": "^8.7.0",
+		"class-variance-authority": "^0.2.4",
+		"clsx": "^1.2.1"
+	},
+	"devDependencies": {
+		"next": "^13.0.5",
+		"react": "18.2.0",
+		"react-dom": "18.2.0"
+	},
+	"peerDependencies": {
+		"next": "^13.0.5",
+		"react": "18.2.0",
+		"react-dom": "18.2.0"
+	}
 }

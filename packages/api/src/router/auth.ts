@@ -1,8 +1,58 @@
-import { TRPCError } from "@trpc/server";
-import * as jose from "jose";
 import { z } from "zod";
-
 import { authedProcedure, publicProcedure, router } from "../trpc";
+import { TRPCError } from "@trpc/server";
+import { verify } from "argon2";
+import * as jose from "jose";
+import bs58 from "bs58";
+
+export const adminAuthRouter = router({
+	login: publicProcedure
+		.input(
+			z.object({
+				username: z.string(),
+				password: z.string()
+			})
+		)
+		.mutation(async ({ ctx, input }) => {
+			const user = await ctx.prisma.adminUser.findFirst({
+				where: {
+					username: input.username
+				}
+			});
+
+			if (!user || !(await verify(user.password, input.password)))
+				throw new TRPCError({
+					code: "UNAUTHORIZED",
+					message: "Username or password is incorrect."
+				});
+
+			ctx.session.user = {
+				id: user.adminID,
+				ipAddress: ctx.req.connection.remoteAddress ?? ""
+			};
+			await ctx.session.save();
+
+			const currentDate = new Date();
+			const expireDate = new Date(
+				currentDate.setDate(currentDate.getDate() + 180)
+			);
+
+			await ctx.prisma.adminUser.update({
+				where: {
+					username: input.username
+				},
+				data: {
+					hits: user.hits + 1,
+					lastLogin: currentDate,
+					expireAt: expireDate
+				}
+			});
+		}),
+	logout: publicProcedure.query(({ ctx }) => {
+		ctx.session.destroy();
+		return 200;
+	})
+});
 
 type TypedSocialPayload = {
 	email: string;
@@ -32,7 +82,7 @@ type TypedPayload = {
 	iss: string;
 };
 
-export const authRouter = router({
+export const walletAuthRouter = router({
 	login: publicProcedure
 		.input(
 			z.object({
@@ -42,7 +92,7 @@ export const authRouter = router({
 				type: z.string().nullish()
 			})
 		)
-		.query(async ({ ctx, input, ...rest }) => {
+		.mutation(async ({ ctx, input }) => {
 			const jwksUrl =
 				input.type === "social"
 					? "https://api.openlogin.com/jwks"
@@ -58,6 +108,7 @@ export const authRouter = router({
 			).payload;
 
 			let payload: TypedSocialPayload | TypedWalletPayload;
+			let address: string;
 
 			// wallet login
 			if ((responsePayload as any).wallets[0].address) {
@@ -67,32 +118,13 @@ export const authRouter = router({
 					...responsePayload
 				} as TypedWalletPayload;
 
-				if (payload?.wallets[0]!.address !== input.publicKey)
+				if (payload?.wallets[0]!.address !== input.publicAddress)
 					return new TRPCError({
 						code: "UNAUTHORIZED",
 						message: "Verification failed."
 					});
 
-				let user = await ctx.prisma.user.findUnique({
-					where: {
-						walletAddress: payload?.wallets[0]!.address
-					}
-				});
-
-				if (!user) {
-					user = await ctx.prisma.user.create({
-						data: {
-							walletAddress: payload?.wallets[0]!.address
-						}
-					});
-				}
-
-				ctx.session.user = {
-					id: user.id,
-					ipAddress: ctx.req.connection.remoteAddress ?? ""
-				};
-				await ctx.session.save();
-				return 200;
+				address = bs58.encode(Buffer.from(input.publicAddress ?? ""));
 			} else {
 				// social login
 
@@ -105,8 +137,37 @@ export const authRouter = router({
 						code: "UNAUTHORIZED",
 						message: "Verification failed."
 					});
+
+				address = bs58.encode(Buffer.from(input.publicKey ?? ""));
 				return 200;
 			}
+
+			if (address) {
+				let user = await ctx.prisma.user.findUnique({
+					where: {
+						walletAddress: `${input.publicKey}`
+					}
+				});
+
+				if (!user) {
+					user = await ctx.prisma.user.create({
+						data: {
+							walletAddress: `${input.publicKey}`
+						}
+					});
+				}
+
+				ctx.session.user = {
+					id: user.id,
+					ipAddress: ctx.req.connection.remoteAddress ?? ""
+				};
+				await ctx.session.save();
+				return 200;
+			} else
+				return new TRPCError({
+					code: "UNAUTHORIZED",
+					message: "Verification failed."
+				});
 		}),
 	logout: authedProcedure.query(async ({ ctx }) => {
 		await ctx.session.destroy();

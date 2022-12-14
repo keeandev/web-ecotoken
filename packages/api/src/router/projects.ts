@@ -1,10 +1,10 @@
 import type { EcoProject } from "@prisma/client";
 import { z } from "zod";
 
-import { publicProcedure, router } from "../trpc";
+import { authedProcedure, router } from "../trpc";
 
 export const projectsRouter = router({
-	get: publicProcedure
+	get: authedProcedure
 		.input(
 			z.object({
 				url: z.string(),
@@ -20,7 +20,7 @@ export const projectsRouter = router({
 			});
 			return project;
 		}),
-	getAll: publicProcedure
+	getAll: authedProcedure
 		.input(
 			z.object({
 				partners: z.boolean().nullish(),

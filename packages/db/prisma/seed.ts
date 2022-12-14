@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { hash } from "argon2";
 
 const prisma = new PrismaClient();
 
@@ -86,6 +87,25 @@ const main = async () => {
 		]
 	});
 	console.log("Created projects.");
+	await prisma.adminUser.createMany({
+		data: [
+			{
+				username: "Randalf",
+				email: "randy@eco-token.io",
+				firstName: "Randy",
+				lastName: "Christie",
+				password: await hash("password123")
+			},
+			{
+				username: "dingo",
+				email: "keean@eco-token.io",
+				firstName: "Ean",
+				lastName: "Last",
+				password: await hash("password123")
+			}
+		]
+	});
+	console.log("Created admin users.");
 };
 
 main();

@@ -1,10 +1,11 @@
 import { router } from "../trpc";
-import { authRouter } from "./auth";
+import { walletAuthRouter, adminAuthRouter } from "./auth";
 import { projectsRouter } from "./projects";
 
 export const appRouter = router({
 	projects: projectsRouter,
-	auth: authRouter
+	walletAuth: walletAuthRouter,
+	adminAuth: adminAuthRouter
 });
 
 // export type definition of API
