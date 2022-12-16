@@ -3,12 +3,13 @@
 const path = require("path");
 
 module.exports = {
-	stories: ["./src/**/*.stories.mdx", "./src/**/*.stories.@(js|jsx|ts|tsx)"],
+	stories: ["../src/**/*.stories.mdx", "../src/**/*.stories.@(ts|tsx)"],
 	/** Expose public folder to storybook as static */
 	staticDirs: ["../public"],
 	typescript: {
 		reactDocgen: false
 	},
+	features: { storyStoreV7: true },
 	addons: [
 		{
 			/**
@@ -36,10 +37,7 @@ module.exports = {
 		 */
 		config.resolve.alias = {
 			...config.resolve?.alias,
-			"@": [
-				path.resolve(__dirname, "../src/"),
-				path.resolve(__dirname, "../")
-			]
+			"@": [path.resolve(__dirname, "../src/")]
 		};
 
 		/**
