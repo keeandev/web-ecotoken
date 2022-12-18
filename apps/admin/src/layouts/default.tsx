@@ -57,14 +57,14 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
 							expanded={expanded}
 						/>
 						<SidebarItem
-							path="/wallet"
-							name="Wallet"
+							path="/administration"
+							name="Administration"
 							icon={faWallet}
 							expanded={expanded}
 						/>
 						<SidebarItem
-							path="/history"
-							name="History"
+							path="/users"
+							name="Users"
 							icon={faClockRotateLeft}
 							expanded={expanded}
 						/>
@@ -76,14 +76,26 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
 						/>
 						<SidebarItem
 							path="/projects"
-							name="Projects"
+							name="ecoProjects"
 							icon={faLeaf}
 							expanded={expanded}
 						/>
 						<SidebarItem
-							path="/collection"
-							name="Collection"
+							path="/configuration"
+							name="Configuration"
 							icon={faImage}
+							expanded={expanded}
+						/>
+						<SidebarItem
+							path="/admin-users"
+							name="Admin Users"
+							icon={faLeaf}
+							expanded={expanded}
+						/>
+						<SidebarItem
+							path="/websites"
+							name="Wesites"
+							icon={faLeaf}
 							expanded={expanded}
 						/>
 						<SidebarItem
