@@ -49,7 +49,10 @@ export const adminAuthRouter = router({
 
 			ctx.adminSession.user = {
 				id: user.adminID,
-				ipAddress: ctx.req.connection.remoteAddress ?? ""
+				ipAddress:
+					process.env.NODE_ENV !== "production"
+						? ctx.req.connection.remoteAddress ?? ""
+						: undefined
 			};
 			await ctx.adminSession.save();
 		}),
@@ -164,7 +167,10 @@ export const walletAuthRouter = router({
 
 				ctx.adminSession.user = {
 					id: user.id,
-					ipAddress: ctx.req.connection.remoteAddress ?? ""
+					ipAddress:
+						process.env.NODE_ENV === "production"
+							? ctx.req.connection.remoteAddress ?? ""
+							: undefined
 				};
 				await ctx.adminSession.save();
 				return 200;

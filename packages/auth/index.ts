@@ -1,27 +1,29 @@
-export { ironOptions, adminIronOptions } from "./src/iron-session/session-options";
+export {
+	ironOptions,
+	adminIronOptions
+} from "./src/iron-session/session-options";
 export type { IronSessionData } from "iron-session";
 import { IncomingMessage, ServerResponse } from "http";
 import type { IronSession } from "iron-session";
 
 export type UserSession = {
-    user?: {
-        id: string,
-        ipAddress: string
-    }
-} & IronSession
+	user?: {
+		id: string;
+		ipAddress?: string;
+	};
+} & IronSession;
 
 export type AdminSession = {
 	user?: {
 		id: string;
-		ipAddress: string;
+		ipAddress?: string;
 	};
 } & IronSession;
-
 
 export const getUserSession = (
 	req: IncomingMessage | Request,
 	res: ServerResponse | Response,
-	edge?: boolean,
+	edge?: boolean
 ) => {
 	if (!!edge)
 		return import("./src/iron-session/get-edge-session").then((session) =>

@@ -8,7 +8,6 @@ export async function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl;
 
 	const response = NextResponse.next();
-	console.log("middleware");
 	const session = await getAdminEdgeSession(request, response);
 
 	if (request.ip !== session.user?.ipAddress) session.destroy();
@@ -22,7 +21,7 @@ export async function middleware(request: NextRequest) {
 			return NextResponse.redirect(new URL("/login", request.url));
 		}
 	}
-    return response;
+	return response;
 }
 
 // matching routes
