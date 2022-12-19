@@ -1,8 +1,8 @@
 import { type inferAsyncReturnType } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
-import { type IronSession } from "iron-session";
+import type { UserSession, AdminSession } from "@ecotoken/auth";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getIronSession } from "@ecotoken/auth";
+import { getAdminSession, getUserSession } from "@ecotoken/auth";
 
 import { prisma } from "@ecotoken/db";
 
@@ -10,7 +10,8 @@ import { prisma } from "@ecotoken/db";
  * Replace this with an object if you want to pass things to createContextInner
  */
 type CreateContextOptions = {
-	session: IronSession;
+	userSession: UserSession;
+    adminSession: AdminSession;
 	req: NextApiRequest;
 	res: NextApiResponse;
 };
@@ -32,10 +33,12 @@ export const createContextInner = async (opts: CreateContextOptions) => {
  * @link https://trpc.io/docs/context
  **/
 export const createContext = async ({ req, res }: CreateNextContextOptions) => {
-	// fetch the session, decrypt cookie/deserialize -> createContextInner as `session` (optional field)
-	const session = await getIronSession(req, res);
+	// fetch the session, decrypt cookie/deserialize -> createContextInner as `userSession` (optional field)
+    const userSession = await getUserSession(req, res);
+    const adminSession = await getAdminSession(req, res);
 	return await createContextInner({
-		session,
+		userSession,
+        adminSession,
 		req,
 		res
 	});

@@ -8,7 +8,7 @@
 		"postcss.js"
 	],
 	"scripts": {
-		"dev": "tailwind-config-viewer --config index.cjs --port 3002"
+		"dev": "tailwind-config-viewer --config index.js --port 3002"
 	},
 	"devDependencies": {
 		"autoprefixer": "^10.4.13",

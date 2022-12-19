@@ -10,3 +10,11 @@ export const ironOptions: IronSessionOptions = {
 		secure: process.env.NODE_ENV === "production"
 	}
 };
+
+export const adminIronOptions: IronSessionOptions = {
+	cookieName: "admin-session",
+	password: process.env.IRON_SESSION_PASSWORD as string,
+	cookieOptions: {
+		secure: process.env.NODE_ENV === "production"
+	}
+};

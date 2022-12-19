@@ -1,5 +1,10 @@
 import { z } from "zod";
-import { authedProcedure, publicProcedure, router } from "../trpc";
+import {
+	userAuthedProcedure,
+	publicProcedure,
+	router,
+	adminAuthedProcedure
+} from "../trpc";
 import { TRPCError } from "@trpc/server";
 import { verify } from "argon2";
 import * as jose from "jose";
@@ -26,12 +31,6 @@ export const adminAuthRouter = router({
 					message: "Username or password is incorrect."
 				});
 
-			ctx.session.user = {
-				id: user.adminID,
-				ipAddress: ctx.req.connection.remoteAddress ?? ""
-			};
-			await ctx.session.save();
-
 			const currentDate = new Date();
 			const expireDate = new Date(
 				currentDate.setDate(currentDate.getDate() + 180)
@@ -47,9 +46,15 @@ export const adminAuthRouter = router({
 					expireAt: expireDate
 				}
 			});
+
+			ctx.adminSession.user = {
+				id: user.adminID,
+				ipAddress: ctx.req.connection.remoteAddress ?? ""
+			};
+			await ctx.adminSession.save();
 		}),
-	logout: publicProcedure.query(({ ctx }) => {
-		ctx.session.destroy();
+	logout: adminAuthedProcedure.query(async ({ ctx }) => {
+		await ctx.adminSession.destroy();
 		return 200;
 	})
 });
@@ -157,11 +162,11 @@ export const walletAuthRouter = router({
 					});
 				}
 
-				ctx.session.user = {
+				ctx.adminSession.user = {
 					id: user.id,
 					ipAddress: ctx.req.connection.remoteAddress ?? ""
 				};
-				await ctx.session.save();
+				await ctx.adminSession.save();
 				return 200;
 			} else
 				return new TRPCError({
@@ -169,8 +174,8 @@ export const walletAuthRouter = router({
 					message: "Verification failed."
 				});
 		}),
-	logout: authedProcedure.query(async ({ ctx }) => {
-		await ctx.session.destroy();
+	logout: userAuthedProcedure.query(async ({ ctx }) => {
+		await ctx.userSession.destroy();
 		return 200;
 	})
 });

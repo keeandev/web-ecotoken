@@ -1,21 +1,27 @@
-export { ironOptions } from "./src/iron-session/session-options";
+export { ironOptions, adminIronOptions } from "./src/iron-session/session-options";
 export type { IronSessionData } from "iron-session";
 import { IncomingMessage, ServerResponse } from "http";
+import type { IronSession } from "iron-session";
 
-declare module "iron-session" {
-	interface IronSessionData {
-		user?: {
-			id: string;
-			// will use for logging user out on ip change
-			ipAddress: string;
-		};
-	}
-}
+export type UserSession = {
+    user?: {
+        id: string,
+        ipAddress: string
+    }
+} & IronSession
 
-export const getIronSession = (
+export type AdminSession = {
+	user?: {
+		id: string;
+		ipAddress: string;
+	};
+} & IronSession;
+
+
+export const getUserSession = (
 	req: IncomingMessage | Request,
 	res: ServerResponse | Response,
-	edge?: boolean
+	edge?: boolean,
 ) => {
 	if (!!edge)
 		return import("./src/iron-session/get-edge-session").then((session) =>
@@ -24,5 +30,20 @@ export const getIronSession = (
 	else
 		return import("./src/iron-session/get-client-session").then((session) =>
 			session.getClientSession(req, res)
+		);
+};
+
+export const getAdminSession = (
+	req: IncomingMessage | Request,
+	res: ServerResponse | Response,
+	edge?: boolean
+) => {
+	if (!!edge)
+		return import("./src/iron-session/get-edge-session").then((session) =>
+			session.getAdminEdgeSession(req, res)
+		);
+	else
+		return import("./src/iron-session/get-client-session").then((session) =>
+			session.getAdminClientSession(req, res)
 		);
 };
