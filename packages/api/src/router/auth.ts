@@ -165,14 +165,14 @@ export const walletAuthRouter = router({
 					});
 				}
 
-				ctx.adminSession.user = {
+				ctx.userSession.user = {
 					id: user.id,
 					ipAddress:
 						process.env.NODE_ENV === "production"
 							? ctx.req.connection.remoteAddress ?? ""
 							: undefined
 				};
-				await ctx.adminSession.save();
+				await ctx.userSession.save();
 				return 200;
 			} else
 				return new TRPCError({
