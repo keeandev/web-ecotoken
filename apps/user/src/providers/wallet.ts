@@ -3,7 +3,7 @@ import { SafeEventEmitterProvider } from "@web3auth/base";
 import { SolanaWallet } from "@web3auth/solana-provider";
 
 export interface IWalletProvider {
-	getPrivateKey: () => Promise<string>;
+	getPrivateKey: () => Promise<string | undefined>;
 	getConnection: () => Promise<any>;
 	getAccounts: () => Promise<any>;
 	getBalance: () => Promise<any>;

@@ -4,6 +4,7 @@ import { OpenloginAdapter } from "@web3auth/openlogin-adapter";
 import { getED25519Key } from "@toruslabs/openlogin-ed25519";
 import {
 	CHAIN_NAMESPACES,
+	WALLET_ADAPTERS,
 	SafeEventEmitterProvider,
 	UserAuthInfo,
 	UserInfo
@@ -12,16 +13,21 @@ import { env } from "@/env/client.mjs";
 import logo from "@ecotoken/ui/assets/brand/logo.png";
 import { getWalletProvider, IWalletProvider } from "@/providers/wallet";
 import { trpc } from "@/utils/trpc";
+import { useRouter } from "next/router";
 
 export type Web3AuthContext = {
 	web3auth: Web3Auth | null;
 	walletProvider: IWalletProvider | null;
 	login: () => void;
+	logout: () => Promise<void>;
+	loading: boolean;
 };
 const Web3AuthContext = createContext<Web3AuthContext>({
 	walletProvider: null,
 	web3auth: null,
-	login: () => {}
+	login() {},
+	async logout() {},
+	loading: false
 });
 
 const Web3AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -35,8 +41,14 @@ const Web3AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		(Partial<UserInfo> | Partial<UserAuthInfo>) | null
 	>(null);
 
-	const { mutate, isLoading } = trpc.walletAuth.login.useMutation();
+	const { mutate, isLoading } = trpc.userAuth.login.useMutation({
+		onSuccess() {
+			router.push("/");
+		}
+	});
+	const router = useRouter();
 	useEffect(() => {
+		console.log(logo.src);
 		const init = async () => {
 			try {
 				const web3auth = new Web3Auth({
@@ -48,17 +60,20 @@ const Web3AuthProvider = ({ children }: { children: React.ReactNode }) => {
 					},
 					chainConfig: {
 						chainNamespace: CHAIN_NAMESPACES.SOLANA,
-						chainId: "0x2",
+						chainId: "0x3",
 						rpcTarget: env.NEXT_PUBLIC_SOLANA_RPC,
-						displayName: "solana",
+						displayName: "Solana",
 						ticker: "SOL",
-						tickerName: "solana"
+						tickerName: "Solana"
 					},
 					enableLogging: true
 				});
 				const openloginAdapter = new OpenloginAdapter({
 					adapterSettings: {
-						network: "testnet",
+						network:
+							process.env.NODE_ENV === "production"
+								? "mainnet"
+								: "testnet",
 						clientId:
 							process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID ?? ""
 					},
@@ -83,22 +98,28 @@ const Web3AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		}
 		try {
 			const authProvider = await web3auth.connect();
-			if (authProvider) {
-				console.log("step 1");
+			if (web3auth.connectedAdapterName !== null && authProvider) {
+				console.log("step 1", "provider: " + authProvider);
 				setProvider(authProvider);
-				setWalletProvider(getWalletProvider(authProvider));
-				console.log("step 2");
+				const walletProvider = getWalletProvider(authProvider);
+				setWalletProvider(walletProvider);
+				console.log(
+					"step 2",
+					"accounts: " + (await walletProvider.getAccounts())
+				);
 				const idToken = await getIdToken();
-				console.log("step 3");
-				if (idToken) {
-					console.log("step 4");
-					// const keyInfo = await getPublicKey();
-					// if (keyInfo) {
-					// 	await mutate({
-					// 		idToken: idToken ?? "",
-					// 		...keyInfo
-					// 	});
-					// }
+				const isWalletSocial = await isSocial();
+				console.log("step 3", "idToken: " + idToken);
+				if (idToken && walletProvider) {
+					await mutate({
+						idToken: idToken ?? "",
+						type: isWalletSocial ? "social" : "external",
+						publicAddress:
+							(await getPrimaryAddress(walletProvider)) ?? "",
+						...(isWalletSocial && {
+							publicKey: await getPublicKey(walletProvider)
+						})
+					});
 				}
 			}
 		} catch (e) {
@@ -111,12 +132,10 @@ const Web3AuthProvider = ({ children }: { children: React.ReactNode }) => {
 			console.log("web3auth not initialized yet");
 			return;
 		}
-		let isSocial = false;
-		try {
-			await walletProvider?.getPrivateKey();
-			isSocial = true;
-		} catch (e) {}
-		return isSocial;
+		return (
+			web3auth.connectedAdapterName !== "phantom" &&
+			web3auth.connectedAdapterName !== "torus"
+		);
 	};
 
 	const getIdToken = async () => {
@@ -134,19 +153,22 @@ const Web3AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		}
 	};
 
-	const getPublicKey = async () => {
+	// used to get the address of the wallet
+	const getPrimaryAddress = async (walletProvider: IWalletProvider) => {
 		if (!web3auth) {
-			console.log("web3auth not initialized yet");
+			console.log("web3auth/walletProvider not initialized yet");
 			return;
 		}
-		const isWalletSocial = await isSocial();
+		const wallets = await walletProvider.getAccounts();
+		return wallets[0] as string;
+	};
 
-		const wallets = await walletProvider?.getAccounts();
-
-		if (!isWalletSocial && wallets) {
-			return { type: "external", publicAddress: `${wallets[0].address}` };
+	// used to get the publicKey of the wallet (for social logins)
+	const getPublicKey = async (walletProvider: IWalletProvider) => {
+		if (!web3auth) {
+			console.log("web3auth/walletProvider not initialized yet");
+			return;
 		}
-
 		const app_scoped_privkey = await walletProvider?.getPrivateKey();
 
 		if (app_scoped_privkey) {
@@ -154,14 +176,24 @@ const Web3AuthProvider = ({ children }: { children: React.ReactNode }) => {
 				Buffer.from(app_scoped_privkey.padStart(64, "0"), "hex")
 			);
 			const app_pub_key = ed25519Key.pk.toString("hex");
-			return { type: "social", publicKey: app_pub_key };
+			return app_pub_key;
 		}
+	};
 
-		return { type: "social", publicAddress: "" };
+	const logout = async () => {
+		await web3auth?.logout();
 	};
 
 	return (
-		<Web3AuthContext.Provider value={{ web3auth, walletProvider, login }}>
+		<Web3AuthContext.Provider
+			value={{
+				web3auth,
+				walletProvider,
+				login,
+				logout,
+				loading: isLoading
+			}}
+		>
 			{children}
 		</Web3AuthContext.Provider>
 	);

@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { boolean, z } from "zod";
 import {
 	userAuthedProcedure,
 	publicProcedure,
@@ -50,7 +50,7 @@ export const adminAuthRouter = router({
 			ctx.adminSession.user = {
 				id: user.adminID,
 				ipAddress:
-					process.env.NODE_ENV !== "production"
+					process.env.NODE_ENV === "production"
 						? ctx.req.connection.remoteAddress ?? ""
 						: undefined
 			};
@@ -90,14 +90,14 @@ type TypedPayload = {
 	iss: string;
 };
 
-export const walletAuthRouter = router({
+export const userAuthRouter = router({
 	login: publicProcedure
 		.input(
 			z.object({
 				idToken: z.string(),
 				publicKey: z.string().nullish(),
-				publicAddress: z.string().nullish(),
-				type: z.string().nullish()
+				publicAddress: z.string(),
+				type: z.string()
 			})
 		)
 		.mutation(async ({ ctx, input }) => {
@@ -116,10 +116,10 @@ export const walletAuthRouter = router({
 			).payload;
 
 			let payload: TypedSocialPayload | TypedWalletPayload;
-			let address: string;
+			let verified: boolean;
 
 			// wallet login
-			if ((responsePayload as any).wallets[0].address) {
+			if (input.type === "external") {
 				payload = {
 					aud: responsePayload.audience,
 					iss: responsePayload.issuer,
@@ -132,7 +132,7 @@ export const walletAuthRouter = router({
 						message: "Verification failed."
 					});
 
-				address = bs58.encode(Buffer.from(input.publicAddress ?? ""));
+				verified = true;
 			} else {
 				// social login
 
@@ -146,11 +146,10 @@ export const walletAuthRouter = router({
 						message: "Verification failed."
 					});
 
-				address = bs58.encode(Buffer.from(input.publicKey ?? ""));
-				return 200;
+				verified = true;
 			}
 
-			if (address) {
+			if (!!input.publicAddress && verified) {
 				let user = await ctx.prisma.user.findUnique({
 					where: {
 						walletAddress: `${input.publicKey}`
@@ -173,7 +172,6 @@ export const walletAuthRouter = router({
 							: undefined
 				};
 				await ctx.userSession.save();
-				return 200;
 			} else
 				return new TRPCError({
 					code: "UNAUTHORIZED",

@@ -14,20 +14,20 @@ import { cva } from "class-variance-authority";
 const tableStyles = cva([], {
 	variants: {
 		intent: {
-			primary: " w-[100%]"
+			primary: ""
 		},
 		head: {
 			primary: ""
 		},
 		tableHeader: {
 			primary:
-				"bg-red-500 px-2 py-1 first:rounded-tl-md last:rounded-tr-md"
+				"bg-red-500 px-2 py-1 first:rounded-tl-md last:rounded-tr-md whitespace-nowrap"
 		},
 		body: {
 			primary: ""
 		},
 		tableCell: {
-			primary: "whitespace-nowrap px-2 py-1 last:rounded-b-md"
+			primary: "whitespace-nowrap px-2 py-1"
 		},
 		tableRow: {
 			primary: ""

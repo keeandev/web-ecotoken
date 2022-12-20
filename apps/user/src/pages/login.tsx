@@ -3,7 +3,7 @@ import Button from "@ecotoken/ui/components/Button";
 
 const Login = () => {
 	const web3auth = useWeb3Auth();
-	return <Button onClick={() => web3auth.login()}>Login</Button>;
+	return <Button onClick={() => web3auth.login()} loading={web3auth.loading}>Login</Button>;
 };
 
 Login.getLayout = (page: React.ReactElement) => <>{page}</>;

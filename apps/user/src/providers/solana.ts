@@ -15,10 +15,12 @@ const solanaProvider = (
 	const solanaWallet = new SolanaWallet(provider);
 
 	const getPrivateKey = async () => {
-		const privateKey = await solanaWallet.request({
-			method: "solanaPrivateKey"
-		});
-		return privateKey as string;
+		try {
+			const privateKey = await solanaWallet.request({
+				method: "solanaPrivateKey"
+			});
+			return privateKey as string;
+		} catch (e) {}
 	};
 
 	const getConnection = async (): Promise<Connection> => {
@@ -35,7 +37,6 @@ const solanaProvider = (
 			const acc = await solanaWallet.requestAccounts();
 			return acc;
 		} catch (error) {
-			console.error("Error", error);
 			console.log("error", error);
 			return [];
 		}
@@ -50,7 +51,6 @@ const solanaProvider = (
 			);
 			return balance;
 		} catch (error) {
-			console.error("Error", error);
 			console.log("error", error);
 		}
 	};
@@ -61,7 +61,6 @@ const solanaProvider = (
 			const res = await solanaWallet.signMessage(msg);
 			console.log("Solana sign message", res);
 		} catch (error) {
-			console.error("Error", error);
 			console.log("error", error);
 		}
 	};
@@ -85,7 +84,6 @@ const solanaProvider = (
 			const signature = await solWeb3.signAndSendTransaction(transaction);
 			console.log("signature", signature);
 		} catch (error) {
-			console.error("Error", error);
 			console.log("error", error);
 		}
 	};
@@ -110,7 +108,6 @@ const solanaProvider = (
 			signedTx.serialize();
 			console.log("signature", signedTx);
 		} catch (error) {
-			console.error("Error", error);
 			console.log("error", error);
 		}
 	};
