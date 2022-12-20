@@ -6,6 +6,8 @@ const prisma = new PrismaClient();
 const main = async () => {
 	// wipe old data,
 	await prisma.ecoProject.deleteMany();
+	await prisma.user.deleteMany();
+	await prisma.adminUser.deleteMany();
 	console.log("Deleting data...");
 	// reseed
 	await prisma.ecoProject.createMany({

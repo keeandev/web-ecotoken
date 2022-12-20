@@ -48,7 +48,6 @@ const Web3AuthProvider = ({ children }: { children: React.ReactNode }) => {
 	});
 	const router = useRouter();
 	useEffect(() => {
-		console.log(logo.src);
 		const init = async () => {
 			try {
 				const web3auth = new Web3Auth({
@@ -99,17 +98,11 @@ const Web3AuthProvider = ({ children }: { children: React.ReactNode }) => {
 		try {
 			const authProvider = await web3auth.connect();
 			if (web3auth.connectedAdapterName !== null && authProvider) {
-				console.log("step 1", "provider: " + authProvider);
 				setProvider(authProvider);
 				const walletProvider = getWalletProvider(authProvider);
 				setWalletProvider(walletProvider);
-				console.log(
-					"step 2",
-					"accounts: " + (await walletProvider.getAccounts())
-				);
 				const idToken = await getIdToken();
 				const isWalletSocial = await isSocial();
-				console.log("step 3", "idToken: " + idToken);
 				if (idToken && walletProvider) {
 					await mutate({
 						idToken: idToken ?? "",
@@ -191,7 +184,7 @@ const Web3AuthProvider = ({ children }: { children: React.ReactNode }) => {
 				walletProvider,
 				login,
 				logout,
-				loading: isLoading
+				loading: isLoading || !web3auth
 			}}
 		>
 			{children}
