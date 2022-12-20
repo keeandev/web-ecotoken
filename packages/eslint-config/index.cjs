@@ -9,5 +9,9 @@ module.exports = {
 			"./packages/*/tsconfig.json"
 		]
 	},
-	extends: ["turbo", "prettier"]
+	extends: ["turbo", "prettier"],
+    rules: {
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/no-non-null-assertion": "off"
+    }
 };

@@ -33,7 +33,7 @@ export const createContextInner = async (opts: CreateContextOptions) => {
  * @link https://trpc.io/docs/context
  **/
 export const createContext = async ({ req, res }: CreateNextContextOptions) => {
-	// fetch the session, decrypt cookie/deserialize -> createContextInner as `userSession` (optional field)
+	// fetch the session, decrypt cookie/deserialize -> createContextInner as `userSession` and `adminSession` (optional fields)
     const userSession = await getUserSession(req, res);
     const adminSession = await getAdminSession(req, res);
 	return await createContextInner({

@@ -6,7 +6,7 @@ export interface IWalletProvider {
 	getPrivateKey: () => Promise<string | undefined>;
 	getConnection: () => Promise<any>;
 	getAccounts: () => Promise<any>;
-	getBalance: () => Promise<any>;
+	getBalance: () => Promise<number | undefined>;
 	signAndSendTransaction: () => Promise<void>;
 	signTransaction: () => Promise<void>;
 	signMessage: () => Promise<void>;

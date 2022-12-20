@@ -1,4 +1,4 @@
-import { boolean, z } from "zod";
+import { z } from "zod";
 import {
 	userAuthedProcedure,
 	publicProcedure,
@@ -8,7 +8,6 @@ import {
 import { TRPCError } from "@trpc/server";
 import { verify } from "argon2";
 import * as jose from "jose";
-import bs58 from "bs58";
 
 export const adminAuthRouter = router({
 	login: publicProcedure
