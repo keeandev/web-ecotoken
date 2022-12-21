@@ -2,12 +2,7 @@ import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 import Table from "@ecotoken/ui/components/Table";
-import {
-	createColumnHelper,
-	flexRender,
-	getCoreRowModel,
-	useReactTable
-} from "@tanstack/react-table";
+import { createColumnHelper } from "@tanstack/react-table";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -25,7 +20,7 @@ type Person = {
 	age: number;
 	visits: number;
 	status: string;
-	progress: number;
+	email: string;
 };
 
 const defaultData: Person[] = [
@@ -35,23 +30,23 @@ const defaultData: Person[] = [
 		age: 24,
 		visits: 100,
 		status: "In Relationship",
-		progress: 50
+		email: "tanner.linsley@gmail.com"
 	},
 	{
-		firstName: "tandy",
-		lastName: "miller",
+		firstName: "Tandy",
+		lastName: "Miller",
 		age: 40,
 		visits: 40,
 		status: "Single",
-		progress: 80
+		email: "tandy.miller@gmail.com"
 	},
 	{
-		firstName: "joe",
-		lastName: "dirte",
+		firstName: "Joe",
+		lastName: "Dirte",
 		age: 45,
 		visits: 20,
 		status: "Complicated",
-		progress: 10
+		email: "joe.dirte@gmail.com"
 	}
 ];
 const columnHelper = createColumnHelper<Person>();
@@ -59,12 +54,13 @@ const columnHelper = createColumnHelper<Person>();
 const columns = [
 	columnHelper.accessor("firstName", {
 		cell: (info) => info.getValue(),
+		header: "First Name",
 		footer: (info) => info.column.id
 	}),
 	columnHelper.accessor((row) => row.lastName, {
 		id: "lastName",
-		cell: (info) => <div className="text-right">{info.getValue()}</div>,
-		header: () => <div className="text-right">Last Name</div>,
+		cell: (info) => info.getValue(),
+		header: () => "Last Name",
 		footer: (info) => info.column.id
 	}),
 	columnHelper.accessor("age", {
@@ -73,15 +69,22 @@ const columns = [
 		footer: (info) => info.column.id
 	}),
 	columnHelper.accessor("visits", {
-		header: () => <span>Visits</span>,
+		header: () => <div className="text-right">Visits</div>,
+		cell: (info) => <div className="text-right">{info.renderValue()}</div>,
 		footer: (info) => info.column.id
 	}),
 	columnHelper.accessor("status", {
 		header: "Status",
+		cell: (info) => <div className="italic">{info.renderValue()}</div>,
 		footer: (info) => info.column.id
 	}),
-	columnHelper.accessor("progress", {
-		header: "Profile Progress",
+	columnHelper.accessor("email", {
+		header: "Email",
+		cell: (info) => (
+			<a href={`mailto:${info.renderValue()}`} className="text-blue-900">
+				{info.renderValue()}
+			</a>
+		),
 		footer: (info) => info.column.id
 	})
 ];
@@ -97,6 +100,7 @@ Primary.args = {
 	tableCell: "primary",
 	text: "left",
 	alternate: true,
+	fullWidth: true,
 	data: defaultData,
 	columns
 };

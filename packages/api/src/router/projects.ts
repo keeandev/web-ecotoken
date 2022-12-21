@@ -8,8 +8,8 @@ export const projectsRouter = router({
 		.input(
 			z.object({
 				url: z.string(),
-				partners: z.boolean().nullish(),
-				benefits: z.boolean().nullish()
+				partners: z.boolean().optional(),
+				benefits: z.boolean().optional()
 			})
 		)
 		.query(async ({ ctx, input }) => {

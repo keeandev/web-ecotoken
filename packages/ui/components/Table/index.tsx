@@ -21,16 +21,17 @@ const tableStyles = cva([], {
 		},
 		tableHeader: {
 			primary:
-				"bg-red-500 px-2 py-1 first:rounded-tl-md last:rounded-tr-md whitespace-nowrap"
+				"px-3 py-2 whitespace-nowrap font-semibold text-sm border text-left border-slate-200 border-r-0 border-l-0 border-b-2"
 		},
 		body: {
 			primary: ""
 		},
 		tableCell: {
-			primary: "whitespace-nowrap px-2 py-1"
+			primary:
+				"whitespace-nowrap px-3 py-2 font-light text-sm whitespace-nowrap overflow-hidden text-ellipsis"
 		},
 		tableRow: {
-			primary: ""
+			primary: "hover:bg-slate-200/75"
 		},
 		fixed: {
 			true: "table-fixed"
@@ -39,8 +40,8 @@ const tableStyles = cva([], {
 			true: "w-full"
 		},
 		alternate: {
-			true: "odd:bg-slate-200 even:bg-slate-300",
-			false: "bg-slate-200"
+			true: "odd:bg-slate-50 even:bg-slate-100",
+			false: "border  border-slate-200 border-r-0 border-l-0"
 		},
 		text: {
 			left: "text-left",
@@ -59,12 +60,15 @@ export type TableProps = VariantProps<typeof tableStyles> &
 		data: unknown[];
 		columns: ColumnDef<any, any>[];
 		getRoleModel?: (table: TanstackTableType<any>) => () => RowModel<any>;
+		search?: boolean;
+		showEntries?: boolean;
+		limit?: number;
 	};
 const Table: React.FC<TableProps> = ({
 	intent = "primary",
-	head,
+	head = "primary",
 	tableHeader = "primary",
-	body,
+	body = "primary",
 	tableRow = "primary",
 	tableCell = "primary",
 	fixed,
@@ -75,6 +79,9 @@ const Table: React.FC<TableProps> = ({
 	fullWidth,
 	text = "left",
 	getRoleModel,
+	limit = 10,
+	search,
+	showEntries,
 	...props
 }) => {
 	const table = useReactTable({
@@ -84,57 +91,59 @@ const Table: React.FC<TableProps> = ({
 	});
 
 	return (
-		<table
-			className={tableStyles({
-				intent,
-				fixed,
-				fullWidth,
-				class: className
-			})}
-			{...props}
-		>
-			<thead className={tableStyles({ head })}>
-				{table.getHeaderGroups().map((headerGroup) => (
-					<tr key={headerGroup.id}>
-						{headerGroup.headers.map((header) => (
-							<th
-								key={header.id}
-								className={tableStyles({ tableHeader })}
-							>
-								{header.isPlaceholder
-									? null
-									: flexRender(
-											header.column.columnDef.header,
-											header.getContext()
-									  )}
-							</th>
-						))}
-					</tr>
-				))}
-			</thead>
-			<tbody className={tableStyles({ body })}>
-				{table.getRowModel().rows.map((row) => (
-					<tr
-						key={row.id}
-						className={tableStyles({ tableRow, alternate })}
-					>
-						{row.getVisibleCells().map((cell) => (
-							<td
-								key={cell.id}
-								className={tableStyles({
-									tableCell
-								})}
-							>
-								{flexRender(
-									cell.column.columnDef.cell,
-									cell.getContext()
-								)}
-							</td>
-						))}
-					</tr>
-				))}
-			</tbody>
-		</table>
+		<div>
+			<table
+				className={tableStyles({
+					intent,
+					fixed,
+					fullWidth,
+					class: className
+				})}
+				{...props}
+			>
+				<thead className={tableStyles({ head })}>
+					{table.getHeaderGroups().map((headerGroup) => (
+						<tr key={headerGroup.id}>
+							{headerGroup.headers.map((header) => (
+								<th
+									key={header.id}
+									className={tableStyles({ tableHeader })}
+								>
+									{header.isPlaceholder
+										? null
+										: flexRender(
+												header.column.columnDef.header,
+												header.getContext()
+										  )}
+								</th>
+							))}
+						</tr>
+					))}
+				</thead>
+				<tbody className={tableStyles({ body })}>
+					{table.getRowModel().rows.map((row) => (
+						<tr
+							key={row.id}
+							className={tableStyles({ tableRow, alternate })}
+						>
+							{row.getVisibleCells().map((cell) => (
+								<td
+									key={cell.id}
+									className={tableStyles({
+										tableCell
+									})}
+								>
+									{flexRender(
+										cell.column.columnDef.cell,
+										cell.getContext()
+									)}
+								</td>
+							))}
+						</tr>
+					))}
+				</tbody>
+			</table>
+		</div>
 	);
 };
 
