@@ -66,9 +66,9 @@ const AdminUsers = () => {
 
 	return (
 		<div>
-			<DefaultCard>
-				<div className="text-2xl">Admin Users</div>
-				<div>A list of all ecoToken admin users.</div>
+			<DefaultCard className="card">
+				<h3>Admin Users</h3>
+				<h5>A list of all ecoToken admin users.</h5>
 				<Table
 					data={data?.pages[0]?.adminUsers ?? []}
 					columns={columns}

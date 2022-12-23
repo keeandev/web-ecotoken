@@ -1,7 +1,7 @@
 import React from "react";
 import { cva, VariantProps } from "class-variance-authority";
 
-const cardStyles = cva(["p-4 rounded-md"], {
+const cardStyles = cva(["p-4 rounded-md shadow-sm"], {
 	variants: {
 		intent: {
 			primary: "border border-slate-200 bg-white"

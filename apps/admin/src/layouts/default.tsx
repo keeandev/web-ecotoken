@@ -90,30 +90,27 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
 				</Head>
 			}
 
-			<div className="fixed top-0 left-0 grid h-screen w-screen grid-cols-[max-content,auto] grid-rows-[max-content,auto]">
-				<div className="row-span-2 flex">
-					<Sidebar
-						expanded={expanded}
-						className="flex-shrink-0 border-r border-slate-300 transition-all duration-200 ease-in-out"
+			<div id="grid">
+				<Sidebar
+					id="sidebar"
+					expanded={expanded}
+					className=" transition-all duration-200 ease-in-out"
+				>
+					<div
+						className={clsx("-mt-2 flex h-16 w-full items-center", {
+							"justify-center": !expanded
+						})}
 					>
-						<div
-							className={clsx(
-								"-mt-2 flex h-16 w-full items-center",
-								{
-									"justify-center": !expanded
-								}
-							)}
-						>
-							<Image
-								src={logo}
-								alt="ecoToken System"
-								className={clsx("h-10 w-10 transition-all", {
-									"ml-2": expanded
-								})}
-							/>
-						</div>
-						<div className="transition-all duration-200 ease-in-out">
-							{/* {sidebarCategories.map(({ name }) => {
+						<Image
+							src={logo}
+							alt="ecoToken System"
+							className={clsx("h-10 w-10 transition-all", {
+								"ml-2": expanded
+							})}
+						/>
+					</div>
+					<div className="transition-all duration-200 ease-in-out">
+						{/* {sidebarCategories.map(({ name }) => {
 								const childItems = sidebarItems.filter(
 									(sidebarItem) =>
 										sidebarItem.category === name
@@ -130,37 +127,36 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
 									)
 								);
 							})} */}
-							{sidebarItems.map(({ name, path, icon }, index) => (
-								<SidebarItem
-									key={index}
-									path={path}
-									name={name}
-									icon={icon}
-									expanded={expanded}
-								/>
-							))}
+						{sidebarItems.map(({ name, path, icon }, index) => (
 							<SidebarItem
-								name="Collapse Sidebar"
-								icon={() => (
-									<FontAwesomeIcon
-										icon={faArrowLeft}
-										className={`transition-all duration-200 ease-out ${
-											!expanded && "-rotate-180"
-										}`}
-									/>
-								)}
+								key={index}
+								path={path}
+								name={name}
+								icon={icon}
 								expanded={expanded}
-								onClick={() => setExpanded(!expanded)}
-								className={clsx(
-									"-mt-2 opacity-0 delay-75 duration-200 hover:opacity-100 focus:opacity-100"
-								)}
 							/>
-						</div>
-					</Sidebar>
-				</div>
+						))}
+						<SidebarItem
+							name="Collapse Sidebar"
+							icon={() => (
+								<FontAwesomeIcon
+									icon={faArrowLeft}
+									className={`transition-all duration-200 ease-out ${
+										!expanded && "-rotate-180"
+									}`}
+								/>
+							)}
+							expanded={expanded}
+							onClick={() => setExpanded(!expanded)}
+							className={clsx(
+								"-mt-2 opacity-0 delay-75 duration-200 hover:opacity-100 focus:opacity-100"
+							)}
+						/>
+					</div>
+				</Sidebar>
 
 				<Navbar />
-				<main className="m-0 flex items-start justify-start overflow-y-auto overflow-x-scroll p-8">
+				<main id="main" className="">
 					{children}
 				</main>
 			</div>

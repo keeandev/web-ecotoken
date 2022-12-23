@@ -46,9 +46,9 @@ const Users = () => {
 
 	return (
 		<div>
-			<DefaultCard>
-				<div className="text-2xl">Users</div>
-				<div>A list of all ecoToken users.</div>
+			<DefaultCard className="card">
+				<h3>Website Users</h3>
+				<h5>A list of all ecoToken users.</h5>
 				<Table
 					data={data?.pages[0]?.users ?? []}
 					columns={columns}
