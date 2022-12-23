@@ -1,4 +1,4 @@
-import { adminAuthedProcedure, router } from "../trpc";
+import { adminAuthedProcedure, router } from "../../trpc";
 import { User } from "@prisma/client";
 import { z } from "zod";
 

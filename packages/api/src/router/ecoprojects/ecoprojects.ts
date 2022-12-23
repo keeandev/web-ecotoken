@@ -1,7 +1,7 @@
 import type { EcoProject } from "@prisma/client";
 import { z } from "zod";
 
-import { userAuthedProcedure, router } from "../trpc";
+import { userAuthedProcedure, router } from "../../trpc";
 
 export const projectsRouter = router({
 	get: userAuthedProcedure

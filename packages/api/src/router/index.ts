@@ -1,14 +1,16 @@
 import { router } from "../trpc";
-import { userAuthRouter, adminAuthRouter } from "./auth";
-import { projectsRouter } from "./projects";
-import { usersRouter } from "./users";
+import { adminUsersRouter } from "./admin/admin-users";
+import { userAuthRouter } from "./user/user-auth";
+import { adminAuthRouter } from "./admin/admin-auth";
+import { projectsRouter } from "./ecoprojects/ecoprojects";
+import { usersRouter } from "./user/users";
 
 export const appRouter = router({
-	projects: projectsRouter,
-	userAuth: userAuthRouter,
 	adminAuth: adminAuthRouter,
+	adminUsers: adminUsersRouter,
+	ecoprojects: projectsRouter,
+	userAuth: userAuthRouter,
 	users: usersRouter
 });
 
-// export type definition of API
 export type AppRouter = typeof appRouter;

@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-table";
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
+import { clsx } from "clsx";
 
 // Table styles are a work in progress, not 100% sure of the best way to style with variants for tables
 const tableStyles = cva([], {
@@ -28,16 +29,13 @@ const tableStyles = cva([], {
 		},
 		tableCell: {
 			primary:
-				"whitespace-nowrap px-3 py-2 font-light text-sm whitespace-nowrap overflow-hidden text-ellipsis"
+				"whitespace-nowrap px-3 py-2 font-light text-sm overflow-hidden text-ellipsis"
 		},
 		tableRow: {
 			primary: "hover:bg-slate-200/75"
 		},
 		fixed: {
 			true: "table-fixed"
-		},
-		fullWidth: {
-			true: "w-full"
 		},
 		alternate: {
 			true: "odd:bg-slate-50 even:bg-slate-100",
@@ -50,7 +48,6 @@ const tableStyles = cva([], {
 		}
 	},
 	defaultVariants: {
-		fullWidth: false,
 		fixed: false
 	}
 });
@@ -60,6 +57,7 @@ export type TableProps = VariantProps<typeof tableStyles> &
 		data: unknown[];
 		columns: ColumnDef<any, any>[];
 		getRoleModel?: (table: TanstackTableType<any>) => () => RowModel<any>;
+		fullWidth?: boolean;
 		search?: boolean;
 		showEntries?: boolean;
 		limit?: number;
@@ -76,7 +74,7 @@ const Table: React.FC<TableProps> = ({
 	className,
 	data,
 	columns,
-	fullWidth,
+	fullWidth = false,
 	text = "left",
 	getRoleModel,
 	limit = 10,
@@ -91,13 +89,16 @@ const Table: React.FC<TableProps> = ({
 	});
 
 	return (
-		<div>
+		<div
+			className={clsx("overflow-x-scroll", {
+				"w-full": fullWidth
+			})}
+		>
 			<table
 				className={tableStyles({
 					intent,
 					fixed,
-					fullWidth,
-					class: className
+					class: className + " w-full"
 				})}
 				{...props}
 			>
