@@ -21,16 +21,16 @@ body {
 }
 
 #__next {
-	@apply h-full w-full bg-slate-100 text-base;
+	@apply h-full w-full bg-slate-100 text-sm;
 }
 #__next #grid {
-	@apply fixed top-0 left-0 grid h-screen  w-screen;
+	@apply fixed top-0 left-0 grid h-screen w-screen;
 	/*  grid-cols-[max-content,auto] grid-rows-[max-content,auto] */
-	grid-template-columns: minmax(0, max-content) auto;
+	grid-template-columns: max-content auto;
 	grid-template-rows: minmax(0, 60px) auto;
 }
 #__next #sidebar {
-	@apply col-start-1 col-end-2 row-start-1 row-end-3 flex h-full w-full flex-shrink-0 border-r border-slate-300;
+	@apply col-start-1 col-end-2 row-start-1 row-end-3;
 }
 #__next #navbar {
 	@apply col-start-2 col-end-3 row-start-1 row-end-2 flex h-full w-full border-b border-slate-300 bg-slate-200 px-4;

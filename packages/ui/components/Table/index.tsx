@@ -1,5 +1,5 @@
-import React from "react";
-import type { ColumnDef } from "@tanstack/react-table";
+import React, { Fragment } from "react";
+import type { CellContext, ColumnDef } from "@tanstack/react-table";
 import {
 	type RowModel,
 	type Table as TanstackTableType,
@@ -10,6 +10,8 @@ import {
 import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
 import { clsx } from "clsx";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 // Table styles are a work in progress, not 100% sure of the best way to style with variants for tables
 const tableStyles = cva([], {
@@ -61,6 +63,8 @@ export type TableProps = VariantProps<typeof tableStyles> &
 		search?: boolean;
 		showEntries?: boolean;
 		limit?: number;
+		link?: false | "default" | "custom";
+		linkHref?: string;
 	};
 const Table: React.FC<TableProps> = ({
 	intent = "primary",
@@ -75,11 +79,13 @@ const Table: React.FC<TableProps> = ({
 	data,
 	columns,
 	fullWidth = false,
+	link = "default",
 	text = "left",
 	getRoleModel,
 	limit = 10,
 	search,
 	showEntries,
+	linkHref = "",
 	...props
 }) => {
 	const table = useReactTable({
@@ -87,6 +93,7 @@ const Table: React.FC<TableProps> = ({
 		columns,
 		getCoreRowModel: getRoleModel ?? getCoreRowModel()
 	});
+	const router = useRouter();
 
 	return (
 		<div
@@ -128,15 +135,39 @@ const Table: React.FC<TableProps> = ({
 							className={tableStyles({ tableRow, alternate })}
 						>
 							{row.getVisibleCells().map((cell) => (
-								<td
-									key={cell.id}
-									className={tableStyles({
-										tableCell
-									})}
-								>
-									{flexRender(
-										cell.column.columnDef.cell,
-										cell.getContext()
+								<td key={cell.id}>
+									{link ? (
+										<Link
+											href={`${router.asPath}/${row
+												.getAllCells()
+												.find(
+													(cell) =>
+														cell.id ===
+														`${row.index}_id`
+												)
+												?.getValue()}/edit`}
+											className={tableStyles({
+												tableCell,
+												class: "block w-full"
+											})}
+										>
+											{flexRender(
+												cell.column.columnDef.cell,
+												cell.getContext()
+											)}
+										</Link>
+									) : (
+										<div
+											className={tableStyles({
+												tableCell,
+												class: "block w-full"
+											})}
+										>
+											{flexRender(
+												cell.column.columnDef.cell,
+												cell.getContext()
+											)}
+										</div>
 									)}
 								</td>
 							))}

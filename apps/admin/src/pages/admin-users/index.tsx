@@ -19,56 +19,45 @@ const AdminUsers = () => {
 	const columns = [
 		columnHelper.accessor("adminID", {
 			header: "Admin ID",
-			cell: (info) => info.getValue(),
-			footer: (info) => info.column.id
+			id: "id"
 		}),
 		columnHelper.accessor("username", {
-			header: "Username",
-			cell: (info) => info.getValue(),
-			footer: (info) => info.column.id
+			header: "Username"
 		}),
 		columnHelper.accessor("email", {
-			header: "Email Address",
-			cell: (info) => info.getValue(),
-			footer: (info) => info.column.id
+			header: "Email Address"
 		}),
 		columnHelper.accessor("firstName", {
-			header: "First Name",
-			cell: (info) => info.getValue(),
-			footer: (info) => info.column.id
+			header: "First Name"
 		}),
 		columnHelper.accessor("lastName", {
-			header: "Last Name",
-			cell: (info) => info.getValue(),
-			footer: (info) => info.column.id
+			header: "Last Name"
 		}),
 		columnHelper.accessor("lastLogin", {
 			header: "Last Login",
 			cell: (info) => info.getValue()?.toDateString(),
-			footer: (info) => info.column.id
+            
 		}),
 		columnHelper.accessor("createdAt", {
 			header: "Created At",
-			cell: (info) => info.getValue().toDateString(),
-			footer: (info) => info.column.id
+			cell: (info) => info.getValue().toDateString()
 		}),
 		columnHelper.accessor("updatedAt", {
 			header: "Updated At",
-			cell: (info) => info.getValue().toDateString(),
-			footer: (info) => info.column.id
+			cell: (info) => info.getValue().toDateString()
 		}),
 		columnHelper.accessor("hits", {
-			header: "Hits",
-			cell: (info) => info.getValue(),
-			footer: (info) => info.column.id
+			header: "Hits"
 		})
 	];
 
 	return (
 		<div>
 			<DefaultCard className="card">
-				<h3>Admin Users</h3>
-				<h5>A list of all ecoToken admin users.</h5>
+				<div>
+					<h3>Admin Users</h3>
+					<h5>A list of all ecoToken admin users.</h5>
+				</div>
 				<Table
 					data={data?.pages[0]?.adminUsers ?? []}
 					columns={columns}

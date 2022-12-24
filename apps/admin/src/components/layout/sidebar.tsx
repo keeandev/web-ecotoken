@@ -24,25 +24,25 @@ export const SidebarItem: React.FC<
 			)}
 			{...props}
 		>
-			<Link href={path} className={`${expanded && "space-x-2"}`}>
-				<>
-					{typeof icon === "function"
-						? icon()
-						: icon && <FontAwesomeIcon icon={icon} />}
-					<Transition
-						as="span"
-						show={expanded}
-						enter="transition-all ease-in-out duration-200"
-						enterFrom="opacity-0 w-0"
-						enterTo="opacity-100 w-full"
-						leave="transition-all ease-in-out duration-200"
-						leaveFrom="opacity-100 w-full"
-						leaveTo="opacity-0 w-0"
-					>
-						{name}
-					</Transition>
-				</>
-			</Link>
+			<div className="inline-block h-6 w-6 bg-lime-400 text-center">
+				{typeof icon === "function"
+					? icon()
+					: icon && <FontAwesomeIcon icon={icon} />}
+			</div>
+			<Transition
+				as={Link}
+				href={path}
+				show={expanded}
+				className="inline-block"
+				enter="transition-all ease-in-out duration-200"
+				enterFrom="opacity-0 w-0"
+				enterTo="opacity-100 w-full"
+				leave="transition-all ease-in-out duration-200"
+				leaveFrom="opacity-100 w-full"
+				leaveTo="opacity-0 w-0"
+			>
+				{name}
+			</Transition>
 		</div>
 	);
 };
@@ -58,9 +58,9 @@ export const SidebarCategory: React.FC<
 	return (
 		<div
 			{...props}
-			className={clsx(className, "overflow-y-hidden", {
-				"h-fit": expanded
-			})}
+			// className={clsx(className, "overflow-y-hidden", {
+			// 	"h-fit": expanded
+			// })}
 		>
 			<div>
 				<span>{name}</span>
@@ -97,9 +97,9 @@ const Sidebar: React.FC<React.ComponentProps<"div"> & SidebarProps> = ({
 	return (
 		<div
 			className={clsx(
-				"relative flex flex-col space-y-2 overflow-hidden bg-slate-200 p-2 transition-all duration-200 ease-in-out",
-				{ "w-64": expanded },
-				{ "w-16 items-center": !expanded },
+				"relative flex flex-col space-y-2 overflow-hidden bg-slate-200 p-2 transition-all duration-150 ease-in-out",
+				{ "w-48": expanded },
+				{ "w-16": !expanded },
 				className
 			)}
 			{...props}

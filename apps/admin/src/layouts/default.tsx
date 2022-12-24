@@ -94,19 +94,13 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
 				<Sidebar
 					id="sidebar"
 					expanded={expanded}
-					className=" transition-all duration-200 ease-in-out"
+					className=" flex flex-shrink-0 border-r border-slate-300 transition-all duration-200 ease-in-out"
 				>
-					<div
-						className={clsx("-mt-2 flex h-16 w-full items-center", {
-							"justify-center": !expanded
-						})}
-					>
+					<div className="flex h-12 w-12 items-center justify-center">
 						<Image
 							src={logo}
 							alt="ecoToken System"
-							className={clsx("h-10 w-10 transition-all", {
-								"ml-2": expanded
-							})}
+							className="w-10 transition-all"
 						/>
 					</div>
 					<div className="transition-all duration-200 ease-in-out">
