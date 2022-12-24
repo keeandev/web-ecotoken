@@ -11,7 +11,9 @@ const inputStyles = cva(
 			type: {
 				text: "",
 				password: "",
-				checkbox: ""
+				checkbox: "",
+				submit: "",
+				email: ""
 			},
 			size: {
 				md: "w-36",
@@ -71,7 +73,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 						<BaseLabel
 							htmlFor={props.name}
 							intent="error"
-							className="block"
+							className="block text-xs"
 						>
 							{error}
 						</BaseLabel>

@@ -10,12 +10,12 @@ const buttonStyles = cva(
 	{
 		variants: {
 			intent: {
-				primary:
-					"text-white bg-slate-500 disabled:bg-slate-400",
+				primary: "text-white bg-slate-500 disabled:bg-slate-400",
 				secondary:
 					"outline outline-2 -outline-offset-2 outline-slate-500 text-slate-500 disabled:outline-slate-400 disabled:text-slate-400",
-				tertiary: "text-slate-400 disabled:text-slate-300 underline underline-offset-2",
-                destructive: ""
+				tertiary:
+					"text-slate-400 disabled:text-slate-300 underline underline-offset-2",
+				destructive: "bg-rose-600 text-white"
 			},
 			fullWidth: {
 				true: "w-full"
@@ -43,7 +43,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 			fullWidth,
 			className,
 			loading,
-            disabled,
+			disabled,
 			animation,
 			children,
 			...props

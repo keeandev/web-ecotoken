@@ -22,7 +22,7 @@ export const SidebarItem: React.FC<
 	return (
 		<div
 			className={clsx(
-				"whitespace-nowrap rounded-md px-5 py-2 transition-all ease-out",
+				"whitespace-nowrap rounded-md px-5 py-2 ease-out",
 				className
 			)}
 			{...props}
@@ -37,10 +37,10 @@ export const SidebarItem: React.FC<
 					as="div"
 					show={expanded}
 					className="inline-block"
-					enter="transition-all ease-in-out duration-200"
+					enter="ease-in-out duration-200"
 					enterFrom="opacity-0 w-0"
 					enterTo="opacity-100 w-full"
-					leave="transition-all ease-in-out duration-200"
+					leave="ease-in-out duration-200"
 					leaveFrom="opacity-100 w-full"
 					leaveTo="opacity-0 w-0"
 				>
@@ -75,10 +75,11 @@ export const SidebarCategory: React.FC<
 			</div>
 			<Transition
 				show={expanded}
-				enter="transition-all ease-in-out duration-200"
+                className={className}
+				enter="ease-in-out duration-200"
 				enterFrom="opacity-0 w-0"
 				enterTo="opacity-100 w-full"
-				leave="transition-all ease-in-out duration-200"
+				leave="ease-in-out duration-200"
 				leaveFrom="opacity-100 w-full"
 				leaveTo="opacity-0 w-0"
 			>
@@ -101,7 +102,7 @@ const Sidebar: React.FC<React.ComponentProps<"div"> & SidebarProps> = ({
 	return (
 		<div
 			className={clsx(
-				"relative flex flex-col overflow-hidden bg-slate-200 transition-all duration-150 ease-in-out",
+				"relative flex flex-col overflow-hidden bg-slate-200 duration-150 ease-in-out",
 				{ "w-48": expanded },
 				{ "w-16": !expanded },
 				className

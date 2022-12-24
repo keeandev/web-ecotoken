@@ -12,12 +12,11 @@ const labelStyles = cva([""], {
 		},
 		intent: {
 			primary: "text-black",
-			error: "text-rose-500 text-xs"
+			error: "text-rose-500"
 		}
 	},
 	defaultVariants: {
-		intent: "primary",
-		size: "sm"
+		intent: "primary"
 	}
 });
 

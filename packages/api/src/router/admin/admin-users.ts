@@ -75,5 +75,18 @@ export const adminUsersRouter = router({
 					...(input.password && { password: input.username })
 				}
 			});
+		}),
+	delete: adminAuthedProcedure
+		.input(
+			z.object({
+				id: z.string()
+			})
+		)
+		.mutation(async ({ ctx, input }) => {
+			await ctx.prisma.adminUser.delete({
+				where: {
+					adminID: input.id
+				}
+			});
 		})
 });

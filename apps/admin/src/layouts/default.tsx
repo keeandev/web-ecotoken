@@ -117,7 +117,7 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
 						icon={() => (
 							<FontAwesomeIcon
 								icon={faArrowLeft}
-								className={`transition-all duration-150 ease-out ${
+								className={`ease-out ${
 									!expanded && "-rotate-180"
 								}`}
 							/>
@@ -133,7 +133,7 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
 				<Navbar className="flex h-full w-full border-b border-slate-300 bg-slate-200 px-4" />
 				<main
 					id="main"
-					className="m-0 flex h-full w-full items-start justify-start overflow-y-auto overflow-x-scroll bg-slate-200 p-8"
+					className="m-0 flex h-full w-full items-start justify-start overflow-x-auto overflow-y-auto bg-slate-200 p-8"
 				>
 					{children}
 				</main>
