@@ -4,25 +4,26 @@ import React from "react";
 const labelStyles = cva([""], {
 	variants: {
 		size: {
-			small: "text-sm",
-			medium: "text-md",
-			large: "text-lg",
+			xs: "text-xs",
+			sm: "text-sm",
+			md: "text-md",
+			lg: "text-lg",
 			default: "text-base"
 		},
 		intent: {
 			primary: "text-black",
-			error: "text-rose-500"
+			error: "text-rose-500 text-xs"
 		}
 	},
 	defaultVariants: {
 		intent: "primary",
-		size: "small"
+		size: "sm"
 	}
 });
 
 type InputProps = VariantProps<typeof labelStyles> &
 	React.ComponentProps<"label">;
-const Input: React.FC<InputProps> = ({ intent, className, ...props }) => {
+const Label: React.FC<InputProps> = ({ intent, className, ...props }) => {
 	return (
 		<label
 			className={labelStyles({
@@ -34,4 +35,4 @@ const Input: React.FC<InputProps> = ({ intent, className, ...props }) => {
 	);
 };
 
-export default Input;
+export default Label;

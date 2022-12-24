@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
-import type { CellContext, ColumnDef } from "@tanstack/react-table";
+import React from "react";
+import type { ColumnDef } from "@tanstack/react-table";
 import {
 	type RowModel,
 	type Table as TanstackTableType,
@@ -11,7 +11,7 @@ import type { VariantProps } from "class-variance-authority";
 import { cva } from "class-variance-authority";
 import { clsx } from "clsx";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter, NextRouter } from "next/router";
 
 // Table styles are a work in progress, not 100% sure of the best way to style with variants for tables
 const tableStyles = cva([], {
@@ -24,7 +24,7 @@ const tableStyles = cva([], {
 		},
 		tableHeader: {
 			primary:
-				"px-3 py-2 whitespace-nowrap font-semibold text-sm border text-left border-slate-200 border-r-0 border-l-0 border-b-2"
+				"px-3 py-2 whitespace-nowrap font-semibold text-sm text-left"
 		},
 		body: {
 			primary: ""
@@ -34,14 +34,21 @@ const tableStyles = cva([], {
 				"whitespace-nowrap px-3 py-2 font-light text-sm overflow-hidden text-ellipsis"
 		},
 		tableRow: {
-			primary: "hover:bg-slate-200/75"
+			primary: "hover:bg-slate-200/75 last:border-b-0"
 		},
 		fixed: {
 			true: "table-fixed"
 		},
+		rounded: {
+			true: "rounded-md"
+		},
+		roundedHeader: {
+			true: "first:rounded-tl-md last:rounded-tr-md border-b",
+			false: "border-y"
+		},
 		alternate: {
 			true: "odd:bg-slate-50 even:bg-slate-100",
-			false: "border  border-slate-200 border-r-0 border-l-0"
+			false: "border  border-slate-200 border-x-0"
 		},
 		text: {
 			left: "text-left",
@@ -56,7 +63,7 @@ const tableStyles = cva([], {
 
 export type TableProps = VariantProps<typeof tableStyles> &
 	React.ComponentProps<"table"> & {
-		data: unknown[];
+		data: any[];
 		columns: ColumnDef<any, any>[];
 		getRoleModel?: (table: TanstackTableType<any>) => () => RowModel<any>;
 		fullWidth?: boolean;
@@ -79,8 +86,9 @@ const Table: React.FC<TableProps> = ({
 	data,
 	columns,
 	fullWidth = false,
+	rounded = true,
+	roundedHeader = true,
 	link = "default",
-	text = "left",
 	getRoleModel,
 	limit = 10,
 	search,
@@ -93,13 +101,18 @@ const Table: React.FC<TableProps> = ({
 		columns,
 		getCoreRowModel: getRoleModel ?? getCoreRowModel()
 	});
-	const router = useRouter();
+	let router: NextRouter;
+
+	if (link) router = useRouter();
 
 	return (
 		<div
-			className={clsx("overflow-x-scroll", {
-				"w-full": fullWidth
-			})}
+			className={clsx(
+				{
+					"w-full": fullWidth
+				},
+				"overflow-hidden rounded-md outline outline-1 outline-slate-300"
+			)}
 		>
 			<table
 				className={tableStyles({
@@ -115,7 +128,10 @@ const Table: React.FC<TableProps> = ({
 							{headerGroup.headers.map((header) => (
 								<th
 									key={header.id}
-									className={tableStyles({ tableHeader })}
+									className={tableStyles({
+										tableHeader,
+										roundedHeader
+									})}
 								>
 									{header.isPlaceholder
 										? null

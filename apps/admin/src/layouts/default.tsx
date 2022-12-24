@@ -94,63 +94,47 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
 				<Sidebar
 					id="sidebar"
 					expanded={expanded}
-					className=" flex flex-shrink-0 border-r border-slate-300 transition-all duration-200 ease-in-out"
+					className="border-r border-slate-300"
 				>
-					<div className="flex h-12 w-12 items-center justify-center">
+					<div className="ml-0.5 flex h-[60px] w-[60px] items-center justify-center">
 						<Image
 							src={logo}
 							alt="ecoToken System"
-							className="w-10 transition-all"
+							className="w-10"
 						/>
 					</div>
-					<div className="transition-all duration-200 ease-in-out">
-						{/* {sidebarCategories.map(({ name }) => {
-								const childItems = sidebarItems.filter(
-									(sidebarItem) =>
-										sidebarItem.category === name
-								);
-								return childItems.map(
-									({ path, name, icon }, index) => (
-										<SidebarItem
-											key={index}
-											path={path}
-											name={name}
-											icon={icon}
-											expanded={expanded}
-										/>
-									)
-								);
-							})} */}
-						{sidebarItems.map(({ name, path, icon }, index) => (
-							<SidebarItem
-								key={index}
-								path={path}
-								name={name}
-								icon={icon}
-								expanded={expanded}
-							/>
-						))}
+					{sidebarItems.map(({ name, path, icon }, index) => (
 						<SidebarItem
-							name="Collapse Sidebar"
-							icon={() => (
-								<FontAwesomeIcon
-									icon={faArrowLeft}
-									className={`transition-all duration-200 ease-out ${
-										!expanded && "-rotate-180"
-									}`}
-								/>
-							)}
+							key={index}
+							path={path}
+							name={name}
+							icon={icon}
 							expanded={expanded}
-							onClick={() => setExpanded(!expanded)}
-							className={clsx(
-								"-mt-2 opacity-0 delay-75 duration-200 hover:opacity-100 focus:opacity-100"
-							)}
 						/>
-					</div>
+					))}
+					<SidebarItem
+						name="Collapse Sidebar"
+						icon={() => (
+							<FontAwesomeIcon
+								icon={faArrowLeft}
+								className={`transition-all duration-150 ease-out ${
+									!expanded && "-rotate-180"
+								}`}
+							/>
+						)}
+						expanded={expanded}
+						onClick={() => setExpanded(!expanded)}
+						className={clsx(
+							"-mt-2.5 opacity-0 delay-75 duration-200 hover:opacity-100 focus:opacity-100"
+						)}
+					/>
 				</Sidebar>
 
-				<Navbar />
-				<main id="main" className="">
+				<Navbar className="flex h-full w-full border-b border-slate-300 bg-slate-200 px-4" />
+				<main
+					id="main"
+					className="m-0 flex h-full w-full items-start justify-start overflow-y-auto overflow-x-scroll bg-slate-200 p-8"
+				>
 					{children}
 				</main>
 			</div>

@@ -52,7 +52,7 @@ model AdminUser {
     password  String
     email     String
     firstName String
-    lastName  String
+    lastName  String?
     lastLogin DateTime?
     expireAt  DateTime?
     hits      Int       @default(0)

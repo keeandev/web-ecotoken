@@ -5,6 +5,8 @@ import { Transition } from "@headlessui/react";
 import clsx from "clsx";
 import Link from "next/link";
 import type { UrlObject } from "url";
+import { Fragment } from "react";
+import { useRouter } from "next/router";
 
 export type SidebarItemProps = {
 	expanded?: boolean;
@@ -15,34 +17,36 @@ export type SidebarItemProps = {
 
 export const SidebarItem: React.FC<
 	React.ComponentProps<"div"> & SidebarItemProps
-> = ({ className, path = "", name = "", icon, expanded, ...props }) => {
+> = ({ className, path, name = "", icon, expanded = true, ...props }) => {
+	const router = useRouter();
 	return (
 		<div
 			className={clsx(
-				"whitespace-nowrap rounded-md px-4 py-2 transition-all ease-out",
+				"whitespace-nowrap rounded-md px-5 py-2 transition-all ease-out",
 				className
 			)}
 			{...props}
 		>
-			<div className="inline-block h-6 w-6 bg-lime-400 text-center">
-				{typeof icon === "function"
-					? icon()
-					: icon && <FontAwesomeIcon icon={icon} />}
-			</div>
-			<Transition
-				as={Link}
-				href={path}
-				show={expanded}
-				className="inline-block"
-				enter="transition-all ease-in-out duration-200"
-				enterFrom="opacity-0 w-0"
-				enterTo="opacity-100 w-full"
-				leave="transition-all ease-in-out duration-200"
-				leaveFrom="opacity-100 w-full"
-				leaveTo="opacity-0 w-0"
-			>
-				{name}
-			</Transition>
+			<Link href={path ?? router.asPath} className="inline-block">
+				<div className="mr-2 inline-block h-6 w-6 text-center [&>svg]:text-slate-500">
+					{typeof icon === "function"
+						? icon()
+						: icon && <FontAwesomeIcon icon={icon} />}
+				</div>
+				<Transition
+					as="div"
+					show={expanded}
+					className="inline-block"
+					enter="transition-all ease-in-out duration-200"
+					enterFrom="opacity-0 w-0"
+					enterTo="opacity-100 w-full"
+					leave="transition-all ease-in-out duration-200"
+					leaveFrom="opacity-100 w-full"
+					leaveTo="opacity-0 w-0"
+				>
+					{name}
+				</Transition>
+			</Link>
 		</div>
 	);
 };
@@ -97,7 +101,7 @@ const Sidebar: React.FC<React.ComponentProps<"div"> & SidebarProps> = ({
 	return (
 		<div
 			className={clsx(
-				"relative flex flex-col space-y-2 overflow-hidden bg-slate-200 p-2 transition-all duration-150 ease-in-out",
+				"relative flex flex-col overflow-hidden bg-slate-200 transition-all duration-150 ease-in-out",
 				{ "w-48": expanded },
 				{ "w-16": !expanded },
 				className

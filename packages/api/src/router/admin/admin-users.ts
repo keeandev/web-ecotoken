@@ -1,8 +1,26 @@
 import { adminAuthedProcedure, router } from "../../trpc";
 import { AdminUser } from "@prisma/client";
+import {
+	createUserSchema,
+	updateUserSchema
+} from "@ecotoken/api/src/schema/admin-user";
 import { z } from "zod";
 
 export const adminUsersRouter = router({
+	get: adminAuthedProcedure
+		.input(
+			z.object({
+				id: z.string()
+			})
+		)
+		.query(async ({ ctx, input }) => {
+			const adminUser = await ctx.prisma.adminUser.findFirst({
+				where: {
+					adminID: input.id
+				}
+			});
+			return adminUser;
+		}),
 	getAll: adminAuthedProcedure
 		.input(
 			z.object({
@@ -28,5 +46,34 @@ export const adminUsersRouter = router({
 				adminUsers,
 				nextCursor
 			};
+		}),
+	create: adminAuthedProcedure
+		.input(createUserSchema)
+		.mutation(async ({ ctx, input }) => {
+			await ctx.prisma.adminUser.create({
+				data: {
+					firstName: input.firstName,
+					lastName: input.lastName,
+					email: input.email,
+					username: input.username,
+					password: input.password
+				}
+			});
+		}),
+	update: adminAuthedProcedure
+		.input(updateUserSchema)
+		.mutation(async ({ ctx, input }) => {
+			await ctx.prisma.adminUser.update({
+				where: {
+					adminID: input.id
+				},
+				data: {
+					...(input.firstName && { firstName: input.firstName }),
+					lastName: input.lastName,
+					...(input.email && { email: input.email }),
+					...(input.username && { username: input.username }),
+					...(input.password && { password: input.username })
+				}
+			});
 		})
 });

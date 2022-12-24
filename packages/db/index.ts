@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import hashPasswordMiddleware from "./middleware/hash-password";
 
 declare global {
 	// allow global `var` declarations
@@ -20,3 +21,5 @@ export * from "@prisma/client";
 if (process.env.NODE_ENV !== "production") {
 	global.prisma = prisma;
 }
+
+hashPasswordMiddleware(prisma, "AdminUser");

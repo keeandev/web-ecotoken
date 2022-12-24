@@ -4,7 +4,7 @@ import BaseLabel from "../Label";
 
 const inputStyles = cva(
 	[
-		"rounded-md p-1.5 duration-100 ease-in focus:ease-out focus:outline-none focus:ring-2"
+		"rounded-md p-1.5 duration-100 ease-in focus:ease-out focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-slate-200"
 	],
 	{
 		variants: {
@@ -13,9 +13,15 @@ const inputStyles = cva(
 				password: "",
 				checkbox: ""
 			},
+			size: {
+				md: "w-36",
+				lg: "w-64",
+				xl: "w-72",
+				"2xl": "w-96",
+				default: "w-fit"
+			},
 			intent: {
-				primary: "",
-				secondary: "ring-slate-400 bg-slate-300"
+				primary: "bg-slate-200 border border-slate-600 ring-slate-400"
 			},
 			fullWidth: {
 				true: "w-full",
@@ -25,23 +31,29 @@ const inputStyles = cva(
 		defaultVariants: {
 			intent: "primary",
 			fullWidth: false,
-			type: "text"
+			type: "text",
+			size: "default"
 		}
 	}
 );
 
 type InputProps = VariantProps<typeof inputStyles> &
-	React.ComponentProps<"input"> & {
+	Omit<React.ComponentProps<"input">, "size"> & {
 		label?: string;
 		error?: string;
 	};
 const Input = forwardRef<HTMLInputElement, InputProps>(
-	({ type, intent, fullWidth, className, label, error, ...props }, ref) => {
+	(
+		{ type, intent, fullWidth, className, label, size, error, ...props },
+		ref
+	) => {
 		if (label || error) {
 			return (
-				<div>
+				<div className="space-y-0.5">
 					{label && (
-						<BaseLabel htmlFor={props.name}>{label}</BaseLabel>
+						<BaseLabel htmlFor={props.name} className="block">
+							{label}
+						</BaseLabel>
 					)}
 					<input
 						ref={ref}
@@ -50,12 +62,17 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 							type,
 							intent,
 							fullWidth,
+							size,
 							class: className
 						})}
 						{...props}
 					/>
 					{error && (
-						<BaseLabel htmlFor={props.name} intent="error">
+						<BaseLabel
+							htmlFor={props.name}
+							intent="error"
+							className="block"
+						>
 							{error}
 						</BaseLabel>
 					)}

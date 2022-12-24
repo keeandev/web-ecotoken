@@ -1,10 +1,15 @@
 import React from "react";
-import DefaultCard from "@ecotoken/ui/components/Card";
+import DefaultCard, {
+	CardDescription,
+	CardTitle
+} from "@ecotoken/ui/components/Card";
 import Table from "@ecotoken/ui/components/Table";
 import { createColumnHelper } from "@tanstack/react-table";
 import { trpc } from "@/utils/trpc";
 
 import { AdminUser } from "@prisma/client";
+import Button from "@ecotoken/ui/components/Button";
+import { useRouter } from "next/router";
 
 const AdminUsers = () => {
 	const { data } = trpc.adminUsers.getAll.useInfiniteQuery(
@@ -13,7 +18,7 @@ const AdminUsers = () => {
 			getNextPageParam: (lastPage) => lastPage.nextCursor
 		}
 	);
-
+	const router = useRouter();
 	const columnHelper = createColumnHelper<AdminUser>();
 
 	const columns = [
@@ -35,8 +40,7 @@ const AdminUsers = () => {
 		}),
 		columnHelper.accessor("lastLogin", {
 			header: "Last Login",
-			cell: (info) => info.getValue()?.toDateString(),
-            
+			cell: (info) => info.getValue()?.toDateString()
 		}),
 		columnHelper.accessor("createdAt", {
 			header: "Created At",
@@ -53,10 +57,23 @@ const AdminUsers = () => {
 
 	return (
 		<div>
-			<DefaultCard className="card">
-				<div>
-					<h3>Admin Users</h3>
-					<h5>A list of all ecoToken admin users.</h5>
+			<DefaultCard className="space-y-4">
+				<div className="flex w-full">
+					<div className="flex flex-col">
+						<CardTitle>Admin Users</CardTitle>
+						<CardDescription>
+							A list of all ecoToken admin users.
+						</CardDescription>
+					</div>
+					<div className="flex flex-1 items-end justify-end space-x-2">
+						<Button
+							onClick={() =>
+								router.push(`${router.asPath}/create`)
+							}
+						>
+							Add User
+						</Button>
+					</div>
 				</div>
 				<Table
 					data={data?.pages[0]?.adminUsers ?? []}

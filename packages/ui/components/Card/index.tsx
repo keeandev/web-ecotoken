@@ -1,10 +1,11 @@
 import React from "react";
 import { cva, VariantProps } from "class-variance-authority";
+import clsx from "clsx";
 
-const cardStyles = cva(["p-4 rounded-md shadow-sm"], {
+const cardStyles = cva(["p-6 rounded-md shadow-sm"], {
 	variants: {
 		intent: {
-			primary: "border border-slate-200 bg-white"
+			primary: "border border-slate-200 bg-slate-100 shadow-sm"
 		},
 		size: {
 			// sm: "",
@@ -50,5 +51,25 @@ const DefaultCard: React.FC<DefaultCardProps> = ({
 		</div>
 	);
 };
+
+export const CardTitle: React.FC<React.ComponentProps<"h3">> = ({
+	className,
+	...props
+}) => (
+	<h3
+		className={clsx("text-2xl font-bold text-slate-700", className)}
+		{...props}
+	/>
+);
+
+export const CardDescription: React.FC<React.ComponentProps<"h3">> = ({
+	className,
+	...props
+}) => (
+	<h5
+		className={clsx("appearance-none text-slate-700", className)}
+		{...props}
+	/>
+);
 
 export default DefaultCard;

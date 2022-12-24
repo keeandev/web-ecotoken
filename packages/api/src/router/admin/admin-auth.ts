@@ -24,7 +24,7 @@ export const adminAuthRouter = router({
 					message: "Username or password is incorrect."
 				});
 
-			const currentDate = new Date();
+			const currentDate = new Date(Date.now());
 			const expireDate = new Date(
 				currentDate.setDate(currentDate.getDate() + 180)
 			);

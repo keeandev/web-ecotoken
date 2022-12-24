@@ -101,6 +101,7 @@ Primary.args = {
 	text: "left",
 	alternate: true,
 	fullWidth: true,
+    link: false,
 	data: defaultData,
 	columns
 };
