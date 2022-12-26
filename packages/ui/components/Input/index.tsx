@@ -51,9 +51,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 	) => {
 		if (label || error) {
 			return (
-				<div className="space-y-0.5">
+				<div>
 					{label && (
-						<BaseLabel htmlFor={props.name} className="block">
+						<BaseLabel htmlFor={props.name} className="mb-1 block">
 							{label}
 						</BaseLabel>
 					)}
@@ -73,7 +73,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 						<BaseLabel
 							htmlFor={props.name}
 							intent="error"
-							className="block text-xs"
+							className="mt-1 block text-xs"
 						>
 							{error}
 						</BaseLabel>

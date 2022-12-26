@@ -1,4 +1,4 @@
-import Form from "@/components/admin-users/form";
+import EditUserForm from "@/components/admin-users/edit-form";
 import { trpc } from "@/utils/trpc";
 import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
 import { useRouter } from "next/router";
@@ -47,9 +47,18 @@ const AdminUserEdit = () => {
 					Update a user in the database.
 				</CardDescription>
 			</div>
-			<Form
+			<EditUserForm
 				loading={isLoading}
-				{...(user && { user })}
+				{...(user && {
+					user,
+					reset: {
+						...user,
+						id: user.adminID,
+						lastName: user.lastName ?? "",
+						password: "",
+						confirmPassword: ""
+					}
+				})}
 				onSave={async (adminUser) =>
 					await mutate({
 						...adminUser,

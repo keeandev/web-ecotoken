@@ -2,12 +2,11 @@ import logo from "@ecotoken/ui/assets/brand/logo.png";
 import Navbar from "@/components/layout/navbar";
 import Sidebar, {
 	SidebarItem,
-	SidebarItemProps,
-	SidebarCategoryProps
+	SidebarItemProps
+	// SidebarCategoryProps
 } from "@/components/layout/sidebar";
 import {
 	faArrowLeft,
-	faClockRotateLeft,
 	faGear,
 	faUser,
 	faHouse,
@@ -23,11 +22,11 @@ import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
 
-const sidebarCategories: Readonly<SidebarCategoryProps>[] = [
-	{
-		name: "Admin"
-	}
-];
+// const sidebarCategories: Readonly<SidebarCategoryProps>[] = [
+// 	{
+// 		name: "Admin"
+// 	}
+// ];
 
 const sidebarItems: (SidebarItemProps & { category?: string })[] = [
 	{

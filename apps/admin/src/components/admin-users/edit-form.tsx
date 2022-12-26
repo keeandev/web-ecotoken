@@ -11,7 +11,7 @@ import { useEffect } from "react";
 export type AdminEditFormProps = {
 	user?: AdminUser;
 	reset?: UpdateUserType;
-	onSave?: (adminUser: AdminUser) => void;
+	onSave?: (adminUser: UpdateUserType) => void;
 	onDelete?: () => void;
 	loading?: boolean;
 };
@@ -22,7 +22,7 @@ export type UpdateUserType = z.infer<typeof updateUserSchema> & {
 
 const EditUserForm: React.FC<
 	Omit<React.ComponentProps<"form">, "onSubmit"> & AdminEditFormProps
-> = ({ onDelete, onSave, reset, loading, user }) => {
+> = ({ onDelete, onSave, reset, loading, user, ...props }) => {
 	const {
 		register,
 		handleSubmit,
@@ -40,15 +40,15 @@ const EditUserForm: React.FC<
 	};
 
 	useEffect(() => {
-		if (user) {
-			formReset(reset);
-		}
+		formReset(reset);
+		console.log("reset");
 	}, [user, formReset, reset]);
 
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
 			className="flex w-full flex-col gap-4"
+			{...props}
 		>
 			<div className="flex flex-col gap-4 md:flex-row">
 				<Input

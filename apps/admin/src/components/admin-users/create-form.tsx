@@ -11,9 +11,7 @@ export type AdminCreateFormProps = {
 	loading?: boolean;
 };
 
-export type CreateUserType = z.infer<typeof createUserSchema> & {
-	confirmPassword?: string;
-};
+export type CreateUserType = z.infer<typeof createUserSchema>;
 
 const AdminCreateForm: React.FC<
 	Omit<React.ComponentProps<"form">, "onSubmit"> & AdminCreateFormProps
@@ -22,7 +20,6 @@ const AdminCreateForm: React.FC<
 		register,
 		handleSubmit,
 		setValue,
-		getValues,
 		formState: { errors }
 	} = useForm<CreateUserType>({
 		resolver: zodResolver(createUserSchema),
@@ -49,9 +46,7 @@ const AdminCreateForm: React.FC<
 					label="Last Name"
 					size="lg"
 					error={errors.lastName?.message}
-					{...register("lastName", {
-						required: true
-					})}
+					{...register("lastName")}
 				/>
 			</div>
 			<div className="flex flex-col gap-4 md:flex-row">
@@ -81,16 +76,7 @@ const AdminCreateForm: React.FC<
 						label="Confirm Password"
 						size="lg"
 						error={errors.confirmPassword?.message}
-						{...register("confirmPassword", {
-							deps: ["password"],
-							validate: (value) => {
-								const { password } = getValues();
-								return (
-									password === value ||
-									"Passwords don't match!"
-								);
-							}
-						})}
+						{...register("confirmPassword")}
 					/>
 				</div>
 				<span

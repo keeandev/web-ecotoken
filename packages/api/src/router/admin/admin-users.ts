@@ -63,16 +63,17 @@ export const adminUsersRouter = router({
 	update: adminAuthedProcedure
 		.input(updateUserSchema)
 		.mutation(async ({ ctx, input }) => {
+			console.log(JSON.stringify(input));
 			await ctx.prisma.adminUser.update({
 				where: {
 					adminID: input.id
 				},
 				data: {
-					...(input.firstName && { firstName: input.firstName }),
-					lastName: input.lastName,
-					...(input.email && { email: input.email }),
-					...(input.username && { username: input.username }),
-					...(input.password && { password: input.username })
+					...(!!input.firstName && { firstName: input.firstName }),
+					...(!!input.lastName && { lastName: input.lastName }),
+					...(!!input.email && { email: input.email }),
+					...(!!input.username && { username: input.username }),
+					...(!!input.password && { password: input.password })
 				}
 			});
 		}),

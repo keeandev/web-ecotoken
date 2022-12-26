@@ -5,7 +5,6 @@ import { Transition } from "@headlessui/react";
 import clsx from "clsx";
 import Link from "next/link";
 import type { UrlObject } from "url";
-import { Fragment } from "react";
 import { useRouter } from "next/router";
 
 export type SidebarItemProps = {
@@ -75,7 +74,7 @@ export const SidebarCategory: React.FC<
 			</div>
 			<Transition
 				show={expanded}
-                className={className}
+				className={className}
 				enter="ease-in-out duration-200"
 				enterFrom="opacity-0 w-0"
 				enterTo="opacity-100 w-full"

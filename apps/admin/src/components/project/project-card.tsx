@@ -20,10 +20,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 	url,
 	location,
 	outcome,
-	images,
-	status,
-	fundAmount,
-	fundRecieved
+	images
+	// status,
+	// fundAmount,
+	// fundRecieved
 }) => {
 	const router = useRouter();
 

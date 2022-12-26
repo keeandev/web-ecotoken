@@ -1,4 +1,4 @@
-import Form from "@/components/admin-users/form";
+import AdminCreateForm from "@/components/admin-users/create-form";
 import { trpc } from "@/utils/trpc";
 import { CardTitle, CardDescription } from "@ecotoken/ui/components/Card";
 import { useRouter } from "next/router";
@@ -25,8 +25,7 @@ const AdminUserCreate = () => {
 					Create a user in the database.
 				</CardDescription>
 			</div>
-			<Form
-				new
+			<AdminCreateForm
 				loading={isLoading}
 				onCreate={async (adminUser) => {
 					await mutate({
