@@ -1,7 +1,10 @@
 import AdminCreateForm from "@/components/admin-users/create-form";
 import { trpc } from "@/utils/trpc";
 import { CardTitle, CardDescription } from "@ecotoken/ui/components/Card";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Transition } from "@headlessui/react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
 import toast from "react-hot-toast";
@@ -32,11 +35,20 @@ const AdminUserCreate = () => {
 			leaveTo="opacity-0 -translate-y-2"
 		>
 			<div className="space-y-4">
-				<div>
-					<CardTitle>Create User</CardTitle>
-					<CardDescription>
-						Create a user in the database.
-					</CardDescription>
+				<div className="flex space-x-2">
+					<Link href="/admin-users" className="inline-block">
+						<FontAwesomeIcon
+							icon={faArrowLeft}
+							size="lg"
+							className="mt-1.5 text-slate-400"
+						/>
+					</Link>
+					<div>
+						<CardTitle>Create User</CardTitle>
+						<CardDescription>
+							Create a user in the database.
+						</CardDescription>
+					</div>
 				</div>
 				<AdminCreateForm
 					loading={isLoading}

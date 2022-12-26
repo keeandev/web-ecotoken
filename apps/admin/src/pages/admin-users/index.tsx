@@ -15,7 +15,8 @@ const AdminUsers = () => {
 	const { data } = trpc.adminUsers.getAll.useInfiniteQuery(
 		{},
 		{
-			getNextPageParam: (lastPage) => lastPage.nextCursor
+			getNextPageParam: (lastPage) => lastPage.nextCursor,
+			refetchOnWindowFocus: false
 		}
 	);
 	const router = useRouter();
