@@ -13,16 +13,15 @@ export type AdminEditFormProps = {
 	reset?: UpdateUserType;
 	onSave?: (adminUser: UpdateUserType) => void;
 	onDelete?: () => void;
-	loading?: boolean;
+	updating?: boolean;
+	deleting?: boolean;
 };
 
-export type UpdateUserType = z.infer<typeof updateUserSchema> & {
-	confirmPassword?: string;
-};
+export type UpdateUserType = z.infer<typeof updateUserSchema>;
 
 const EditUserForm: React.FC<
 	Omit<React.ComponentProps<"form">, "onSubmit"> & AdminEditFormProps
-> = ({ onDelete, onSave, reset, loading, user, ...props }) => {
+> = ({ onDelete, onSave, reset, updating, deleting, user, ...props }) => {
 	const {
 		register,
 		handleSubmit,
@@ -36,6 +35,7 @@ const EditUserForm: React.FC<
 	});
 
 	const onSubmit: SubmitHandler<UpdateUserType> = (data) => {
+		console.log(data);
 		if (onSave) onSave(data);
 	};
 
@@ -122,13 +122,14 @@ const EditUserForm: React.FC<
 				</span>
 			</div>
 			<div className="w-full space-y-1.5">
-				<Button loading={loading} fullWidth>
+				<Button loading={updating} fullWidth>
 					Update
 				</Button>
 				<Button
 					intent="destructive"
 					type="button"
 					fullWidth
+					loading={deleting}
 					onClick={() => {
 						if (onDelete) onDelete();
 					}}
