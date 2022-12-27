@@ -30,7 +30,9 @@ export const adminUsersRouter = router({
 		)
 		.query(async ({ ctx, input }) => {
 			const adminUsers = await ctx.prisma.adminUser.findMany({
-				where: {},
+				where: {
+					isDelete: true
+				},
 				take: input.limit + 1,
 				...(input?.cursor && {
 					cursor: {
@@ -83,9 +85,12 @@ export const adminUsersRouter = router({
 			})
 		)
 		.mutation(async ({ ctx, input }) => {
-			await ctx.prisma.adminUser.delete({
+			await ctx.prisma.adminUser.update({
 				where: {
 					adminID: input.id
+				},
+				data: {
+					isDelete: true
 				}
 			});
 		})
