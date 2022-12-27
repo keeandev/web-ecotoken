@@ -18,7 +18,7 @@
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
 		"lint": "turbo lint && manypkg check",
 		"type-check": "turbo type-check",
-		"postinstall": "manypkg check",
+		"postinstall": "npm run db:generate && manypkg check",
 		"fix-dependencies": "manypkg fix"
 	},
 	"dependencies": {
