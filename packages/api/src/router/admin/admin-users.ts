@@ -31,7 +31,7 @@ export const adminUsersRouter = router({
 		.query(async ({ ctx, input }) => {
 			const adminUsers = await ctx.prisma.adminUser.findMany({
 				where: {
-					isDelete: true
+					isDelete: false
 				},
 				take: input.limit + 1,
 				...(input?.cursor && {
@@ -52,7 +52,7 @@ export const adminUsersRouter = router({
 	create: adminAuthedProcedure
 		.input(createUserSchema)
 		.mutation(async ({ ctx, input }) => {
-			await ctx.prisma.adminUser.create({
+			return await ctx.prisma.adminUser.create({
 				data: {
 					firstName: input.firstName,
 					lastName: input.lastName,
