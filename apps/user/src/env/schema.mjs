@@ -9,7 +9,7 @@ export const serverSchema = z.object({
 	DATABASE_URL: z.string().url(),
 	NODE_ENV: z.enum(["development", "test", "production"]),
 	IRON_SESSION_PASSWORD: z.string(),
-	IRON_SESSION_COOKIE_EXPIRE_TIME: z.number().optional()
+	IRON_SESSION_COOKIE_EXPIRE_TIME: z.string().optional()
 });
 
 /**
