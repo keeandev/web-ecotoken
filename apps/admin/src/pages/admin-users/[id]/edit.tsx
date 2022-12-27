@@ -2,10 +2,7 @@ import EditUserForm from "@/components/admin-users/edit-form";
 import { trpc } from "@/utils/trpc";
 import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
 import Spinner from "@ecotoken/ui/components/Spinner";
-import {
-	faArrowLeft,
-	faTriangleExclamation
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Transition } from "@headlessui/react";
 import Link from "next/link";
