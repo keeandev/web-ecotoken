@@ -2,8 +2,9 @@ import logo from "@ecotoken/ui/assets/brand/logo.png";
 import Navbar from "@/components/layout/navbar";
 import Sidebar, {
 	SidebarItem,
-	SidebarItemProps
-	// SidebarCategoryProps
+	SidebarItemProps,
+	SidebarCategoryProps,
+	SidebarCategory
 } from "@/components/layout/sidebar";
 import {
 	faArrowLeft,
@@ -22,13 +23,31 @@ import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
 
-// const sidebarCategories: Readonly<SidebarCategoryProps>[] = [
-// 	{
-// 		name: "Admin"
-// 	}
-// ];
+const sidebarCategories: Readonly<SidebarCategoryProps>[] = [
+	{
+		name: "Admin",
+		icon: faUser,
+		items: [
+			{
+				path: "/admin-users",
+				name: "Admin Users",
+				icon: faUser
+			},
+			{
+				path: "/websites",
+				name: "Websites",
+				icon: faGlobe
+			},
+			{
+				path: "/configuration",
+				name: "Configuration",
+				icon: faImage
+			}
+		]
+	}
+];
 
-const sidebarItems: (SidebarItemProps & { category?: string })[] = [
+const sidebarItems: SidebarItemProps[] = [
 	{
 		path: "/",
 		name: "Dashboard",
@@ -53,22 +72,6 @@ const sidebarItems: (SidebarItemProps & { category?: string })[] = [
 		path: "/projects",
 		name: "ecoProjects",
 		icon: faLeaf
-	},
-	{
-		path: "/configuration",
-		name: "Configuration",
-		icon: faImage,
-		category: "Admin"
-	},
-	{
-		path: "/admin-users",
-		name: "Admin Users",
-		icon: faUser
-	},
-	{
-		path: "/websites",
-		name: "Websites",
-		icon: faGlobe
 	}
 ];
 
@@ -102,6 +105,28 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
 							className="w-10"
 						/>
 					</div>
+					{sidebarCategories.map(
+						({ name, items, icon }, categoryIndex) => (
+							<SidebarCategory
+								name={name}
+								icon={icon}
+								expanded={expanded}
+								key={categoryIndex}
+							>
+								{items?.map(
+									({ name, path, icon }, itemIndex) => (
+										<SidebarItem
+											key={itemIndex}
+											path={path}
+											name={name}
+											icon={icon}
+											expanded={expanded}
+										/>
+									)
+								)}
+							</SidebarCategory>
+						)
+					)}
 					{sidebarItems.map(({ name, path, icon }, index) => (
 						<SidebarItem
 							key={index}

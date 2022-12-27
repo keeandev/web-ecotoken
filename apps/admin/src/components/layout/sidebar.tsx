@@ -6,6 +6,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import type { UrlObject } from "url";
 import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
 
 export type SidebarItemProps = {
 	expanded?: boolean;
@@ -16,7 +17,15 @@ export type SidebarItemProps = {
 
 export const SidebarItem: React.FC<
 	React.ComponentProps<"div"> & SidebarItemProps
-> = ({ className, path, name = "", icon, expanded = true, ...props }) => {
+> = ({
+	className,
+	path,
+	name = "",
+	icon,
+	expanded = true,
+	children,
+	...props
+}) => {
 	const router = useRouter();
 	return (
 		<div
@@ -26,25 +35,30 @@ export const SidebarItem: React.FC<
 			)}
 			{...props}
 		>
-			<Link href={path ?? router.asPath} className="inline-block">
-				<div className="mr-2 inline-block h-6 w-6 text-center [&>svg]:text-slate-500">
-					{typeof icon === "function"
-						? icon()
-						: icon && <FontAwesomeIcon icon={icon} />}
-				</div>
-				<Transition
-					as="div"
-					show={expanded}
-					className="inline-block"
-					enter="ease-in-out duration-200"
-					enterFrom="opacity-0 w-0"
-					enterTo="opacity-100 w-full"
-					leave="ease-in-out duration-200"
-					leaveFrom="opacity-100 w-full"
-					leaveTo="opacity-0 w-0"
-				>
-					{name}
-				</Transition>
+			<Link href={path ?? router.asPath}>
+				{icon && (
+					<div className="mr-2 inline-block h-6 w-6 text-center [&>svg]:text-slate-500">
+						{typeof icon === "function"
+							? icon()
+							: icon && <FontAwesomeIcon icon={icon} />}
+					</div>
+				)}
+				{(name || children) && (
+					<Transition
+						as="div"
+						show={expanded}
+						className="inline-block"
+						enter="ease-in-out duration-200"
+						enterFrom="opacity-0 w-0"
+						enterTo="opacity-100 w-full"
+						leave="ease-in-out duration-200"
+						leaveFrom="opacity-100 w-full"
+						leaveTo="opacity-0 w-0"
+					>
+						{name}
+						{children}
+					</Transition>
+				)}
 			</Link>
 		</div>
 	);
@@ -53,37 +67,78 @@ export const SidebarItem: React.FC<
 export type SidebarCategoryProps = {
 	expanded?: boolean;
 	name?: string;
+	items?: SidebarItemProps[];
+	icon?: IconProp | (() => JSX.Element);
 };
 
 export const SidebarCategory: React.FC<
 	React.ComponentProps<"div"> & SidebarCategoryProps
-> = ({ children, className, name, expanded, ...props }) => {
+> = ({ children, className, name, expanded, icon, ...props }) => {
+	const [categoryExpanded, setCategoryExpanded] = useState(true);
+	const categoryRef = useRef<HTMLDivElement | null>(null);
+
+	const animateHeight = (elem: HTMLElement | null) => {
+		if (!elem) return;
+		// debugger;
+		elem.style.height = "";
+		elem.style.transition = "none";
+
+		const startHeight = window.getComputedStyle(elem).height;
+
+		// Remove the collapse class, and force a layout calculation to get the final height
+		elem.classList.toggle("h-0");
+		const expandedHeight = window.getComputedStyle(elem).height;
+
+		// Set the start height to begin the transition
+		elem.style.height = startHeight;
+
+		// wait until the next frame so that everything has time to update before starting the transition
+		requestAnimationFrame(() => {
+			elem.style.transition = "";
+
+			requestAnimationFrame(() => {
+				elem.style.height = expandedHeight;
+			});
+		});
+
+		// Clear the saved height values after the transition
+		elem.addEventListener("transitionend", () => {
+			elem.style.height = "";
+		});
+
+		elem.removeEventListener("transitionend", () => {
+			elem.style.height = "";
+		});
+	};
+
+	useEffect(
+		() => animateHeight(categoryRef.current),
+		[categoryRef, categoryExpanded]
+	);
+
 	return (
-		<div
-			{...props}
-			// className={clsx(className, "overflow-y-hidden", {
-			// 	"h-fit": expanded
-			// })}
-		>
-			<div>
-				<span>{name}</span>
+		<div {...props}>
+			<SidebarItem
+				name={name}
+				icon={icon}
+				expanded={expanded}
+				onClick={() => setCategoryExpanded(!categoryExpanded)}
+			>
 				<FontAwesomeIcon
 					icon={faChevronDown}
-					className={clsx({ "rotate-180": expanded })}
+					size="sm"
+					className={clsx(
+						{ "rotate-180": !categoryExpanded },
+						"ml-2"
+					)}
 				/>
-			</div>
-			<Transition
-				show={expanded}
-				className={className}
-				enter="ease-in-out duration-200"
-				enterFrom="opacity-0 w-0"
-				enterTo="opacity-100 w-full"
-				leave="ease-in-out duration-200"
-				leaveFrom="opacity-100 w-full"
-				leaveTo="opacity-0 w-0"
+			</SidebarItem>
+			<div
+				className={clsx("overflow-hidden", className)}
+				ref={categoryRef}
 			>
-				{children}
-			</Transition>
+				<div className="ml-4">{children}</div>
+			</div>
 		</div>
 	);
 };
