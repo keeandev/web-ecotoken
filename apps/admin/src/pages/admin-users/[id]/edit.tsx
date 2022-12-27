@@ -30,7 +30,6 @@ const AdminUserEdit = () => {
 	const { mutate, isLoading } = trpc.adminUsers.update.useMutation({
 		onSuccess: async () => {
 			await context.adminUsers.invalidate();
-			router.push("/admin-users");
 			toast.success("Admin user has been edited.");
 		},
 		onError(e) {
@@ -53,20 +52,9 @@ const AdminUserEdit = () => {
 	if (!user) {
 		if (isFetching) return <Spinner />;
 		else {
-			return (
-				<div className="">
-					<div className="flex items-center justify-center space-x-2">
-						<FontAwesomeIcon
-							icon={faTriangleExclamation}
-							size="xl"
-							className="text-slate-400"
-						/>
-						<span className="text-xl font-bold text-slate-600">
-							User not found!
-						</span>
-					</div>
-				</div>
-			);
+			toast.error("User does not exist.");
+			router.push("/admin-users");
+			return null;
 		}
 	} else {
 		return (

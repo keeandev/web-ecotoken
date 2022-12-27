@@ -35,7 +35,6 @@ const EditUserForm: React.FC<
 	});
 
 	const onSubmit: SubmitHandler<UpdateUserType> = (data) => {
-		console.log(data);
 		if (onSave) onSave(data);
 	};
 
@@ -61,9 +60,7 @@ const EditUserForm: React.FC<
 					label="Last Name"
 					size="lg"
 					error={errors.lastName?.message}
-					{...register("lastName", {
-						required: true
-					})}
+					{...register("lastName")}
 				/>
 			</div>
 			<div className="flex flex-col gap-4 md:flex-row">

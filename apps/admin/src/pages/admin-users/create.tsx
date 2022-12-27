@@ -15,7 +15,6 @@ const AdminUserCreate = () => {
 	const { mutate, isLoading } = trpc.adminUsers.create.useMutation({
 		onSuccess: async () => {
 			await context.adminUsers.invalidate();
-			router.push("/admin-users");
 			toast.success("Admin user has been created.");
 		},
 		onError(e) {
