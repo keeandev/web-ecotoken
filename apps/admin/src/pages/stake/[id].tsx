@@ -13,7 +13,7 @@ type ProjectImages = {
 const StakeProject = () => {
 	const router = useRouter();
 	if (router.query.id) {
-		const { data } = trpc.projects.get.useQuery({
+		const { data } = trpc.ecoprojects.get.useQuery({
 			url: router.query.id as string
 		});
 		if (!data) return <div>Loading...</div>;

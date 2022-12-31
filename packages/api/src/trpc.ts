@@ -27,7 +27,8 @@ export const isUserAuthenticated = t.middleware(({ next, ctx }) => {
 export const isAdminAuthenticated = t.middleware(({ next, ctx }) => {
 	if (!ctx.adminSession?.user?.id) {
 		throw new TRPCError({
-			code: "UNAUTHORIZED"
+			code: "UNAUTHORIZED",
+			message: "You are not authorized to access this endpoint."
 		});
 	}
 	return next({

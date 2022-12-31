@@ -1,5 +1,5 @@
 import { type VariantProps, cva } from "class-variance-authority";
-import { forwardRef } from "react";
+import React, { forwardRef } from "react";
 
 import Spinner from "../Spinner";
 
@@ -15,7 +15,8 @@ const buttonStyles = cva(
 					"outline outline-2 -outline-offset-2 outline-slate-500 text-slate-500 disabled:outline-slate-400 disabled:text-slate-400",
 				tertiary:
 					"text-slate-400 disabled:text-slate-300 underline underline-offset-2",
-				destructive: "bg-rose-600 disabled:bg-rose-400 disabled:cursor-not-allowed text-white"
+				destructive:
+					"bg-rose-600 disabled:bg-rose-400 disabled:cursor-not-allowed text-white"
 			},
 			fullWidth: {
 				true: "w-full"

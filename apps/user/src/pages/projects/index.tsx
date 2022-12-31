@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 const Projects = () => {
 	const { data, hasNextPage, fetchNextPage } =
-		trpc.projects.getAll.useInfiniteQuery(
+		trpc.ecoprojects.getAll.useInfiniteQuery(
 			{
 				limit: 10
 			},

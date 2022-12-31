@@ -1,6 +1,7 @@
 import { adminAuthedProcedure, router } from "../../trpc";
 import { User } from "@prisma/client";
 import { z } from "zod";
+import { createUserSchema } from "../../schema/user";
 
 export const usersRouter = router({
 	getAll: adminAuthedProcedure
@@ -28,5 +29,28 @@ export const usersRouter = router({
 				users,
 				nextCursor
 			};
+		}),
+	create: adminAuthedProcedure
+		.input(createUserSchema)
+		.mutation(async ({ ctx, input }) => {
+			return await ctx.prisma.user.create({
+                data: {
+                    walletAddress: input.walletAddress,
+                    emailAddress: input.emailAddress,
+                }
+            })
+		}),
+	get: adminAuthedProcedure
+		.input(
+			z.object({
+				id: z.string()
+			})
+		)
+		.query(async ({ ctx, input }) => {
+			return await ctx.prisma.user.findFirst({
+				where: {
+					id: input.id
+				}
+			});
 		})
 });
