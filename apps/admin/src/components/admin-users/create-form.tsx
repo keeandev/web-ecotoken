@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import generator from "generate-password";
 import { createUserSchema } from "@ecotoken/api/src/schema/admin-user";
 import { z } from "zod";
+import clsx from "clsx";
 
 export type AdminCreateFormProps = {
 	onCreate?: (adminUser: CreateUserType) => void;
@@ -15,7 +16,7 @@ export type CreateUserType = z.infer<typeof createUserSchema>;
 
 const AdminCreateForm: React.FC<
 	Omit<React.ComponentProps<"form">, "onSubmit"> & AdminCreateFormProps
-> = ({ onCreate, loading }) => {
+> = ({ onCreate, loading, className, ...props }) => {
 	const {
 		register,
 		handleSubmit,
@@ -37,8 +38,9 @@ const AdminCreateForm: React.FC<
 	return (
 		<form
 			onSubmit={handleSubmit(onSubmit)}
-			className="flex w-full flex-col gap-4"
-		>
+			className={clsx("flex w-full flex-col gap-4", className)}
+            {...props}
+        >
 			<div className="flex flex-col gap-4 md:flex-row">
 				<Input
 					label="First Name"

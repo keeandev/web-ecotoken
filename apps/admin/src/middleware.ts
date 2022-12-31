@@ -27,15 +27,12 @@ export async function middleware(request: NextRequest) {
 // matching routes
 export const config = {
 	matcher: [
-		"/",
-		"/collection",
-		"/history",
-		"/wallet",
-		"/settings",
-		"/projects:path*",
-		"/stake/:path*",
-		"/admin-users/:path*",
-		"/login",
-		"/logout"
+		/*
+		 * Match all request paths except for the ones starting with:
+		 * - api (API routes)
+		 * - _next/static (static files)
+		 * - favicon.ico (favicon file)
+		 */
+		"/((?!api|_next/static|favicon.ico).*)"
 	]
 };

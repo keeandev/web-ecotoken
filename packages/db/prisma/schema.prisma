@@ -63,3 +63,17 @@ model AdminUser {
 
     @@map("admin_user")
 }
+
+model Site {
+    siteID      String   @id @default(cuid())
+    siteName    String
+    legalName   String?
+    mailAddress String?
+    prodUrl     String?
+    stageUrl    String?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    isDelete    Boolean  @default(false)
+
+    @@map("site")
+}

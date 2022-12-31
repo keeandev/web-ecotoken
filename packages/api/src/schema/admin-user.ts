@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const updateUserSchema = z
 	.object({
-		id: z.string(),
+		adminID: z.string(),
 		firstName: z
 			.string()
 			.min(1, "You must specify a first name.")

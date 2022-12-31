@@ -1,4 +1,4 @@
-import EditUserForm from "@/components/admin-users/edit-form";
+import EditWebsiteForm from "@/components/websites/edit-form";
 import { trpc } from "@/utils/trpc";
 import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
 import Spinner from "@ecotoken/ui/components/Spinner";
@@ -8,52 +8,54 @@ import { Transition } from "@headlessui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
-const AdminUserEdit = () => {
+const EditWebsite = () => {
 	const router = useRouter();
 	const context = trpc.useContext();
-	const { id } = router.query;
-	const { data: user, isLoading: isFetching } = trpc.adminUsers.get.useQuery(
+	let { id } = router.query;
+	if (typeof id !== "string" && typeof id !== "undefined") id = id[0];
+	if (!id) id = "";
+	const { data: website, isLoading: isFetching } = trpc.websites.get.useQuery(
 		{
-			id: id as string
+			siteID: id as string
 		},
 		{
-			refetchOnWindowFocus: false,
-			enabled: !!id
+			enabled: !!id,
+			refetchOnWindowFocus: false
 		}
 	);
 
-	const { mutateAsync, isLoading } = trpc.adminUsers.update.useMutation({
+	const { mutate, isLoading } = trpc.websites.update.useMutation({
 		onSuccess: async () => {
-			await context.adminUsers.invalidate();
-			await context.adminUsers.get.invalidate({
-				id: id as string
+			await context.websites.get.invalidate({
+				siteID: id as string
 			});
-			toast.success("Admin user has been edited.");
+			await context.websites.getAll.invalidate();
+			toast.success("Website has been edited.");
 		},
 		onError(e) {
 			toast.error(e.message);
 		}
 	});
 
-	const { mutateAsync: deleteMutate, isLoading: isDeleting } =
-		trpc.adminUsers.delete.useMutation({
+	const { mutate: deleteMutate, isLoading: isDeleting } =
+		trpc.websites.delete.useMutation({
 			onSuccess: async () => {
-				await context.adminUsers.invalidate();
-				router.push("/admin-users");
-				toast.success("Admin user has been deleted.");
+				await context.websites.getAll.invalidate();
+				router.push("/websites");
+				toast.success("Website has been deleted.");
 			},
 			onError(e) {
 				toast.error(e.message);
 			}
 		});
 
-	if (!user) {
+	if (!website) {
 		if (isFetching) return <Spinner />;
 		else {
-			toast.error("User does not exist.");
-			router.push("/admin-users");
+			toast.error("Website does not exist.");
+			router.push("/websites");
 			return null;
 		}
 	} else {
@@ -71,7 +73,7 @@ const AdminUserEdit = () => {
 			>
 				<div className="space-y-4">
 					<div className="flex space-x-2">
-						<Link href="/admin-users" className="inline-block">
+						<Link href="/websites" className="inline-block">
 							<FontAwesomeIcon
 								icon={faArrowLeft}
 								size="lg"
@@ -79,39 +81,35 @@ const AdminUserEdit = () => {
 							/>
 						</Link>
 						<div>
-							<CardTitle>Edit User</CardTitle>
+							<CardTitle>Edit Website</CardTitle>
 							<CardDescription>
-								Update a user in the database.
+								Update a website in the database.
 							</CardDescription>
 						</div>
 					</div>
-					<EditUserForm
+					<EditWebsiteForm
 						updating={isLoading}
 						deleting={isDeleting}
-						{...(user && {
-							user,
+						{...(website && {
+							site: website,
 							reset: {
-								adminID: user.adminID,
-								username: user.username,
-								email: user.email,
-								firstName: user.firstName
+								siteID: website.siteID,
+								siteName: website.siteName,
+								legalName: website.legalName,
+								mailAddress: website.mailAddress,
+								prodUrl: website.prodUrl,
+								stageUrl: website.stageUrl
 							}
 						})}
-						onSave={async (adminUser) =>
-							await mutateAsync({
-								...adminUser,
-								adminID: id as string,
-								password: !!adminUser.password
-									? adminUser.password
-									: undefined,
-								confirmPassword: !!adminUser.confirmPassword
-									? adminUser.confirmPassword
-									: undefined
+						onSave={async (website) =>
+							await mutate({
+								...website,
+								siteID: id as string
 							})
 						}
 						onDelete={async () =>
 							await deleteMutate({
-								id: id as string
+								siteID: id as string
 							})
 						}
 					/>
@@ -119,6 +117,8 @@ const AdminUserEdit = () => {
 			</Transition>
 		);
 	}
+
+	return <div>Edit website {id}</div>;
 };
 
-export default AdminUserEdit;
+export default EditWebsite;

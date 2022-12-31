@@ -1,27 +1,28 @@
-import AdminCreateForm from "@/components/admin-users/create-form";
+import WebsiteCreateForm from "@/components/websites/create-form";
 import { trpc } from "@/utils/trpc";
-import { CardTitle, CardDescription } from "@ecotoken/ui/components/Card";
+import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Transition } from "@headlessui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { Fragment } from "react";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
-const AdminUserCreate = () => {
+const CreateWebsite = () => {
 	const router = useRouter();
 	const context = trpc.useContext();
-	const { mutate, isLoading } = trpc.adminUsers.create.useMutation({
+	const { mutateAsync, isLoading } = trpc.websites.create.useMutation({
 		onSuccess: async (data) => {
-			router.push(`/admin-users/${data.adminID}/edit`);
-			await context.adminUsers.get.invalidate();
+			router.push(`/websites/${data.siteID}/edit`);
+			await context.websites.getAll.invalidate();
 			toast.success("Admin user has been created.");
 		},
 		onError(e) {
 			toast.error(e.message);
 		}
 	});
+
 	return (
 		<Transition
 			as={Fragment}
@@ -36,7 +37,7 @@ const AdminUserCreate = () => {
 		>
 			<div className="space-y-4">
 				<div className="flex space-x-2">
-					<Link href="/admin-users" className="inline-block">
+					<Link href="/websites" className="inline-block">
 						<FontAwesomeIcon
 							icon={faArrowLeft}
 							size="lg"
@@ -44,17 +45,15 @@ const AdminUserCreate = () => {
 						/>
 					</Link>
 					<div>
-						<CardTitle>Create User</CardTitle>
-						<CardDescription>
-							Create a user in the database.
-						</CardDescription>
+						<CardTitle>Create Website</CardTitle>
+						<CardDescription>Create a website.</CardDescription>
 					</div>
 				</div>
-				<AdminCreateForm
+				<WebsiteCreateForm
 					loading={isLoading}
-					onCreate={async (adminUser) => {
-						await mutate({
-							...adminUser
+					onCreate={async (website) => {
+						await mutateAsync({
+							...website
 						});
 					}}
 				/>
@@ -63,4 +62,4 @@ const AdminUserCreate = () => {
 	);
 };
 
-export default AdminUserCreate;
+export default CreateWebsite;
