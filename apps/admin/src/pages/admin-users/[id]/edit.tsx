@@ -24,7 +24,7 @@ const AdminUserEdit = () => {
 		}
 	);
 
-	const { mutate, isLoading } = trpc.adminUsers.update.useMutation({
+	const { mutateAsync, isLoading } = trpc.adminUsers.update.useMutation({
 		onSuccess: async () => {
 			await context.adminUsers.invalidate();
 			toast.success("Admin user has been edited.");
@@ -34,7 +34,7 @@ const AdminUserEdit = () => {
 		}
 	});
 
-	const { mutate: deleteMutate, isLoading: isDeleting } =
+	const { mutateAsync: deleteMutate, isLoading: isDeleting } =
 		trpc.adminUsers.delete.useMutation({
 			onSuccess: async () => {
 				await context.adminUsers.invalidate();
@@ -91,14 +91,19 @@ const AdminUserEdit = () => {
 								id: user.adminID,
 								username: user.username,
 								email: user.email,
-								firstName: user.firstName,
-								lastName: user.lastName ?? ""
+								firstName: user.firstName
 							}
 						})}
 						onSave={async (adminUser) =>
-							await mutate({
+							await mutateAsync({
 								...adminUser,
-								id: id as string
+								id: id as string,
+								password: !!adminUser.password
+									? adminUser.password
+									: undefined,
+								confirmPassword: !!adminUser.confirmPassword
+									? adminUser.confirmPassword
+									: undefined
 							})
 						}
 						onDelete={async () =>

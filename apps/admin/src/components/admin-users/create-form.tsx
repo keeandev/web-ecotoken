@@ -27,7 +27,11 @@ const AdminCreateForm: React.FC<
 	});
 
 	const onSubmit: SubmitHandler<CreateUserType> = (data) => {
-		if (onCreate) onCreate(data);
+		if (onCreate)
+			onCreate({
+				...data,
+				lastName: data.lastName === "" ? null : data.lastName
+			});
 	};
 
 	return (

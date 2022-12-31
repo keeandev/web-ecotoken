@@ -70,11 +70,11 @@ export const adminUsersRouter = router({
 					adminID: input.id
 				},
 				data: {
-					...(input.firstName && { firstName: input.firstName }),
-					...(input.lastName && { lastName: input.lastName }),
-					...(input.email && { email: input.email }),
-					...(input.username && { username: input.username }),
-					...(input.password && { password: input.password })
+					firstName: input.firstName ?? undefined,
+					lastName: input.lastName,
+                    username: input.username ?? undefined,
+					email: input.email ?? undefined,
+                    password: input.password ?? undefined,
 				}
 			});
 		}),

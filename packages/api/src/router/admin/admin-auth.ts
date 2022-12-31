@@ -12,7 +12,7 @@ export const adminAuthRouter = router({
 			})
 		)
 		.mutation(async ({ ctx, input }) => {
-			const user = await ctx.prisma.adminUser.findFirst({
+			const user = await ctx.prisma.adminUser.findUnique({
 				where: {
 					username: input.username
 				}

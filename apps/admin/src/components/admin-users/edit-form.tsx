@@ -31,6 +31,7 @@ const EditUserForm: React.FC<
 		formState: { errors }
 	} = useForm<UpdateUserType>({
 		resolver: zodResolver(updateUserSchema),
+		defaultValues: reset,
 		reValidateMode: "onChange"
 	});
 

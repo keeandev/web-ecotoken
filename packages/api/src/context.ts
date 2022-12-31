@@ -11,7 +11,7 @@ import { prisma } from "@ecotoken/db";
  */
 type CreateContextOptions = {
 	userSession: UserSession;
-    adminSession: AdminSession;
+	adminSession: AdminSession;
 	req: NextApiRequest;
 	res: NextApiResponse;
 };
@@ -34,11 +34,11 @@ export const createContextInner = async (opts: CreateContextOptions) => {
  **/
 export const createContext = async ({ req, res }: CreateNextContextOptions) => {
 	// fetch the session, decrypt cookie/deserialize -> createContextInner as `userSession` and `adminSession` (optional fields)
-    const userSession = await getUserSession(req, res);
-    const adminSession = await getAdminSession(req, res);
+	const userSession = await getUserSession(req, res);
+	const adminSession = await getAdminSession(req, res);
 	return await createContextInner({
 		userSession,
-        adminSession,
+		adminSession,
 		req,
 		res
 	});

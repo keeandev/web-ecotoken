@@ -8,7 +8,7 @@ export const updateUserSchema = z
 			.min(1, "You must specify a first name.")
 			.optional()
 			.or(z.literal("")),
-		lastName: z.string().optional().or(z.literal("")),
+		lastName: z.string().nullish().or(z.literal("")),
 		email: z
 			.string()
 			.email("A valid email is required.")
@@ -41,7 +41,7 @@ export const updateUserSchema = z
 export const createUserSchema = z
 	.object({
 		firstName: z.string().min(1, "You must specify a first name."),
-		lastName: z.string().optional(),
+		lastName: z.string().nullish().or(z.literal("")),
 		email: z.string().email("A valid email is required."),
 		username: z
 			.string()
