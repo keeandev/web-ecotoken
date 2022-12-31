@@ -8,11 +8,9 @@ const hashPasswordMiddleware = (
 	prisma.$use(async (params, next) => {
 		if (params.model === model) {
 			if (params.action === "create" || params.action === "update") {
-				const password = params.args.data["password"] as
-					| string
-					| undefined;
+				const password = params.args.data["password"];
 				// hash password if the password that is attempting to be inserted isn't already hashed
-				if (password?.startsWith("$argon"))
+				if (password && !password.startsWith("$argon"))
 					params.args.data["password"] = await hash(password);
 			}
 		}
