@@ -26,6 +26,9 @@ const Websites = () => {
 		columnHelper.accessor("stageUrl", {
 			header: "Staging URL"
 		}),
+		columnHelper.accessor("devUrl", {
+			header: "Dev. URL"
+		}),
 		columnHelper.accessor("createdAt", {
 			header: "Created At",
 			cell: (info) => <>{info.renderValue()?.toDateString()}</>

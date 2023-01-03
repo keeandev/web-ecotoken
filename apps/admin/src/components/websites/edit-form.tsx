@@ -89,6 +89,12 @@ const EditWebsiteForm: React.FC<
 					error={errors.stageUrl?.message}
 					{...register("stageUrl")}
 				/>
+				<Input
+					label="Development URL"
+					size="xl"
+					error={errors.devUrl?.message}
+					{...register("devUrl")}
+				/>
 			</div>
 			<div className="w-full space-y-1.5">
 				<Button loading={updating} fullWidth>

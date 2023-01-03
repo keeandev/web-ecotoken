@@ -15,5 +15,6 @@ export const updateWebsiteSchema = z.object({
 	legalName: z.string().nullish().or(z.literal("")),
 	mailAddress: z.string().nullish().or(z.literal("")),
 	prodUrl: z.string().nullish().or(z.literal("")),
-	stageUrl: z.string().nullish().or(z.literal(""))
+	stageUrl: z.string().nullish().or(z.literal("")),
+	devUrl: z.string().nullish().or(z.literal(""))
 });

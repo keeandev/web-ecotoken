@@ -98,7 +98,8 @@ const EditWebsite = () => {
 								legalName: website.legalName,
 								mailAddress: website.mailAddress,
 								prodUrl: website.prodUrl,
-								stageUrl: website.stageUrl
+								stageUrl: website.stageUrl,
+								devUrl: website.devUrl
 							}
 						})}
 						onSave={async (website) =>
