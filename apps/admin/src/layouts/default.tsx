@@ -24,6 +24,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
+import { Transition } from "@headlessui/react";
 
 const sidebarCategories: Readonly<SidebarCategoryProps>[] = [
 	{
@@ -117,7 +118,7 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
 					expanded={expanded}
 					className="border-r border-slate-300"
 				>
-					<div className="flex space-x-2">
+					<div className="flex">
 						<div className="ml-0.5 flex h-[60px] w-[60px] items-center justify-center">
 							<Image
 								src={logo}
@@ -125,30 +126,49 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
 								className="w-10"
 							/>
 						</div>
-						<div className="flex items-center">
+						<Transition
+							appear
+							show={!!currentSiteData}
+							className="flex items-center"
+							enterFrom="opacity-0"
+							enterTo="opacity-100"
+							enter="transition-all ease-in-out duration-200"
+							leaveFrom="opacity-100"
+							leaveTo="opacity-0"
+							leave="transition-all ease-in-out duration-200"
+						>
 							<div className="flex items-center rounded-lg bg-slate-300 px-4 py-2">
 								<select
 									name="Current site"
 									className="appearance-none bg-transparent text-center"
-									onChange={async (e) =>
+									onChange={async (e) => {
 										await updateCurrentSite({
 											siteID: e.target.value
-										})
-									}
+										});
+
+										router.push("/");
+									}}
 								>
-									{siteData?.pages[0]?.websites.map(
-										(website, index) => (
+									<option value={currentSiteData?.siteID}>
+										{currentSiteData?.siteName}
+									</option>
+									{siteData?.pages[0]?.websites
+										.filter(
+											(website) =>
+												website.siteID !==
+												currentSiteData?.siteID
+										)
+										.map((website, index) => (
 											<option
 												value={website.siteID}
 												key={index}
 											>
 												{website.siteName}
 											</option>
-										)
-									)}
+										))}
 								</select>
 							</div>
-						</div>
+						</Transition>
 					</div>
 					{sidebarCategories.map(
 						({ name, items, icon }, categoryIndex) => (

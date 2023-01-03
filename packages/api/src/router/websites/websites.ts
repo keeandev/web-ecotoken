@@ -81,7 +81,7 @@ export const websiteRouter = router({
 						: undefined,
 				lastSite: input.siteID
 			};
-			await ctx.adminSession.save();
+			return await ctx.adminSession.save();
 		}),
 	getCurrentSite: adminAuthedProcedure.query(async ({ ctx }) => {
 		return ctx.adminSession.user?.lastSite;
