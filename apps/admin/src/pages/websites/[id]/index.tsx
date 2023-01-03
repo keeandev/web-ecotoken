@@ -4,13 +4,14 @@ import { useEffect } from "react";
 
 const Website = () => {
 	const router = useRouter();
-	const { mutateAsync } = trpc.websites.updateCurrent.useMutation();
+	const { mutateAsync } = trpc.websites.updateCurrentSite.useMutation();
+	const { data: currentSite } = trpc.websites.getCurrentSite.useQuery();
 
 	useEffect(() => {
 		const asyncFunction = async () => {
 			let { id } = router.query;
 			if (typeof id !== "string" && typeof id !== "undefined") id = id[0];
-			if (id) await mutateAsync({ siteID: id });
+			if (id && currentSite !== id) await mutateAsync({ siteID: id });
 		};
 		asyncFunction();
 	}, [mutateAsync, router.query]);

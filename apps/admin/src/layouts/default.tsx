@@ -82,7 +82,7 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
 
 	const { data: lastSiteID } = trpc.websites.getCurrentSite.useQuery();
 	const { mutateAsync: updateCurrentSite } =
-		trpc.websites.updateCurrent.useMutation();
+		trpc.websites.updateCurrentSite.useMutation();
 	const { data: currentSiteData } = trpc.websites.get.useQuery(
 		{ siteID: lastSiteID! },
 		{ enabled: !!lastSiteID }

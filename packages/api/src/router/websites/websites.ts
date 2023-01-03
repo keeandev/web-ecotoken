@@ -70,7 +70,7 @@ export const websiteRouter = router({
 				}
 			});
 		}),
-	updateCurrent: adminAuthedProcedure
+	updateCurrentSite: adminAuthedProcedure
 		.input(z.object({ siteID: z.string() }))
 		.mutation(async ({ ctx, input }) => {
 			ctx.adminSession.user = {
