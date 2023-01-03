@@ -69,5 +69,21 @@ export const websiteRouter = router({
 					siteID
 				}
 			});
-		})
+		}),
+	updateCurrent: adminAuthedProcedure
+		.input(z.object({ siteID: z.string() }))
+		.mutation(async ({ ctx, input }) => {
+			ctx.adminSession.user = {
+				id: ctx.adminSession.user?.id ?? "",
+				ipAddress:
+					process.env.NODE_ENV === "production"
+						? ctx.req.connection.remoteAddress ?? ""
+						: undefined,
+				lastSite: input.siteID
+			};
+			await ctx.adminSession.save();
+		}),
+	getCurrentSite: adminAuthedProcedure.query(async ({ ctx }) => {
+		return ctx.adminSession.user?.lastSite;
+	})
 });

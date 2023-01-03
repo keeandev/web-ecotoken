@@ -17,6 +17,7 @@ export type AdminSession = {
 	user?: {
 		id: string;
 		ipAddress?: string;
+		lastSite?: string;
 	};
 } & IronSession;
 

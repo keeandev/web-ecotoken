@@ -6,7 +6,6 @@ import { getAdminEdgeSession } from "@ecotoken/auth/src/iron-session/get-edge-se
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl;
-	console.log("middleware");
 	const response = NextResponse.next();
 	const session = await getAdminEdgeSession(request, response);
 
@@ -21,6 +20,7 @@ export async function middleware(request: NextRequest) {
 			return NextResponse.redirect(new URL("/login", request.url));
 		}
 	}
+
 	return response;
 }
 

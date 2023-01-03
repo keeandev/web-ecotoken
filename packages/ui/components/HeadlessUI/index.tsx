@@ -40,8 +40,14 @@ const Menu: React.FC<MenuProps> = ({
 };
 
 const menuButtonStyles = cva([""], {
-	variants: {},
-	defaultVariants: {}
+	variants: {
+		intent: {
+			none: ""
+		}
+	},
+	defaultVariants: {
+		intent: "none"
+	}
 });
 
 type MenuButtonProps = Omit<ButtonProps, "animation" | "ref"> &

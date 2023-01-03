@@ -22,6 +22,8 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
+import { trpc } from "@/utils/trpc";
+import { useRouter } from "next/router";
 
 const sidebarCategories: Readonly<SidebarCategoryProps>[] = [
 	{
@@ -78,6 +80,23 @@ const sidebarItems: SidebarItemProps[] = [
 const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
 	const [expanded, setExpanded] = useState(true);
 
+	const { data: lastSiteID } = trpc.websites.getCurrentSite.useQuery();
+	const { mutateAsync: updateCurrentSite } =
+		trpc.websites.updateCurrent.useMutation();
+	const { data: currentSiteData } = trpc.websites.get.useQuery(
+		{ siteID: lastSiteID! },
+		{ enabled: !!lastSiteID }
+	);
+
+	const { data: siteData } = trpc.websites.getAll.useInfiniteQuery(
+		{},
+		{
+			getNextPageParam: (info) => info.nextCursor
+		}
+	);
+
+	const router = useRouter();
+
 	return (
 		<>
 			{
@@ -98,12 +117,38 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
 					expanded={expanded}
 					className="border-r border-slate-300"
 				>
-					<div className="ml-0.5 flex h-[60px] w-[60px] items-center justify-center">
-						<Image
-							src={logo}
-							alt="ecoToken System"
-							className="w-10"
-						/>
+					<div className="flex space-x-2">
+						<div className="ml-0.5 flex h-[60px] w-[60px] items-center justify-center">
+							<Image
+								src={logo}
+								alt="ecoToken System"
+								className="w-10"
+							/>
+						</div>
+						<div className="flex items-center">
+							<div className="flex items-center rounded-lg bg-slate-300 px-4 py-2">
+								<select
+									name="Current site"
+									className="appearance-none bg-transparent text-center"
+									onChange={async (e) =>
+										await updateCurrentSite({
+											siteID: e.target.value
+										})
+									}
+								>
+									{siteData?.pages[0]?.websites.map(
+										(website, index) => (
+											<option
+												value={website.siteID}
+												key={index}
+											>
+												{website.siteName}
+											</option>
+										)
+									)}
+								</select>
+							</div>
+						</div>
 					</div>
 					{sidebarCategories.map(
 						({ name, items, icon }, categoryIndex) => (

@@ -25,3 +25,9 @@ Secondary.args = {
 	intent: "secondary",
 	children: "Secondary"
 };
+
+export const Tertiary = Template.bind({});
+Tertiary.args = {
+	intent: "tertiary",
+	children: "Tertiary"
+};
