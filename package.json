@@ -14,6 +14,7 @@
 		"db:generate": "dotenv -- turbo db:generate",
 		"db:push": "dotenv -- turbo db:push",
 		"db:seed": "dotenv -- turbo db:seed",
+		"db:studio": "dotenv -- turbo db:studio",
 		"dev": "dotenv -- turbo dev --parallel",
 		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
 		"lint": "turbo lint && manypkg check",

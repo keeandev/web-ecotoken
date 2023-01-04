@@ -39,8 +39,23 @@ export const isAdminAuthenticated = t.middleware(({ next, ctx }) => {
 	});
 });
 
+export const isOnWhitelistedSite = t.middleware(({ next, ctx }) => {
+	if (!ctx.currentSite?.siteID) {
+		throw new TRPCError({
+			code: "UNAUTHORIZED",
+			message: "You are not authorized to access this endpoint."
+		});
+	}
+	return next({
+		ctx: {
+			// Infers the `session` as non-nullable
+			currentSite: ctx.currentSite
+		}
+	});
+});
+
 export const router = t.router;
 
-export const publicProcedure = t.procedure;
+export const publicProcedure = t.procedure.use(isOnWhitelistedSite);
 export const userAuthedProcedure = publicProcedure.use(isUserAuthenticated);
 export const adminAuthedProcedure = publicProcedure.use(isAdminAuthenticated);

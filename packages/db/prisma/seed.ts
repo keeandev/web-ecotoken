@@ -8,6 +8,8 @@ const main = async () => {
 	await prisma.ecoProject.deleteMany();
 	await prisma.user.deleteMany();
 	await prisma.adminUser.deleteMany();
+	await prisma.site.deleteMany();
+
 	console.log("Deleting data...");
 	// reseed
 	await prisma.ecoProject.createMany({
@@ -89,6 +91,30 @@ const main = async () => {
 		]
 	});
 	console.log("Created projects.");
+	await prisma.site.createMany({
+		data: [
+			{
+				siteName: "ecoToken",
+				legalName: "ecoToken System Inc.",
+				devUrl: "localhost:3000",
+				stageUrl: "smy.eco-token.io",
+				prodUrl: "my.ecotoken.io"
+			},
+			{
+				siteName: "ecoToken Admin",
+				devUrl: "localhost:3001",
+				stageUrl: "admin.eco-token.io",
+				prodUrl: "admin.ecotoken.io"
+			},
+			{
+				siteName: "ecoWarriors",
+				devUrl: "localhost:3004",
+				stageUrl: "stg.ecowarriors.com",
+				prodUrl: "www.ecowarriors.com"
+			}
+		]
+	});
+	console.log("Created sites.");
 	await prisma.adminUser.createMany({
 		data: [
 			{

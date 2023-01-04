@@ -13,6 +13,10 @@
 			"inputs": ["prisma/schema.prisma"],
 			"cache": false
 		},
+		"db:studio": {
+			"inputs": ["prisma/schema.prisma"],
+			"cache": false
+		},
 		"dev": {
 			"dependsOn": ["^db:generate"],
 			"cache": false

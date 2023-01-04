@@ -14,7 +14,8 @@
 		"dev": "npx prisma studio",
 		"db:push": "prisma db push --skip-generate",
 		"db:seed": "prisma db seed",
-		"db:generate": "prisma generate"
+		"db:generate": "prisma generate",
+		"db:studio": "npx prisma studio"
 	},
 	"dependencies": {
 		"@prisma/client": "^4.8.0",
