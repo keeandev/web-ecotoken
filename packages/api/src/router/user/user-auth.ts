@@ -2,6 +2,7 @@ import { z } from "zod";
 import { userAuthedProcedure, publicProcedure, router } from "../../trpc";
 import { TRPCError } from "@trpc/server";
 import * as jose from "jose";
+import { Prisma } from "@prisma/client";
 
 type TypedSocialPayload = {
 	email: string;
@@ -10,6 +11,7 @@ type TypedSocialPayload = {
 	verifier: string;
 	verifierId: string;
 	aggregateVerifier: string;
+	typeOfLogin: string;
 	wallets: {
 		public_key: string;
 		type: string;
@@ -38,7 +40,7 @@ export const userAuthRouter = router({
 				idToken: z.string(),
 				publicKey: z.string().nullish(),
 				publicAddress: z.string(),
-				type: z.string()
+				type: z.enum(["external", "social"])
 			})
 		)
 		.mutation(async ({ ctx, input }) => {
@@ -94,6 +96,8 @@ export const userAuthRouter = router({
 			}
 
 			if (!!input.publicAddress && verified) {
+				console.log("login payload", payload);
+
 				let user = await ctx.prisma.user.findUnique({
 					where: {
 						walletAddress
@@ -101,11 +105,36 @@ export const userAuthRouter = router({
 				});
 
 				if (!user) {
-					user = await ctx.prisma.user.create({
-						data: {
-							walletAddress: walletAddress,
-							siteID: ctx.currentSite.siteID
+					let data: Prisma.UserCreateInput;
+
+					data = {
+						walletAddress,
+						site: {
+							connect: {
+								siteID: ctx.currentSite.siteID
+							}
 						}
+					};
+
+					if (input.type === "social") {
+						payload = payload as TypedSocialPayload;
+						data = {
+							...data,
+							emailAddress: payload.email,
+							name: payload.name,
+							profileUrl: payload.profileImage ?? null,
+							typeOfLogin: payload.typeOfLogin,
+							verifier: payload.verifier
+						};
+					} else {
+						payload = payload as TypedWalletPayload;
+
+						data = {
+							...data
+						};
+					}
+					user = await ctx.prisma.user.create({
+						data
 					});
 				}
 

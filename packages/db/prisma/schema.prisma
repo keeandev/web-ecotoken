@@ -33,6 +33,10 @@ model User {
     id            String  @id @default(cuid())
     walletAddress String  @unique
     emailAddress  String? @unique
+    name          String?
+    profileUrl    String?
+    verifier      String?
+    typeOfLogin   String?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
