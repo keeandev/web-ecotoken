@@ -58,6 +58,7 @@ export const userAuthRouter = router({
 
 			let payload: TypedSocialPayload | TypedWalletPayload;
 			let verified: boolean;
+			let walletAddress: string | undefined;
 
 			// wallet login
 			if (input.type === "external") {
@@ -74,6 +75,7 @@ export const userAuthRouter = router({
 					});
 
 				verified = true;
+				walletAddress = input.publicAddress;
 			} else {
 				// social login
 
@@ -88,31 +90,33 @@ export const userAuthRouter = router({
 					});
 
 				verified = true;
+				walletAddress = input.publicKey;
 			}
 
 			if (!!input.publicAddress && verified) {
 				let user = await ctx.prisma.user.findUnique({
 					where: {
-						walletAddress: `${input.publicKey}`
+						walletAddress
 					}
 				});
 
 				if (!user) {
 					user = await ctx.prisma.user.create({
 						data: {
-							walletAddress: `${input.publicKey}`
+							walletAddress: walletAddress,
+							siteID: ctx.currentSite.siteID
 						}
 					});
 				}
 
-				ctx.userSession.user = {
+				ctx.userSession!.user = {
 					id: user.id,
 					ipAddress:
 						process.env.NODE_ENV === "production"
 							? ctx.req.connection.remoteAddress ?? ""
 							: undefined
 				};
-				await ctx.userSession.save();
+				await ctx.userSession?.save();
 			} else
 				return new TRPCError({
 					code: "UNAUTHORIZED",

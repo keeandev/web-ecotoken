@@ -86,7 +86,7 @@ const main = async () => {
 					listImage: "ecoproject/head_oceanwise_kelp01.jpg"
 				}),
 				outcome: "14,600 GHGe reduction over 5 years",
-				ord: 3
+				ord: 4
 			}
 		]
 	});

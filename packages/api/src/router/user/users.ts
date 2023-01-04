@@ -37,6 +37,7 @@ export const usersRouter = router({
                 data: {
                     walletAddress: input.walletAddress,
                     emailAddress: input.emailAddress,
+                    siteID: ctx.currentSite.siteID
                 }
             })
 		}),
