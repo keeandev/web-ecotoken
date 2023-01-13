@@ -5,7 +5,7 @@ import clsx from "clsx";
 const cardStyles = cva(["p-6 rounded-md shadow-sm"], {
 	variants: {
 		intent: {
-			primary: "border border-slate-200 bg-slate-100 shadow-sm"
+			primary: "border border-slate-200 bg-slate-100 "
 		},
 		size: {
 			// sm: "",
@@ -19,8 +19,13 @@ const cardStyles = cva(["p-6 rounded-md shadow-sm"], {
 			threeQuarter: "w-3/4",
 			full: "w-full",
 			default: "w-fit"
+		},
+		shadow: {
+			sm: "shadow-sm",
+			md: "shadow-md",
+			lg: "shadow-lg",
+			xl: "shadow-xl"
 		}
-
 		// 'sm': {'min': '640px', 'max': '767px'},
 		// => @media (min-width: 640px and max-width: 767px) { ... }     'md': {'min': '768px', 'max': '1023px'},
 		// => @media (min-width: 768px and max-width: 1023px) { ... }    'lg': {'min': '1024px', 'max': '1279px'},
@@ -29,7 +34,8 @@ const cardStyles = cva(["p-6 rounded-md shadow-sm"], {
 	},
 	defaultVariants: {
 		intent: "primary",
-		size: "default"
+		size: "default",
+		shadow: "sm"
 	}
 });
 

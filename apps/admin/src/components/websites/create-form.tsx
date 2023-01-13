@@ -39,7 +39,7 @@ const WebsiteCreateForm: React.FC<
 			onSubmit={handleSubmit(onSubmit)}
 			{...props}
 		>
-			<div className="flex flex-col gap-4 md:flex-row">
+			<div className="flex flex-col gap-4">
 				<Input
 					label="Site Name"
 					size="xl"
@@ -50,6 +50,18 @@ const WebsiteCreateForm: React.FC<
 					label="Production URL"
 					size="xl"
 					error={errors.prodUrl?.message}
+					{...register("prodUrl")}
+				/>
+				<Input
+					label="Staging URL"
+					size="xl"
+					error={errors.stageUrl?.message}
+					{...register("prodUrl")}
+				/>
+				<Input
+					label="Development URL"
+					size="xl"
+					error={errors.devUrl?.message}
 					{...register("prodUrl")}
 				/>
 			</div>

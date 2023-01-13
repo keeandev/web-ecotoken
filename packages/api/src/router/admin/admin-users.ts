@@ -1,8 +1,8 @@
 import { adminAuthedProcedure, router } from "../../trpc";
 import { AdminUser } from "@prisma/client";
 import {
-	createUserSchema,
-	updateUserSchema
+	createAdminUserSchema,
+	updateAdminUserSchema
 } from "@ecotoken/api/src/schema/admin-user";
 import { z } from "zod";
 
@@ -50,7 +50,7 @@ export const adminUsersRouter = router({
 			};
 		}),
 	create: adminAuthedProcedure
-		.input(createUserSchema)
+		.input(createAdminUserSchema)
 		.mutation(async ({ ctx, input: { confirmPassword, ...input } }) => {
 			return await ctx.prisma.adminUser.create({
 				data: {
@@ -59,10 +59,9 @@ export const adminUsersRouter = router({
 			});
 		}),
 	update: adminAuthedProcedure
-		.input(updateUserSchema)
+		.input(updateAdminUserSchema)
 		.mutation(
 			async ({ ctx, input: { adminID, confirmPassword, ...input } }) => {
-                
 				return await ctx.prisma.adminUser.update({
 					where: {
 						adminID

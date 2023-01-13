@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Button from "@ecotoken/ui/components/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import generator from "generate-password";
-import { createUserSchema } from "@ecotoken/api/src/schema/admin-user";
+import { createAdminUserSchema } from "@ecotoken/api/src/schema/admin-user";
 import { z } from "zod";
 import clsx from "clsx";
 
@@ -12,7 +12,7 @@ export type AdminCreateFormProps = {
 	loading?: boolean;
 };
 
-export type CreateUserType = z.infer<typeof createUserSchema>;
+export type CreateUserType = z.infer<typeof createAdminUserSchema>;
 
 const AdminCreateForm: React.FC<
 	Omit<React.ComponentProps<"form">, "onSubmit"> & AdminCreateFormProps
@@ -23,7 +23,7 @@ const AdminCreateForm: React.FC<
 		setValue,
 		formState: { errors }
 	} = useForm<CreateUserType>({
-		resolver: zodResolver(createUserSchema),
+		resolver: zodResolver(createAdminUserSchema),
 		reValidateMode: "onChange"
 	});
 
@@ -39,8 +39,8 @@ const AdminCreateForm: React.FC<
 		<form
 			onSubmit={handleSubmit(onSubmit)}
 			className={clsx("flex w-full flex-col gap-4", className)}
-            {...props}
-        >
+			{...props}
+		>
 			<div className="flex flex-col gap-4 md:flex-row">
 				<Input
 					label="First Name"

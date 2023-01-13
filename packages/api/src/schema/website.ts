@@ -6,7 +6,9 @@ export const createWebsiteSchema = z.object({
 			required_error: "A site name is required."
 		})
 		.min(1, "Please specify a site name."),
-	prodUrl: z.string().nullish().or(z.literal(""))
+	prodUrl: z.string().nullish().or(z.literal("")),
+	stageUrl: z.string().nullish().or(z.literal("")),
+	devUrl: z.string().nullish().or(z.literal(""))
 });
 
 export const updateWebsiteSchema = z.object({

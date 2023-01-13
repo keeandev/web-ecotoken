@@ -12,7 +12,7 @@ export const appRouter = router({
 	ecoprojects: projectsRouter,
 	userAuth: userAuthRouter,
 	users: usersRouter,
-    websites: websiteRouter
+	websites: websiteRouter
 });
 
 export type AppRouter = typeof appRouter;

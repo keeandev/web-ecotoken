@@ -25,30 +25,28 @@ const Users = () => {
 	const columns = [
 		columnHelper.accessor("id", {
 			header: "User ID",
-			footer: (info) => info.column.id,
 			id: "id"
 		}),
 		columnHelper.accessor("siteID", {
 			header: "Site ID",
-			footer: (info) => info.column.id
 		}),
-		columnHelper.accessor("walletAddress", {
-			header: "Wallet Address",
-			footer: (info) => info.column.id
+		columnHelper.accessor("username", {
+			header: "Username",
 		}),
+		// columnHelper.accessor("walletAddress", {
+		// 	header: "Wallet Address",
+		// 	footer: (info) => info.column.id
+		// }),
 		columnHelper.accessor("emailAddress", {
 			header: "Email Address",
-			footer: (info) => info.column.id
 		}),
 		columnHelper.accessor("createdAt", {
 			header: "Created At",
 			cell: (info) => info.getValue().toDateString(),
-			footer: (info) => info.column.id
 		}),
 		columnHelper.accessor("updatedAt", {
 			header: "Updated At",
 			cell: (info) => info.getValue().toDateString(),
-			footer: (info) => info.column.id
 		})
 	];
 

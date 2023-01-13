@@ -29,14 +29,31 @@ model EcoProject {
     @@map("ecoproject")
 }
 
+// model User {
+//     id            String  @id @default(cuid())
+//     walletAddress String  @unique
+//     emailAddress  String? @unique
+//     name          String?
+//     profileUrl    String?
+//     verifier      String?
+//     typeOfLogin   String?
+
+//     createdAt DateTime @default(now())
+//     updatedAt DateTime @updatedAt
+
+//     site   Site   @relation(fields: [siteID], references: [siteID])
+//     siteID String
+
+//     @@index([siteID])
+//     @@map("user")
+// }
+
 model User {
     id            String  @id @default(cuid())
-    walletAddress String  @unique
-    emailAddress  String? @unique
-    name          String?
-    profileUrl    String?
-    verifier      String?
-    typeOfLogin   String?
+    username      String  @unique
+    password      String
+    emailAddress  String  @unique
+    walletAddress String? @unique
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

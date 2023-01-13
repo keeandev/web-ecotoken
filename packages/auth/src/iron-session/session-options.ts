@@ -16,7 +16,6 @@ export const adminIronOptions: IronSessionOptions = {
 	password: process.env.IRON_SESSION_PASSWORD as string,
 	cookieOptions: {
 		secure: process.env.NODE_ENV === "production",
-		maxAge:
-			60 * 60 * Number(process.env.IRON_SESSION_COOKIE_EXPIRE_TIME || 0)
+		maxAge: 60 * 60 * Number(process.env.IRON_SESSION_COOKIE_EXPIRE_TIME)
 	}
 };

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const updateUserSchema = z
+export const updateAdminUserSchema = z
 	.object({
 		adminID: z.string(),
 		firstName: z
@@ -38,7 +38,7 @@ export const updateUserSchema = z
 		}
 	});
 
-export const createUserSchema = z
+export const createAdminUserSchema = z
 	.object({
 		firstName: z.string().min(1, "You must specify a first name."),
 		lastName: z.string().nullish().or(z.literal("")),

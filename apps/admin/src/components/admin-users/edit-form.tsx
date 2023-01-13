@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Button from "@ecotoken/ui/components/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import generator from "generate-password";
-import { updateUserSchema } from "@ecotoken/api/src/schema/admin-user";
+import { updateAdminUserSchema } from "@ecotoken/api/src/schema/admin-user";
 import { z } from "zod";
 import type { AdminUser } from "@ecotoken/db";
 import { useEffect } from "react";
@@ -17,7 +17,7 @@ export type AdminEditFormProps = {
 	deleting?: boolean;
 };
 
-export type UpdateUserType = z.infer<typeof updateUserSchema>;
+export type UpdateUserType = z.infer<typeof updateAdminUserSchema>;
 
 const EditUserForm: React.FC<
 	Omit<React.ComponentProps<"form">, "onSubmit"> & AdminEditFormProps
@@ -30,7 +30,7 @@ const EditUserForm: React.FC<
 		reset: formReset,
 		formState: { errors }
 	} = useForm<UpdateUserType>({
-		resolver: zodResolver(updateUserSchema),
+		resolver: zodResolver(updateAdminUserSchema),
 		defaultValues: reset,
 		reValidateMode: "onChange"
 	});
