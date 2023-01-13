@@ -31,12 +31,12 @@ const Register: NextPageWithLayout = () => {
 	});
 
 	const onSubmit = async ({
-		email,
+		emailAddress,
 		username,
 		password
 	}: RegisterFormInput) => {
 		await mutate({
-			email,
+			emailAddress,
 			username,
 			password
 		});
@@ -51,8 +51,8 @@ const Register: NextPageWithLayout = () => {
 				<Input
 					fullWidth
 					label="Email"
-					error={errors.email?.message ?? ""}
-					{...register("email")}
+					error={errors.emailAddress?.message ?? ""}
+					{...register("emailAddress")}
 				/>
 				<Input
 					fullWidth

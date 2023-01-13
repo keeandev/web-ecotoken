@@ -34,12 +34,13 @@ export const usersRouter = router({
 		.input(createUserSchema)
 		.mutation(async ({ ctx, input }) => {
 			return await ctx.prisma.user.create({
-                data: {
-                    walletAddress: input.walletAddress,
-                    emailAddress: input.emailAddress,
-                    siteID: ctx.currentSite.siteID
-                }
-            })
+				data: {
+					username: input.username,
+					emailAddress: input.emailAddress,
+					password: input.password,
+					siteID: ctx.currentSite.siteID
+				}
+			});
 		}),
 	get: adminAuthedProcedure
 		.input(

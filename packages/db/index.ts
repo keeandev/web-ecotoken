@@ -34,3 +34,4 @@ export function exclude<T, Key extends keyof T>(
 }
 
 hashPasswordMiddleware(prisma, "AdminUser");
+hashPasswordMiddleware(prisma, "User");

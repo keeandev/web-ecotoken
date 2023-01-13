@@ -39,10 +39,10 @@ const UserCreateForm: React.FC<
 		>
 			<div className="flex flex-col gap-4 md:flex-row">
 				<Input
-					label="Wallet Address"
+					label="Username"
 					size="lg"
-					{...register("walletAddress")}
-					error={errors.walletAddress?.message}
+					{...register("username")}
+					error={errors.username?.message}
 				/>
 				<Input
 					label="Email Address"

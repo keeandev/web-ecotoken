@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import key from "../../key.json";
+import key from "../../../key.json";
 
 export const transporter = nodemailer.createTransport({
 	host: "smtp.gmail.com",
@@ -12,3 +12,5 @@ export const transporter = nodemailer.createTransport({
 		privateKey: key.private_key
 	}
 });
+
+export { renderTemplate } from "./templates";
