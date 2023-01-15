@@ -50,10 +50,15 @@ model EcoProject {
 
 model User {
     id            String  @id @default(cuid())
+    firstName     String
+    lastName      String
     username      String  @unique
     password      String
-    emailAddress  String? @unique
+    emailAddress  String  @unique
     walletAddress String? @unique
+
+    isDelete  Boolean @default(false)
+    isDisable Boolean @default(false)
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -61,6 +66,7 @@ model User {
     site   Site   @relation(fields: [siteID], references: [siteID])
     siteID String
 
+    @@unique([firstName, lastName])
     @@index([siteID])
     @@map("user")
 }

@@ -16,8 +16,6 @@
 		"@ecotoken/db": "*",
 		"@ecotoken/email": "*",
 		"argon2": "^0.30.2",
-		"bs58": "^5.0.0",
-		"jose": "^4.11.1",
 		"next": "^13.0.5"
 	},
 	"peerDependencies": {

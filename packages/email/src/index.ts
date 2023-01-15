@@ -12,5 +12,3 @@ export const transporter = nodemailer.createTransport({
 		privateKey: key.private_key
 	}
 });
-
-export { renderTemplate } from "./templates";

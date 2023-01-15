@@ -1,4 +1,3 @@
-import { Web3AuthProvider } from "@/contexts/web3auth";
 import DefaultLayout from "@/layouts/default";
 import "@/styles/globals.css";
 import { trpc } from "@/utils/trpc";
@@ -35,9 +34,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 					}
 				}}
 			/>
-			<Web3AuthProvider>
-				{getLayout(<Component {...pageProps} />)}
-			</Web3AuthProvider>
+			{getLayout(<Component {...pageProps} />)}
 		</>
 	);
 };

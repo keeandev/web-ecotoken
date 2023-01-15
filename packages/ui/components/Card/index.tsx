@@ -5,7 +5,8 @@ import clsx from "clsx";
 const cardStyles = cva(["p-6 rounded-md shadow-sm"], {
 	variants: {
 		intent: {
-			primary: "border border-slate-200 bg-slate-100 "
+			primary: "border border-slate-200 bg-slate-100",
+			secondary: "border border-slate-300 bg-slate-200"
 		},
 		size: {
 			// sm: "",
@@ -18,7 +19,7 @@ const cardStyles = cva(["p-6 rounded-md shadow-sm"], {
 			twoThird: "w-2/3",
 			threeQuarter: "w-3/4",
 			full: "w-full",
-			default: "w-fit"
+			default: ""
 		},
 		shadow: {
 			sm: "shadow-sm",

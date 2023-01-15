@@ -7,6 +7,9 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { NextPageWithLayout } from "./_app";
 import { zodResolver } from "@hookform/resolvers/zod";
+import logo from "@ecotoken/ui/assets/brand/logo.png";
+import Image from "next/image";
+import Link from "@ecotoken/ui/components/Link";
 
 type RegisterFormInput = RouterInputs["userAuth"]["register"];
 
@@ -30,15 +33,9 @@ const Register: NextPageWithLayout = () => {
 		}
 	});
 
-	const onSubmit = async ({
-		emailAddress,
-		username,
-		password
-	}: RegisterFormInput) => {
+	const onSubmit = async (values: RegisterFormInput) => {
 		await mutate({
-			emailAddress,
-			username,
-			password
+			...values
 		});
 	};
 
@@ -46,8 +43,42 @@ const Register: NextPageWithLayout = () => {
 		<div className="flex h-full w-full items-center justify-center">
 			<form
 				onSubmit={handleSubmit(onSubmit)}
-				className="m-4 space-y-4 rounded-md bg-slate-200 p-4"
+				className="max-w-sm space-y-4 rounded-md border border-slate-300 bg-slate-200 p-6"
 			>
+				<div className="flex flex-col items-center space-y-4">
+					<div className="relative h-12 min-h-[2rem] w-12 min-w-[2rem]">
+						<Image
+							src={logo}
+							alt="ecoToken logo"
+							fill
+							className="object-contain grayscale"
+						/>
+					</div>
+					<div className="text-center">
+						<h1 className="appearance-none text-xl font-bold text-slate-700">
+							Register
+						</h1>
+						<h3 className="appearance-none text-sm text-slate-700">
+							Register for an ecoToken account.
+						</h3>
+					</div>
+				</div>
+				<div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
+					<Input
+						className="flex-1"
+						fullWidth
+						label="First name"
+						error={errors.firstName?.message ?? ""}
+						{...register("firstName")}
+					/>
+					<Input
+						className="flex-1"
+						fullWidth
+						label="Last name"
+						error={errors.lastName?.message ?? ""}
+						{...register("lastName")}
+					/>
+				</div>
 				<Input
 					fullWidth
 					label="Email"
@@ -67,9 +98,21 @@ const Register: NextPageWithLayout = () => {
 					error={errors.password?.message ?? ""}
 					{...register("password")}
 				/>
-				<Button fullWidth loading={isLoading}>
-					Register
-				</Button>
+				<div className="space-y-2">
+					<Button fullWidth loading={isLoading}>
+						Register
+					</Button>
+					<span className="block text-center">
+						Already have an account?{" "}
+						<Link
+							href="/login"
+							underline={false}
+							className="text-right"
+						>
+							Login here.
+						</Link>
+					</span>
+				</div>
 			</form>
 		</div>
 	);

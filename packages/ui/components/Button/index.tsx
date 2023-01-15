@@ -1,5 +1,5 @@
 import { type VariantProps, cva } from "class-variance-authority";
-import React, { forwardRef } from "react";
+import { forwardRef } from "react";
 
 import Spinner from "../Spinner";
 

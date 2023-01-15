@@ -10,8 +10,6 @@ export async function middleware(request: NextRequest) {
 	const response = NextResponse.next();
 	const session = await getEdgeSession(request, response);
 
-	console.log("middleware:", session, pathname, session.user?.id);
-
 	// TODO: check request.ip and add the IP check logic back
 	if (request.ip !== session.user?.ipAddress) session.destroy();
 
@@ -35,10 +33,11 @@ export const config = {
 		 * Match all request paths except for the ones starting with:
 		 * - api (API routes)
 		 * - _next/static (static files)
+		 * - _next/image (image files)
 		 * - favicon.ico (favicon file)
 		 * - email-verification (public route)
 		 * - register (public route)
 		 */
-		"/((?!api|_next/static|favicon.ico|email-verification|register).*)"
+		"/((?!api|_next/static|_next/image|favicon.ico|email-verification|register).*)"
 	]
 };

@@ -1,9 +1,24 @@
-import { adminAuthedProcedure, router } from "../../trpc";
+import { adminAuthedProcedure, publicProcedure, router } from "../../trpc";
 import { User } from "@prisma/client";
 import { z } from "zod";
 import { createUserSchema } from "../../schema/user";
+import { TRPCError } from "@trpc/server";
 
 export const usersRouter = router({
+	usernameCheck: publicProcedure
+		.input(z.object({ username: z.string() }))
+		.query(async ({ ctx, input }) => {
+			const user = await ctx.prisma.user.findUnique({
+				where: {
+					username: input.username
+				}
+			});
+			if (!user?.id)
+				throw new TRPCError({
+					message: "Username is not available.",
+					code: "CONFLICT"
+				});
+		}),
 	getAll: adminAuthedProcedure
 		.input(
 			z.object({
@@ -35,9 +50,7 @@ export const usersRouter = router({
 		.mutation(async ({ ctx, input }) => {
 			return await ctx.prisma.user.create({
 				data: {
-					username: input.username,
-					emailAddress: input.emailAddress,
-					password: input.password,
+					...input,
 					siteID: ctx.currentSite.siteID
 				}
 			});

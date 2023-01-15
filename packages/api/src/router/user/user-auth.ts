@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure, router } from "../../trpc";
+import { publicProcedure, router, userAuthedProcedure } from "../../trpc";
 import { sealData, unsealData } from "iron-session";
 import { TRPCError } from "@trpc/server";
 // import * as jose from "jose";
@@ -8,8 +8,6 @@ import { createUserSchema } from "../../schema/user";
 import { transporter } from "@ecotoken/email";
 // probably change later
 import { getBaseUrl } from "@ecotoken/user/src/utils/trpc";
-import { base64url } from "jose";
-import { renderEmailVerificationTemplate } from "@ecotoken/email/src/templates";
 
 export const userAuthRouter = router({
 	emailVerification: publicProcedure
@@ -21,7 +19,7 @@ export const userAuthRouter = router({
 		.query(async ({ input, ctx }) => {
 			const unsealedData = await unsealData<
 				z.infer<typeof createUserSchema>
-			>(base64url.decode(input.token).toString(), {
+			>(atob(input.token), {
 				password: process.env.IRON_SESSION_PASSWORD as string,
 				ttl:
 					60 * 60 * Number(process.env.EMAIL_VERIFICATION_EXPIRE_TIME)
@@ -31,18 +29,27 @@ export const userAuthRouter = router({
 				!unsealedData.emailAddress ||
 				!unsealedData.username ||
 				!unsealedData.password ||
-				(unsealedData.username &&
-					!(
-						await ctx.prisma.user.findUnique({
-							where: {
-								username: unsealedData.username ?? ""
-							}
-						})
-					)?.id)
+                !unsealedData.firstName ||
+                !unsealedData.lastName
 			)
 				throw new TRPCError({
 					code: "UNAUTHORIZED",
+					cause: "invalid",
 					message: "Email verification token is invalid."
+				});
+
+			// check if user has already been created and their email already exists in the database
+			if (
+				await ctx.prisma.user.findUnique({
+					where: {
+						emailAddress: unsealedData.emailAddress
+					}
+				})
+			)
+				throw new TRPCError({
+					code: "UNAUTHORIZED",
+					cause: "expired",
+					message: "Email verification token has expired."
 				});
 
 			await ctx.prisma.user.create({
@@ -75,7 +82,12 @@ export const userAuthRouter = router({
 						{
 							emailAddress: input.user
 						}
-					]
+					],
+					AND: {
+						site: {
+							siteID: ctx.currentSite.siteID
+						}
+					}
 				}
 			});
 
@@ -84,10 +96,19 @@ export const userAuthRouter = router({
 					code: "UNAUTHORIZED",
 					message: "Username, email, or password is incorrect."
 				});
+
+			ctx.userSession.user = {
+				id: user.id,
+				ipAddress:
+					process.env.NODE_ENV === "production"
+						? ctx.req.connection.remoteAddress ?? ""
+						: undefined
+			};
+			await ctx.userSession?.save();
 		}),
 	register: publicProcedure
 		.input(createUserSchema)
-		.mutation(async ({ ctx, input }) => {
+		.mutation(async ({ input }) => {
 			const sealedData = await sealData(
 				{ ...input },
 				{
@@ -104,16 +125,22 @@ export const userAuthRouter = router({
 				from: process.env.EMAIL_VERIFICATION_EMAIL_ADDRESS,
 				to: input.emailAddress,
 				subject: "ecoToken - Verify your email",
-				// text: `Click on this link to verify your email address: ${getBaseUrl()}/email-verification/${base64url.encode(
-				// 	sealedData
-				// )}`
-				html: await renderEmailVerificationTemplate({
-					link: `${getBaseUrl()}/email-verification/${base64url.encode(
-						sealedData
-					)}`
-				})
+				html: `
+                <h1 style="margin-bottom: 8px;">Verify your email address</h1>
+                <h3 style="margin-bottom: 16px;">
+                    To continue setting up your ecoToken account, please verify your
+                    email address.
+                </h3>
+                <a href="${getBaseUrl()}/email-verification/${btoa(
+					sealedData
+				)}">Verify email address</a>
+                `
 			});
-		})
+		}),
+	logout: userAuthedProcedure.query(async ({ ctx }) => {
+		await ctx.userSession.destroy();
+		return 200;
+	})
 });
 
 // type TypedSocialPayload = {

@@ -9,7 +9,7 @@ const EmailVerification: NextPageWithLayout = () => {
 	if (typeof id !== "string" && typeof id !== "undefined") id = id[0];
 	const { error, isLoading } = trpc.userAuth.emailVerification.useQuery(
 		{
-			token: id!
+			token: id as string
 		},
 		{
 			enabled: !!id,

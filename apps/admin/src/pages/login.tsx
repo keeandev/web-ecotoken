@@ -41,14 +41,14 @@ const Login = () => {
 					fullWidth
 					label="Username"
 					error={errors.username?.message ?? ""}
-					{...register("username", { required: true })}
+					{...register("username")}
 				/>
 				<Input
 					fullWidth
 					label="Password"
 					type="password"
 					error={errors.password?.message ?? ""}
-					{...register("password", { required: true })}
+					{...register("password")}
 				/>
 				<Button fullWidth loading={isLoading}>
 					Login

@@ -19,8 +19,7 @@ const inputStyles = cva(
 				md: "w-36",
 				lg: "w-64",
 				xl: "w-72",
-				"2xl": "w-96",
-				default: "w-fit"
+				"2xl": "w-96"
 			},
 			intent: {
 				primary: "bg-slate-200 border border-slate-600 ring-slate-400"
@@ -33,8 +32,7 @@ const inputStyles = cva(
 		defaultVariants: {
 			intent: "primary",
 			fullWidth: false,
-			type: "text",
-			size: "default"
+			type: "text"
 		}
 	}
 );

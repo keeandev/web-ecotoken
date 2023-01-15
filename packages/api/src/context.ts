@@ -9,8 +9,8 @@ import { prisma, Site } from "@ecotoken/db";
  * Replace this with an object if you want to pass things to createContextInner
  */
 type CreateContextOptions = {
-	userSession?: UserSession;
-	adminSession?: AdminSession;
+	userSession: UserSession;
+	adminSession: AdminSession;
 	currentSite?: Site;
 	req: NextApiRequest;
 	res: NextApiResponse;
@@ -35,8 +35,8 @@ export const createContextInner = async (opts: CreateContextOptions) => {
 
 export const createContext = async ({ req, res }: CreateNextContextOptions) => {
 	// fetch the session, decrypt cookie/deserialize -> createContextInner as `userSession` and `adminSession` (optional fields)
-	const userSession = await getUserSession(req, res);
-	const adminSession = await getAdminSession(req, res);
+	const userSession = (await getUserSession(req, res)) ?? {};
+	const adminSession = (await getAdminSession(req, res)) ?? {};
 	const url = req.headers.referer
 		?.replace("https://", "")
 		.replace("http://", "")
