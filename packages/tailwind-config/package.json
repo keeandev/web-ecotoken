@@ -15,5 +15,8 @@
 		"postcss": "^8.4.19",
 		"tailwind-config-viewer": "^1.7.2",
 		"tailwindcss": "^3.2.4"
+	},
+	"dependencies": {
+		"@headlessui/tailwindcss": "^0.1.2"
 	}
 }

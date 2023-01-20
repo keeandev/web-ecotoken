@@ -29,8 +29,8 @@ export const userAuthRouter = router({
 				!unsealedData.emailAddress ||
 				!unsealedData.username ||
 				!unsealedData.password ||
-                !unsealedData.firstName ||
-                !unsealedData.lastName
+				!unsealedData.firstName ||
+				!unsealedData.lastName
 			)
 				throw new TRPCError({
 					code: "UNAUTHORIZED",
@@ -55,11 +55,7 @@ export const userAuthRouter = router({
 			await ctx.prisma.user.create({
 				data: {
 					...unsealedData,
-					site: {
-						connect: {
-							siteID: ctx.currentSite.siteID
-						}
-					}
+					siteID: ctx.currentSite.siteID
 				}
 			});
 
@@ -108,7 +104,7 @@ export const userAuthRouter = router({
 		}),
 	register: publicProcedure
 		.input(createUserSchema)
-		.mutation(async ({ input }) => {
+		.mutation(async ({ input, ctx }) => {
 			const sealedData = await sealData(
 				{ ...input },
 				{
@@ -120,22 +116,31 @@ export const userAuthRouter = router({
 				}
 			);
 
-			await transporter.verify();
-			await transporter.sendMail({
-				from: process.env.EMAIL_VERIFICATION_EMAIL_ADDRESS,
-				to: input.emailAddress,
-				subject: "ecoToken - Verify your email",
-				html: `
+			if (!!process.env.DISABLE_EMAIL_VERIFICATION) {
+				await ctx.prisma.user.create({
+					data: {
+						...input,
+						siteID: ctx.currentSite.siteID
+					}
+				});
+			} else {
+				await transporter.verify();
+				await transporter.sendMail({
+					from: process.env.EMAIL_VERIFICATION_EMAIL_ADDRESS,
+					to: input.emailAddress,
+					subject: "ecoToken - Verify your email",
+					html: `
                 <h1 style="margin-bottom: 8px;">Verify your email address</h1>
                 <h3 style="margin-bottom: 16px;">
                     To continue setting up your ecoToken account, please verify your
                     email address.
                 </h3>
                 <a href="${getBaseUrl()}/email-verification/${btoa(
-					sealedData
-				)}">Verify email address</a>
+						sealedData
+					)}">Verify email address</a>
                 `
-			});
+				});
+			}
 		}),
 	logout: userAuthedProcedure.query(async ({ ctx }) => {
 		await ctx.userSession.destroy();

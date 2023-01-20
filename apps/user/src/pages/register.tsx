@@ -19,7 +19,20 @@ const Register: NextPageWithLayout = () => {
 		handleSubmit,
 		formState: { errors }
 	} = useForm<RegisterFormInput>({
-		resolver: zodResolver(createUserSchema)
+		// add the confirm password verifier only to the form, ignoring the official schema to allow
+		resolver: zodResolver(
+			createUserSchema.superRefine(
+				({ password, confirmPassword }, ctx) => {
+					if (confirmPassword !== password) {
+						ctx.addIssue({
+							code: "custom",
+							path: ["confirmPassword"],
+							message: "Passwords do not match!"
+						});
+					}
+				}
+			)
+		)
 	});
 
 	const router = useRouter();
@@ -51,7 +64,7 @@ const Register: NextPageWithLayout = () => {
 							src={logo}
 							alt="ecoToken logo"
 							fill
-							className="object-contain grayscale"
+							className="object-contain"
 						/>
 					</div>
 					<div className="text-center">
@@ -97,6 +110,13 @@ const Register: NextPageWithLayout = () => {
 					type="password"
 					error={errors.password?.message ?? ""}
 					{...register("password")}
+				/>
+				<Input
+					fullWidth
+					label="Confirm Password"
+					type="password"
+					error={errors.confirmPassword?.message ?? ""}
+					{...register("confirmPassword")}
 				/>
 				<div className="space-y-2">
 					<Button fullWidth loading={isLoading}>

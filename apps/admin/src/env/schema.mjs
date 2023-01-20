@@ -11,7 +11,8 @@ export const serverSchema = z.object({
 	IRON_SESSION_PASSWORD: z.string(),
 	IRON_SESSION_COOKIE_EXPIRE_TIME: z.string(),
 	EMAIL_VERIFICATION_EMAIL_ADDRESS: z.string(),
-	EMAIL_VERIFICATION_EXPIRE_TIME: z.string()
+	EMAIL_VERIFICATION_EXPIRE_TIME: z.string(),
+	DISABLE_EMAIL_VERIFICATION: z.string().optional()
 });
 
 /**
@@ -21,7 +22,6 @@ export const serverSchema = z.object({
  */
 export const clientSchema = z.object({
 	// NEXT_PUBLIC_BAR: z.string(),
-	NEXT_PUBLIC_WEB3AUTH_CLIENT_ID: z.string(),
 	NEXT_PUBLIC_SOLANA_RPC: z.string()
 });
 
@@ -33,6 +33,5 @@ export const clientSchema = z.object({
  */
 export const clientEnv = {
 	// NEXT_PUBLIC_BAR: process.env.NEXT_PUBLIC_BAR,
-	NEXT_PUBLIC_WEB3AUTH_CLIENT_ID: process.env.NEXT_PUBLIC_WEB3AUTH_CLIENT_ID,
 	NEXT_PUBLIC_SOLANA_RPC: process.env.NEXT_PUBLIC_SOLANA_RPC
 };

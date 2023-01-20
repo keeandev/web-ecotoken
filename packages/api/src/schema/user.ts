@@ -12,11 +12,12 @@ export const createUserSchema = z.object({
 		.max(32, "First name cannot be longer than 32 characters."),
 	lastName: z
 		.string()
-		.min(1, "Last name is required.")
-		.max(32, "Last name cannot be longer than 32 characters."),
+		.max(32, "Last name cannot be longer than 32 characters.")
+		.optional(),
 	emailAddress: z.string().email("You must specify a valid email."),
 	username: z.string().min(3, "Username must be at least 3 characters."),
-	password: z.string().min(8, "Password must be at least 8 characters.")
+	password: z.string().min(8, "Password must be at least 8 characters."),
+	confirmPassword: z.string()
 });
 
 export const updateUserSchema = createUserSchema

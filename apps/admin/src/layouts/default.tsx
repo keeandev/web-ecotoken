@@ -43,6 +43,11 @@ const sidebarCategories: Readonly<SidebarCategoryProps>[] = [
 				icon: faGlobe
 			},
 			{
+				path: "/roles",
+				name: "Roles",
+				icon: faAddressCard
+			},
+			{
 				path: "/configuration",
 				name: "Configuration",
 				icon: faScrewdriverWrench

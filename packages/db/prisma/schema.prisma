@@ -11,6 +11,49 @@ datasource db {
     relationMode = "prisma"
 }
 
+model Permission {
+    permissionID String     @id @default(cuid())
+    domain       UserDomain
+    permission   String
+    description  String?
+
+    isDelete Boolean @default(false)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("permission")
+}
+
+enum UserDomain {
+    ADMIN
+    USER
+}
+
+model Role {
+    roleID      String     @id @default(cuid())
+    domain      UserDomain
+    scope       RoleScope  @default(DEFAULT)
+    role        String
+    description String?
+
+    isDelete Boolean @default(false)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    site   Site   @relation(fields: [siteID], references: [siteID])
+    siteID String
+
+    @@index([siteID])
+    @@map("role")
+}
+
+enum RoleScope {
+    DEFAULT
+    SITE
+}
+
 model EcoProject {
     id           String        @id @default(cuid())
     title        String
@@ -51,7 +94,7 @@ model EcoProject {
 model User {
     id            String  @id @default(cuid())
     firstName     String
-    lastName      String
+    lastName      String?
     username      String  @unique
     password      String
     emailAddress  String  @unique
@@ -88,27 +131,32 @@ model AdminUser {
     lastLogin DateTime?
     expireAt  DateTime?
     hits      Int       @default(0)
-    isActive  Boolean   @default(true)
-    isDelete  Boolean   @default(false)
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
+
+    isActive Boolean @default(true)
+    isDelete Boolean @default(false)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     @@map("admin_user")
 }
 
 model Site {
-    siteID      String   @id @default(cuid())
+    siteID      String  @id @default(cuid())
     siteName    String
     legalName   String?
     mailAddress String?
-    prodUrl     String?  @unique
-    stageUrl    String?  @unique
-    devUrl      String?  @unique
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    isDelete    Boolean  @default(false)
+    prodUrl     String? @unique
+    stageUrl    String? @unique
+    devUrl      String? @unique
+
+    isDelete Boolean @default(false)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     users User[]
+    roles Role[]
 
     @@map("site")
 }
