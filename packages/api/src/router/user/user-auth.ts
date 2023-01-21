@@ -104,7 +104,7 @@ export const userAuthRouter = router({
 		}),
 	register: publicProcedure
 		.input(createUserSchema)
-		.mutation(async ({ input, ctx }) => {
+		.mutation(async ({ input: { confirmPassword, ...input }, ctx }) => {
 			const sealedData = await sealData(
 				{ ...input },
 				{

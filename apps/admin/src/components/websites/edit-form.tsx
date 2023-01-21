@@ -63,12 +63,14 @@ const EditWebsiteForm: React.FC<
 					label="Site Name"
 					size="xl"
 					error={errors.siteName?.message}
+					fullWidth
 					{...register("siteName")}
 				/>
 				<Input
 					label="Legal Name"
 					size="xl"
 					error={errors.legalName?.message}
+					fullWidth
 					{...register("legalName")}
 				/>
 				<Input
@@ -76,23 +78,27 @@ const EditWebsiteForm: React.FC<
 					size="xl"
 					error={errors.mailAddress?.message}
 					{...register("mailAddress")}
+					fullWidth
 				/>
 				<Input
 					label="Production URL"
 					size="xl"
 					error={errors.prodUrl?.message}
+					fullWidth
 					{...register("prodUrl")}
 				/>
 				<Input
 					label="Staging URL"
 					size="xl"
 					error={errors.stageUrl?.message}
+					fullWidth
 					{...register("stageUrl")}
 				/>
 				<Input
 					label="Development URL"
 					size="xl"
 					error={errors.devUrl?.message}
+					fullWidth
 					{...register("devUrl")}
 				/>
 			</div>

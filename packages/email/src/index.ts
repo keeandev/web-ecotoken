@@ -7,7 +7,7 @@ export const transporter = nodemailer.createTransport({
 	secure: true,
 	auth: {
 		type: "OAuth2",
-		user: "support@eco-token.io",
+		user: process.env.EMAIL_VERIFICATION_EMAIL_ADDRESS,
 		serviceClient: key.client_id,
 		privateKey: key.private_key
 	}

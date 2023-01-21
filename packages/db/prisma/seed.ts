@@ -131,6 +131,13 @@ const main = async () => {
 				firstName: "Ean",
 				lastName: "Last",
 				password: await hash("password123")
+			},
+			{
+				username: "dozata",
+				email: "dozataio@gmail.com",
+				firstName: "Graham",
+				lastName: "Fleming",
+				password: await hash("password123")
 			}
 		]
 	});
