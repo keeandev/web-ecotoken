@@ -48,12 +48,32 @@ export const usersRouter = router({
 	create: adminAuthedProcedure
 		.input(createUserSchema)
 		.mutation(async ({ ctx, input }) => {
-			return await ctx.prisma.user.create({
-				data: {
-					...input,
-					siteID: ctx.currentSite.siteID
+			const role = await ctx.prisma.role.findFirst({
+				where: {
+					role: "User",
+					sites: {
+                        some: {
+                            siteID: ctx.currentSite?.siteID
+                        }
+                    },
+                    domain: {
+                        equals: "USER"
+                    }
 				}
 			});
+			if (role) {
+				return await ctx.prisma.user.create({
+					data: {
+						...input,
+						siteID: ctx.currentSite?.siteID ?? "",
+						roleID: role.roleID
+					}
+				});
+			} else
+				throw new TRPCError({
+					code: "INTERNAL_SERVER_ERROR",
+					message: "Role not found. Creation process cannot proceed."
+				});
 		}),
 	get: adminAuthedProcedure
 		.input(

@@ -1,21 +1,32 @@
 import { TRPCError, initTRPC } from "@trpc/server";
 import { transformer } from "../transformer";
+import { hasPermission } from "./utils/permission";
 
-import { type Context } from "./context";
+import type { Context } from "./context";
+import type { UserSession, AdminSession } from "@ecotoken/auth";
 
-const t = initTRPC.context<Context>().create({
-	transformer,
-	errorFormatter({ shape }) {
-		return shape;
-	}
-});
+type Meta = {
+	requiredPermissions?: string[];
+	session?: UserSession | AdminSession;
+};
 
-export const isUserAuthenticated = t.middleware(({ next, ctx }) => {
+const t = initTRPC
+	.context<Context>()
+	.meta<Meta>()
+	.create({
+		transformer,
+		errorFormatter({ shape }) {
+			return shape;
+		}
+	});
+
+export const isUserAuthenticated = t.middleware(({ next, ctx, meta }) => {
 	if (!ctx.userSession?.user?.id) {
 		throw new TRPCError({
 			code: "UNAUTHORIZED"
 		});
 	}
+	if (meta) meta.session = ctx.userSession;
 	return next({
 		ctx: {
 			// Infers the `session` as non-nullable
@@ -24,13 +35,14 @@ export const isUserAuthenticated = t.middleware(({ next, ctx }) => {
 	});
 });
 
-export const isAdminAuthenticated = t.middleware(({ next, ctx }) => {
+export const isAdminAuthenticated = t.middleware(({ next, ctx, meta }) => {
 	if (!ctx.adminSession?.user?.id) {
 		throw new TRPCError({
 			code: "UNAUTHORIZED",
 			message: "You are not authorized to access this endpoint."
 		});
 	}
+	if (meta) meta.session = ctx.adminSession;
 	return next({
 		ctx: {
 			// Infers the `session` as non-nullable
@@ -54,8 +66,26 @@ export const isOnWhitelistedSite = t.middleware(({ next, ctx }) => {
 	});
 });
 
+export const hasRequiredPermissions = t.middleware(async ({ meta, next }) => {
+	if (
+		!hasPermission(
+			meta?.session?.user?.permissions ?? [],
+			meta?.requiredPermissions ?? ""
+		)
+	)
+		throw new TRPCError({
+			code: "UNAUTHORIZED",
+			message: "Not enough permissions."
+		});
+	return next();
+});
+
 export const router = t.router;
 
 export const publicProcedure = t.procedure.use(isOnWhitelistedSite);
-export const userAuthedProcedure = publicProcedure.use(isUserAuthenticated);
-export const adminAuthedProcedure = publicProcedure.use(isAdminAuthenticated);
+export const userAuthedProcedure = publicProcedure
+	.use(isUserAuthenticated)
+	.use(hasRequiredPermissions);
+export const adminAuthedProcedure = publicProcedure
+	.use(isAdminAuthenticated)
+	.use(hasRequiredPermissions);

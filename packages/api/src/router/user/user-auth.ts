@@ -8,6 +8,7 @@ import { createUserSchema } from "../../schema/user";
 import { transporter } from "@ecotoken/email";
 // probably change later
 import { getBaseUrl } from "@ecotoken/user/src/utils/trpc";
+import { usersRouter } from "./users";
 
 export const userAuthRouter = router({
 	emailVerification: publicProcedure
@@ -52,11 +53,9 @@ export const userAuthRouter = router({
 					message: "Email verification token has expired."
 				});
 
-			await ctx.prisma.user.create({
-				data: {
-					...unsealedData,
-					siteID: ctx.currentSite.siteID
-				}
+			const usersRouterInterface = usersRouter.createCaller(ctx);
+			await usersRouterInterface.create({
+				...unsealedData
 			});
 
 			return 200;
@@ -93,8 +92,21 @@ export const userAuthRouter = router({
 					message: "Username, email, or password is incorrect."
 				});
 
+			const role = await ctx.prisma.role.findFirst({
+				where: {
+					users: {
+						some: {
+							id: user.id
+						}
+					}
+				},
+				include: {
+					permissions: true
+				}
+			});
 			ctx.userSession.user = {
 				id: user.id,
+				permissions: role?.permissions,
 				ipAddress:
 					process.env.NODE_ENV === "production"
 						? ctx.req.connection.remoteAddress ?? ""
@@ -104,7 +116,7 @@ export const userAuthRouter = router({
 		}),
 	register: publicProcedure
 		.input(createUserSchema)
-		.mutation(async ({ input: { confirmPassword, ...input }, ctx }) => {
+		.mutation(async ({ input, ctx }) => {
 			const sealedData = await sealData(
 				{ ...input },
 				{
@@ -117,11 +129,9 @@ export const userAuthRouter = router({
 			);
 
 			if (!!process.env.DISABLE_EMAIL_VERIFICATION) {
-				await ctx.prisma.user.create({
-					data: {
-						...input,
-						siteID: ctx.currentSite.siteID
-					}
+				const usersRouterInterface = usersRouter.createCaller(ctx);
+				await usersRouterInterface.create({
+					...input
 				});
 			} else {
 				await transporter.verify();

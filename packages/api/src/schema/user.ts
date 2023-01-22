@@ -21,6 +21,9 @@ export const createUserSchema = z.object({
 });
 
 export const updateUserSchema = createUserSchema
+	.extend({
+		id: z.string()
+	})
 	.partial()
 	.catchall(z.literal(""));
 

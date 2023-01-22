@@ -22,3 +22,8 @@ body,
 body {
 	@apply bg-slate-100 text-sm;
 }
+
+@layer components {
+	.tab {
+	}
+}

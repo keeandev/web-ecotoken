@@ -5,10 +5,12 @@ export {
 export type { IronSessionData } from "iron-session";
 import { IncomingMessage, ServerResponse } from "http";
 import type { IronSession } from "iron-session";
+import { Permission } from "@ecotoken/db";
 
 export type UserSession = {
 	user?: {
 		id: string;
+		permissions?: Permission[];
 		ipAddress?: string;
 	};
 } & IronSession;
@@ -16,6 +18,7 @@ export type UserSession = {
 export type AdminSession = {
 	user?: {
 		id: string;
+		permissions?: Permission[];
 		ipAddress?: string;
 		lastSite?: string;
 	};

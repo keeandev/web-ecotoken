@@ -14,8 +14,9 @@ datasource db {
 model Permission {
     permissionID String     @id @default(cuid())
     domain       UserDomain
-    permission   String
-    description  String?
+    permission   String     @unique
+    description  String?    @db.Text
+    roles        Role[]
 
     isDelete Boolean @default(false)
 
@@ -31,21 +32,21 @@ enum UserDomain {
 }
 
 model Role {
-    roleID      String     @id @default(cuid())
+    roleID      String       @id @default(cuid())
     domain      UserDomain
-    scope       RoleScope  @default(DEFAULT)
+    scope       RoleScope    @default(DEFAULT)
     role        String
-    description String?
+    description String?      @db.Text
+    permissions Permission[]
+    sites       Site[]
+    adminUsers  AdminUser[]
+    users       User[]
 
     isDelete Boolean @default(false)
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    site   Site   @relation(fields: [siteID], references: [siteID])
-    siteID String
-
-    @@index([siteID])
     @@map("role")
 }
 
@@ -108,9 +109,12 @@ model User {
 
     site   Site   @relation(fields: [siteID], references: [siteID])
     siteID String
+    Role   Role   @relation(fields: [roleID], references: [roleID])
+    roleID String
 
     @@unique([firstName, lastName])
     @@index([siteID])
+    @@index([roleID])
     @@map("user")
 }
 
@@ -132,12 +136,16 @@ model AdminUser {
     expireAt  DateTime?
     hits      Int       @default(0)
 
+    role   Role   @relation(fields: [roleID], references: [roleID])
+    roleID String
+
     isActive Boolean @default(true)
     isDelete Boolean @default(false)
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
+    @@index([roleID])
     @@map("admin_user")
 }
 
