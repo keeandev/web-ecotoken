@@ -51,6 +51,11 @@ const sidebarCategories: Readonly<SidebarCategoryProps>[] = [
 				path: "/configuration",
 				name: "Configuration",
 				icon: faScrewdriverWrench
+			},
+			{
+				path: "/nft-builder",
+				name: "NFT Builder",
+				icon: faHammer
 			}
 		]
 	}
