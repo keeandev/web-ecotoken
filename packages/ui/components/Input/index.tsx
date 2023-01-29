@@ -10,10 +10,13 @@ const inputStyles = cva(
 		variants: {
 			type: {
 				text: "",
+				number: "",
 				password: "",
 				checkbox: "",
 				submit: "",
-				email: ""
+				email: "",
+				date: "",
+				file: ""
 			},
 			size: {
 				md: "w-36",

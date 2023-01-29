@@ -7,6 +7,7 @@ import { usersRouter } from "./user/users";
 import { websiteRouter } from "./websites/websites";
 import { rolesRouter } from "./roles/roles";
 import { permissionsRouter } from "./permissions/permissions";
+import { nftBuilderRouter } from "./nft-builder/nft-builder";
 
 export const appRouter = router({
 	adminAuth: adminAuthRouter,
@@ -14,9 +15,10 @@ export const appRouter = router({
 	ecoprojects: projectsRouter,
 	websites: websiteRouter,
 	userAuth: userAuthRouter,
+	permissions: permissionsRouter,
 	users: usersRouter,
 	roles: rolesRouter,
-	permissions: permissionsRouter
+	nftBuilder: nftBuilderRouter
 });
 
 export type AppRouter = typeof appRouter;

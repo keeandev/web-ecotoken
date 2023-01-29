@@ -12,7 +12,10 @@ export const serverSchema = z.object({
 	IRON_SESSION_COOKIE_EXPIRE_TIME: z.string(),
 	EMAIL_VERIFICATION_EMAIL_ADDRESS: z.string(),
 	EMAIL_VERIFICATION_EXPIRE_TIME: z.string(),
-	DISABLE_EMAIL_VERIFICATION: z.string().optional()
+	DISABLE_EMAIL_VERIFICATION: z.string().optional(),
+	SPACES_KEY: z.string(),
+	SPACES_SECRET: z.string(),
+	SPACES_BUCKET: z.string()
 });
 
 /**

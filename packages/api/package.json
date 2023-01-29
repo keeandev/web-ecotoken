@@ -12,11 +12,13 @@
 		"type-check": "tsc --noEmit"
 	},
 	"dependencies": {
+		"@aws-sdk/client-s3": "^3.259.0",
 		"@ecotoken/auth": "*",
 		"@ecotoken/db": "*",
 		"@ecotoken/email": "*",
 		"argon2": "^0.30.2",
-		"next": "^13.0.5"
+		"next": "^13.0.5",
+		"zod-form-data": "^1.2.4"
 	},
 	"peerDependencies": {
 		"@trpc/client": "^10.1.0",
