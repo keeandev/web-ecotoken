@@ -7,13 +7,11 @@ import Input from "@ecotoken/ui/components/Input";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Button from "@ecotoken/ui/components/Button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-	createNFTSchema,
-	mintNFTSchema
-} from "@ecotoken/api/src/schema/nft-builder";
+import { createNFTSchema } from "@ecotoken/api/src/schema/nft-builder";
 import { z } from "zod";
-import { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useRef } from "react";
 import { trpc } from "@/utils/trpc";
+import html2canvas from "html2canvas";
 
 export type CreateNFTType = z.infer<typeof createNFTSchema>;
 
@@ -24,13 +22,14 @@ const NFTBuilder = () => {
 		watch,
 		formState: { errors }
 	} = useForm<CreateNFTType>({
-		resolver: zodResolver(createNFTSchema),
+		// resolver: zodResolver(createNFTSchema),
 		reValidateMode: "onChange"
 	});
 
 	const { isLoading, mutate } = trpc.nftBuilder.mint.useMutation();
 
 	const [imageBlob, setImageBlob] = useState<string>();
+	const componentRef = useRef<HTMLDivElement | null>(null);
 
 	const credits = watch("credits");
 	const symbol = watch("symbol");
@@ -39,7 +38,18 @@ const NFTBuilder = () => {
 	const producer = watch("producer");
 	const date = watch("date");
 
-	const onSubmit: SubmitHandler<CreateNFTType> = async (data) => {};
+	const onSubmit: SubmitHandler<CreateNFTType> = async (data) => {
+		console.log("mutedate");
+		if (componentRef.current) {
+			const canvas = await html2canvas(componentRef.current);
+			document.body.appendChild(canvas);
+			await mutate({
+				...data,
+				image: canvas.toDataURL(),
+				id: "999"
+			});
+		}
+	};
 
 	const handleImageLoad = (e: ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files;
@@ -114,11 +124,14 @@ const NFTBuilder = () => {
 								error={errors.date?.message}
 								fullWidth
 							/>
-							<Button fullWidth>Build</Button>
+							<Button fullWidth type="submit">
+								Build
+							</Button>
 						</form>
 					</div>
 					<div className="relative flex flex-1 flex-col overflow-hidden rounded-lg">
 						<NFTBuilderPreview
+							ref={componentRef}
 							image={imageBlob?.toString()}
 							id={"999"}
 							credits={credits}
