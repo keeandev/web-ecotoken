@@ -16,7 +16,8 @@ const buttonStyles = cva(
 				tertiary:
 					"text-slate-400 disabled:text-slate-300 underline underline-offset-2",
 				destructive:
-					"bg-rose-600 disabled:bg-rose-400 disabled:cursor-not-allowed text-white"
+					"bg-rose-600 disabled:bg-rose-400 disabled:cursor-not-allowed text-white",
+				none: ""
 			},
 			fullWidth: {
 				true: "w-full"

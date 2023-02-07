@@ -43,9 +43,6 @@ const menuButtonStyles = cva([""], {
 		intent: {
 			none: ""
 		}
-	},
-	defaultVariants: {
-		intent: "none"
 	}
 });
 
@@ -53,11 +50,12 @@ type MenuButtonProps = Omit<ButtonProps, "animation" | "ref"> &
 	VariantProps<typeof menuButtonStyles>;
 
 const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
-	({ className, children, ...props }, ref) => (
+	({ className, children, intent = "none", ...props }, ref) => (
 		<HeadlessMenu.Button as={Fragment}>
 			<Button
 				ref={ref}
 				animation={false}
+				intent={intent}
 				className={cx(
 					className,
 					menuButtonStyles({ class: className })

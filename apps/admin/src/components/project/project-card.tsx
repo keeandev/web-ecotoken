@@ -6,20 +6,20 @@ import { useRouter } from "next/router";
 type ProjectCardProps = {
 	title: string;
 	location: string;
-	outcome: string;
+	intro: string;
 	images: {
 		listImage: string;
 	};
 	url: string;
 	status: ProjectStatus;
-	fundAmount: number;
-	fundRecieved: number;
+	fundAmount?: number;
+	fundRecieved?: number;
 };
 const ProjectCard: React.FC<ProjectCardProps> = ({
 	title,
 	url,
 	location,
-	outcome,
+	intro,
 	images
 	// status,
 	// fundAmount,
@@ -43,7 +43,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 						{location}
 					</div>
 				</div>
-				<div>{outcome}</div>
+				<div>{intro}</div>
 				<Button
 					intent="primary"
 					fullWidth

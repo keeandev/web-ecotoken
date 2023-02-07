@@ -51,7 +51,8 @@ export const adminUsersRouter = router({
 		}),
 	create: adminAuthedProcedure
 		.input(createAdminUserSchema)
-		.mutation(async ({ ctx, input: { confirmPassword, ...input } }) => {
+		.mutation(async ({ ctx, input }) => {
+			delete (input as Partial<typeof input>).confirmPassword;
 			return await ctx.prisma.adminUser.create({
 				data: {
 					...input
@@ -60,23 +61,22 @@ export const adminUsersRouter = router({
 		}),
 	update: adminAuthedProcedure
 		.input(updateAdminUserSchema)
-		.mutation(
-			async ({ ctx, input: { adminID, confirmPassword, ...input } }) => {
-				return await ctx.prisma.adminUser.update({
-					where: {
-						adminID
-					},
-					data: {
-						// firstName: input.firstName ?? undefined,
-						// lastName: input.lastName,
-						// username: input.username ?? undefined,
-						// email: input.email ?? undefined,
-						// password: input.password ?? undefined
-						...input
-					}
-				});
-			}
-		),
+		.mutation(async ({ ctx, input: { adminID, ...input } }) => {
+			delete (input as Partial<typeof input>).confirmPassword;
+			return await ctx.prisma.adminUser.update({
+				where: {
+					adminID
+				},
+				data: {
+					// firstName: input.firstName ?? undefined,
+					// lastName: input.lastName,
+					// username: input.username ?? undefined,
+					// email: input.email ?? undefined,
+					// password: input.password ?? undefined
+					...input
+				}
+			});
+		}),
 	delete: adminAuthedProcedure
 		.input(
 			z.object({

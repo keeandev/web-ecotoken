@@ -4,9 +4,11 @@ import { useEffect } from "react";
 
 const Projects = () => {
 	const { data, hasNextPage, fetchNextPage } =
-		trpc.ecoprojects.getAll.useInfiniteQuery(
+		trpc.ecoProjects.getAll.useInfiniteQuery(
 			{
-				limit: 10
+				limit: 10,
+				benefits: true,
+				location: true
 			},
 			{
 				getNextPageParam: (lastPage) => lastPage.nextCursor
@@ -34,25 +36,25 @@ const Projects = () => {
 			{data.pages.flatMap(({ projects }) =>
 				projects.map(
 					({
-						id,
-						title,
-						url,
+						projectID,
+						ecoTitle,
+						ecoUrl,
+                        intro,
 						location,
-						outcome,
 						status,
 						fundAmount,
 						fundRecieved,
 						images
 					}) => (
 						<ProjectCard
-							key={id}
-							title={title}
-							url={url}
-							location={location}
-							outcome={outcome}
+							key={projectID}
+							title={ecoTitle}
+							url={ecoUrl}
+							location={location.location}
+							intro={intro}
 							status={status}
-							fundAmount={fundAmount}
-							fundRecieved={fundRecieved}
+							fundAmount={fundAmount ?? undefined}
+							fundRecieved={fundRecieved ?? undefined}
 							images={JSON.parse(images)}
 						/>
 					)

@@ -12,7 +12,7 @@ import { nftBuilderRouter } from "./nft-builder/nft-builder";
 export const appRouter = router({
 	adminAuth: adminAuthRouter,
 	adminUsers: adminUsersRouter,
-	ecoprojects: projectsRouter,
+	ecoProjects: projectsRouter,
 	websites: websiteRouter,
 	userAuth: userAuthRouter,
 	permissions: permissionsRouter,

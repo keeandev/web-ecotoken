@@ -13,7 +13,7 @@ export const usersRouter = router({
 					username: input.username
 				}
 			});
-			if (!user?.id)
+			if (!user?.userID)
 				throw new TRPCError({
 					message: "Username is not available.",
 					code: "CONFLICT"
@@ -32,7 +32,7 @@ export const usersRouter = router({
 				take: input.limit + 1,
 				...(input?.cursor && {
 					cursor: {
-						id: input.cursor
+						userID: input.cursor
 					}
 				})
 			});
@@ -48,17 +48,18 @@ export const usersRouter = router({
 	create: adminAuthedProcedure
 		.input(createUserSchema)
 		.mutation(async ({ ctx, input }) => {
+			delete (input as Partial<typeof input>).confirmPassword;
 			const role = await ctx.prisma.role.findFirst({
 				where: {
 					role: "User",
 					sites: {
-                        some: {
-                            siteID: ctx.currentSite?.siteID
-                        }
-                    },
-                    domain: {
-                        equals: "USER"
-                    }
+						some: {
+							siteID: ctx.currentSite?.siteID
+						}
+					},
+					domain: {
+						equals: "USER"
+					}
 				}
 			});
 			if (role) {
@@ -84,7 +85,7 @@ export const usersRouter = router({
 		.query(async ({ ctx, input }) => {
 			return await ctx.prisma.user.findFirst({
 				where: {
-					id: input.id
+					userID: input.id
 				}
 			});
 		})

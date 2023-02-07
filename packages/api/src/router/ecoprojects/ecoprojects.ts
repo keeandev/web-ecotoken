@@ -8,14 +8,18 @@ export const projectsRouter = router({
 		.input(
 			z.object({
 				url: z.string(),
-				partners: z.boolean().optional(),
-				benefits: z.boolean().optional()
+				benefits: z.boolean().optional(),
+				location: z.boolean().optional()
 			})
 		)
 		.query(async ({ ctx, input }) => {
 			const project = await ctx.prisma.ecoProject.findFirst({
 				where: {
-					url: input.url
+					ecoUrl: input.url
+				},
+				include: {
+					benefits: input.benefits,
+					location: input.location
 				}
 			});
 			return project;
@@ -23,8 +27,8 @@ export const projectsRouter = router({
 	getAll: userAuthedProcedure
 		.input(
 			z.object({
-				partners: z.boolean().nullish(),
-				benefits: z.boolean().nullish(),
+				benefits: z.boolean().optional(),
+				location: z.boolean().optional(),
 				limit: z.number().min(1).max(100).nullish().default(10),
 				cursor: z.string().nullish() // <-- "cursor" needs to exist, but can be any type
 			})
@@ -33,12 +37,15 @@ export const projectsRouter = router({
 			const limit = input?.limit ?? 50;
 			const projects = await ctx.prisma.ecoProject.findMany({
 				take: limit + 1, // get an extra item at the end which we'll use as next cursor
+				include: {
+					benefits: input.benefits,
+					location: input.location
+				},
 				...(input?.cursor && {
 					cursor: {
-						id: input.cursor
+						projectID: input.cursor
 					}
-				}),
-				where: {}
+				})
 			});
 
 			let nextCursor: EcoProject | undefined;

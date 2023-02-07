@@ -96,7 +96,7 @@ export const userAuthRouter = router({
 				where: {
 					users: {
 						some: {
-							id: user.id
+							roleID: user.roleID
 						}
 					}
 				},
@@ -105,7 +105,7 @@ export const userAuthRouter = router({
 				}
 			});
 			ctx.userSession.user = {
-				id: user.id,
+				id: user.userID,
 				permissions: role?.permissions,
 				ipAddress:
 					process.env.NODE_ENV === "production"

@@ -51,7 +51,8 @@ export const createAdminUserSchema = z
 			.string()
 			.min(8, "Password must be at least 8 characters.")
 			.max(64, "A shorter password is required."),
-		confirmPassword: z.string()
+		confirmPassword: z.string(),
+		roleID: z.string()
 	})
 	.superRefine(({ confirmPassword, password }, ctx) => {
 		if (confirmPassword !== password) {

@@ -13,17 +13,12 @@ type ProjectImages = {
 const StakeProject = () => {
 	const router = useRouter();
 	if (router.query.id) {
-		const { data } = trpc.ecoprojects.get.useQuery({
+		const { data } = trpc.ecoProjects.get.useQuery({
 			url: router.query.id as string
 		});
 		if (!data) return <div>Loading...</div>;
 
-		const images = JSON.parse(data?.images) as {
-			listImage: string;
-			head1: string;
-			head2: string;
-			head3: string;
-		};
+		const images = JSON.parse(data?.images) as ProjectImages;
 		return (
 			<div className="flex w-full flex-col gap-8">
 				{/* <div className="text-2xl font-medium">{data.title}</div>
@@ -31,7 +26,7 @@ const StakeProject = () => {
 				<div className="flex w-full flex-col space-y-2">
 					<div className="relative h-64 w-full">
 						<Image
-							src={`/images/${images.head1!}`}
+							src={`/images/${images.head1}`}
 							alt="EcoProject head 1"
 							className="w-full rounded-md object-cover"
 							fill
@@ -39,7 +34,7 @@ const StakeProject = () => {
 					</div>
 					<div className="space-y-2">
 						<div className="text-2xl font-semibold">
-							{data.title}
+							{data.ecoTitle}
 						</div>
 						<div>{data.outcome}</div>
 					</div>
