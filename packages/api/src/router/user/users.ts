@@ -51,7 +51,6 @@ export const usersRouter = router({
 			delete (input as Partial<typeof input>).confirmPassword;
 			const role = await ctx.prisma.role.findFirst({
 				where: {
-					role: "User",
 					sites: {
 						some: {
 							siteID: ctx.currentSite?.siteID

@@ -41,13 +41,13 @@ const rolesToCreate: CreateRoleOperation[] = [
 	},
 	{
 		role: "Producer",
-		domain: "ADMIN",
+		domain: "USER",
 		permissions: [],
 		sites: ["ecoToken", "ecoToken Admin"]
 	},
 	{
 		role: "Verifier",
-		domain: "ADMIN",
+		domain: "USER",
 		permissions: [],
 		sites: ["ecoToken", "ecoToken Admin"]
 	},
