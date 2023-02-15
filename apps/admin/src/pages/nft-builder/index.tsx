@@ -12,7 +12,10 @@ import Form, { FormInput, useZodForm } from "@ecotoken/ui/components/Form";
 
 const NFTBuilder = () => {
 	const form = useZodForm({
-		schema: createNFTSchema
+		schema: createNFTSchema.omit({
+			image: true,
+			id: true
+		})
 	});
 	const { isLoading, mutate } = trpc.nftBuilder.mint.useMutation();
 
@@ -63,9 +66,9 @@ const NFTBuilder = () => {
 							className="flex w-full flex-col gap-4"
 						>
 							<FormInput
+								name="Image"
 								label="Image"
 								type="file"
-								{...form.register("image")}
 								onChange={handleImageLoad}
 								fullWidth
 							/>

@@ -23,7 +23,9 @@ const AdminUsers = () => {
 	const columnHelper = createColumnHelper<AdminUser>();
 
 	const { data: roles } = trpc.roles.getAll.useInfiniteQuery(
-		{},
+		{
+			domain: "ADMIN"
+		},
 		{
 			getNextPageParam: (lastPage) => lastPage.nextCursor
 		}

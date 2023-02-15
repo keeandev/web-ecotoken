@@ -41,12 +41,14 @@ export const rolesRouter = router({
 			z.object({
 				limit: z.number().min(1).max(100).optional().default(10),
 				cursor: z.string().nullish(),
-				domain: z.nativeEnum(UserDomain)
+				domain: z.nativeEnum(UserDomain).optional()
 			})
 		)
 		.query(async ({ ctx, input }) => {
 			const roles = await ctx.prisma.role.findMany({
-				where: {},
+				where: {
+					domain: input.domain
+				},
 				take: input.limit + 1,
 				...(input?.cursor && {
 					cursor: {
