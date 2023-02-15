@@ -1,14 +1,16 @@
-import EditWebsiteForm from "@/components/websites/edit-form";
-import { trpc } from "@/utils/trpc";
+import Form, { FormInput, useZodForm } from "@ecotoken/ui/components/Form";
 import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
-import Spinner from "@ecotoken/ui/components/Spinner";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { updateWebsiteSchema } from "@ecotoken/api/src/schema/website";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import Spinner from "@ecotoken/ui/components/Spinner";
+import Button from "@ecotoken/ui/components/Button";
 import { Transition } from "@headlessui/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { Fragment } from "react";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/router";
+import { trpc } from "@/utils/trpc";
+import { Fragment } from "react";
+import Link from "next/link";
 
 const EditWebsite = () => {
 	const router = useRouter();
@@ -16,13 +18,23 @@ const EditWebsite = () => {
 	let { id } = router.query;
 	if (typeof id !== "string" && typeof id !== "undefined") id = id[0];
 	if (!id) id = "";
+
+	const form = useZodForm({
+		schema: updateWebsiteSchema
+	});
+
 	const { data: website, isLoading: isFetching } = trpc.websites.get.useQuery(
 		{
 			siteID: id as string
 		},
 		{
 			enabled: !!id,
-			refetchOnWindowFocus: false
+			refetchOnWindowFocus: false,
+			onSuccess(data) {
+				form.reset({
+					...data
+				});
+			}
 		}
 	);
 
@@ -87,7 +99,7 @@ const EditWebsite = () => {
 							</CardDescription>
 						</div>
 					</div>
-					<EditWebsiteForm
+					{/* <EditWebsiteForm
 						updating={isLoading}
 						deleting={isDeleting}
 						{...(website && {
@@ -113,7 +125,74 @@ const EditWebsite = () => {
 								siteID: id as string
 							})
 						}
-					/>
+					/> */}
+					<Form
+						form={form}
+						className="flex w-full flex-col gap-4"
+						onSubmit={async (website) =>
+							await mutate({
+								...website,
+								siteID: id as string
+							})
+						}
+					>
+						<div className="flex flex-col gap-4">
+							<FormInput
+								label="Site Name"
+								size="xl"
+								fullWidth
+								{...form.register("siteName")}
+							/>
+							<FormInput
+								label="Legal Name"
+								size="xl"
+								fullWidth
+								{...form.register("legalName")}
+							/>
+							<FormInput
+								label="Mailing Address"
+								size="xl"
+								{...form.register("mailAddress")}
+								fullWidth
+							/>
+							<FormInput
+								label="Production URL"
+								size="xl"
+								fullWidth
+								{...form.register("prodUrl")}
+							/>
+							<FormInput
+								label="Staging URL"
+								size="xl"
+								fullWidth
+								{...form.register("stageUrl")}
+							/>
+							<FormInput
+								label="Development URL"
+								size="xl"
+								fullWidth
+								{...form.register("devUrl")}
+							/>
+						</div>
+						<div className="w-full space-y-1.5">
+							<Button loading={isLoading} fullWidth>
+								Update
+							</Button>
+							<Button
+								type="button"
+								loading={isDeleting}
+								intent="destructive"
+								fullWidth
+								onClick={async () =>
+									await deleteMutate({
+										siteID: id as string
+									})
+								}
+							>
+								Delete
+							</Button>
+						</div>
+					</Form>
 				</div>
 			</Transition>
 		);

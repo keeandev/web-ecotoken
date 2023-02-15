@@ -1,25 +1,16 @@
 import Button from "@ecotoken/ui/components/Button";
-import Input from "@ecotoken/ui/components/Input";
-import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
-import { RouterInputs, trpc } from "@/utils/trpc";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { trpc } from "@/utils/trpc";
 import { loginUserSchema } from "@ecotoken/api/src/schema/user";
 import Link from "@ecotoken/ui/components/Link";
 import logo from "@ecotoken/ui/assets/brand/logo.png";
 import Image from "next/image";
-import { z } from "zod";
-
-type LoginFormInput = RouterInputs["userAuth"]["login"];
+import Form, { FormInput, useZodForm } from "@ecotoken/ui/components/Form";
 
 const Login = () => {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors }
-	} = useForm<z.infer<typeof loginUserSchema>>({
-		resolver: zodResolver(loginUserSchema)
+	const form = useZodForm({
+		schema: loginUserSchema
 	});
 
 	const { mutate, isLoading } = trpc.userAuth.login.useMutation({
@@ -34,17 +25,16 @@ const Login = () => {
 	});
 	const router = useRouter();
 
-	const onSubmit = async ({ user, password }: LoginFormInput) => {
-		await mutate({
-			user,
-			password
-		});
-	};
-
 	return (
 		<div className="flex h-full w-full flex-col items-center justify-center space-y-4">
-			<form
-				onSubmit={handleSubmit(onSubmit)}
+			<Form
+				form={form}
+				onSubmit={async ({ user, password }) => {
+					await mutate({
+						user,
+						password
+					});
+				}}
 				className="space-y-6 rounded-md border border-slate-300 bg-slate-200 p-8"
 			>
 				<div className="flex flex-col items-center space-y-4">
@@ -53,7 +43,7 @@ const Login = () => {
 							src={logo}
 							alt="ecoToken logo"
 							fill
-							className="object-contain grayscale"
+							className="object-contain"
 						/>
 					</div>
 					<div className="text-center">
@@ -65,19 +55,17 @@ const Login = () => {
 						</h3>
 					</div>
 				</div>
-				<Input
+				<FormInput
 					fullWidth
 					label="Username or email address"
-					error={errors.user?.message ?? ""}
-					{...register("user")}
+					{...form.register("user")}
 				/>
 				<div className="relative flex flex-col space-y-0.5">
-					<Input
+					<FormInput
 						fullWidth
 						label="Password"
 						type="password"
-						error={errors.password?.message ?? ""}
-						{...register("password")}
+						{...form.register("password")}
 					/>
 					<Link
 						href="/forgot-password"
@@ -102,7 +90,7 @@ const Login = () => {
 						</Link>
 					</span>
 				</div>
-			</form>
+			</Form>
 		</div>
 	);
 };

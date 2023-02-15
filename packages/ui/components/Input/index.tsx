@@ -1,6 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { forwardRef } from "react";
-import BaseLabel from "../Label";
 
 const inputStyles = cva(
 	[
@@ -16,7 +15,8 @@ const inputStyles = cva(
 				submit: "",
 				email: "",
 				date: "",
-				file: ""
+				file: "",
+				combobox: ""
 			},
 			size: {
 				md: "w-36",
@@ -35,66 +35,31 @@ const inputStyles = cva(
 		defaultVariants: {
 			intent: "primary",
 			fullWidth: false,
-			type: "text"
+			type: "text",
+			size: "xl"
 		}
 	}
 );
 
-type InputProps = VariantProps<typeof inputStyles> &
-	Omit<React.ComponentProps<"input">, "size"> & {
-		label?: string;
-		error?: string;
-	};
+export type InputProps = VariantProps<typeof inputStyles> &
+	Omit<React.ComponentProps<"input">, "size">;
 const Input = forwardRef<HTMLInputElement, InputProps>(
-	(
-		{ type, intent, fullWidth, className, label, size, error, ...props },
-		ref
-	) => {
-		if (label || error) {
-			return (
-				<div>
-					{label && (
-						<BaseLabel htmlFor={props.name} className="mb-1 block">
-							{label}
-						</BaseLabel>
-					)}
-					<input
-						ref={ref}
-						type={type}
-						className={inputStyles({
-							type,
-							intent,
-							fullWidth,
-							size,
-							class: className
-						})}
-						{...props}
-					/>
-					{error && (
-						<BaseLabel
-							htmlFor={props.name}
-							intent="error"
-							className="mt-1 block text-xs"
-						>
-							{error}
-						</BaseLabel>
-					)}
-				</div>
-			);
-		} else {
-			return (
-				<input
-					type={type}
-					className={inputStyles({
-						type,
-						intent,
-						fullWidth,
-						class: className
-					})}
-					{...props}
-				/>
-			);
-		}
+	({ id, type, intent, fullWidth, className, size, ...props }, ref) => {
+		return (
+			<input
+				{...props}
+				id={id}
+				ref={ref}
+				type={type}
+				className={inputStyles({
+					type,
+					intent,
+					fullWidth,
+					size,
+					class: className
+				})}
+			/>
+		);
 	}
 );
 

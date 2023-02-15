@@ -3,53 +3,28 @@ import DefaultCard, {
 	CardDescription,
 	CardTitle
 } from "@ecotoken/ui/components/Card";
-import Input from "@ecotoken/ui/components/Input";
-import { useForm, SubmitHandler } from "react-hook-form";
 import Button from "@ecotoken/ui/components/Button";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { createNFTSchema } from "@ecotoken/api/src/schema/nft-builder";
-import { z } from "zod";
 import React, { ChangeEvent, useState, useRef } from "react";
 import { trpc } from "@/utils/trpc";
 import html2canvas from "html2canvas";
-
-export type CreateNFTType = z.infer<typeof createNFTSchema>;
+import Form, { FormInput, useZodForm } from "@ecotoken/ui/components/Form";
 
 const NFTBuilder = () => {
-	const {
-		register,
-		handleSubmit,
-		watch,
-		formState: { errors }
-	} = useForm<CreateNFTType>({
-		// resolver: zodResolver(createNFTSchema),
-		reValidateMode: "onChange"
+	const form = useZodForm({
+		schema: createNFTSchema
 	});
-
 	const { isLoading, mutate } = trpc.nftBuilder.mint.useMutation();
 
 	const [imageBlob, setImageBlob] = useState<string>();
 	const componentRef = useRef<HTMLDivElement | null>(null);
 
-	const credits = watch("credits");
-	const symbol = watch("symbol");
-	const project = watch("project");
-	const location = watch("location");
-	const producer = watch("producer");
-	const date = watch("date");
-
-	const onSubmit: SubmitHandler<CreateNFTType> = async (data) => {
-		console.log("mutedate");
-		if (componentRef.current) {
-			const canvas = await html2canvas(componentRef.current);
-			document.body.appendChild(canvas);
-			await mutate({
-				...data,
-				image: canvas.toDataURL(),
-				id: "999"
-			});
-		}
-	};
+	const credits = form.watch("credits");
+	const symbol = form.watch("symbol");
+	const project = form.watch("project");
+	const location = form.watch("location");
+	const producer = form.watch("producer");
+	const date = form.watch("date");
 
 	const handleImageLoad = (e: ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files;
@@ -69,65 +44,74 @@ const NFTBuilder = () => {
 				</div>
 				<div className="flex space-x-8">
 					<div className="flex flex-1 flex-col space-y-4">
-						<form
-							onSubmit={handleSubmit(onSubmit)}
+						<Form
+							form={form}
+							onSubmit={async (data) => {
+								console.log("mutedate");
+								if (componentRef.current) {
+									const canvas = await html2canvas(
+										componentRef.current
+									);
+									document.body.appendChild(canvas);
+									await mutate({
+										...data,
+										image: canvas.toDataURL(),
+										id: "999"
+									});
+								}
+							}}
 							className="flex w-full flex-col gap-4"
 						>
-							<Input
+							<FormInput
 								label="Image"
 								type="file"
-								{...register("image")}
-								error={errors.image?.message}
+								{...form.register("image")}
 								onChange={handleImageLoad}
 								fullWidth
 							/>
-							<Input
+							<FormInput
 								label="Credits"
 								type="number"
 								defaultValue={1}
 								min={1}
-								{...register("credits", {
+								{...form.register("credits", {
 									setValueAs: (value) =>
 										isNaN(value) ? 0 : parseInt(value)
 								})}
-								error={errors.credits?.message}
 								fullWidth
 							/>
-							<Input
+							<FormInput
 								label="Symbol"
-								{...register("symbol")}
-								error={errors.symbol?.message}
 								fullWidth
+								{...form.register("symbol")}
 							/>
-							<Input
+							<FormInput
 								label="Project"
-								{...register("project")}
-								error={errors.project?.message}
 								fullWidth
+								{...form.register("project")}
 							/>
-							<Input
+							<FormInput
 								label="Location"
-								{...register("location")}
-								error={errors.location?.message}
 								fullWidth
+								{...form.register("location")}
 							/>
-							<Input
+							<FormInput
 								label="Producer"
-								{...register("producer")}
-								error={errors.producer?.message}
 								fullWidth
+								{...form.register("producer")}
 							/>
-							<Input
+							<FormInput
 								label="Date"
 								type="date"
-								{...register("date", { valueAsDate: true })}
-								error={errors.date?.message}
 								fullWidth
+								{...form.register("date", {
+									valueAsDate: true
+								})}
 							/>
-							<Button fullWidth type="submit">
+							<Button loading={isLoading} fullWidth type="submit">
 								Build
 							</Button>
-						</form>
+						</Form>
 					</div>
 					<div className="relative flex flex-1 flex-col overflow-hidden rounded-lg">
 						<NFTBuilderPreview

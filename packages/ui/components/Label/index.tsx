@@ -11,8 +11,7 @@ const labelStyles = cva([""], {
 			default: "text-base"
 		},
 		intent: {
-			primary: "text-black",
-			error: "text-gray-700 font-medium"
+			primary: "text-black"
 		}
 	},
 	defaultVariants: {

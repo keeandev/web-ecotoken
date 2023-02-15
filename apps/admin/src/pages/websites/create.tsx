@@ -1,6 +1,8 @@
-import WebsiteCreateForm from "@/components/websites/create-form";
 import { trpc } from "@/utils/trpc";
+import { createWebsiteSchema } from "@ecotoken/api/src/schema/website";
+import Button from "@ecotoken/ui/components/Button";
 import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
+import Form, { FormInput, useZodForm } from "@ecotoken/ui/components/Form";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Transition } from "@headlessui/react";
@@ -22,6 +24,10 @@ const CreateWebsite = () => {
 			toast.error(e.message);
 		}
 	});
+
+    const form = useZodForm({
+        schema: createWebsiteSchema
+    })
 
 	return (
 		<Transition
@@ -49,14 +55,48 @@ const CreateWebsite = () => {
 						<CardDescription>Create a website.</CardDescription>
 					</div>
 				</div>
-				<WebsiteCreateForm
+				{/* <WebsiteCreateForm
 					loading={isLoading}
 					onCreate={async (website) => {
 						await mutateAsync({
 							...website
 						});
 					}}
-				/>
+				/> */}
+				<Form
+                    form={form}
+					className="flex w-full flex-col gap-4"
+					onSubmit={async (website) =>
+						await mutateAsync({
+							...website
+						})}
+				>
+					<div className="flex flex-col gap-4">
+						<FormInput
+							label="Site Name"
+							size="xl"
+							{...form.register("siteName")}
+						/>
+						<FormInput
+							label="Production URL"
+							size="xl"
+							{...form.register("prodUrl")}
+						/>
+						<FormInput
+							label="Staging URL"
+							size="xl"
+							{...form.register("prodUrl")}
+						/>
+						<FormInput
+							label="Development URL"
+							size="xl"
+							{...form.register("prodUrl")}
+						/>
+					</div>
+					<Button loading={isLoading} fullWidth>
+						Create
+					</Button>
+				</Form>
 			</div>
 		</Transition>
 	);

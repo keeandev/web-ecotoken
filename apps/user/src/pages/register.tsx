@@ -1,12 +1,10 @@
 import { RouterInputs, trpc } from "@/utils/trpc";
 import { createUserSchema } from "@ecotoken/api/src/schema/user";
 import Button from "@ecotoken/ui/components/Button";
-import Input from "@ecotoken/ui/components/Input";
 import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
+import Form, { FormInput, useZodForm } from "@ecotoken/ui/components/Form";
 import { toast } from "react-hot-toast";
 import { NextPageWithLayout } from "./_app";
-import { zodResolver } from "@hookform/resolvers/zod";
 import logo from "@ecotoken/ui/assets/brand/logo.png";
 import Image from "next/image";
 import Link from "@ecotoken/ui/components/Link";
@@ -14,24 +12,18 @@ import Link from "@ecotoken/ui/components/Link";
 type RegisterFormInput = RouterInputs["userAuth"]["register"];
 
 const Register: NextPageWithLayout = () => {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors }
-	} = useForm<RegisterFormInput>({
+	const form = useZodForm({
 		// add the confirm password verifier only to the form, ignoring the official schema to allow
-		resolver: zodResolver(
-			createUserSchema.superRefine(
-				({ password, confirmPassword }, ctx) => {
-					if (confirmPassword !== password) {
-						ctx.addIssue({
-							code: "custom",
-							path: ["confirmPassword"],
-							message: "Passwords do not match!"
-						});
-					}
+		schema: createUserSchema.superRefine(
+			({ password, confirmPassword }, ctx) => {
+				if (confirmPassword !== password) {
+					ctx.addIssue({
+						code: "custom",
+						path: ["confirmPassword"],
+						message: "Passwords do not match!"
+					});
 				}
-			)
+			}
 		)
 	});
 
@@ -54,8 +46,9 @@ const Register: NextPageWithLayout = () => {
 
 	return (
 		<div className="flex h-full w-full items-center justify-center">
-			<form
-				onSubmit={handleSubmit(onSubmit)}
+			<Form
+				form={form}
+				onSubmit={onSubmit}
 				className="max-w-sm space-y-4 rounded-md border border-slate-300 bg-slate-200 p-6"
 			>
 				<div className="flex flex-col items-center space-y-4">
@@ -76,47 +69,55 @@ const Register: NextPageWithLayout = () => {
 						</h3>
 					</div>
 				</div>
-				<div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
-					<Input
-						className="flex-1"
+				{/* 
+                    Couldn't get flex-1 working again. Randy, if you want to take a shot at it go ahead. Good luck!
+                <div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
+					<FormInput
+						// wrapperClass="flex flex-col flex-1"
 						fullWidth
 						label="First name"
-						error={errors.firstName?.message ?? ""}
-						{...register("firstName")}
+						{...form.register("firstName")}
 					/>
-					<Input
-						className="flex-1"
+					<FormInput
+						// wrapperClass="flex flex-col flex-1"
 						fullWidth
 						label="Last name"
-						error={errors.lastName?.message ?? ""}
-						{...register("lastName")}
+						{...form.register("lastName")}
 					/>
-				</div>
-				<Input
+				</div> */}
+				<FormInput
+					wrapperClass="flex flex-col flex-1"
+					fullWidth
+					label="First name"
+					{...form.register("firstName")}
+				/>
+				<FormInput
+					wrapperClass="flex flex-col flex-1"
+					fullWidth
+					label="Last name"
+					{...form.register("lastName")}
+				/>
+				<FormInput
 					fullWidth
 					label="Email"
-					error={errors.emailAddress?.message ?? ""}
-					{...register("emailAddress")}
+					{...form.register("emailAddress")}
 				/>
-				<Input
+				<FormInput
 					fullWidth
 					label="Username"
-					error={errors.username?.message ?? ""}
-					{...register("username")}
+					{...form.register("username")}
 				/>
-				<Input
+				<FormInput
 					fullWidth
 					label="Password"
 					type="password"
-					error={errors.password?.message ?? ""}
-					{...register("password")}
+					{...form.register("password")}
 				/>
-				<Input
+				<FormInput
 					fullWidth
 					label="Confirm Password"
 					type="password"
-					error={errors.confirmPassword?.message ?? ""}
-					{...register("confirmPassword")}
+					{...form.register("confirmPassword")}
 				/>
 				<div className="space-y-2">
 					<Button fullWidth loading={isLoading}>
@@ -133,7 +134,7 @@ const Register: NextPageWithLayout = () => {
 						</Link>
 					</span>
 				</div>
-			</form>
+			</Form>
 		</div>
 	);
 };

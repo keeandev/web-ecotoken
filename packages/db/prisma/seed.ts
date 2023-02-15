@@ -61,25 +61,25 @@ const rolesToCreate: CreateRoleOperation[] = [
 
 const locationsToCreate: CreateLocationOperation[] = [
 	{
-		location: "Leduc, Alberta, Canada",
+		location: "Leduc",
 		cn: "CA",
 		st: "AB",
 		site: "ecoToken"
 	},
 	{
-		location: "Calgary, Alberta, Canada",
+		location: "Calgary",
 		cn: "CA",
 		st: "AB",
 		site: "ecoToken"
 	},
 	{
-		location: "Pincher Creek, Alberta, Canada",
+		location: "Pincher Creek",
 		cn: "CA",
 		st: "AB",
 		site: "ecoToken"
 	},
 	{
-		location: "Howe Sound, British Columbia, Canada",
+		location: "Howe Sound",
 		cn: "CA",
 		st: "BC",
 		site: "ecoToken"

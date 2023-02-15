@@ -8,6 +8,7 @@ import { Site } from "@ecotoken/db";
 import Button from "@ecotoken/ui/components/Button";
 import { useRouter } from "next/router";
 import { trpc } from "@/utils/trpc";
+
 const Websites = () => {
 	const router = useRouter();
 	const columnHelper = createColumnHelper<Site>();
@@ -38,7 +39,7 @@ const Websites = () => {
 	const { data } = trpc.websites.getAll.useInfiniteQuery(
 		{},
 		{
-			getNextPageParam: (params) => params.nextCursor
+			getNextPageParam: (lastPage) => lastPage.nextCursor
 		}
 	);
 

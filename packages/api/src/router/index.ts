@@ -2,7 +2,7 @@ import { router } from "../trpc";
 import { adminUsersRouter } from "./admin/admin-users";
 import { userAuthRouter } from "./user/user-auth";
 import { adminAuthRouter } from "./admin/admin-auth";
-import { projectsRouter } from "./ecoprojects/ecoprojects";
+import { projectsRouter, locationsRouter } from "./eco";
 import { usersRouter } from "./user/users";
 import { websiteRouter } from "./websites/websites";
 import { rolesRouter } from "./roles/roles";
@@ -13,6 +13,7 @@ export const appRouter = router({
 	adminAuth: adminAuthRouter,
 	adminUsers: adminUsersRouter,
 	ecoProjects: projectsRouter,
+	ecoLocations: locationsRouter,
 	websites: websiteRouter,
 	userAuth: userAuthRouter,
 	permissions: permissionsRouter,

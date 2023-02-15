@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import DefaultCard, {
 	CardDescription,
 	CardTitle
@@ -22,10 +22,34 @@ const AdminUsers = () => {
 	const router = useRouter();
 	const columnHelper = createColumnHelper<AdminUser>();
 
+	const { data: roles } = trpc.roles.getAll.useInfiniteQuery(
+		{},
+		{
+			getNextPageParam: (lastPage) => lastPage.nextCursor
+		}
+	);
+
+	const transformedRoles = useMemo(
+		() => roles?.pages.flatMap((rolePage) => rolePage.roles),
+		[roles]
+	);
+
 	const columns = [
 		columnHelper.accessor("adminID", {
 			header: "Admin ID",
 			id: "id"
+		}),
+		columnHelper.accessor("roleID", {
+			header: "Role",
+			cell: (info) => {
+				if (transformedRoles) {
+					const foundRole = transformedRoles.find(
+						(role) => role.roleID === info.getValue()
+					);
+					if (foundRole) return foundRole.role;
+				}
+				return info.getValue();
+			}
 		}),
 		columnHelper.accessor("username", {
 			header: "Username"

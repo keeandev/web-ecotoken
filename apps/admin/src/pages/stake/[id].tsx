@@ -36,7 +36,7 @@ const StakeProject = () => {
 						<div className="text-2xl font-semibold">
 							{data.ecoTitle}
 						</div>
-						<div>{data.outcome}</div>
+						<div>{data.intro}</div>
 					</div>
 				</div>
 				<div className="h-fit flex-1 rounded-md">

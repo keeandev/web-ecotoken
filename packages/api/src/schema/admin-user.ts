@@ -3,6 +3,7 @@ import { z } from "zod";
 export const updateAdminUserSchema = z
 	.object({
 		adminID: z.string(),
+		roleID: z.string().min(1, "A role is required."),
 		firstName: z
 			.string()
 			.min(1, "You must specify a first name.")
@@ -40,6 +41,7 @@ export const updateAdminUserSchema = z
 
 export const createAdminUserSchema = z
 	.object({
+		roleID: z.string().min(1, "A role is required."),
 		firstName: z.string().min(1, "You must specify a first name."),
 		lastName: z.string().nullish().or(z.literal("")),
 		email: z.string().email("A valid email is required."),
@@ -51,8 +53,7 @@ export const createAdminUserSchema = z
 			.string()
 			.min(8, "Password must be at least 8 characters.")
 			.max(64, "A shorter password is required."),
-		confirmPassword: z.string(),
-		roleID: z.string()
+		confirmPassword: z.string()
 	})
 	.superRefine(({ confirmPassword, password }, ctx) => {
 		if (confirmPassword !== password) {
@@ -63,3 +64,8 @@ export const createAdminUserSchema = z
 			});
 		}
 	});
+
+export const loginAdminUserSchema = z.object({
+	username: z.string().min(1, "Username is required."),
+	password: z.string().min(1, "Password is required.")
+});

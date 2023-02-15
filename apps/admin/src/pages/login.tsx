@@ -1,18 +1,11 @@
-import { trpc, type RouterInputs } from "@/utils/trpc";
+import Form, { FormInput, useZodForm } from "@ecotoken/ui/components/Form";
+import { loginAdminUserSchema } from "@ecotoken/api/src/schema/admin-user";
 import Button from "@ecotoken/ui/components/Button";
-import Input from "@ecotoken/ui/components/Input";
-import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
-
-type LoginFormInput = RouterInputs["adminAuth"]["login"];
+import { trpc } from "@/utils/trpc";
 
 const Login = () => {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors }
-	} = useForm<LoginFormInput>();
 	const { mutate, isLoading } = trpc.adminAuth.login.useMutation({
 		onSuccess() {
 			router.push("/");
@@ -24,36 +17,37 @@ const Login = () => {
 	});
 	const router = useRouter();
 
-	const onSubmit = async ({ username, password }: LoginFormInput) => {
-		await mutate({
-			username,
-			password
-		});
-	};
+	const form = useZodForm({
+		schema: loginAdminUserSchema
+	});
 
 	return (
 		<div className="flex h-full w-full items-center justify-center">
-			<form
-				onSubmit={handleSubmit(onSubmit)}
+			<Form
+				form={form}
+				onSubmit={async ({ username, password }) => {
+					await mutate({
+						username,
+						password
+					});
+				}}
 				className="m-4 space-y-4 rounded-md bg-slate-200 p-4"
 			>
-				<Input
+				<FormInput
 					fullWidth
 					label="Username"
-					error={errors.username?.message ?? ""}
-					{...register("username")}
+					{...form.register("username")}
 				/>
-				<Input
+				<FormInput
 					fullWidth
 					label="Password"
 					type="password"
-					error={errors.password?.message ?? ""}
-					{...register("password")}
+					{...form.register("password")}
 				/>
 				<Button fullWidth loading={isLoading}>
 					Login
 				</Button>
-			</form>
+			</Form>
 		</div>
 	);
 };

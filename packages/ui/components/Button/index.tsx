@@ -5,18 +5,19 @@ import Spinner from "../Spinner";
 
 const buttonStyles = cva(
 	[
-		"flex gap-2 items-center justify-center rounded-md px-4 py-2 disabled:cursor-not-allowed"
+		"flex gap-2 items-center justify-center rounded-md px-4 py-2 disabled:cursor-not-allowed focus:ease-out focus:outline-none focus:ring-2 focus:ring-offset-1"
 	],
 	{
 		variants: {
 			intent: {
-				primary: "text-white bg-slate-500 disabled:bg-slate-400",
+				primary:
+					"text-white bg-slate-500 disabled:bg-slate-400 ring-slate-400 focus:ring-offset-slate-200",
 				secondary:
 					"outline outline-2 -outline-offset-2 outline-slate-500 text-slate-500 disabled:outline-slate-400 disabled:text-slate-400",
 				tertiary:
 					"text-slate-400 disabled:text-slate-300 underline underline-offset-2",
 				destructive:
-					"bg-rose-600 disabled:bg-rose-400 disabled:cursor-not-allowed text-white",
+					"bg-rose-600 disabled:bg-rose-400 ring-rose-400 text-white",
 				none: ""
 			},
 			fullWidth: {
@@ -36,7 +37,8 @@ const buttonStyles = cva(
 
 export type ButtonProps = VariantProps<typeof buttonStyles> &
 	React.ComponentProps<"button"> & {
-		/** Show loading spinner and disable button */ loading?: boolean;
+		/** Show loading spinner and disable button */
+		loading?: boolean;
 	};
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 	(

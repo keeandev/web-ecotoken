@@ -1,4 +1,4 @@
-import ProjectCard from "@/components/project/project-card";
+import ProjectCard from "@/components/eco-project/project-card";
 import { trpc } from "@/utils/trpc";
 import { useEffect } from "react";
 

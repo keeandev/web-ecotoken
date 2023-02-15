@@ -1,16 +1,11 @@
-import { z } from "zod";
 import { publicProcedure, router, adminAuthedProcedure } from "../../trpc";
 import { TRPCError } from "@trpc/server";
 import { verify } from "argon2";
+import { loginAdminUserSchema } from "../../schema/admin-user";
 
 export const adminAuthRouter = router({
 	login: publicProcedure
-		.input(
-			z.object({
-				username: z.string(),
-				password: z.string()
-			})
-		)
+		.input(loginAdminUserSchema)
 		.mutation(async ({ ctx, input }) => {
 			const user = await ctx.prisma.adminUser.findUnique({
 				where: {
@@ -25,9 +20,8 @@ export const adminAuthRouter = router({
 				});
 
 			const currentDate = new Date(Date.now());
-			const expireDate = new Date(
-				currentDate.setDate(currentDate.getDate() + 180)
-			);
+			const expireDate = currentDate;
+			expireDate.setDate(expireDate.getDate() + 180);
 
 			await ctx.prisma.adminUser.update({
 				where: {
