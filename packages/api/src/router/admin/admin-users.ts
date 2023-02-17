@@ -5,6 +5,7 @@ import {
 	updateAdminUserSchema
 } from "@ecotoken/api/src/schema/admin-user";
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
 
 export const adminUsersRouter = router({
 	get: adminAuthedProcedure
@@ -53,11 +54,37 @@ export const adminUsersRouter = router({
 		.input(createAdminUserSchema)
 		.mutation(async ({ ctx, input }) => {
 			delete (input as Partial<typeof input>).confirmPassword;
-			return await ctx.prisma.adminUser.create({
-				data: {
-					...input
+			const role = await ctx.prisma.role.findFirst({
+				where: {
+					OR: [
+						{
+							sites: {
+								some: {
+									siteID: ctx.currentSite?.siteID
+								}
+							},
+							scope: "SITE"
+						},
+						{
+							domain: {
+								equals: "ADMIN"
+							},
+							scope: "DEFAULT"
+						}
+					]
 				}
 			});
+			if (role) {
+				return await ctx.prisma.adminUser.create({
+					data: {
+						...input
+					}
+				});
+			} else
+				throw new TRPCError({
+					code: "INTERNAL_SERVER_ERROR",
+					message: "Role not found. Creation process cannot proceed."
+				});
 		}),
 	update: adminAuthedProcedure
 		.input(updateAdminUserSchema)
@@ -68,11 +95,6 @@ export const adminUsersRouter = router({
 					adminID
 				},
 				data: {
-					// firstName: input.firstName ?? undefined,
-					// lastName: input.lastName,
-					// username: input.username ?? undefined,
-					// email: input.email ?? undefined,
-					// password: input.password ?? undefined
 					...input
 				}
 			});

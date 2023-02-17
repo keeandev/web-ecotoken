@@ -200,17 +200,18 @@ model EcoProject {
     locationID String
     benefits   EcoBenefit[]
 
-    images       String    @db.Text
+    images       String      @db.Text
     fundAmount   Int?
     fundRecieved Int?
-    return       Decimal?  @db.Decimal(5, 2)
+    return       Decimal?    @db.Decimal(5, 2)
     payback      String?
     dateStart    DateTime?
     dateEnd      DateTime?
-    isVisible    Boolean   @default(true)
-    isDelete     Boolean   @default(false)
-    createdAt    DateTime  @default(now())
-    updatedAt    DateTime  @updatedAt
+    isVisible    Boolean     @default(true)
+    isDelete     Boolean     @default(false)
+    createdAt    DateTime    @default(now())
+    updatedAt    DateTime    @updatedAt
+    NFTSeries    NFTSeries[]
 
     @@index([siteID])
     @@index([locationID])
@@ -228,4 +229,35 @@ enum ProjectType {
     FUNDED_PROJECT
     CARBON_CREDIT
     WATER_CREDIT
+}
+
+model NFTSeries {
+    nftSeriesID String @id @default(cuid())
+
+    project   EcoProject @relation(fields: [projectID], references: [projectID])
+    projectID String
+
+    seriesName     String
+    seriesNumber   Int      @db.UnsignedSmallInt
+    seriesImage    String
+    nftType        NFTType
+    recieveWallet  String
+    creditWallet   String
+    creditKey      String
+    creditAmount   Decimal? @db.Decimal(12, 2)
+    producerWallet String
+    producerName   String
+
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+
+    @@index([projectID])
+    @@index([seriesNumber])
+}
+
+enum NFTType {
+    CARBON_CREDIT
+    WATER_CREDIT
+    BIODIVERSITY
+    STEWARDSHIP
 }

@@ -51,7 +51,7 @@ export const isAdminAuthenticated = t.middleware(({ next, ctx, meta }) => {
 	});
 });
 
-export const isUserAdminAuthenticated = t.middleware(({ next, ctx, meta }) => {
+export const isUserOrOrAdminAuthenticated = t.middleware(({ next, ctx, meta }) => {
 	if (!ctx.adminSession?.user?.id && !ctx.userSession.user?.id) {
 		throw new TRPCError({
 			code: "UNAUTHORIZED",
@@ -103,7 +103,7 @@ export const router = t.router;
 
 export const publicProcedure = t.procedure.use(isOnWhitelistedSite);
 export const authedProcedure = publicProcedure
-	.use(isUserAdminAuthenticated)
+	.use(isUserOrOrAdminAuthenticated)
 	.use(hasRequiredPermissions);
 export const userAuthedProcedure = publicProcedure
 	.use(isUserAuthenticated)
