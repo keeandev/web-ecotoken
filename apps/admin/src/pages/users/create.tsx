@@ -24,15 +24,25 @@ const CreateUser = () => {
 			}}
 			className="flex w-full flex-col gap-4"
 		>
+			<FormInput
+				wrapperClass="w-full"
+				label="Company Name"
+				size="full"
+				{...form.register("companyName")}
+			/>
 			<div className="flex flex-col gap-4 md:flex-row">
 				<FormInput
+					wrapperClass="w-full"
 					label="First Name"
-					size="md"
+					size="full"
+					className="flex flex-1"
 					{...form.register("firstName")}
 				/>
 				<FormInput
 					label="Last Name"
-					size="md"
+					size="full"
+					wrapperClass="w-full"
+					className="flex flex-1"
 					{...form.register("lastName")}
 				/>
 			</div>

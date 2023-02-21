@@ -41,7 +41,7 @@ export const adminAuthRouter = router({
 					process.env.NODE_ENV === "production"
 						? ctx.req.connection.remoteAddress ?? ""
 						: undefined,
-				lastSite: firstSite?.siteID
+				selectedSite: firstSite?.siteID
 			};
 			await ctx.adminSession.save();
 		}),

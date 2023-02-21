@@ -139,38 +139,32 @@ const EditWebsite = () => {
 						<div className="flex flex-col gap-4">
 							<FormInput
 								label="Site Name"
-								size="xl"
-								fullWidth
+								size="full"
 								{...form.register("siteName")}
 							/>
 							<FormInput
 								label="Legal Name"
-								size="xl"
-								fullWidth
+								size="full"
 								{...form.register("legalName")}
 							/>
 							<FormInput
 								label="Mailing Address"
-								size="xl"
+								size="full"
 								{...form.register("mailAddress")}
-								fullWidth
 							/>
 							<FormInput
 								label="Production URL"
-								size="xl"
-								fullWidth
+								size="full"
 								{...form.register("prodUrl")}
 							/>
 							<FormInput
 								label="Staging URL"
-								size="xl"
-								fullWidth
+								size="full"
 								{...form.register("stageUrl")}
 							/>
 							<FormInput
 								label="Development URL"
-								size="xl"
-								fullWidth
+								size="full"
 								{...form.register("devUrl")}
 							/>
 						</div>

@@ -56,13 +56,13 @@ const Login = () => {
 					</div>
 				</div>
 				<FormInput
-					fullWidth
+					size="full"
 					label="Username or email address"
 					{...form.register("user")}
 				/>
 				<div className="relative flex flex-col space-y-0.5">
 					<FormInput
-						fullWidth
+						size="full"
 						label="Password"
 						type="password"
 						{...form.register("password")}

@@ -96,13 +96,12 @@ export const CreateEcoLocation: React.FC = () => {
 				>
 					<FormInput
 						label="Location"
-						size="xl"
-						fullWidth
+						size="full"
 						{...form.register("location")}
 					/>
 					<FormSelect
 						label="Country"
-						fullWidth
+						size="full"
 						defaultValue=""
 						{...form.register("cn")}
 					>
@@ -118,7 +117,7 @@ export const CreateEcoLocation: React.FC = () => {
 					</FormSelect>
 					<FormSelect
 						label="State/Province"
-						fullWidth
+						size="full"
 						defaultValue=""
 						{...form.register("st")}
 					>

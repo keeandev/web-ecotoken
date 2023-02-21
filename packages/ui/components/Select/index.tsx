@@ -11,36 +11,35 @@ const styles = cva(
 				md: "w-36",
 				lg: "w-64",
 				xl: "w-72",
-				"2xl": "w-96"
+				"2xl": "w-96",
+				full: "w-full",
+				default: ""
 			},
 			intent: {
 				primary: "bg-slate-200 border border-slate-600 ring-slate-400"
-			},
-			fullWidth: {
-				true: "w-full",
-				false: "w-fit"
 			}
 		},
 		defaultVariants: {
 			intent: "primary",
-			fullWidth: false,
-			size: "xl"
+			size: "default"
 		}
 	}
 );
 
-export type Props = ComponentProps<"select"> & VariantProps<typeof styles>;
-const Select = forwardRef<HTMLSelectElement, Props>(({ intent, fullWidth, size, className, ...props}, ref) => (
-	<select
-		{...props}
-		className={styles({
-			intent,
-			fullWidth,
-			size,
-			class: className
-		})}
-		ref={ref}
-	/>
-));
+export type Props = Omit<ComponentProps<"select">, "size"> &
+	VariantProps<typeof styles>;
+const Select = forwardRef<HTMLSelectElement, Props>(
+	({ intent, size, className, ...props }, ref) => (
+		<select
+			{...props}
+			className={styles({
+				intent,
+				size,
+				class: className
+			})}
+			ref={ref}
+		/>
+	)
+);
 
 export default Select;

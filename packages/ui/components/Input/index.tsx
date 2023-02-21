@@ -22,21 +22,18 @@ const inputStyles = cva(
 				md: "w-36",
 				lg: "w-64",
 				xl: "w-72",
-				"2xl": "w-96"
+				"2xl": "w-96",
+				full: "w-full",
+				default: ""
 			},
 			intent: {
 				primary: "bg-slate-200 border border-slate-600 ring-slate-400"
-			},
-			fullWidth: {
-				true: "w-full",
-				false: "w-fit"
 			}
 		},
 		defaultVariants: {
 			intent: "primary",
-			fullWidth: false,
 			type: "text",
-			size: "xl"
+			size: "default"
 		}
 	}
 );
@@ -44,7 +41,7 @@ const inputStyles = cva(
 export type InputProps = VariantProps<typeof inputStyles> &
 	Omit<React.ComponentProps<"input">, "size">;
 const Input = forwardRef<HTMLInputElement, InputProps>(
-	({ id, type, intent, fullWidth, className, size, ...props }, ref) => {
+	({ id, type, intent, className, size, ...props }, ref) => {
 		return (
 			<input
 				{...props}
@@ -54,7 +51,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 				className={inputStyles({
 					type,
 					intent,
-					fullWidth,
 					size,
 					class: className
 				})}

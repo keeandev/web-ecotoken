@@ -70,7 +70,7 @@ export const websiteRouter = router({
 				}
 			});
 		}),
-	updateCurrentSite: adminAuthedProcedure
+	updateSelectedSite: adminAuthedProcedure
 		.input(z.object({ siteID: z.string() }))
 		.mutation(async ({ ctx, input }) => {
 			ctx.adminSession.user = {
@@ -79,11 +79,16 @@ export const websiteRouter = router({
 					process.env.NODE_ENV === "production"
 						? ctx.req.connection.remoteAddress ?? ""
 						: undefined,
-				lastSite: input.siteID
+				selectedSite: input.siteID
 			};
-			return await ctx.adminSession.save();
+			await ctx.adminSession.save();
+			console.log(ctx.adminSession.user);
+			return 200;
 		}),
 	getCurrentSite: adminAuthedProcedure.query(async ({ ctx }) => {
-		return ctx.adminSession.user?.lastSite;
+		return ctx.currentSite?.siteID;
+	}),
+	getSelectedSite: adminAuthedProcedure.query(async ({ ctx }) => {
+		return ctx.adminSession.user?.selectedSite;
 	})
 });

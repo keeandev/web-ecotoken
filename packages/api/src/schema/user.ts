@@ -6,7 +6,8 @@ import { z } from "zod";
 // });
 
 export const createUserSchema = z.object({
-    roleID: z.string().min(1, "A role is required."),
+	roleID: z.string().min(1, "A role is required."),
+	companyName: z.string().nullish(),
 	firstName: z
 		.string()
 		.min(1, "First name is required.")
@@ -30,5 +31,5 @@ export const updateUserSchema = createUserSchema
 
 export const loginUserSchema = z.object({
 	user: z.string().min(1, "Username or email is required."),
-	password: z.string().min(1, "Password is required."),
+	password: z.string().min(1, "Password is required.")
 });

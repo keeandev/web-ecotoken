@@ -8,6 +8,7 @@ import { websiteRouter } from "./websites/websites";
 import { rolesRouter } from "./roles/roles";
 import { permissionsRouter } from "./permissions/permissions";
 import { nftBuilderRouter } from "./nft-builder/nft-builder";
+import { nftSeriesRouter } from "./nft-series";
 
 export const appRouter = router({
 	adminAuth: adminAuthRouter,
@@ -19,7 +20,8 @@ export const appRouter = router({
 	permissions: permissionsRouter,
 	users: usersRouter,
 	roles: rolesRouter,
-	nftBuilder: nftBuilderRouter
+	nftBuilder: nftBuilderRouter,
+    nftSeries: nftSeriesRouter
 });
 
 export type AppRouter = typeof appRouter;

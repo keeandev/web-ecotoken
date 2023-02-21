@@ -116,15 +116,16 @@ const sidebarItems: SidebarItemProps[] = [
 ];
 
 const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
+	const context = trpc.useContext();
 	const [sidebarExpanded, setSidebarExpanded] = useState(true);
 
-	const { data: lastSiteID } = trpc.websites.getCurrentSite.useQuery();
-	const { mutateAsync: updateCurrentSite } =
-		trpc.websites.updateCurrentSite.useMutation();
-	const { data: currentSiteData } = trpc.websites.get.useQuery(
-		{ siteID: lastSiteID! },
-		{ enabled: !!lastSiteID }
-	);
+	const { data: selectedSiteID } = trpc.websites.getSelectedSite.useQuery();
+	const { mutate: updateCurrentSite } =
+		trpc.websites.updateSelectedSite.useMutation({
+			async onSuccess() {
+				await context.websites.getSelectedSite.invalidate();
+			}
+		});
 
 	const { data: siteData } = trpc.websites.getAll.useInfiniteQuery(
 		{},
@@ -163,7 +164,7 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
 						</div>
 						<Transition
 							appear
-							show={!!currentSiteData}
+							show={!!selectedSiteID}
 							className="flex items-center"
 							enterFrom="opacity-0"
 							enterTo="opacity-100"
@@ -180,27 +181,20 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
 										await updateCurrentSite({
 											siteID: e.target.value
 										});
-
 										router.push("/");
 									}}
+									value={selectedSiteID}
 								>
-									<option value={currentSiteData?.siteID}>
-										{currentSiteData?.siteName}
-									</option>
-									{siteData?.pages[0]?.websites
-										.filter(
-											(website) =>
-												website.siteID !==
-												currentSiteData?.siteID
-										)
-										.map((website, index) => (
+									{siteData?.pages[0]?.websites.map(
+										(website, index) => (
 											<option
 												value={website.siteID}
 												key={index}
 											>
 												{website.siteName}
 											</option>
-										))}
+										)
+									)}
 								</select>
 							</div>
 						</Transition>

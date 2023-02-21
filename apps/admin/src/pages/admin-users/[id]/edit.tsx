@@ -115,36 +115,6 @@ const AdminUserEdit = () => {
 							</CardDescription>
 						</div>
 					</div>
-					{/* <EditUserForm
-						updating={isLoading}
-						deleting={isDeleting}
-						{...(user && {
-							user,
-							reset: {
-								adminID: user.adminID,
-								username: user.username,
-								email: user.email,
-								firstName: user.firstName
-							}
-						})}
-						onSave={async (adminUser) =>
-							await mutateAsync({
-								...adminUser,
-								adminID: id as string,
-								password: !!adminUser.password
-									? adminUser.password
-									: undefined,
-								confirmPassword: !!adminUser.confirmPassword
-									? adminUser.confirmPassword
-									: undefined
-							})
-						}
-						onDelete={async () =>
-							await deleteMutate({
-								id: id as string
-							})
-						}
-					/> */}
 					<Form
 						form={form}
 						onSubmit={async (adminUser) => {

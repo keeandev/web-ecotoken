@@ -12,6 +12,7 @@ type CreateContextOptions = {
 	userSession: UserSession;
 	adminSession: AdminSession;
 	currentSite?: Site;
+	selectedSite?: Site;
 	req: NextApiRequest;
 	res: NextApiResponse;
 };
@@ -43,7 +44,7 @@ export const createContext = async ({ req, res }: CreateNextContextOptions) => {
 		.split("/")[0]
 		?.trim();
 
-	const site = await prisma.site.findFirst({
+	const currentSite = await prisma.site.findFirst({
 		where: {
 			OR: [
 				{
@@ -65,10 +66,17 @@ export const createContext = async ({ req, res }: CreateNextContextOptions) => {
 		}
 	});
 
+	const selectedSite = await prisma.site.findUnique({
+		where: {
+			siteID: adminSession.user?.selectedSite ?? ""
+		}
+	});
+
 	return await createContextInner({
 		userSession,
 		adminSession,
-		currentSite: site ?? undefined,
+		currentSite: currentSite ?? undefined,
+		selectedSite: selectedSite ?? undefined,
 		req,
 		res
 	});

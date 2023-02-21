@@ -15,7 +15,8 @@ export const projectsRouter = router({
 		.query(async ({ ctx, input }) => {
 			const project = await ctx.prisma.ecoProject.findFirst({
 				where: {
-					ecoUrl: input.url
+					ecoUrl: input.url,
+					siteID: ctx.selectedSite?.siteID ?? ctx.currentSite?.siteID
 				},
 				include: {
 					benefits: input.benefits,
@@ -37,6 +38,9 @@ export const projectsRouter = router({
 			const limit = input?.limit ?? 50;
 			const projects = await ctx.prisma.ecoProject.findMany({
 				take: limit + 1, // get an extra item at the end which we'll use as next cursor
+				where: {
+					siteID: ctx.selectedSite?.siteID ?? ctx.currentSite?.siteID
+				},
 				include: {
 					benefits: input.benefits,
 					location: input.location

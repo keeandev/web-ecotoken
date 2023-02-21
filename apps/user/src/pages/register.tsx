@@ -74,47 +74,47 @@ const Register: NextPageWithLayout = () => {
                 <div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
 					<FormInput
 						// wrapperClass="flex flex-col flex-1"
-						fullWidth
+						size="full"
 						label="First name"
 						{...form.register("firstName")}
 					/>
 					<FormInput
 						// wrapperClass="flex flex-col flex-1"
-						fullWidth
+						size="full"
 						label="Last name"
 						{...form.register("lastName")}
 					/>
 				</div> */}
 				<FormInput
 					wrapperClass="flex flex-col flex-1"
-					fullWidth
+					size="full"
 					label="First name"
 					{...form.register("firstName")}
 				/>
 				<FormInput
 					wrapperClass="flex flex-col flex-1"
-					fullWidth
+					size="full"
 					label="Last name"
 					{...form.register("lastName")}
 				/>
 				<FormInput
-					fullWidth
+					size="full"
 					label="Email"
 					{...form.register("emailAddress")}
 				/>
 				<FormInput
-					fullWidth
+					size="full"
 					label="Username"
 					{...form.register("username")}
 				/>
 				<FormInput
-					fullWidth
+					size="full"
 					label="Password"
 					type="password"
 					{...form.register("password")}
 				/>
 				<FormInput
-					fullWidth
+					size="full"
 					label="Confirm Password"
 					type="password"
 					{...form.register("confirmPassword")}

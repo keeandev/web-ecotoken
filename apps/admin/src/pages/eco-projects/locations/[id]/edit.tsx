@@ -129,7 +129,7 @@ export const EditEcoLocation: React.FC = () => {
 					{/* <FormSelect
 						label="Site"
 						defaultValue={activeSiteID}
-						fullWidth
+						size="full"
 						{...form.register("siteID")}
 					>
 						{websiteData?.pages
@@ -142,13 +142,12 @@ export const EditEcoLocation: React.FC = () => {
 					</FormSelect> */}
 					<FormInput
 						label="Location"
-						size="xl"
-						fullWidth
+						size="full"
 						{...form.register("location")}
 					/>
 					<FormSelect
 						label="Country"
-						fullWidth
+						size="full"
 						defaultValue=""
 						{...form.register("cn")}
 					>
@@ -164,7 +163,7 @@ export const EditEcoLocation: React.FC = () => {
 					</FormSelect>
 					<FormSelect
 						label="State/Province"
-						fullWidth
+						size="full"
 						defaultValue=""
 						{...form.register("st")}
 					>

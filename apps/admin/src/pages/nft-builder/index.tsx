@@ -70,7 +70,7 @@ const NFTBuilder = () => {
 								label="Image"
 								type="file"
 								onChange={handleImageLoad}
-								fullWidth
+								size="full"
 							/>
 							<FormInput
 								label="Credits"
@@ -81,37 +81,37 @@ const NFTBuilder = () => {
 									setValueAs: (value) =>
 										isNaN(value) ? 0 : parseInt(value)
 								})}
-								fullWidth
+								size="full"
 							/>
 							<FormInput
 								label="Symbol"
-								fullWidth
+								size="full"
 								{...form.register("symbol")}
 							/>
 							<FormInput
 								label="Project"
-								fullWidth
+								size="full"
 								{...form.register("project")}
 							/>
 							<FormInput
 								label="Location"
-								fullWidth
+								size="full"
 								{...form.register("location")}
 							/>
 							<FormInput
 								label="Producer"
-								fullWidth
+								size="full"
 								{...form.register("producer")}
 							/>
 							<FormInput
 								label="Date"
 								type="date"
-								fullWidth
+								size="full"
 								{...form.register("date", {
 									valueAsDate: true
 								})}
 							/>
-							<Button loading={isLoading} fullWidth type="submit">
+							<Button loading={isLoading} fullWidth>
 								Build
 							</Button>
 						</Form>

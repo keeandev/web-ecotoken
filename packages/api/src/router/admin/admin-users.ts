@@ -60,7 +60,7 @@ export const adminUsersRouter = router({
 						{
 							sites: {
 								some: {
-									siteID: ctx.currentSite?.siteID
+									siteID: ctx.selectedSite?.siteID
 								}
 							},
 							scope: "SITE"

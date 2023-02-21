@@ -27,8 +27,8 @@ const Users = () => {
 			header: "User ID",
 			id: "id"
 		}),
-		columnHelper.accessor("siteID", {
-			header: "Site ID"
+		columnHelper.accessor("companyName", {
+			header: "Company Name"
 		}),
 		columnHelper.accessor("username", {
 			header: "Username"

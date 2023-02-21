@@ -57,7 +57,7 @@ export const Combobox = <T, K extends ItemFields>(
 			<div className="relative w-full">
 				<HeadlessCombobox.Input
 					as={Input}
-					fullWidth
+					size="full"
 					onChange={(event) => setQuery(event.target.value)}
 					displayValue={(value: T) => {
 						return displayValue(filteredItems, value);

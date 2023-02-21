@@ -25,9 +25,9 @@ const CreateWebsite = () => {
 		}
 	});
 
-    const form = useZodForm({
-        schema: createWebsiteSchema
-    })
+	const form = useZodForm({
+		schema: createWebsiteSchema
+	});
 
 	return (
 		<Transition
@@ -64,12 +64,13 @@ const CreateWebsite = () => {
 					}}
 				/> */}
 				<Form
-                    form={form}
+					form={form}
 					className="flex w-full flex-col gap-4"
 					onSubmit={async (website) =>
 						await mutateAsync({
 							...website
-						})}
+						})
+					}
 				>
 					<div className="flex flex-col gap-4">
 						<FormInput

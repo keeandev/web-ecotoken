@@ -20,7 +20,7 @@ export type AdminSession = {
 		id: string;
 		permissions?: Permission[];
 		ipAddress?: string;
-		lastSite?: string;
+		selectedSite?: string;
 	};
 } & IronSession;
 

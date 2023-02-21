@@ -10,7 +10,10 @@ export const usersRouter = router({
 		.query(async ({ ctx, input }) => {
 			const user = await ctx.prisma.user.findUnique({
 				where: {
-					username: input.username
+					username_siteID: {
+                        username: input.username,
+                        siteID: ctx.currentSite.siteID
+                    }
 				}
 			});
 			if (!user?.userID)
@@ -23,12 +26,18 @@ export const usersRouter = router({
 		.input(
 			z.object({
 				limit: z.number().min(1).max(100).optional().default(10),
+                role: z.string().optional(),
 				cursor: z.string().nullish() // <-- "cursor" needs to exist, but can be any type
 			})
 		)
 		.query(async ({ ctx, input }) => {
 			const users = await ctx.prisma.user.findMany({
-				where: {},
+				where: {
+					siteID: ctx.selectedSite?.siteID,
+                    role: {
+                        role: input.role
+                    }
+				},
 				take: input.limit + 1,
 				...(input?.cursor && {
 					cursor: {
@@ -53,7 +62,7 @@ export const usersRouter = router({
 				where: {
 					sites: {
 						some: {
-							siteID: ctx.currentSite?.siteID
+							siteID: ctx.selectedSite?.siteID
 						}
 					},
 					domain: {
@@ -65,7 +74,7 @@ export const usersRouter = router({
 				return await ctx.prisma.user.create({
 					data: {
 						...input,
-						siteID: ctx.currentSite?.siteID ?? "",
+						siteID: ctx.selectedSite?.siteID ?? "",
 						roleID: role.roleID
 					}
 				});
