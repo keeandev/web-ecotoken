@@ -1,16 +1,16 @@
-import { type inferAsyncReturnType } from "@trpc/server";
+import { getClientSession } from "@ecotoken/auth/src/iron-session/get-client-session";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
-import type { UserSession, AdminSession } from "@ecotoken/auth";
+import { type UserSession, type AdminSession } from "@ecotoken/auth";
+import { stripUrl } from "@ecotoken/auth/src/utils/strip-url";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getAdminSession, getUserSession } from "@ecotoken/auth";
+import { type inferAsyncReturnType } from "@trpc/server";
 import { prisma, Site } from "@ecotoken/db";
 
 /**
  * Replace this with an object if you want to pass things to createContextInner
  */
 type CreateContextOptions = {
-	userSession: UserSession;
-	adminSession: AdminSession;
+	session?: AdminSession | UserSession;
 	currentSite?: Site;
 	selectedSite?: Site;
 	req: NextApiRequest;
@@ -35,14 +35,9 @@ export const createContextInner = async (opts: CreateContextOptions) => {
  **/
 
 export const createContext = async ({ req, res }: CreateNextContextOptions) => {
-	// fetch the session, decrypt cookie/deserialize -> createContextInner as `userSession` and `adminSession` (optional fields)
-	const userSession = (await getUserSession(req, res)) ?? {};
-	const adminSession = (await getAdminSession(req, res)) ?? {};
-	const url = req.headers.referer
-		?.replace("https://", "")
-		.replace("http://", "")
-		.split("/")[0]
-		?.trim();
+	// fetch the session, decrypt cookie/deserialize -> get session as `userSession` or `adminSession`
+	const url = stripUrl(req.headers.referer);
+	const session = await getClientSession(req, res, url ?? "");
 
 	const currentSite = await prisma.site.findFirst({
 		where: {
@@ -66,15 +61,17 @@ export const createContext = async ({ req, res }: CreateNextContextOptions) => {
 		}
 	});
 
-	const selectedSite = await prisma.site.findUnique({
-		where: {
-			siteID: adminSession.user?.selectedSite ?? ""
-		}
-	});
+	let selectedSite;
+	if (session && session.user?.type === "admin") {
+		selectedSite = await prisma.site.findUnique({
+			where: {
+				siteID: session.user?.selectedSite ?? ""
+			}
+		});
+	}
 
 	return await createContextInner({
-		userSession,
-		adminSession,
+		session,
 		currentSite: currentSite ?? undefined,
 		selectedSite: selectedSite ?? undefined,
 		req,

@@ -35,7 +35,8 @@ export const adminAuthRouter = router({
 			});
 
 			const firstSite = await ctx.prisma.site.findFirst();
-			ctx.adminSession.user = {
+			ctx.session!.user = {
+				type: "admin",
 				id: user.adminID,
 				ipAddress:
 					process.env.NODE_ENV === "production"
@@ -43,10 +44,10 @@ export const adminAuthRouter = router({
 						: undefined,
 				selectedSite: firstSite?.siteID
 			};
-			await ctx.adminSession.save();
+			await ctx.session!.save();
 		}),
 	logout: adminAuthedProcedure.query(async ({ ctx }) => {
-		await ctx.adminSession.destroy();
+		await ctx.session.destroy();
 		return 200;
 	})
 });

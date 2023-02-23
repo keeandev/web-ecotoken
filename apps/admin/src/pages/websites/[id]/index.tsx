@@ -5,24 +5,19 @@ import { useEffect } from "react";
 const Website = () => {
 	const router = useRouter();
 	const context = trpc.useContext();
-	const { mutateAsync } = trpc.websites.updateCurrentSite.useMutation();
-	const { data: currentSite } = trpc.websites.getCurrentSite.useQuery();
+	const { mutateAsync } = trpc.websites.updateSelectedSite.useMutation({
+		onSuccess: () => context.websites.getSelectedSite.invalidate()
+	});
+	const { data: selectedSite } = trpc.websites.getSelectedSite.useQuery();
 
 	useEffect(() => {
 		const asyncFunction = async () => {
 			let { id } = router.query;
 			if (typeof id !== "string" && typeof id !== "undefined") id = id[0];
-			if (id)
-				await mutateAsync(
-					{ siteID: id },
-					{
-						onSuccess: () =>
-							context.websites.getCurrentSite.invalidate()
-					}
-				);
+			if (id && id !== selectedSite) await mutateAsync({ siteID: id });
 		};
 		asyncFunction();
-	}, [currentSite]);
+	}, []);
 
 	return <div>{router.query.id}</div>;
 };

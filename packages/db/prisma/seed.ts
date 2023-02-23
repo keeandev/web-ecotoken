@@ -297,12 +297,13 @@ const main = async () => {
 				siteName: site
 			}
 		});
-		await prisma.ecoLocation.create({
-			data: {
-				...remaining,
-				siteID: selectedSite?.siteID!
-			}
-		});
+		if (selectedSite)
+			await prisma.ecoLocation.create({
+				data: {
+					...remaining,
+					siteID: selectedSite.siteID
+				}
+			});
 	}
 	console.log("Created ecoLocations.");
 
@@ -330,19 +331,21 @@ const main = async () => {
 				}))
 			}
 		});
-		await prisma.ecoProject.create({
-			data: {
-				...project,
-				images: JSON.stringify(images),
-				locationID: selectedLocation?.locationID!,
-				siteID: selectedSite?.siteID!,
-				benefits: {
-					connect: selectedBenefits?.map(({ benefitID }) => ({
-						benefitID
-					}))
-				}
-			}
-		});
+		if(selectedSite && selectedBenefits && selectedLocation) {
+            await prisma.ecoProject.create({
+                data: {
+                    ...project,
+                    images: JSON.stringify(images),
+                    locationID: selectedLocation.locationID,
+                    siteID: selectedSite.siteID,
+                    benefits: {
+                        connect: selectedBenefits?.map(({ benefitID }) => ({
+                            benefitID
+                        }))
+                    }
+                }
+            });
+        }
 	}
 	console.log("Created ecoProjects.");
 

@@ -73,22 +73,22 @@ export const websiteRouter = router({
 	updateSelectedSite: adminAuthedProcedure
 		.input(z.object({ siteID: z.string() }))
 		.mutation(async ({ ctx, input }) => {
-			ctx.adminSession.user = {
-				id: ctx.adminSession.user?.id ?? "",
+			ctx.session.user = {
+				type: "admin",
+				id: ctx.session.user?.id ?? "",
 				ipAddress:
 					process.env.NODE_ENV === "production"
 						? ctx.req.connection.remoteAddress ?? ""
 						: undefined,
 				selectedSite: input.siteID
 			};
-			await ctx.adminSession.save();
-			console.log(ctx.adminSession.user);
+			await ctx.session.save();
 			return 200;
 		}),
 	getCurrentSite: adminAuthedProcedure.query(async ({ ctx }) => {
-		return ctx.currentSite?.siteID;
+		return ctx.currentSite.siteID;
 	}),
 	getSelectedSite: adminAuthedProcedure.query(async ({ ctx }) => {
-		return ctx.adminSession.user?.selectedSite;
+		return ctx.session.user.selectedSite;
 	})
 });

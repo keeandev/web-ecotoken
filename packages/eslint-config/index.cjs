@@ -1,17 +1,31 @@
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
-	root: true,
+	overrides: [
+		{
+			extends: [
+				"plugin:@typescript-eslint/recommended-requiring-type-checking",
+				"turbo",
+				"prettier"
+			],
+			files: ["*.ts", "*.tsx"],
+			parserOptions: {
+				project: "tsconfig.json"
+			}
+		}
+	],
+	parser: "@typescript-eslint/parser",
 	parserOptions: {
-		tsconfigRootDir: __dirname,
-		project: [
-			"./tsconfig.json",
-			"./apps/*/tsconfig.json",
-			"./packages/*/tsconfig.json"
-		]
+		project: "./tsconfig.json"
 	},
-	extends: ["turbo", "prettier"],
-    rules: {
-        "@typescript-eslint/no-empty-function": "off",
-        "@typescript-eslint/no-non-null-assertion": "off"
-    }
+	plugins: ["@typescript-eslint"],
+	extends: ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
+	rules: {
+		"@typescript-eslint/consistent-type-imports": [
+			"warn",
+			{
+				prefer: "type-imports",
+				fixStyle: "inline-type-imports"
+			}
+		]
+	}
 };

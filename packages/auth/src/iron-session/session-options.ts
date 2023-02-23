@@ -19,3 +19,17 @@ export const adminIronOptions: IronSessionOptions = {
 		maxAge: 60 * 60 * Number(process.env.IRON_SESSION_COOKIE_EXPIRE_TIME)
 	}
 };
+
+export const getOptionsBySite = (url: string) => {
+	switch (url) {
+		case "localhost:3000": {
+			return ironOptions;
+		}
+		case "localhost:3001": {
+			return adminIronOptions;
+		}
+		default: {
+			return ironOptions;
+		}
+	}
+};

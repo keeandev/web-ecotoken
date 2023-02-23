@@ -257,6 +257,7 @@ model NFTSeries {
     @@index([projectID])
     @@index([producerID])
     @@index([seriesNumber])
+    @@map("nft_series")
 }
 
 enum NFTType {
@@ -264,4 +265,47 @@ enum NFTType {
     WATER_CREDIT
     BIODIVERSITY
     STEWARDSHIP
+}
+
+model EcoOrder {
+    ecoOrderID   String           @id @default(cuid())
+    projectID    String
+    shortTitle   String
+    orderStatus  EcoOrderStatus
+    userID       String
+    retireBy     String
+    userLocation String
+    userWallet   String
+    creditType   String
+    creditAmount Decimal          @db.Decimal(12, 6)
+    payType      PurchaseCurrency
+    payAmount    Decimal          @db.Decimal(12, 6)
+    payFee       Decimal          @db.Decimal(12, 6)
+    payHash      String
+    ecoWallet    String
+    nftID        String
+    nftBkgd      String
+    creditWallet String
+    creditKey    String
+    retireWallet String
+    retireFee    Decimal?         @db.Decimal(12, 6)
+    retireHash   String?
+    createdAt    DateTime         @default(now())
+    isDelete     Boolean          @default(false)
+
+    @@map("eco_order")
+}
+
+enum PurchaseCurrency {
+    SOL
+    USDC
+}
+
+enum EcoOrderStatus {
+    FUNDS_RECIEVED
+    REQUEST_TO_RETIRE
+    CREDITS_RETIRED
+    NFT_BEING_MINTED
+    NFT_IN_YOUR_WALLET
+    ORDER_COMPLETE
 }

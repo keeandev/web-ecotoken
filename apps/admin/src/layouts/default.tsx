@@ -79,6 +79,11 @@ const sidebarCategories: Readonly<SidebarCategoryProps>[] = [
 				icon: faLocationDot
 			},
 			{
+				path: "/eco-projects/orders",
+				name: "Orders",
+				icon: faShoppingCart
+			},
+			{
 				path: "/eco-projects",
 				name: "Projects",
 				icon: faLeaf

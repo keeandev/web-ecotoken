@@ -9,10 +9,10 @@ const cardStyles = cva(["p-6 rounded-md shadow-sm"], {
 			secondary: "border border-slate-300 bg-slate-200"
 		},
 		size: {
-			// sm: "",
-			// md: "",
-			// lg: "",
-			// xl: "",
+			md: "w-36",
+			lg: "w-64",
+			xl: "w-72",
+			"2xl": "w-96",
 			quarter: "w-1/4",
 			half: "w-1/2",
 			third: "w-1/3",

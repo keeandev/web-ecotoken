@@ -16,7 +16,7 @@ export const projectsRouter = router({
 			const project = await ctx.prisma.ecoProject.findFirst({
 				where: {
 					ecoUrl: input.url,
-					siteID: ctx.selectedSite?.siteID ?? ctx.currentSite?.siteID
+					siteID: ctx.selectedSite?.siteID ?? ctx.currentSite.siteID
 				},
 				include: {
 					benefits: input.benefits,
@@ -39,7 +39,7 @@ export const projectsRouter = router({
 			const projects = await ctx.prisma.ecoProject.findMany({
 				take: limit + 1, // get an extra item at the end which we'll use as next cursor
 				where: {
-					siteID: ctx.selectedSite?.siteID ?? ctx.currentSite?.siteID
+					siteID: ctx.selectedSite?.siteID ?? ctx.currentSite.siteID
 				},
 				include: {
 					benefits: input.benefits,

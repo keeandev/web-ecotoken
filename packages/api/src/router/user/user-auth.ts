@@ -104,7 +104,8 @@ export const userAuthRouter = router({
 					permissions: true
 				}
 			});
-			ctx.userSession.user = {
+			ctx.session!.user = {
+                type: "user",
 				id: user.userID,
 				permissions: role?.permissions,
 				ipAddress:
@@ -112,7 +113,7 @@ export const userAuthRouter = router({
 						? ctx.req.connection.remoteAddress ?? ""
 						: undefined
 			};
-			await ctx.userSession?.save();
+			await ctx.session!.save();
 		}),
 	register: publicProcedure
 		.input(createUserSchema)
@@ -153,7 +154,7 @@ export const userAuthRouter = router({
 			}
 		}),
 	logout: userAuthedProcedure.query(async ({ ctx }) => {
-		await ctx.userSession.destroy();
+		await ctx.session.destroy();
 		return 200;
 	})
 });
