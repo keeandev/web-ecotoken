@@ -1,7 +1,16 @@
-import { type NextPage } from "next";
+import PublicNavbar from "@/components/public/navbar";
+import Link from "next/link";
+import { NextPageWithLayout } from "./_app";
 
-const Home: NextPage = () => {
-	return <div>Dashboard</div>;
+const HomePage: NextPageWithLayout = () => {
+	return (
+		<div className="flex h-full w-full items-center justify-center">
+			<PublicNavbar />
+			Home
+		</div>
+	);
 };
 
-export default Home;
+HomePage.getLayout = (page) => <>{page}</>;
+
+export default HomePage;

@@ -51,37 +51,37 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
 					</div>
 					<div className="transition-all duration-200 ease-in-out">
 						<SidebarItem
-							path="/"
+							path="/user"
 							name="Dashboard"
 							icon={faHouse}
 							expanded={expanded}
 						/>
 						<SidebarItem
-							path="/wallet"
+							path="/user/wallet"
 							name="Wallet"
 							icon={faWallet}
 							expanded={expanded}
 						/>
 						<SidebarItem
-							path="/history"
+							path="/user/history"
 							name="History"
 							icon={faClockRotateLeft}
 							expanded={expanded}
 						/>
 						<SidebarItem
-							path="/settings"
+							path="/user/settings"
 							name="Settings"
 							icon={faGear}
 							expanded={expanded}
 						/>
 						<SidebarItem
-							path="/projects"
+							path="/user/projects"
 							name="Projects"
 							icon={faLeaf}
 							expanded={expanded}
 						/>
 						<SidebarItem
-							path="/collection"
+							path="/user/collection"
 							name="Collection"
 							icon={faImage}
 							expanded={expanded}

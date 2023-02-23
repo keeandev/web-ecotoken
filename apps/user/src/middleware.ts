@@ -15,7 +15,7 @@ export async function middleware(req: NextRequest) {
 
 	if (pathname.startsWith("/login")) {
 		if (session.user?.id) {
-			return NextResponse.redirect(new URL("/", req.url));
+			return NextResponse.redirect(new URL("/user", req.url));
 		}
 	} else {
 		if (!session.user?.id) {
@@ -38,6 +38,9 @@ export const config = {
 		 * - email-verification (public route)
 		 * - register (public route)
 		 */
-		"/((?!api|_next/static|_next/image|favicon.ico|email-verification|register).*)"
+		"/user/:path*",
+		"/login"
+
+		/* "/((?!api|_next/static|_next/image|favicon.ico|email-verification|register).*)" */
 	]
 };

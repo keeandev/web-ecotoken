@@ -16,7 +16,7 @@ const Login = () => {
 	const { mutate, isLoading } = trpc.userAuth.login.useMutation({
 		retry: false,
 		onSuccess() {
-			router.push("/");
+			router.push("/user");
 			toast.success("Login success.");
 		},
 		onError(e) {
