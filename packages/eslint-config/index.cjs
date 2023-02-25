@@ -7,16 +7,10 @@ module.exports = {
 				"turbo",
 				"prettier"
 			],
-			files: ["*.ts", "*.tsx"],
-			parserOptions: {
-				project: "tsconfig.json"
-			}
+			files: ["*.ts", "*.tsx"]
 		}
 	],
 	parser: "@typescript-eslint/parser",
-	parserOptions: {
-		project: "./tsconfig.json"
-	},
 	plugins: ["@typescript-eslint"],
 	extends: ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
 	rules: {
@@ -26,6 +20,8 @@ module.exports = {
 				prefer: "type-imports",
 				fixStyle: "inline-type-imports"
 			}
-		]
+		],
+		"@typescript-eslint/ban-ts-comment": "off",
+		"react/display-name": "off"
 	}
 };

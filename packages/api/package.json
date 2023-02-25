@@ -13,9 +13,11 @@
 	},
 	"dependencies": {
 		"@aws-sdk/client-s3": "^3.259.0",
+		"@aws-sdk/s3-request-presigner": "^3.279.0",
 		"@ecotoken/auth": "*",
 		"@ecotoken/db": "*",
 		"@ecotoken/email": "*",
+		"@paralleldrive/cuid2": "^2.2.0",
 		"argon2": "^0.30.2",
 		"next": "^13.0.5",
 		"zod-form-data": "^1.2.4"

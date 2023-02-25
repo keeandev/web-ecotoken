@@ -1,7 +1,7 @@
-import { router, adminAuthedProcedure } from "../../trpc";
+import { router, adminAuthedProcedure } from "../trpc";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { client } from "../../utils/s3";
-import { createNFTSchema } from "../../schema/nft-builder";
+import { s3Client } from "../utils/s3";
+import { createNFTSchema } from "../schema/nft-builder";
 
 export const nftBuilderRouter = router({
 	mint: adminAuthedProcedure
@@ -12,7 +12,7 @@ export const nftBuilderRouter = router({
 				input.image.replace(/^data:image\/\w+;base64,/, ""),
 				"base64"
 			);
-			await client.send(
+			await s3Client.send(
 				new PutObjectCommand({
 					Bucket: process.env.SPACES_BUCKET as string,
 					Key: "123.png",
@@ -21,6 +21,6 @@ export const nftBuilderRouter = router({
 					Body: imageBuffer
 				})
 			);
-            // next up, create the metadata and mint the nft, problem is we need to add wallet support and mint somehow :)
+			// next up, create the metadata and mint the nft, problem is we need to add wallet support and mint somehow :)
 		})
 });

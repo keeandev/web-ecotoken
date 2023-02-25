@@ -7,11 +7,13 @@ import { usersRouter } from "./user/users";
 import { websiteRouter } from "./websites/websites";
 import { rolesRouter } from "./roles/roles";
 import { permissionsRouter } from "./permissions/permissions";
-import { nftBuilderRouter } from "./nft-builder/nft-builder";
+import { nftBuilderRouter } from "./nft-builder";
 import { nftSeriesRouter } from "./nft-series";
 import { ordersRouter } from "./eco/eco-orders";
+import { uploadRouter } from "./upload";
 
 export const appRouter = router({
+	upload: uploadRouter,
 	adminAuth: adminAuthRouter,
 	adminUsers: adminUsersRouter,
 	ecoProjects: projectsRouter,

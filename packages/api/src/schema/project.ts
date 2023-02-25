@@ -1,15 +1,17 @@
 import { z } from "zod";
 
 export const createEcoProjectSchema = z.object({
-	locationID: z.string(),
-    siteID: z.string(),
-	prdUserID: z.string().nullable(),
-	vfyUserID: z.string().nullable(),
+	locationID: z.string().min(1, "Please choose a location for this project."),
+	siteID: z.string().min(1, "A site is required to create this project."),
+	prdUserID: z.string().nullish(),
+	vfyUserID: z.string().nullish(),
 	ecoNftID: z.number(),
 	ecoType: z.enum(["FUNDED_PROJECT", "CARBON_CREDIT", "WATER_CREDIT"]),
 	ecoTitle: z.string(),
-	shortTitle: z.string(),
-	ecoUrl: z.string(),
+	shortTitle: z
+		.string()
+		.min(1, "A short title is required to create a project."),
+	ecoUrl: z.string().min(1, "Please provide a identifier for your project."),
 	intro: z.string(),
 	project: z.string(),
 	overview: z.string(),
@@ -20,12 +22,15 @@ export const createEcoProjectSchema = z.object({
 		headTwo: z.string(),
 		headThree: z.string()
 	}),
-	fundAmount: z.number().nullable(),
-	fundRecieved: z.number().nullable(),
-	return: z.number().nullable(),
-	payback: z.string().nullable(),
-	dateStart: z.date().nullable(),
-	dateEnd: z.date().nullable(),
+	fundAmount: z.number().nullish(),
+	fundRecieved: z.number().nullish(),
+	return: z
+		.number()
+		.min(1, "You must have a return greater than zero.")
+		.nullish(),
+	payback: z.string().nullish(),
+	dateStart: z.date().nullish(),
+	dateEnd: z.date().nullish(),
 	isVisible: z.boolean()
 });
 

@@ -16,19 +16,23 @@ import Form, {
 	useZodForm
 } from "@ecotoken/ui/components/Form";
 import Button from "@ecotoken/ui/components/Button";
-import { useCallback, useMemo } from "react";
+import { type ChangeEvent, useMemo, useState } from "react";
 import { Country, State } from "country-state-city";
 import { transformEnum } from "@/utils/transformer";
+import { createId } from "@paralleldrive/cuid2";
 
 const CreateEcoProject = () => {
 	const router = useRouter();
 	const { mutate, isLoading: isCreatingOrder } =
 		trpc.ecoProjects.create.useMutation({
-			onSuccess() {
-				router.push("/eco-projects");
+			async onSuccess() {
+				await router.push("/eco-projects");
 				toast.success("Project created successfully.");
 			}
 		});
+
+	const { mutateAsync: createUrls, isLoading: isCreatingUrls } =
+		trpc.upload.createPresignedUrl.useMutation();
 
 	const { data: ecoLocations, isLoading: fetchingEcoLocations } =
 		trpc.ecoLocations.getAll.useInfiniteQuery(
@@ -43,9 +47,7 @@ const CreateEcoProject = () => {
 			{
 				role: ["Producer", "Verifier"]
 			},
-			{
-				getNextPageParam: (lastPage) => lastPage.nextCursor
-			}
+			{ getNextPageParam: (lastPage) => lastPage.nextCursor }
 		);
 
 	const cachedLocations = useMemo(
@@ -70,9 +72,21 @@ const CreateEcoProject = () => {
 
 	const form = useZodForm({
 		schema: createEcoProjectSchema.omit({
-			siteID: true
+			siteID: true,
+			ecoNftID: true,
+			ecoTitle: true,
+			fundRecieved: true
 		})
 	});
+
+	const handleImageLoad = (e: ChangeEvent<HTMLInputElement>) => {
+		const files = e.target.files;
+		if (files && files[0]) {
+			// @ts-ignore
+			form.setValue(e.target.name, URL.createObjectURL(files[0]));
+		}
+	};
+
 	{
 		/* <div className="flex w-full flex-col space-y-4 lg:flex-row lg:space-y-0 lg:space-x-4">
 				<DefaultCard
@@ -88,6 +102,7 @@ const CreateEcoProject = () => {
 
 	return (
 		<div className="w-full space-y-4">
+			<pre>{JSON.stringify(form.getValues("images"))}</pre>
 			<DefaultCard className="flex flex-col space-y-4" size="half">
 				<div className="flex space-x-2">
 					<Link href="/admin-users" className="inline-block">
@@ -106,7 +121,56 @@ const CreateEcoProject = () => {
 				</div>
 				<Form
 					form={form}
-					onSubmit={(project) => {}}
+					onSubmit={async (project) => {
+						const projectID = createId();
+						const keys = Object.keys(project.images);
+						// find the key to use as the image name
+						const findKeyByValue = (image: string) =>
+							keys.find(
+								(key) =>
+									project.images[
+										key as keyof typeof project.images
+									] === image
+							);
+
+						const urls = await createUrls(
+							Object.values(project.images).map((image) => ({
+								key: `eco-projects/${projectID}/${
+									findKeyByValue(image) ?? ""
+								}.png`,
+								contentType: "image/png"
+							}))
+						);
+						for (const url of urls) {
+							const split = url.split("/");
+							let fileName = split[split.length - 1];
+							fileName = fileName?.substring(
+								0,
+								fileName.indexOf("?")
+							);
+							if (fileName) {
+								const imageBlob =
+									project.images[
+										fileName.replace(
+											".png",
+											""
+										) as keyof project.images
+									];
+
+								await fetch(url, {
+									method: "PUT",
+									headers: {
+										contentType: "image/png"
+									},
+									body: {
+										file: new File([imageBlob], fileName, {
+											type: " image/png"
+										})
+									}
+								});
+							}
+						}
+					}}
 					className="flex w-fit flex-col gap-4"
 				>
 					<FormInput
@@ -157,8 +221,11 @@ const CreateEcoProject = () => {
 								value={location.locationID}
 							>
 								{`${location.location}, 
-								${State.getStateByCodeAndCountry(location.st, location.cn)?.name}, 
-                                ${Country.getCountryByCode(location.cn)?.name}`}
+								${State.getStateByCodeAndCountry(location.st, location.cn)?.name ?? ""}, 
+                                ${
+									Country.getCountryByCode(location.cn)
+										?.name ?? ""
+								}`}
 							</option>
 						))}
 					</FormSelect>
@@ -201,28 +268,36 @@ const CreateEcoProject = () => {
 						{...form.register("ecoUrl")}
 					/>
 					<FormInput
-						name="List Image"
 						label="List Image"
-						size="full"
+						size="xl"
+						wrapperClass="w-fit"
 						type="file"
+						{...form.register("images.listImage")}
+						onChange={handleImageLoad}
 					/>
 					<FormInput
-						name="1st Head Image"
 						label="1st Head Image"
-						size="full"
+						size="xl"
+						wrapperClass="w-fit"
 						type="file"
+						{...form.register("images.headOne")}
+						onChange={handleImageLoad}
 					/>
 					<FormInput
-						name="2nd Head Image"
 						label="2nd Head Image"
-						size="full"
+						size="xl"
+						wrapperClass="w-fit"
 						type="file"
+						{...form.register("images.headTwo")}
+						onChange={handleImageLoad}
 					/>
 					<FormInput
-						name="3rd Head Image"
 						label="3rd Head Image"
-						size="full"
+						size="xl"
+						wrapperClass="w-fit"
 						type="file"
+						{...form.register("images.headThree")}
+						onChange={handleImageLoad}
 					/>
 					<FormTextArea
 						label="Intro"
@@ -233,7 +308,7 @@ const CreateEcoProject = () => {
 					/>
 					<FormTextArea
 						label="Project"
-						width="2xl"
+						width="xl"
 						height="md"
 						wrapperClass="w-fit"
 						{...form.register("project")}
@@ -242,7 +317,65 @@ const CreateEcoProject = () => {
 						label="Overview"
 						width="xl"
 						wrapperClass="w-fit"
-						{...form.register("project")}
+						{...form.register("overview")}
+					/>
+					<FormInput
+						label="Fund Amount"
+						type="number"
+						size="xl"
+						wrapperClass="w-fit"
+						{...form.register("fundAmount", {
+							setValueAs(value) {
+								const parsedValue = parseInt(value);
+								if (isNaN(parsedValue)) return undefined;
+								else parsedValue;
+							}
+						})}
+					/>
+					<FormInput
+						label="Return"
+						type="number"
+						size="xl"
+						wrapperClass="w-fit"
+						{...form.register("return", {
+							setValueAs(value) {
+								const parsedValue = parseInt(value);
+								if (isNaN(parsedValue)) return undefined;
+								else parsedValue;
+							}
+						})}
+					/>
+					<FormInput
+						label="Payback"
+						size="xl"
+						wrapperClass="w-fit"
+						{...form.register("payback")}
+					/>
+					<FormInput
+						label="Start Date"
+						type="date"
+						size="xl"
+						wrapperClass="w-fit"
+						{...form.register("dateStart", {
+							valueAsDate: true
+						})}
+					/>
+					<FormInput
+						label="End Date"
+						type="date"
+						size="xl"
+						wrapperClass="w-fit"
+						{...form.register("dateEnd", {
+							valueAsDate: true
+						})}
+					/>
+					<FormInput
+						label="Visible"
+						type="checkbox"
+						size="xl"
+						wrapperClass="w-fit"
+						defaultChecked
+						{...form.register("isVisible")}
 					/>
 					<Button fullWidth>Create Project</Button>
 				</Form>

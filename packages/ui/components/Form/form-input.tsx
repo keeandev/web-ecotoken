@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
-import Root, { InputProps as RootProps } from "../Input";
-import FormField, { UseFormFieldProps, useFormField } from "./form-field";
+import Root, { type InputProps as RootProps } from "../Input";
+import FormField, { type UseFormFieldProps, useFormField } from "./form-field";
 
 type Props = UseFormFieldProps & RootProps;
 
