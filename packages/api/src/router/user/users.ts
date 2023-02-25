@@ -11,9 +11,9 @@ export const usersRouter = router({
 			const user = await ctx.prisma.user.findUnique({
 				where: {
 					username_siteID: {
-                        username: input.username,
-                        siteID: ctx.currentSite.siteID
-                    }
+						username: input.username,
+						siteID: ctx.currentSite.siteID
+					}
 				}
 			});
 			if (!user?.userID)
@@ -26,7 +26,7 @@ export const usersRouter = router({
 		.input(
 			z.object({
 				limit: z.number().min(1).max(100).optional().default(10),
-                role: z.string().optional(),
+				role: z.union([z.string().array(), z.string()]).optional(),
 				cursor: z.string().nullish() // <-- "cursor" needs to exist, but can be any type
 			})
 		)
@@ -34,9 +34,22 @@ export const usersRouter = router({
 			const users = await ctx.prisma.user.findMany({
 				where: {
 					siteID: ctx.selectedSite?.siteID,
-                    role: {
-                        role: input.role
-                    }
+					...(input.role && {
+						role: {
+							...(typeof input.role === "string"
+								? {
+										role: input.role
+								  }
+								: {
+										OR: input.role.map((role) => ({
+											role
+										}))
+								  })
+						}
+					})
+				},
+				include: {
+					role: !!input.role
 				},
 				take: input.limit + 1,
 				...(input?.cursor && {
@@ -60,14 +73,22 @@ export const usersRouter = router({
 			delete (input as Partial<typeof input>).confirmPassword;
 			const role = await ctx.prisma.role.findFirst({
 				where: {
-					sites: {
-						some: {
-							siteID: ctx.selectedSite?.siteID
+					OR: [
+						{
+							sites: {
+								some: {
+									siteID: ctx.selectedSite?.siteID
+								}
+							},
+							scope: "SITE"
+						},
+						{
+							domain: {
+								equals: "USER"
+							},
+							scope: "DEFAULT"
 						}
-					},
-					domain: {
-						equals: "USER"
-					}
+					]
 				}
 			});
 			if (role) {

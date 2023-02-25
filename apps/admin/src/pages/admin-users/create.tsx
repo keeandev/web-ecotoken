@@ -33,8 +33,8 @@ const AdminUserCreate = () => {
 	const { data: roles, isLoading: areRolesLoading } =
 		trpc.roles.getAll.useInfiniteQuery(
 			{
-                domain: "ADMIN"
-            },
+				domain: "ADMIN"
+			},
 			{
 				getNextPageParam: (lastPage) => lastPage.nextCursor
 			}
@@ -73,7 +73,7 @@ const AdminUserCreate = () => {
 					<div>
 						<CardTitle>Create User</CardTitle>
 						<CardDescription>
-							Create a user in the database.
+							Create an admin user in the database.
 						</CardDescription>
 					</div>
 				</div>
@@ -98,12 +98,10 @@ const AdminUserCreate = () => {
 					<div className="flex flex-col gap-4 md:flex-row">
 						<FormInput
 							label="First Name"
-							size="md"
 							{...form.register("firstName")}
 						/>
 						<FormInput
 							label="Last Name"
-							size="md"
 							{...form.register("lastName")}
 						/>
 					</div>
@@ -145,7 +143,7 @@ const AdminUserCreate = () => {
 							Generate a secure password automatically
 						</span>
 					</div>
-					<Button loading={isLoading} fullWidth>
+					<Button loading={isLoading || areRolesLoading} fullWidth>
 						Create
 					</Button>
 				</Form>

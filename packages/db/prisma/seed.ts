@@ -92,7 +92,7 @@ const projectsToCreate: CreateProjectOperation[] = [
 		shortTitle: "Dairy Manure Remediation",
 		ecoUrl: "DairyManure001",
 		intro: "Manure treatment to tackle Greenhouse Gas, manure odor and groundwater contamination.",
-		location: "Leduc, Alberta, Canada",
+		location: "Leduc",
 		benefits: [
 			"Animal Welfare",
 			"Ecosystem Health",
@@ -122,7 +122,7 @@ const projectsToCreate: CreateProjectOperation[] = [
 		shortTitle: "Green Waste Treatment",
 		ecoUrl: "Organics001",
 		intro: "Green waste in landfills generates large quantities of methane. This project will render it into a plant nutrient, while reducing greenhouse gasses and leading to groundwater improvement.",
-		location: "Calgary, Alberta, Canada",
+		location: "Calgary",
 		benefits: [
 			"Ecosystem Health",
 			"Greenhouse Gas",
@@ -155,7 +155,7 @@ const projectsToCreate: CreateProjectOperation[] = [
 		shortTitle: "Groundwater Treatment",
 		ecoUrl: "Groundwater001",
 		intro: "Excessive fecal matter from cattle herds can affect local groundwater, making it unhealthy for the cattle and other animals.",
-		location: "Pincher Creek, Alberta, Canada",
+		location: "Pincher Creek",
 		benefits: [
 			"Animal Welfare",
 			"Ecosystem Health",
@@ -188,7 +188,7 @@ const projectsToCreate: CreateProjectOperation[] = [
 		shortTitle: "Ocean Wise - Seaforestation",
 		ecoUrl: "Oceanwise001",
 		intro: "Kelp forests are rich habitat for marine life, including commercially important fish and invertebrates. Kelp naturally capture carbon in large volumes some of which gets trapped in the ocean floor for centuries.",
-		location: "Howe Sound, British Columbia, Canada",
+		location: "Howe Sound",
 		benefits: ["Ecosystem Health", "Greenhouse Gas", "Ocean Health"],
 		project: "",
 		overview: `5,000ha of kelp will be restored and cultivated\n
@@ -331,21 +331,19 @@ const main = async () => {
 				}))
 			}
 		});
-		if(selectedSite && selectedBenefits && selectedLocation) {
-            await prisma.ecoProject.create({
-                data: {
-                    ...project,
-                    images: JSON.stringify(images),
-                    locationID: selectedLocation.locationID,
-                    siteID: selectedSite.siteID,
-                    benefits: {
-                        connect: selectedBenefits?.map(({ benefitID }) => ({
-                            benefitID
-                        }))
-                    }
-                }
-            });
-        }
+		await prisma.ecoProject.create({
+			data: {
+				...project,
+				images: JSON.stringify(images),
+				locationID: selectedLocation!.locationID,
+				siteID: selectedSite!.siteID,
+				benefits: {
+					connect: selectedBenefits?.map(({ benefitID }) => ({
+						benefitID
+					}))
+				}
+			}
+		});
 	}
 	console.log("Created ecoProjects.");
 
@@ -472,7 +470,7 @@ const main = async () => {
 		const selectedSites = await prisma.site.findMany({
 			where: {
 				OR: sites?.map((site) => ({
-					siteID: site
+					siteName: site
 				}))
 			}
 		});

@@ -43,6 +43,7 @@ export { default as FormField } from "./form-field";
 export { default as FormInput } from "./form-input";
 export { default as FormCombobox } from "./form-combobox";
 export { default as FormSelect } from "./form-select";
+export { default as FormTextArea } from "./form-textarea";
 export default Form;
 
 interface UseZodFormProps<S extends z.ZodSchema>

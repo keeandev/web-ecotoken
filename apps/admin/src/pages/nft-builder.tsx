@@ -50,7 +50,6 @@ const NFTBuilder = () => {
 						<Form
 							form={form}
 							onSubmit={async (data) => {
-								console.log("mutedate");
 								if (componentRef.current) {
 									const canvas = await html2canvas(
 										componentRef.current

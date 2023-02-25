@@ -69,22 +69,6 @@ const Register: NextPageWithLayout = () => {
 						</h3>
 					</div>
 				</div>
-				{/* 
-                    Couldn't get flex-1 working again. Randy, if you want to take a shot at it go ahead. Good luck!
-                <div className="flex flex-col space-y-4 md:flex-row md:space-x-4 md:space-y-0">
-					<FormInput
-						// wrapperClass="flex flex-col flex-1"
-						size="full"
-						label="First name"
-						{...form.register("firstName")}
-					/>
-					<FormInput
-						// wrapperClass="flex flex-col flex-1"
-						size="full"
-						label="Last name"
-						{...form.register("lastName")}
-					/>
-				</div> */}
 				<FormInput
 					wrapperClass="flex flex-col flex-1"
 					size="full"
@@ -100,7 +84,7 @@ const Register: NextPageWithLayout = () => {
 				<FormInput
 					size="full"
 					label="Email"
-					{...form.register("emailAddress")}
+					{...form.register("email")}
 				/>
 				<FormInput
 					size="full"

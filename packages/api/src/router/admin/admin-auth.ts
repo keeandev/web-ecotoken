@@ -47,7 +47,7 @@ export const adminAuthRouter = router({
 			await ctx.session!.save();
 		}),
 	logout: adminAuthedProcedure.query(async ({ ctx }) => {
-		await ctx.session.destroy();
+		ctx.session.destroy();
 		return 200;
 	})
 });

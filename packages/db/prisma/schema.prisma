@@ -55,25 +55,6 @@ enum RoleScope {
     SITE
 }
 
-// model User {
-//     id            String  @id @default(cuid())
-//     walletAddress String  @unique
-//     emailAddress  String? @unique
-//     name          String?
-//     profileUrl    String?
-//     verifier      String?
-//     typeOfLogin   String?
-
-//     createdAt DateTime @default(now())
-//     updatedAt DateTime @updatedAt
-
-//     site   Site   @relation(fields: [siteID], references: [siteID])
-//     siteID String
-
-//     @@index([siteID])
-//     @@map("user")
-// }
-
 model User {
     userID        String  @id @default(cuid())
     companyName   String? @unique
@@ -81,7 +62,7 @@ model User {
     lastName      String?
     username      String
     password      String
-    emailAddress  String  @unique
+    email         String  @unique
     walletAddress String? @unique
 
     site      Site        @relation(fields: [siteID], references: [siteID])
@@ -184,8 +165,8 @@ model EcoBenefit {
 model EcoProject {
     projectID  String        @id @default(cuid())
     ord        Int           @default(0)
-    prdUserID  Int?
-    vfyUserID  Int?
+    prdUserID  String?
+    vfyUserID  String?
     ecoNftID   Int           @db.UnsignedInt
     ecoType    ProjectType
     ecoTitle   String
@@ -201,7 +182,7 @@ model EcoProject {
     location   EcoLocation  @relation(fields: [locationID], references: [locationID])
     locationID String
     benefits   EcoBenefit[]
-    nftSeries  NFTSeries[]
+    nftSeries  NFTSeries?
 
     images       String    @db.Text
     fundAmount   Int?
@@ -237,7 +218,7 @@ model NFTSeries {
     nftSeriesID String @id @default(cuid())
 
     project    EcoProject @relation(fields: [projectID], references: [projectID])
-    projectID  String
+    projectID  String     @unique
     producer   User       @relation(fields: [producerID], references: [userID])
     producerID String
 

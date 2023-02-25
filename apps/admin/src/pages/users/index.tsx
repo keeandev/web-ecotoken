@@ -37,7 +37,7 @@ const Users = () => {
 		// 	header: "Wallet Address",
 		// 	footer: (info) => info.column.id
 		// }),
-		columnHelper.accessor("emailAddress", {
+		columnHelper.accessor("email", {
 			header: "Email Address"
 		}),
 		columnHelper.accessor("createdAt", {

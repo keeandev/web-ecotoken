@@ -1,3 +1,4 @@
+import { trpc } from "@/utils/trpc";
 import { createEcoOrderSchema } from "@ecotoken/api/src/schema/order";
 import Button from "@ecotoken/ui/components/Button";
 import Form, {
@@ -5,6 +6,7 @@ import Form, {
 	FormSelect,
 	useZodForm
 } from "@ecotoken/ui/components/Form";
+import { useMemo } from "react";
 import { z } from "zod";
 
 const omittedSchema = createEcoOrderSchema.omit({
@@ -18,8 +20,41 @@ const omittedSchema = createEcoOrderSchema.omit({
 const OrderModal: React.FC<{
 	onOrder: (order: z.infer<typeof omittedSchema>) => void;
 	creditType?: string;
-    loading?: boolean;
-}> = ({ onOrder, creditType, loading }) => {
+	loading?: boolean;
+	admin?: boolean;
+}> = ({ onOrder, creditType, loading, admin }) => {
+	const { data: ecoProjects, isLoading: fetchingEcoProjects } =
+		trpc.ecoProjects.getAll.useInfiniteQuery(
+			{
+				hasActiveSeries: true
+			},
+			{
+				getNextPageParam: (lastPage) => lastPage.nextCursor,
+				enabled: !!admin
+			}
+		);
+
+	const { data: users, isLoading: fetchingUsers } =
+		trpc.users.getAll.useInfiniteQuery(
+			{
+				role: "Producer"
+			},
+			{
+				getNextPageParam: (lastPage) => lastPage.nextCursor,
+				enabled: !!admin
+			}
+		);
+
+	const cachedProjects = useMemo(
+		() => ecoProjects?.pages.flatMap((page) => page.projects),
+		[ecoProjects]
+	);
+
+	const cachedUsers = useMemo(
+		() => users?.pages.flatMap((page) => page.users),
+		[users]
+	);
+
 	const form = useZodForm({
 		schema: omittedSchema
 	});
@@ -31,6 +66,39 @@ const OrderModal: React.FC<{
 			className="space-y-4"
 		>
 			<div className="space-y-4">
+				{admin && (
+					<>
+						<FormSelect
+							label="Project"
+							size="full"
+							defaultValue=""
+							{...form.register("projectID")}
+						>
+							<option value="" hidden></option>
+							{cachedProjects?.map((project) => (
+								<option
+									key={project.projectID}
+									value={project.projectID}
+								>
+									{project.ecoTitle}
+								</option>
+							))}
+						</FormSelect>
+						<FormSelect
+							label="User"
+							size="full"
+							defaultValue=""
+							{...form.register("userID")}
+						>
+							<option value="" hidden></option>
+							{cachedUsers?.map((user) => (
+								<option key={user.userID} value={user.userID}>
+									{user.username} - {user.email}
+								</option>
+							))}
+						</FormSelect>
+					</>
+				)}
 				<FormInput
 					label={creditType ? `Credits (${creditType})` : "Credits"}
 					type="number"
@@ -61,7 +129,12 @@ const OrderModal: React.FC<{
 					label="Your Location"
 					{...form.register("userLocation")}
 				/>
-				<Button loading={loading} fullWidth>Purchase Credits</Button>
+				<Button
+					loading={loading || fetchingEcoProjects || fetchingUsers}
+					fullWidth
+				>
+					Purchase Credits
+				</Button>
 			</div>
 		</Form>
 	);

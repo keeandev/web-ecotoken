@@ -1,10 +1,5 @@
 import { z } from "zod";
 
-// export const createUserSchema = z.object({
-// 	walletAddress: z.string(),
-// 	emailAddress: z.string().nullish()
-// });
-
 export const createUserSchema = z.object({
 	roleID: z.string().min(1, "A role is required."),
 	companyName: z.string().nullish(),
@@ -16,7 +11,7 @@ export const createUserSchema = z.object({
 		.string()
 		.max(32, "Last name cannot be longer than 32 characters.")
 		.optional(),
-	emailAddress: z.string().email("You must specify a valid email."),
+	email: z.string().email("You must specify a valid email."),
 	username: z.string().min(3, "Username must be at least 3 characters."),
 	password: z.string().min(8, "Password must be at least 8 characters."),
 	confirmPassword: z.string()

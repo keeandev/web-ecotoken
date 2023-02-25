@@ -50,35 +50,42 @@ export const ordersRouter = router({
 	create: adminAuthedProcedure
 		.input(createEcoOrderSchema)
 		.mutation(async ({ ctx, input }) => {
-			const series = await ctx.prisma.nFTSeries.findUnique({
+			const project = await ctx.prisma.ecoProject.findUnique({
 				where: {
-					nftSeriesID: input.nftID
+					projectID: input.projectID
 				},
 				include: {
-					project: true
+					nftSeries: true
 				}
 			});
 
-			if (!series) {
+			if (!project) {
+				throw new TRPCError({
+					code: "UNAUTHORIZED",
+					message: "Project not found."
+				});
+			}
+			if (!project.nftSeries)
 				throw new TRPCError({
 					code: "UNAUTHORIZED",
 					message: "Series for NFT not found."
 				});
-			}
+
+			const series = project.nftSeries;
 
 			await ctx.prisma.ecoOrder.create({
 				data: {
 					...input,
-					projectID: series.projectID,
-					shortTitle: series.project.shortTitle,
+					nftID: series.nftSeriesID,
+					shortTitle: project.shortTitle,
 					userID: ctx.session.user.id ?? "",
 					orderStatus: "FUNDS_RECIEVED",
 					creditType: series.seriesType,
 					retireWallet: series.recieveWallet,
 					ecoWallet: series.creditWallet,
 					nftBkgd: series.seriesImage,
-                    creditKey: series.creditKey,
-                    creditWallet: series.creditWallet
+					creditKey: series.creditKey,
+					creditWallet: series.creditWallet
 				}
 			});
 		})

@@ -27,7 +27,7 @@ export const userAuthRouter = router({
 			});
 
 			if (
-				!unsealedData.emailAddress ||
+				!unsealedData.email ||
 				!unsealedData.username ||
 				!unsealedData.password ||
 				!unsealedData.firstName ||
@@ -43,7 +43,7 @@ export const userAuthRouter = router({
 			if (
 				await ctx.prisma.user.findUnique({
 					where: {
-						emailAddress: unsealedData.emailAddress
+						email: unsealedData.email
 					}
 				})
 			)
@@ -75,7 +75,7 @@ export const userAuthRouter = router({
 							username: input.user
 						},
 						{
-							emailAddress: input.user
+							email: input.user
 						}
 					],
 					AND: {
@@ -91,21 +91,31 @@ export const userAuthRouter = router({
 					code: "UNAUTHORIZED",
 					message: "Username, email, or password is incorrect."
 				});
-
 			const role = await ctx.prisma.role.findFirst({
 				where: {
-					users: {
-						some: {
-							roleID: user.roleID
+					OR: [
+						{
+							sites: {
+								some: {
+									siteID: ctx.selectedSite?.siteID
+								}
+							},
+							scope: "SITE"
+						},
+						{
+							domain: {
+								equals: "ADMIN"
+							},
+							scope: "DEFAULT"
 						}
-					}
+					]
 				},
 				include: {
 					permissions: true
 				}
 			});
 			ctx.session!.user = {
-                type: "user",
+				type: "user",
 				id: user.userID,
 				permissions: role?.permissions,
 				ipAddress:
@@ -138,7 +148,7 @@ export const userAuthRouter = router({
 				await transporter.verify();
 				await transporter.sendMail({
 					from: process.env.EMAIL_VERIFICATION_EMAIL_ADDRESS,
-					to: input.emailAddress,
+					to: input.email,
 					subject: "ecoToken - Verify your email",
 					html: `
                 <h1 style="margin-bottom: 8px;">Verify your email address</h1>
@@ -251,7 +261,6 @@ export const userAuthRouter = router({
 // 			}
 
 // 			if (!!input.publicAddress && verified) {
-// 				console.log("login payload", payload);
 
 // 				let user = await ctx.prisma.user.findUnique({
 // 					where: {

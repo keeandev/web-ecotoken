@@ -1,10 +1,10 @@
 import { forwardRef } from "react";
-import Root, { Props as RootProps } from "../Select";
+import Root, { Props as RootProps } from "../TextArea";
 import FormField, { UseFormFieldProps, useFormField } from "./form-field";
 
 type Props = UseFormFieldProps & RootProps;
 
-const FormSelect = forwardRef<HTMLSelectElement, Props>((props, ref) => {
+const FormTextArea = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
 	const { formFieldProps, childProps } = useFormField(props);
 
 	return (
@@ -14,4 +14,4 @@ const FormSelect = forwardRef<HTMLSelectElement, Props>((props, ref) => {
 	);
 });
 
-export default FormSelect;
+export default FormTextArea;

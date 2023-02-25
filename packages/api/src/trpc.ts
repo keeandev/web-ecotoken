@@ -9,6 +9,10 @@ type Meta = {
 	requiredPermissions?: string[];
 };
 
+export type DeepRequired<T> = {
+	[K in keyof T]: DeepRequired<T[K]>;
+} & Required<T>;
+
 const t = initTRPC
 	.context<Context>()
 	.meta<Meta>()
@@ -41,15 +45,11 @@ export const isAuthenticated = isOnWhitelistedSite.unstable_pipe(
 				code: "UNAUTHORIZED"
 			});
 		}
+		const session = ctx.session as DeepRequired<typeof ctx.session>;
 		return next({
 			ctx: {
 				// Infers the `session` as non-nullable
-				session: {
-					...ctx.session,
-					user: {
-						...ctx.session.user
-					}
-				}
+				session
 			}
 		});
 	}
@@ -62,16 +62,11 @@ export const isUserAuthenticated = isAuthenticated.unstable_pipe(
 				code: "UNAUTHORIZED"
 			});
 		}
-		const session = ctx.session as UserSession;
+		const session = ctx.session as DeepRequired<UserSession>;
 		return next({
 			ctx: {
 				// Infers the `session` as non-nullable
-				session: {
-					...session,
-					user: {
-						...session.user
-					}
-				}
+				session
 			}
 		});
 	}
@@ -85,16 +80,11 @@ export const isAdminAuthenticated = isAuthenticated.unstable_pipe(
 				message: "You are not authorized to access this endpoint."
 			});
 		}
-		const session = ctx.session as AdminSession;
+		const session = ctx.session as DeepRequired<AdminSession>;
 		return next({
 			ctx: {
 				// Infers the `session` as non-nullable
-				session: {
-					...session,
-					user: {
-						...session.user
-					}
-				}
+				session
 			}
 		});
 	}

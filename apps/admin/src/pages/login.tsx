@@ -34,12 +34,12 @@ const Login = () => {
 				className="m-4 space-y-4 rounded-md bg-slate-200 p-4"
 			>
 				<FormInput
-					fullWidth
 					label="Username"
+					size="full"
 					{...form.register("username")}
 				/>
 				<FormInput
-					fullWidth
+					size="full"
 					label="Password"
 					type="password"
 					{...form.register("password")}

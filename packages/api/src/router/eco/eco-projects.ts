@@ -1,7 +1,8 @@
 import type { EcoProject } from "@prisma/client";
 import { z } from "zod";
+import { createEcoProjectSchema } from "../../schema/project";
 
-import { router, authedProcedure } from "../../trpc";
+import { router, authedProcedure, adminAuthedProcedure } from "../../trpc";
 
 export const projectsRouter = router({
 	get: authedProcedure
@@ -30,6 +31,7 @@ export const projectsRouter = router({
 			z.object({
 				benefits: z.boolean().optional(),
 				location: z.boolean().optional(),
+				hasActiveSeries: z.boolean().optional(),
 				limit: z.number().min(1).max(100).nullish().default(10),
 				cursor: z.string().nullish() // <-- "cursor" needs to exist, but can be any type
 			})
@@ -39,11 +41,17 @@ export const projectsRouter = router({
 			const projects = await ctx.prisma.ecoProject.findMany({
 				take: limit + 1, // get an extra item at the end which we'll use as next cursor
 				where: {
-					siteID: ctx.selectedSite?.siteID ?? ctx.currentSite.siteID
+					siteID: ctx.selectedSite?.siteID ?? ctx.currentSite.siteID,
+					...(input.hasActiveSeries && {
+						nftSeries: {
+							isActive: input.hasActiveSeries
+						}
+					})
 				},
 				include: {
 					benefits: input.benefits,
-					location: input.location
+					location: input.location,
+					nftSeries: input.hasActiveSeries
 				},
 				...(input?.cursor && {
 					cursor: {
@@ -59,5 +67,8 @@ export const projectsRouter = router({
 				projects,
 				nextCursor
 			};
-		})
+		}),
+	create: adminAuthedProcedure
+		.input(createEcoProjectSchema)
+		.mutation(async ({ ctx, input }) => {})
 });
