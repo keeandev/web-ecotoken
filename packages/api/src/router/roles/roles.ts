@@ -71,7 +71,7 @@ export const rolesRouter = router({
 		})
 		.input(createRoleSchema)
 		.mutation(async ({ ctx, input }) => {
-			return await ctx.prisma.role.create({
+			await ctx.prisma.role.create({
 				data: {
 					...input
 				}
@@ -81,7 +81,7 @@ export const rolesRouter = router({
 		.meta({ requiredPermissions: ["ROLES_CONFIG"] })
 		.input(updateRoleSchema)
 		.mutation(async ({ ctx, input: { roleID: id, ...input } }) => {
-			return await ctx.prisma.role.update({
+			await ctx.prisma.role.update({
 				where: {
 					roleID: id
 				},

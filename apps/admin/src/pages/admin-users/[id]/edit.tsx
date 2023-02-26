@@ -67,12 +67,7 @@ const AdminUserEdit = () => {
 	});
 
 	const { data: roles, isLoading: areRolesLoading } =
-		trpc.roles.getAll.useInfiniteQuery(
-			{},
-			{
-				getNextPageParam: (lastPage) => lastPage.nextCursor
-			}
-		);
+		trpc.roles.getAll.useInfiniteQuery({});
 
 	const mappedRoles = useMemo(
 		() => roles?.pages.flatMap((page) => page.roles),

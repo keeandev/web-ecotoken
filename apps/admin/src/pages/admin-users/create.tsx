@@ -34,9 +34,6 @@ const AdminUserCreate = () => {
 		trpc.roles.getAll.useInfiniteQuery(
 			{
 				domain: "ADMIN"
-			},
-			{
-				getNextPageParam: (lastPage) => lastPage.nextCursor
 			}
 		);
 

@@ -36,12 +36,7 @@ const Websites = () => {
 		})
 	];
 
-	const { data } = trpc.websites.getAll.useInfiniteQuery(
-		{},
-		{
-			getNextPageParam: (lastPage) => lastPage.nextCursor
-		}
-	);
+	const { data } = trpc.websites.getAll.useInfiniteQuery({});
 
 	return (
 		<div>

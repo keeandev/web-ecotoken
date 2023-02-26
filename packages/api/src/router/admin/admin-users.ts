@@ -75,7 +75,7 @@ export const adminUsersRouter = router({
 				}
 			});
 			if (role) {
-				return await ctx.prisma.adminUser.create({
+				await ctx.prisma.adminUser.create({
 					data: {
 						...input
 					}
@@ -90,7 +90,7 @@ export const adminUsersRouter = router({
 		.input(updateAdminUserSchema)
 		.mutation(async ({ ctx, input: { adminID, ...input } }) => {
 			delete (input as Partial<typeof input>).confirmPassword;
-			return await ctx.prisma.adminUser.update({
+			await ctx.prisma.adminUser.update({
 				where: {
 					adminID
 				},

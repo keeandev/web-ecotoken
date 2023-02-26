@@ -70,15 +70,6 @@ export const EditEcoLocation: React.FC = () => {
 			}
 		});
 
-	// const { data: websiteData } = trpc.websites.getAll.useInfiniteQuery(
-	// 	{},
-	// 	{
-	// 		getNextPageParam: (lastPage) => lastPage.nextCursor,
-	// 		refetchOnWindowFocus: false,
-	// 		refetchOnMount: false
-	// 	}
-	// );
-
 	const form = useZodForm({
 		schema: updateEcoLocationSchema,
 		reValidateMode: "onChange"
@@ -126,20 +117,6 @@ export const EditEcoLocation: React.FC = () => {
 						});
 					}}
 				>
-					{/* <FormSelect
-						label="Site"
-						defaultValue={activeSiteID}
-						size="full"
-						{...form.register("siteID")}
-					>
-						{websiteData?.pages
-							.flatMap((page) => page.websites)
-							.map((site) => (
-								<option key={site.siteID} value={site.siteID}>
-									{site.siteName}
-								</option>
-							))}
-					</FormSelect> */}
 					<FormInput
 						label="Location"
 						size="full"

@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 
 const inputStyles = cva(
 	[
-		"rounded-md p-1.5 duration-100 ease-in focus:ease-out focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-slate-200"
+		"rounded-md p-1.5 duration-100 ease-in focus:ease-out focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-slate-200 disabled:opacity-90"
 	],
 	{
 		variants: {

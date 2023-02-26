@@ -34,7 +34,7 @@ export const websiteRouter = router({
 	get: adminAuthedProcedure
 		.input(z.object({ siteID: z.string() }))
 		.query(async ({ ctx, input: { siteID } }) => {
-			return await ctx.prisma.site.findUnique({
+			await ctx.prisma.site.findUnique({
 				where: {
 					siteID
 				}
@@ -43,7 +43,7 @@ export const websiteRouter = router({
 	create: adminAuthedProcedure
 		.input(createWebsiteSchema)
 		.mutation(async ({ ctx, input }) => {
-			return await ctx.prisma.site.create({
+			await ctx.prisma.site.create({
 				data: {
 					...input
 				}
@@ -52,7 +52,7 @@ export const websiteRouter = router({
 	update: adminAuthedProcedure
 		.input(updateWebsiteSchema)
 		.mutation(async ({ ctx, input: { siteID, ...input } }) => {
-			return await ctx.prisma.site.update({
+			await ctx.prisma.site.update({
 				where: {
 					siteID
 				},
@@ -64,7 +64,7 @@ export const websiteRouter = router({
 	delete: adminAuthedProcedure
 		.input(z.object({ siteID: z.string() }))
 		.mutation(async ({ ctx, input: { siteID } }) => {
-			return await ctx.prisma.site.delete({
+			await ctx.prisma.site.delete({
 				where: {
 					siteID
 				}
@@ -74,13 +74,8 @@ export const websiteRouter = router({
 		.input(z.object({ siteID: z.string() }))
 		.mutation(async ({ ctx, input }) => {
 			ctx.session.user = {
-				type: "admin",
-				id: ctx.session.user?.id ?? "",
-				ipAddress:
-					process.env.NODE_ENV === "production"
-						? ctx.req.connection.remoteAddress ?? ""
-						: undefined,
-				selectedSite: input.siteID
+				...ctx.session.user,
+				selectedSite: input.siteID,
 			};
 			await ctx.session.save();
 			return 200;

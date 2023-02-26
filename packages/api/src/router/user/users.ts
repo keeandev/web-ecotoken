@@ -92,7 +92,7 @@ export const usersRouter = router({
 				}
 			});
 			if (role) {
-				return await ctx.prisma.user.create({
+				await ctx.prisma.user.create({
 					data: {
 						...input,
 						siteID: ctx.selectedSite?.siteID ?? "",

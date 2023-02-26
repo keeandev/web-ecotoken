@@ -9,9 +9,6 @@ const Projects = () => {
 				limit: 10,
 				benefits: true,
 				location: true
-			},
-			{
-				getNextPageParam: (lastPage) => lastPage.nextCursor
 			}
 		);
 

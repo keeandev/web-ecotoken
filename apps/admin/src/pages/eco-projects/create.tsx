@@ -48,19 +48,13 @@ const CreateEcoProject = () => {
 		trpc.upload.createPresignedUrl.useMutation();
 
 	const { data: ecoLocations, isLoading: fetchingEcoLocations } =
-		trpc.ecoLocations.getAll.useInfiniteQuery(
-			{},
-			{
-				getNextPageParam: (lastPage) => lastPage.nextCursor
-			}
-		);
+		trpc.ecoLocations.getAll.useInfiniteQuery({});
 
 	const { data: users, isLoading: fetchingUsers } =
 		trpc.users.getAll.useInfiniteQuery(
 			{
 				role: ["Producer", "Verifier"]
-			},
-			{ getNextPageParam: (lastPage) => lastPage.nextCursor }
+			}
 		);
 
 	const cachedLocations = useMemo(
@@ -95,6 +89,7 @@ const CreateEcoProject = () => {
 	const handleImageLoad = (e: ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files;
 		const key = e.target.name;
+        // we have one file and it's in the images JSON object
 		if (files && files[0] && key in images) {
 			const file = files[0];
 			setImages({
@@ -151,7 +146,8 @@ const CreateEcoProject = () => {
 								key: `eco-projects/${projectID}/${
 									findKeyByValue(image) ?? ""
 								}.png`,
-								contentType: "image/png"
+								contentType: "image/png",
+                                acl: "public-read"
 							}))
 						);
 						// find which url belongs to which object in the `images` object state

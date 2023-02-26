@@ -25,19 +25,9 @@ const RoleItem: React.FC<{ name?: string; loading?: boolean }> = ({
 
 const Roles = () => {
 	const { data: roleData, isLoading: areRolesLoading } =
-		trpc.roles.getAll.useInfiniteQuery(
-			{},
-			{
-				getNextPageParam: (lastPage) => lastPage.nextCursor
-			}
-		);
+		trpc.roles.getAll.useInfiniteQuery({});
 	const { data: permissionData, isLoading: arePermissionsLoading } =
-		trpc.permissions.getAll.useInfiniteQuery(
-			{},
-			{
-				getNextPageParam: (lastPage) => lastPage.nextCursor
-			}
-		);
+		trpc.permissions.getAll.useInfiniteQuery({});
 
 	return (
 		<div className="h-full w-full">

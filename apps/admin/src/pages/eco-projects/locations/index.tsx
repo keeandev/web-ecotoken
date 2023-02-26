@@ -13,12 +13,7 @@ export const EcoLocations: React.FC = () => {
 	const router = useRouter();
 	const columnHelper = createColumnHelper<EcoLocation>();
 
-	const { data } = trpc.ecoLocations.getAll.useInfiniteQuery(
-		{},
-		{
-			getNextPageParam: (lastPage) => lastPage.nextCursor
-		}
-	);
+	const { data } = trpc.ecoLocations.getAll.useInfiniteQuery({});
 
 	const columns = [
 		columnHelper.accessor("locationID", {

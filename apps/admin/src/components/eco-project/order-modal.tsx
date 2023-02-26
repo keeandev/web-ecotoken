@@ -29,7 +29,6 @@ const OrderModal: React.FC<{
 				hasActiveSeries: true
 			},
 			{
-				getNextPageParam: (lastPage) => lastPage.nextCursor,
 				enabled: !!admin
 			}
 		);
@@ -40,7 +39,6 @@ const OrderModal: React.FC<{
 				role: "Producer"
 			},
 			{
-				getNextPageParam: (lastPage) => lastPage.nextCursor,
 				enabled: !!admin
 			}
 		);

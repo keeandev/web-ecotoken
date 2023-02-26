@@ -7,27 +7,40 @@ import Table from "@ecotoken/ui/components/Table";
 import { useRouter } from "next/router";
 import { createColumnHelper } from "@tanstack/react-table";
 import { trpc } from "@/utils/trpc";
-import type { EcoOrder } from "@ecotoken/db";
+import type { EcoProject } from "@ecotoken/db";
+import { transformEnum } from "@/utils/transformer";
 
 const EcoProjectsList = () => {
 	const router = useRouter();
 
-	const { data: orders } = trpc.ecoProjects.getAll.useInfiniteQuery(
-		{},
-		{
-			getNextPageParam: (lastPage) => lastPage.nextCursor
-		}
-	);
+	const { data: orders } = trpc.ecoProjects.getAll.useInfiniteQuery({});
 
-	const columnHelper = createColumnHelper<EcoOrder>();
+	const columnHelper = createColumnHelper<EcoProject>();
 	const columns = [
 		columnHelper.accessor("projectID", {
 			header: "Project ID",
 			id: "id"
 		}),
+        columnHelper.accessor("status", {
+			header: "Status",
+            cell: (info) => transformEnum(info.getValue())
+		}),
+        columnHelper.accessor("shortTitle", {
+			header: "Short Title",
+		}),
+        columnHelper.accessor("fundAmount", {
+			header: "Fund Amount",
+		}),
+        columnHelper.accessor("fundRecieved", {
+			header: "Fund Recieved",
+		}),
+        columnHelper.accessor("ecoType", {
+			header: "Project Type",
+            cell: (info) => transformEnum(info.getValue())
+		}),
 		columnHelper.accessor("createdAt", {
 			header: "Created At",
-			cell: (info) => <>{info.renderValue()?.toDateString()}</>
+			cell: (info) => info.renderValue()?.toDateString()
 		})
 	];
 

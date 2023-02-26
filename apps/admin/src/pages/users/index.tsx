@@ -13,12 +13,7 @@ import { useRouter } from "next/router";
 
 const Users = () => {
 	const router = useRouter();
-	const { data } = trpc.users.getAll.useInfiniteQuery(
-		{},
-		{
-			getNextPageParam: (lastPage) => lastPage.nextCursor
-		}
-	);
+	const { data } = trpc.users.getAll.useInfiniteQuery({});
 
 	const columnHelper = createColumnHelper<User>();
 

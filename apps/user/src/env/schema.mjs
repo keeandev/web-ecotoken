@@ -22,7 +22,8 @@ export const serverSchema = z.object({
  */
 export const clientSchema = z.object({
 	// NEXT_PUBLIC_BAR: z.string(),
-	NEXT_PUBLIC_SOLANA_RPC: z.string()
+	NEXT_PUBLIC_SOLANA_RPC: z.string(),
+    NEXT_PUBLIC_CDN_URL: z.string()
 });
 
 /**
@@ -33,5 +34,6 @@ export const clientSchema = z.object({
  */
 export const clientEnv = {
 	// NEXT_PUBLIC_BAR: process.env.NEXT_PUBLIC_BAR,
-	NEXT_PUBLIC_SOLANA_RPC: process.env.NEXT_PUBLIC_SOLANA_RPC
+	NEXT_PUBLIC_SOLANA_RPC: process.env.NEXT_PUBLIC_SOLANA_RPC,
+    NEXT_PUBLIC_CDN_URL: process.env.NEXT_PUBLIC_CDN_URL
 };

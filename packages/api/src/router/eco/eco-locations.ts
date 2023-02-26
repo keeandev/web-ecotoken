@@ -55,7 +55,7 @@ export const locationsRouter = router({
 	create: adminAuthedProcedure
 		.input(createEcoLocationSchema)
 		.mutation(async ({ ctx, input }) => {
-			return await ctx.prisma.ecoLocation.create({
+			await ctx.prisma.ecoLocation.create({
 				data: {
 					...input
 				}
@@ -64,7 +64,7 @@ export const locationsRouter = router({
 	update: adminAuthedProcedure
 		.input(updateEcoLocationSchema)
 		.mutation(async ({ ctx, input: { locationID, ...input } }) => {
-			return await ctx.prisma.ecoLocation.update({
+			await ctx.prisma.ecoLocation.update({
 				where: {
 					locationID
 				},
@@ -76,7 +76,7 @@ export const locationsRouter = router({
 	delete: adminAuthedProcedure
 		.input(z.object({ locationID: z.string() }))
 		.mutation(async ({ ctx, input: { locationID } }) => {
-			return await ctx.prisma.ecoLocation.delete({
+			await ctx.prisma.ecoLocation.delete({
 				where: {
 					locationID
 				}

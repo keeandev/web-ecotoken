@@ -12,22 +12,13 @@ import Button from "@ecotoken/ui/components/Button";
 import { useRouter } from "next/router";
 
 const AdminUsers = () => {
-	const { data } = trpc.adminUsers.getAll.useInfiniteQuery(
-		{},
-		{
-			getNextPageParam: (lastPage) => lastPage.nextCursor,
-			refetchOnWindowFocus: false
-		}
-	);
+	const { data } = trpc.adminUsers.getAll.useInfiniteQuery({});
 	const router = useRouter();
 	const columnHelper = createColumnHelper<AdminUser>();
 
 	const { data: roles } = trpc.roles.getAll.useInfiniteQuery(
 		{
 			domain: "ADMIN"
-		},
-		{
-			getNextPageParam: (lastPage) => lastPage.nextCursor
 		}
 	);
 

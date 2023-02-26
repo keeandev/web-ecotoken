@@ -12,12 +12,7 @@ import { EcoOrder } from "@ecotoken/db";
 const EcoOrders = () => {
 	const router = useRouter();
 
-	const { data: orders } = trpc.ecoOrders.getAll.useInfiniteQuery(
-		{},
-		{
-			getNextPageParam: (lastPage) => lastPage.nextCursor
-		}
-	);
+	const { data: orders } = trpc.ecoOrders.getAll.useInfiniteQuery({});
 
 	const columnHelper = createColumnHelper<EcoOrder>();
 

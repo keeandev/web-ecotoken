@@ -12,15 +12,16 @@ const requiredInput = z.object({
 		.number()
 		.min(5)
 		.max(3600)
-		.default(2.5 * 60) // 5 minutes
+		.default(2.5 * 60), // 5 minutes
+        acl: z.union([z.literal("private"), z.literal("public-read")]).optional()
 });
 
-const createPutBucketCommand = (Key: string, ContentType: string) =>
+const createPutBucketCommand = (Key: string, ContentType: string, ACL?: string) =>
 	new PutObjectCommand({
 		Bucket: process.env.SPACES_BUCKET as string,
 		Key,
 		ContentType,
-		ACL: "public-read"
+		ACL
 	});
 
 export const uploadRouter = router({
@@ -33,7 +34,7 @@ export const uploadRouter = router({
 				const url = await getSignedUrl(
 					// @ts-ignore
 					s3Client,
-					createPutBucketCommand(input.key, input.contentType),
+					createPutBucketCommand(input.key, input.contentType, input.acl),
 					{
 						expiresIn: input.expiresIn
 					}
@@ -46,7 +47,8 @@ export const uploadRouter = router({
 						s3Client,
 						createPutBucketCommand(
 							singleInput.key,
-							singleInput.contentType
+							singleInput.contentType,
+                            singleInput.acl
 						),
 						{
 							expiresIn: singleInput.expiresIn

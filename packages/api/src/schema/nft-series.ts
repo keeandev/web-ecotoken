@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const createNFTSeriesSchema = z.object({
+    nftSeriesID: z.string().optional(),
 	projectID: z
 		.string()
 		.min(1, "A project is required to create an NFT series."),
