@@ -7,7 +7,7 @@ import Table from "@ecotoken/ui/components/Table";
 import { useRouter } from "next/router";
 import { createColumnHelper } from "@tanstack/react-table";
 import { trpc } from "@/utils/trpc";
-import { EcoOrder } from "@ecotoken/db";
+import type { EcoOrder } from "@ecotoken/db";
 
 const EcoProjectsList = () => {
 	const router = useRouter();
@@ -20,7 +20,6 @@ const EcoProjectsList = () => {
 	);
 
 	const columnHelper = createColumnHelper<EcoOrder>();
-
 	const columns = [
 		columnHelper.accessor("projectID", {
 			header: "Project ID",
@@ -44,8 +43,8 @@ const EcoProjectsList = () => {
 					</div>
 					<div className="flex flex-1 items-end justify-end space-x-2">
 						<Button
-							onClick={() =>
-								router.push(`${router.asPath}/create`)
+							onClick={async () =>
+								await router.push(`${router.asPath}/create`)
 							}
 						>
 							Create a project

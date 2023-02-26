@@ -70,5 +70,13 @@ export const projectsRouter = router({
 		}),
 	create: adminAuthedProcedure
 		.input(createEcoProjectSchema)
-		.mutation(async ({ ctx, input }) => {})
+		.mutation(async ({ ctx, input }) => {
+			await ctx.prisma.ecoProject.create({
+				data: {
+                    ...input,
+                    siteID: ctx.selectedSite?.siteID ?? ctx.currentSite.siteID,
+                    images: JSON.stringify(input.images)
+                }
+			});
+		})
 });

@@ -12,14 +12,15 @@ const requiredInput = z.object({
 		.number()
 		.min(5)
 		.max(3600)
-		.default(5 * 60) // 5 minutes
+		.default(2.5 * 60) // 5 minutes
 });
 
 const createPutBucketCommand = (Key: string, ContentType: string) =>
 	new PutObjectCommand({
 		Bucket: process.env.SPACES_BUCKET as string,
 		Key,
-		ContentType
+		ContentType,
+		ACL: "public-read"
 	});
 
 export const uploadRouter = router({

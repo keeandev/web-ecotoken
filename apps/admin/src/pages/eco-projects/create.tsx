@@ -22,10 +22,23 @@ import { transformEnum } from "@/utils/transformer";
 import { createId } from "@paralleldrive/cuid2";
 
 const CreateEcoProject = () => {
+	const [images, setImages] = useState<{
+		listImage: File | null;
+		headOne: File | null;
+		headTwo: File | null;
+		headThree: File | null;
+	}>({
+		listImage: null,
+		headOne: null,
+		headTwo: null,
+		headThree: null
+	});
 	const router = useRouter();
-	const { mutate, isLoading: isCreatingOrder } =
+	const context = trpc.useContext();
+	const { mutate, isLoading: isCreatingProject } =
 		trpc.ecoProjects.create.useMutation({
 			async onSuccess() {
+				context.ecoProjects.getAll.invalidate();
 				await router.push("/eco-projects");
 				toast.success("Project created successfully.");
 			}
@@ -72,37 +85,32 @@ const CreateEcoProject = () => {
 
 	const form = useZodForm({
 		schema: createEcoProjectSchema.omit({
-			siteID: true,
 			ecoNftID: true,
 			ecoTitle: true,
-			fundRecieved: true
+			images: true,
+			projectID: true
 		})
 	});
 
 	const handleImageLoad = (e: ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files;
-		if (files && files[0]) {
-			// @ts-ignore
-			form.setValue(e.target.name, URL.createObjectURL(files[0]));
+		const key = e.target.name;
+		if (files && files[0] && key in images) {
+			const file = files[0];
+			setImages({
+				...images,
+				[key]: file
+			});
 		}
 	};
 
-	{
-		/* <div className="flex w-full flex-col space-y-4 lg:flex-row lg:space-y-0 lg:space-x-4">
-				<DefaultCard
-					className="flex flex-col space-y-4"
-					size="half"
-				></DefaultCard>
-				<DefaultCard
-					className="flex flex-col space-y-4"
-					size="half"
-				></DefaultCard>
-			</div> */
-	}
+	const formatCountryAndState = (countryCode: string, stateCode: string) =>
+		`${
+			State.getStateByCodeAndCountry(stateCode, countryCode)?.name ?? ""
+		}, ${Country.getCountryByCode(countryCode)?.name ?? ""}`;
 
 	return (
 		<div className="w-full space-y-4">
-			<pre>{JSON.stringify(form.getValues("images"))}</pre>
 			<DefaultCard className="flex flex-col space-y-4" size="half">
 				<div className="flex space-x-2">
 					<Link href="/admin-users" className="inline-block">
@@ -122,54 +130,75 @@ const CreateEcoProject = () => {
 				<Form
 					form={form}
 					onSubmit={async (project) => {
+						if (!images) return;
+						const currentLocation = cachedLocations?.find(
+							(location) =>
+								location.locationID === project.locationID
+						);
+						if (!currentLocation) return;
 						const projectID = createId();
-						const keys = Object.keys(project.images);
+						const fileNames = Object.keys(images);
+						const files = Object.values(images);
 						// find the key to use as the image name
-						const findKeyByValue = (image: string) =>
-							keys.find(
+						const findKeyByValue = (image: File | null) =>
+							fileNames.find(
 								(key) =>
-									project.images[
-										key as keyof typeof project.images
-									] === image
+									images[key as keyof typeof images] === image
 							);
 
 						const urls = await createUrls(
-							Object.values(project.images).map((image) => ({
+							files.map((image) => ({
 								key: `eco-projects/${projectID}/${
 									findKeyByValue(image) ?? ""
 								}.png`,
 								contentType: "image/png"
 							}))
 						);
+						// find which url belongs to which object in the `images` object state
 						for (const url of urls) {
 							const split = url.split("/");
 							let fileName = split[split.length - 1];
+							// split between the last / and the ? <- AWS uses for attributes, to get the file name of this url
 							fileName = fileName?.substring(
 								0,
 								fileName.indexOf("?")
 							);
 							if (fileName) {
-								const imageBlob =
-									project.images[
+								const file =
+									images[
 										fileName.replace(
 											".png",
 											""
-										) as keyof project.images
+										) as keyof typeof images
 									];
-
 								await fetch(url, {
 									method: "PUT",
 									headers: {
-										contentType: "image/png"
+										"Content-Type": "image/png"
 									},
-									body: {
-										file: new File([imageBlob], fileName, {
-											type: " image/png"
-										})
-									}
+									mode: "cors",
+									body: file
 								});
 							}
 						}
+						const projectImages = Object.keys(images).map(
+							(imageKey) => ({
+								[imageKey]: `eco-projects/${projectID}/${imageKey}.png`
+							})
+						);
+						await mutate({
+							...project,
+							projectID,
+							ecoNftID: 10,
+							ecoTitle:
+								project.shortTitle +
+								" in " +
+								formatCountryAndState(
+									currentLocation.cn,
+									currentLocation.st
+								),
+							images: Object.assign({}, ...projectImages)
+						});
 					}}
 					className="flex w-fit flex-col gap-4"
 				>
@@ -221,11 +250,7 @@ const CreateEcoProject = () => {
 								value={location.locationID}
 							>
 								{`${location.location}, 
-								${State.getStateByCodeAndCountry(location.st, location.cn)?.name ?? ""}, 
-                                ${
-									Country.getCountryByCode(location.cn)
-										?.name ?? ""
-								}`}
+								${formatCountryAndState(location.cn, location.st)}`}
 							</option>
 						))}
 					</FormSelect>
@@ -268,35 +293,35 @@ const CreateEcoProject = () => {
 						{...form.register("ecoUrl")}
 					/>
 					<FormInput
+						name="listImage"
 						label="List Image"
 						size="xl"
 						wrapperClass="w-fit"
 						type="file"
-						{...form.register("images.listImage")}
 						onChange={handleImageLoad}
 					/>
 					<FormInput
-						label="1st Head Image"
+						name="headOne"
+						label="1st Image"
 						size="xl"
 						wrapperClass="w-fit"
 						type="file"
-						{...form.register("images.headOne")}
 						onChange={handleImageLoad}
 					/>
 					<FormInput
+						name="headTwo"
 						label="2nd Head Image"
 						size="xl"
 						wrapperClass="w-fit"
 						type="file"
-						{...form.register("images.headTwo")}
 						onChange={handleImageLoad}
 					/>
 					<FormInput
+						name="headThree"
 						label="3rd Head Image"
 						size="xl"
 						wrapperClass="w-fit"
 						type="file"
-						{...form.register("images.headThree")}
 						onChange={handleImageLoad}
 					/>
 					<FormTextArea
@@ -325,11 +350,16 @@ const CreateEcoProject = () => {
 						size="xl"
 						wrapperClass="w-fit"
 						{...form.register("fundAmount", {
-							setValueAs(value) {
-								const parsedValue = parseInt(value);
-								if (isNaN(parsedValue)) return undefined;
-								else parsedValue;
-							}
+							valueAsNumber: true
+						})}
+					/>
+					<FormInput
+						label="Fund Recieved"
+						type="number"
+						size="xl"
+						wrapperClass="w-fit"
+						{...form.register("fundRecieved", {
+							valueAsNumber: true
 						})}
 					/>
 					<FormInput
@@ -338,11 +368,7 @@ const CreateEcoProject = () => {
 						size="xl"
 						wrapperClass="w-fit"
 						{...form.register("return", {
-							setValueAs(value) {
-								const parsedValue = parseInt(value);
-								if (isNaN(parsedValue)) return undefined;
-								else parsedValue;
-							}
+							valueAsNumber: true
 						})}
 					/>
 					<FormInput
