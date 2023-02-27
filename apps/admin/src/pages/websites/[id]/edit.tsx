@@ -99,33 +99,6 @@ const EditWebsite = () => {
 							</CardDescription>
 						</div>
 					</div>
-					{/* <EditWebsiteForm
-						updating={isLoading}
-						deleting={isDeleting}
-						{...(website && {
-							site: website,
-							reset: {
-								siteID: website.siteID,
-								siteName: website.siteName,
-								legalName: website.legalName,
-								mailAddress: website.mailAddress,
-								prodUrl: website.prodUrl,
-								stageUrl: website.stageUrl,
-								devUrl: website.devUrl
-							}
-						})}
-						onSave={async (website) =>
-							await mutate({
-								...website,
-								siteID: id as string
-							})
-						}
-						onDelete={async () =>
-							await deleteMutate({
-								siteID: id as string
-							})
-						}
-					/> */}
 					<Form
 						form={form}
 						className="flex w-full flex-col gap-4"

@@ -17,9 +17,12 @@ const EcoOrders = () => {
 	const columnHelper = createColumnHelper<EcoOrder>();
 
 	const columns = [
-		columnHelper.accessor("projectID", {
-			header: "Project ID",
+		columnHelper.accessor("ecoOrderID", {
+			header: "Order ID",
 			id: "id"
+		}),
+		columnHelper.accessor("projectID", {
+			header: "Project ID"
 		}),
 		columnHelper.accessor("userID", {
 			header: "User ID"

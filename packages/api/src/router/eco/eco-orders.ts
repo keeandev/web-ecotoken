@@ -1,7 +1,7 @@
 import { EcoOrder } from "@ecotoken/db";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { createEcoOrderSchema } from "../../schema/order";
+import { createEcoOrderSchema, updateEcoOrderSchema } from "../../schema/order";
 import { router, adminAuthedProcedure, authedProcedure } from "../../trpc";
 
 export const ordersRouter = router({
@@ -37,13 +37,13 @@ export const ordersRouter = router({
 	get: adminAuthedProcedure
 		.input(
 			z.object({
-				id: z.string()
+				ecoOrderID: z.string()
 			})
 		)
-		.query(async ({ ctx, input }) => {
-			return await ctx.prisma.ecoOrder.findFirst({
+		.query(async ({ ctx, input: { ecoOrderID } }) => {
+			return await ctx.prisma.ecoOrder.findUnique({
 				where: {
-					ecoOrderID: input.id
+					ecoOrderID
 				}
 			});
 		}),
@@ -86,6 +86,31 @@ export const ordersRouter = router({
 					nftBkgd: series.seriesImage,
 					creditKey: series.creditKey,
 					creditWallet: series.creditWallet
+				}
+			});
+		}),
+	update: adminAuthedProcedure
+		.input(updateEcoOrderSchema)
+		.mutation(async ({ ctx, input: { ecoOrderID, ...input } }) => {
+			await ctx.prisma.ecoOrder.update({
+				where: {
+					ecoOrderID
+				},
+				data: {
+					...input
+				}
+			});
+		}),
+	delete: adminAuthedProcedure
+		.input(
+			z.object({
+				ecoOrderID: z.string()
+			})
+		)
+		.mutation(async ({ ctx, input: { ecoOrderID } }) => {
+			await ctx.prisma.ecoOrder.delete({
+				where: {
+					ecoOrderID
 				}
 			});
 		})

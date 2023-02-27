@@ -15,18 +15,6 @@ export const trpc = createTRPCNext<AppRouter>({
 	config() {
 		return {
 			transformer: superjson,
-            abortOnUnmount: true,
-            queryClientConfig: {
-                defaultOptions: {
-                    queries: {
-                        refetchOnWindowFocus: false,
-                        // @ts-ignore tRPC convention for infinite queries
-                        getNextPageParam: (lastPage) => lastPage.nextCursor,
-                        // @ts-ignore tRPC convention for infinite queries
-                        getPreviousPageParam: (firstPage) => firstPage.prevCursor,
-                    },
-                },
-            },
 			links: [
 				loggerLink({
 					enabled: (opts) =>
@@ -37,7 +25,21 @@ export const trpc = createTRPCNext<AppRouter>({
 				httpBatchLink({
 					url: `${getBaseUrl()}/api/trpc`
 				})
-			]
+			],
+			// abortOnUnmount: true,
+			queryClientConfig: {
+				defaultOptions: {
+					queries: {
+						refetchOnWindowFocus: false,
+						// @ts-ignore tRPC convention for infinite queries
+						getNextPageParam: (lastPage) => lastPage.nextCursor,
+
+						// @ts-ignore tRPC convention for infinite queries
+						// prettier-ignore
+						getPreviousPageParam: (firstPage) => firstPage.prevCursor
+					}
+				}
+			}
 		};
 	},
 	ssr: false

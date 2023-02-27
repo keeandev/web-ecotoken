@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const createUserSchema = z.object({
-	roleID: z.string().min(1, "A role is required."),
+	roleID: z.string().cuid().min(1, "A role is required."),
 	companyName: z.string().nullish(),
 	firstName: z
 		.string()
@@ -19,7 +19,7 @@ export const createUserSchema = z.object({
 
 export const updateUserSchema = createUserSchema
 	.extend({
-		id: z.string()
+		id: z.string().cuid()
 	})
 	.partial()
 	.catchall(z.literal(""));

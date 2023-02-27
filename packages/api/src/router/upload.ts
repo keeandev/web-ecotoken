@@ -27,7 +27,7 @@ const createPutBucketCommand = (Key: string, ContentType: string, ACL?: string) 
 export const uploadRouter = router({
 	createPresignedUrl: authedProcedure
 		.input(z.union([requiredInput, requiredInput.array().max(20)]))
-		.mutation(async ({ ctx, input }) => {
+		.mutation(async ({ input }) => {
 			console.log(input);
 			if (!Array.isArray(input)) {
 				// change type of input to a single object as it is not an array

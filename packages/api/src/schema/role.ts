@@ -9,7 +9,7 @@ export const createRoleSchema = z.object({
 
 export const updateRoleSchema = createRoleSchema
 	.extend({
-		roleID: z.string()
+		roleID: z.string().cuid()
 	})
 	.partial()
 	.catchall(z.literal(""));

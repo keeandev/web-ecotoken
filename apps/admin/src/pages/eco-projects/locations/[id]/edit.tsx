@@ -1,7 +1,4 @@
-import {
-	createEcoLocationSchema,
-	updateEcoLocationSchema
-} from "@ecotoken/api/src/schema/location";
+import { updateEcoLocationSchema } from "@ecotoken/api/src/schema/location";
 import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,7 +10,6 @@ import { trpc } from "@/utils/trpc";
 import { Fragment, useEffect } from "react";
 import Link from "next/link";
 import React from "react";
-import clsx from "clsx";
 
 import { Country, State } from "country-state-city";
 
@@ -34,7 +30,6 @@ export const EditEcoLocation: React.FC = () => {
 				locationID: id as string
 			},
 			{
-				refetchOnWindowFocus: false,
 				enabled: !!id,
 				onSuccess(data) {
 					form.reset({
@@ -46,10 +41,10 @@ export const EditEcoLocation: React.FC = () => {
 
 	const { mutate: editMutate, isLoading: isUpdating } =
 		trpc.ecoLocations.update.useMutation({
-			onSuccess: async ({ locationID }) => {
+			onSuccess: async () => {
 				await context.ecoLocations.getAll.invalidate();
 				await context.ecoLocations.get.invalidate({
-					locationID
+					locationID: id as string
 				});
 				toast.success("Location has been edited.");
 			},

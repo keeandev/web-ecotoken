@@ -55,7 +55,7 @@ export const locationsRouter = router({
 	create: adminAuthedProcedure
 		.input(createEcoLocationSchema)
 		.mutation(async ({ ctx, input }) => {
-			await ctx.prisma.ecoLocation.create({
+			return await ctx.prisma.ecoLocation.create({
 				data: {
 					...input
 				}

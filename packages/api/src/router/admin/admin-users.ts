@@ -75,7 +75,7 @@ export const adminUsersRouter = router({
 				}
 			});
 			if (role) {
-				await ctx.prisma.adminUser.create({
+				return await ctx.prisma.adminUser.create({
 					data: {
 						...input
 					}

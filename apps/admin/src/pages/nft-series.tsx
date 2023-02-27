@@ -11,37 +11,63 @@ import { transformEnum } from "@/utils/transformer";
 import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
 import { toast } from "react-hot-toast";
 import { createId } from "@paralleldrive/cuid2";
+import { useMutation } from "@tanstack/react-query";
 
 const NFTSeries: React.FC = () => {
-    const [seriesImage, setSeriesImage] = useState<File>();
+	const [seriesImage, setSeriesImage] = useState<File>();
 	const form = useZodForm({
 		schema: createNFTSeriesSchema.omit({
 			seriesImage: true,
-            nftSeriesID: true
+			nftSeriesID: true
 		})
 	});
 
-    const { mutateAsync: createPresignedUrl } = trpc.upload.createPresignedUrl.useMutation();
+	const { mutateAsync: createPresignedUrl } =
+		trpc.upload.createPresignedUrl.useMutation();
 
 	const { mutate, isLoading: isCreating } = trpc.nftSeries.create.useMutation(
 		{
 			onSuccess() {
 				toast.success("NFT Series created successfully.");
 			},
-            onError() {
-                toast.error("NFT Series failed to create.");
-            }
+			onError() {
+				toast.error("NFT Series failed to create.");
+			}
 		}
 	);
 	const { data: ecoProjects, isLoading: fetchingEcoProjects } =
 		trpc.ecoProjects.getAll.useInfiniteQuery({});
 
 	const { data: users, isLoading: fetchingUsers } =
-		trpc.users.getAll.useInfiniteQuery(
-			{
-				role: "Producer"
-			}
-		);
+		trpc.users.getAll.useInfiniteQuery({
+			role: "Producer"
+		});
+
+	const uploadMutation = async ({
+		url,
+		seriesImage
+	}: {
+		url: string;
+		seriesImage: File;
+	}) => {
+		await fetch(url as string, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "image/png"
+			},
+			mode: "cors",
+			body: seriesImage
+		});
+	};
+
+	const {
+		mutateAsync: uploadImage,
+		error,
+		isLoading: isUploadingImage
+	} = useMutation({
+		mutationKey: ["uploadSeriesImage"],
+		mutationFn: uploadMutation
+	});
 
 	const cachedProjects = useMemo(
 		() => ecoProjects?.pages.flatMap((page) => page.projects),
@@ -53,13 +79,13 @@ const NFTSeries: React.FC = () => {
 		[users]
 	);
 
-    const handleImageLoad = (e: ChangeEvent<HTMLInputElement>) => {
-        const files = e.target.files;
-        // we have one file
-        if(files && files[0]) {
-            setSeriesImage(files[0]);
-        }
-    }
+	const handleImageLoad = (e: ChangeEvent<HTMLInputElement>) => {
+		const files = e.target.files;
+		// we have one file
+		if (files && files[0]) {
+			setSeriesImage(files[0]);
+		}
+	};
 
 	return (
 		<div className="space-y-4">
@@ -70,25 +96,23 @@ const NFTSeries: React.FC = () => {
 			<Form
 				form={form}
 				onSubmit={async (data) => {
-                    const nftSeriesID = createId();
-                    const imageKey = `eco-projects/${data.projectID}/nft-series/${nftSeriesID}/seriesImage.png`;
-                    const url = await createPresignedUrl({
-                        contentType: "image/png",
-                        key: imageKey,
-                        acl: "public-read"
-                    });
-                    await fetch(url, {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": "image/png"
-                        },
-                        mode: "cors",
-                        body: seriesImage
-                    });
+                    if(!seriesImage) return;
+					const nftSeriesID = createId();
+					const imageKey = `eco-projects/${data.projectID}/nft-series/${nftSeriesID}/seriesImage.png`;
+					const url = await createPresignedUrl({
+						contentType: "image/png",
+						key: imageKey,
+						acl: "public-read"
+					});
+					await uploadImage({
+						url: url as string,
+						seriesImage
+					});
 					await mutate({
 						...data,
-                        nftSeriesID,
-						seriesImage: process.env.NEXT_PUBLIC_CDN_URL + "/" + imageKey
+						nftSeriesID,
+						seriesImage:
+							process.env.NEXT_PUBLIC_CDN_URL + "/" + imageKey
 					});
 				}}
 				className="flex w-full flex-col gap-4"
@@ -98,7 +122,7 @@ const NFTSeries: React.FC = () => {
 					label="Series Image"
 					size="full"
 					type="file"
-                    onChange={handleImageLoad}
+					onChange={handleImageLoad}
 				/>
 				<FormSelect
 					label="Project"
@@ -177,7 +201,12 @@ const NFTSeries: React.FC = () => {
 					{...form.register("creditKey")}
 				/>
 				<Button
-					loading={fetchingEcoProjects || fetchingUsers || isCreating}
+					loading={
+						fetchingEcoProjects ||
+						fetchingUsers ||
+						isCreating ||
+						isUploadingImage
+					}
 					fullWidth
 				>
 					Create

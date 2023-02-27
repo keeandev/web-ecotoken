@@ -8,7 +8,7 @@ export const createPermissionSchema = z.object({
 
 export const updatePermissionSchema = createPermissionSchema
 	.extend({
-		id: z.string()
+		id: z.string().cuid()
 	})
 	.partial()
 	.catchall(z.literal(""));

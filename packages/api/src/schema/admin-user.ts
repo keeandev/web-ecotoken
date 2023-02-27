@@ -2,8 +2,8 @@ import { z } from "zod";
 
 export const updateAdminUserSchema = z
 	.object({
-		adminID: z.string(),
-		roleID: z.string().min(1, "A role is required."),
+		adminID: z.string().cuid(),
+		roleID: z.string().cuid().min(1, "A role is required."),
 		firstName: z
 			.string()
 			.min(1, "You must specify a first name.")
@@ -41,7 +41,7 @@ export const updateAdminUserSchema = z
 
 export const createAdminUserSchema = z
 	.object({
-		roleID: z.string().min(1, "A role is required."),
+		roleID: z.string().cuid().min(1, "A role is required."),
 		firstName: z.string().min(1, "You must specify a first name."),
 		lastName: z.string().nullish().or(z.literal("")),
 		email: z.string().email("A valid email is required."),

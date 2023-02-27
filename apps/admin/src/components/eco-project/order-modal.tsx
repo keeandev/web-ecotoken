@@ -111,7 +111,7 @@ const OrderModal: React.FC<{
 					size="full"
 					{...form.register("payType")}
 				>
-					{createEcoOrderSchema.shape.payType.options?.map((type) => (
+					{createEcoOrderSchema.shape.payType.options.map((type) => (
 						<option key={type} value={type}>
 							{type}
 						</option>

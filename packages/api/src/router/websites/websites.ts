@@ -34,7 +34,7 @@ export const websiteRouter = router({
 	get: adminAuthedProcedure
 		.input(z.object({ siteID: z.string() }))
 		.query(async ({ ctx, input: { siteID } }) => {
-			await ctx.prisma.site.findUnique({
+			return await ctx.prisma.site.findUnique({
 				where: {
 					siteID
 				}
@@ -43,7 +43,7 @@ export const websiteRouter = router({
 	create: adminAuthedProcedure
 		.input(createWebsiteSchema)
 		.mutation(async ({ ctx, input }) => {
-			await ctx.prisma.site.create({
+			return await ctx.prisma.site.create({
 				data: {
 					...input
 				}

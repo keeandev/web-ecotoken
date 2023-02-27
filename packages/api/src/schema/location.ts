@@ -31,12 +31,12 @@ export const createEcoLocationSchema = z.object({
 		.string()
 		.min(2, "A state/province is required.")
 		.max(2, "A state/province is required."),
-	siteID: z.string()
+	siteID: z.string().cuid()
 });
 
 export const updateEcoLocationSchema = createEcoLocationSchema
 	.partial()
 	.extend({
-		locationID: z.string()
+		locationID: z.string().cuid()
 	});
 // .catchall(z.literal(""));

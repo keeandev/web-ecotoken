@@ -12,7 +12,7 @@ export const createWebsiteSchema = z.object({
 });
 
 export const updateWebsiteSchema = z.object({
-	siteID: z.string(),
+	siteID: z.string().cuid(),
 	siteName: z.string().optional(),
 	legalName: z.string().nullish().or(z.literal("")),
 	mailAddress: z.string().nullish().or(z.literal("")),
