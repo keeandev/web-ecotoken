@@ -58,6 +58,9 @@ export const locationsRouter = router({
 			return await ctx.prisma.ecoLocation.create({
 				data: {
 					...input
+				},
+				select: {
+					locationID: true
 				}
 			});
 		}),

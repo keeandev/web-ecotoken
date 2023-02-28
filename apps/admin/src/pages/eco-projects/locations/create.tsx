@@ -27,7 +27,7 @@ export const CreateEcoLocation: React.FC = () => {
 	const { mutate, isLoading } = trpc.ecoLocations.create.useMutation({
 		onSuccess: async (data) => {
 			await context.ecoLocations.getAll.invalidate();
-			router.push(`/eco-projects/locations/${data.siteID}/edit`);
+			router.push(`/eco-projects/locations/${data.locationID}/edit`);
 			toast.success("Location has been created.");
 		},
 		onError(e) {

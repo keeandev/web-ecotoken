@@ -56,8 +56,8 @@ const EditUser: React.FC = () => {
 		trpc.users.delete.useMutation({
 			onSuccess: async () => {
 				await context.users.getAll.invalidate();
-				router.push("/admin-users");
-				toast.success("Admin user has been deleted.");
+				router.push("/users");
+				toast.success("User has been deleted.");
 			},
 			onError(e) {
 				toast.error(e.message);

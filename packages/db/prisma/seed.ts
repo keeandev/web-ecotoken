@@ -22,12 +22,29 @@ type CreateLocationOperation = Omit<Prisma.EcoLocationCreateInput, "site"> & {
 	site: string;
 };
 
+type CreateUserOperation = Omit<
+	Prisma.UserCreateInput,
+	"role" | "roleID" | "site" | "siteID" | "password"
+> & {
+	role: string;
+	site: string;
+	password: string | Promise<string>;
+};
+
 type CreateProjectOperation = Omit<
 	Prisma.EcoProjectCreateInput,
-	"site" | "siteID" | "benefits" | "images" | "location" | "locationID"
+	| "site"
+	| "siteID"
+	| "benefits"
+	| "images"
+	| "location"
+	| "locationID"
+	| "producer"
+	| "producerID"
 > & {
 	site: string;
 	location: string;
+	producer: string;
 	benefits: string[];
 	images: Partial<ProjectImages>;
 };
@@ -86,11 +103,25 @@ const locationsToCreate: CreateLocationOperation[] = [
 	}
 ];
 
+const usersToCreate: CreateUserOperation[] = [
+	{
+		email: "realdinozoid@gmail.com",
+		firstName: "Ean",
+		lastName: "Last",
+		username: "dingo",
+		role: "Producer",
+		site: "ecoToken",
+		companyName: "NOAH Solutions",
+		password: hash("password123")
+	}
+];
+
 const projectsToCreate: CreateProjectOperation[] = [
 	{
 		ecoTitle: "Dairy Manure Remediation in Pincher Creek",
 		shortTitle: "Dairy Manure Remediation",
 		ecoUrl: "DairyManure001",
+		producer: "NOAH Solutions",
 		intro: "Manure treatment to tackle Greenhouse Gas, manure odor and groundwater contamination.",
 		location: "Leduc",
 		benefits: [
@@ -121,6 +152,7 @@ const projectsToCreate: CreateProjectOperation[] = [
 		ecoTitle: "Green Waste Treatment in Calgary Alberta",
 		shortTitle: "Green Waste Treatment",
 		ecoUrl: "Organics001",
+		producer: "NOAH Solutions",
 		intro: "Green waste in landfills generates large quantities of methane. This project will render it into a plant nutrient, while reducing greenhouse gasses and leading to groundwater improvement.",
 		location: "Calgary",
 		benefits: [
@@ -154,6 +186,7 @@ const projectsToCreate: CreateProjectOperation[] = [
 		ecoTitle: "Groundwater Treatment in Pincher Creek Alberta",
 		shortTitle: "Groundwater Treatment",
 		ecoUrl: "Groundwater001",
+		producer: "NOAH Solutions",
 		intro: "Excessive fecal matter from cattle herds can affect local groundwater, making it unhealthy for the cattle and other animals.",
 		location: "Pincher Creek",
 		benefits: [
@@ -187,6 +220,7 @@ const projectsToCreate: CreateProjectOperation[] = [
 		ecoTitle: "Ocean Wise - Seaforestation in Howe Sound British Columbia",
 		shortTitle: "Ocean Wise - Seaforestation",
 		ecoUrl: "Oceanwise001",
+		producer: "NOAH Solutions",
 		intro: "Kelp forests are rich habitat for marine life, including commercially important fish and invertebrates. Kelp naturally capture carbon in large volumes some of which gets trapped in the ocean floor for centuries.",
 		location: "Howe Sound",
 		benefits: ["Ecosystem Health", "Greenhouse Gas", "Ocean Health"],
@@ -220,6 +254,7 @@ const main = async () => {
 	await prisma.ecoProject.deleteMany();
 	await prisma.ecoBenefit.deleteMany();
 	await prisma.ecoLocation.deleteMany();
+    await prisma.nFTSeries.deleteMany();
 	await prisma.user.deleteMany();
 	await prisma.adminUser.deleteMany();
 	await prisma.site.deleteMany();
@@ -291,6 +326,29 @@ const main = async () => {
 	});
 	console.log("Created ecoBenefits.");
 
+	for (const { site, role, password, ...remaining } of usersToCreate) {
+		const selectedSite = await prisma.site.findFirst({
+			where: {
+				siteName: site
+			}
+		});
+		const selectedRole = await prisma.role.findFirst({
+			where: {
+				role: role
+			}
+		});
+		if (selectedSite && selectedRole)
+			await prisma.user.create({
+				data: {
+					...remaining,
+					password: await password,
+					siteID: selectedSite.siteID,
+					roleID: selectedRole.roleID
+				}
+			});
+	}
+	console.log("Created users.");
+
 	for (const { site, ...remaining } of locationsToCreate) {
 		const selectedSite = await prisma.site.findFirst({
 			where: {
@@ -311,9 +369,18 @@ const main = async () => {
 		site,
 		location,
 		benefits,
+		producer,
 		images,
 		...project
 	} of projectsToCreate) {
+		const selectedProducer = await prisma.user.findFirst({
+			where: {
+				companyName: producer,
+				role: {
+					role: "Producer"
+				}
+			}
+		});
 		const selectedSite = await prisma.site.findFirst({
 			where: {
 				siteName: site
@@ -337,6 +404,7 @@ const main = async () => {
 				images: JSON.stringify(images),
 				locationID: selectedLocation!.locationID,
 				siteID: selectedSite!.siteID,
+				producerID: selectedProducer!.userID,
 				benefits: {
 					connect: selectedBenefits?.map(({ benefitID }) => ({
 						benefitID

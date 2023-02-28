@@ -34,9 +34,25 @@ export const createEcoLocationSchema = z.object({
 	siteID: z.string().cuid()
 });
 
-export const updateEcoLocationSchema = createEcoLocationSchema
-	.partial()
-	.extend({
-		locationID: z.string().cuid()
-	});
+export const updateEcoLocationSchema = z.object({
+	locationID: z.string().cuid(),
+	siteID: z.string().cuid().optional().or(z.literal("")),
+	location: z
+		.string()
+		.min(1, "A location is required.")
+		.optional()
+		.or(z.literal("")),
+	cn: z
+		.string()
+		.min(2, "A country is required.")
+		.max(2, "A country is required.")
+		.optional()
+		.or(z.literal("")),
+	st: z
+		.string()
+		.min(2, "A state/province is required.")
+		.max(2, "A state/province is required.")
+		.optional()
+		.or(z.literal(""))
+});
 // .catchall(z.literal(""));
