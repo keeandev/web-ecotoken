@@ -65,11 +65,12 @@ model User {
     email         String  @unique
     walletAddress String? @unique
 
-    site      Site        @relation(fields: [siteID], references: [siteID])
+    site      Site         @relation(fields: [siteID], references: [siteID])
     siteID    String
-    role      Role        @relation(fields: [roleID], references: [roleID])
+    role      Role         @relation(fields: [roleID], references: [roleID])
     roleID    String
     nftSeries NFTSeries[]
+    projects  EcoProject[]
 
     isDelete  Boolean  @default(false)
     isDisable Boolean  @default(false)
@@ -181,6 +182,8 @@ model EcoProject {
     siteID     String
     location   EcoLocation  @relation(fields: [locationID], references: [locationID])
     locationID String
+    producer   User         @relation(fields: [producerID], references: [userID])
+    producerID String
     benefits   EcoBenefit[]
     nftSeries  NFTSeries?
 
@@ -198,6 +201,7 @@ model EcoProject {
 
     @@index([siteID])
     @@index([locationID])
+    @@index([producerID])
     @@map("eco_project")
 }
 

@@ -39,11 +39,11 @@ const AdminUserEdit = () => {
 
 	const { mutate, isLoading } = trpc.adminUsers.update.useMutation({
 		onSuccess: async () => {
-			await context.adminUsers.invalidate();
+			await context.adminUsers.getAll.invalidate();
 			await context.adminUsers.get.invalidate({
 				id: id as string
 			});
-			toast.success("Admin user has been edited.");
+			toast.success("Admin User has been updated.");
 		},
 		onError(e) {
 			toast.error(e.message);
@@ -53,7 +53,7 @@ const AdminUserEdit = () => {
 	const { mutate: deleteMutate, isLoading: isDeleting } =
 		trpc.adminUsers.delete.useMutation({
 			onSuccess: async () => {
-				await context.adminUsers.invalidate();
+				await context.adminUsers.getAll.invalidate();
 				router.push("/admin-users");
 				toast.success("Admin user has been deleted.");
 			},

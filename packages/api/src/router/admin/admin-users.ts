@@ -6,6 +6,7 @@ import {
 } from "@ecotoken/api/src/schema/admin-user";
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { exclude } from "@ecotoken/db";
 
 export const adminUsersRouter = router({
 	get: adminAuthedProcedure
@@ -20,7 +21,7 @@ export const adminUsersRouter = router({
 					adminID: input.id
 				}
 			});
-			return adminUser;
+			if (adminUser) return exclude(adminUser, ["password"]);
 		}),
 	getAll: adminAuthedProcedure
 		.input(
@@ -75,11 +76,14 @@ export const adminUsersRouter = router({
 				}
 			});
 			if (role) {
-				return await ctx.prisma.adminUser.create({
-					data: {
-						...input
-					}
-				});
+				return exclude(
+					await ctx.prisma.adminUser.create({
+						data: {
+							...input
+						}
+					}),
+					["password"]
+				);
 			} else
 				throw new TRPCError({
 					code: "INTERNAL_SERVER_ERROR",

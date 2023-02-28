@@ -21,8 +21,8 @@ const AdminUserCreate = () => {
 	const context = trpc.useContext();
 	const { mutate, isLoading } = trpc.adminUsers.create.useMutation({
 		onSuccess: async (data) => {
+			await context.adminUsers.getAll.invalidate();
 			router.push(`/admin-users/${data.adminID}/edit`);
-			await context.adminUsers.get.invalidate();
 			toast.success("Admin user has been created.");
 		},
 		onError(e) {
@@ -31,11 +31,9 @@ const AdminUserCreate = () => {
 	});
 
 	const { data: roles, isLoading: areRolesLoading } =
-		trpc.roles.getAll.useInfiniteQuery(
-			{
-				domain: "ADMIN"
-			}
-		);
+		trpc.roles.getAll.useInfiniteQuery({
+			domain: "ADMIN"
+		});
 
 	const mappedRoles = useMemo(
 		() => roles?.pages.flatMap((page) => page.roles),

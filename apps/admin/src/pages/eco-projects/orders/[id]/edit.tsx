@@ -14,6 +14,7 @@ import Form, {
 	FormSelect,
 	useZodForm
 } from "@ecotoken/ui/components/Form";
+import Spinner from "@ecotoken/ui/components/Spinner";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
@@ -27,7 +28,7 @@ const EditEcoOrder = () => {
 	if (typeof id !== "string" && typeof id !== "undefined") id = id[0];
 	if (!id) id = "";
 
-	const { data: orderDetails, isLoading: isOrderLoading } =
+	const { data: orderDetails, isLoading: fetchingOrder } =
 		trpc.ecoOrders.get.useQuery(
 			{
 				ecoOrderID: id
@@ -35,11 +36,11 @@ const EditEcoOrder = () => {
 			{
 				enabled: !!id,
 				onSuccess(order) {
-					console.log("success fetch");
+					console.log("success fetch", order);
 					form.reset({
-						orderStatus: order?.orderStatus,
-						retireHash: order?.retireHash ?? undefined,
-						retireFee: order?.retireFee ?? undefined
+						...order,
+						retireFee:
+							(order?.retireFee as unknown as number) ?? undefined
 					});
 				}
 			}
@@ -76,7 +77,14 @@ const EditEcoOrder = () => {
 	const form = useZodForm({
 		schema: updateEcoOrderSchema.omit({ ecoOrderID: true })
 	});
-
+	if (!orderDetails) {
+		if (fetchingOrder) return <Spinner />;
+		else {
+			toast.error("Order does not exist.");
+			router.push("/eco-projects/orders");
+			return null;
+		}
+	}
 	return (
 		<DefaultCard className="flex flex-col space-y-4" size="2xl">
 			<div className="flex space-x-2">
@@ -128,10 +136,7 @@ const EditEcoOrder = () => {
 					{...form.register("retireHash")}
 				/>
 				<div className="space-y-1">
-					<Button
-						fullWidth
-						loading={isEditingOrder || isOrderLoading}
-					>
+					<Button fullWidth loading={isEditingOrder || fetchingOrder}>
 						Update
 					</Button>
 					<Button
@@ -141,7 +146,7 @@ const EditEcoOrder = () => {
 						loading={isDeletingOrder}
 						onClick={async () =>
 							await deleteOrder({
-								ecoOrderID: orderDetails?.ecoOrderID ?? ""
+								ecoOrderID: id as string
 							})
 						}
 					>

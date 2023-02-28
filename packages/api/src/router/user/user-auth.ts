@@ -4,7 +4,7 @@ import { sealData, unsealData } from "iron-session";
 import { TRPCError } from "@trpc/server";
 // import * as jose from "jose";
 import { verify } from "argon2";
-import { createUserSchema } from "../../schema/user";
+import { createUserSchema, loginUserSchema } from "../../schema/user";
 import { transporter } from "@ecotoken/email";
 // probably change later
 import { getBaseUrl } from "@ecotoken/user/src/utils/trpc";
@@ -61,12 +61,7 @@ export const userAuthRouter = router({
 			return 200;
 		}),
 	login: publicProcedure
-		.input(
-			z.object({
-				user: z.union([z.string(), z.string().email()]),
-				password: z.string()
-			})
-		)
+		.input(loginUserSchema)
 		.mutation(async ({ ctx, input }) => {
 			const user = await ctx.prisma.user.findFirst({
 				where: {

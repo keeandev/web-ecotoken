@@ -2,8 +2,18 @@
 	"name": "@ecotoken/monorepo",
 	"private": true,
 	"workspaces": [
-		"apps/*",
-		"packages/*"
+		"apps/admin",
+		"apps/user",
+		"apps/workshop",
+		"packages/api",
+		"packages/auth",
+		"packages/config",
+		"packages/db",
+		"packages/ui",
+		"packages/email",
+		"packages/eslint-config",
+		"packages/prettier-config",
+		"packages/tailwind-config"
 	],
 	"scripts": {
 		"build": "turbo build",

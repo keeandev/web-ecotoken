@@ -1,8 +1,9 @@
 import { adminAuthedProcedure, publicProcedure, router } from "../../trpc";
 import { User } from "@prisma/client";
 import { z } from "zod";
-import { createUserSchema } from "../../schema/user";
+import { createUserSchema, updateUserSchema } from "../../schema/user";
 import { TRPCError } from "@trpc/server";
+import { exclude } from "@ecotoken/db";
 
 export const usersRouter = router({
 	usernameCheck: publicProcedure
@@ -20,6 +21,25 @@ export const usersRouter = router({
 				throw new TRPCError({
 					message: "Username is not available.",
 					code: "CONFLICT"
+				});
+		}),
+	get: adminAuthedProcedure
+		.input(
+			z.object({
+				userID: z.string()
+			})
+		)
+		.query(async ({ ctx, input }) => {
+			const user = await ctx.prisma.user.findFirst({
+				where: {
+					userID: input.userID
+				}
+			});
+			if (user) return exclude(user, ["password"]);
+			else
+				throw new TRPCError({
+					code: "NOT_FOUND",
+					message: "User not found."
 				});
 		}),
 	getAll: adminAuthedProcedure
@@ -92,29 +112,47 @@ export const usersRouter = router({
 				}
 			});
 			if (role) {
-				await ctx.prisma.user.create({
-					data: {
-						...input,
-						siteID: ctx.selectedSite?.siteID ?? "",
-						roleID: role.roleID
-					}
-				});
+				return exclude(
+					await ctx.prisma.user.create({
+						data: {
+							...input,
+							siteID: ctx.selectedSite?.siteID ?? "",
+							roleID: role.roleID
+						}
+					}),
+					["password"]
+				);
 			} else
 				throw new TRPCError({
 					code: "INTERNAL_SERVER_ERROR",
 					message: "Role not found. Creation process cannot proceed."
 				});
 		}),
-	get: adminAuthedProcedure
+	update: adminAuthedProcedure
+		.input(updateUserSchema)
+		.mutation(async ({ ctx, input: { userID, ...input } }) => {
+			await ctx.prisma.user.update({
+				where: {
+					userID
+				},
+				data: {
+					...input
+				}
+			});
+		}),
+	delete: adminAuthedProcedure
 		.input(
 			z.object({
-				id: z.string()
+				userID: z.string()
 			})
 		)
-		.query(async ({ ctx, input }) => {
-			return await ctx.prisma.user.findFirst({
+		.mutation(async ({ ctx, input: { userID } }) => {
+			await ctx.prisma.user.update({
 				where: {
-					userID: input.id
+					userID
+				},
+				data: {
+					isDelete: true
 				}
 			});
 		})

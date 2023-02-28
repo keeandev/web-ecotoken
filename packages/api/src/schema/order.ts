@@ -10,7 +10,10 @@ export const createEcoOrderSchema = z.object({
 	payAmount: z.number(),
 	payFee: z.number(),
 	payHash: z.string(),
-	projectID: z.string().cuid().min(1, "A project is required to create an order."),
+	projectID: z
+		.string()
+		.cuid()
+		.min(1, "A project is required to create an order."),
 	userID: z.string().min(1, "A user is required to create an order.")
 });
 
@@ -25,11 +28,9 @@ export const ecoOrderStatus = z.object({
 	])
 });
 
-export const updateEcoOrderSchema = z
-	.object({
-		ecoOrderID: z.string().cuid(),
-		retireHash: z.string().optional(),
-		retireFee: z.number().optional()
-	})
-	.merge(ecoOrderStatus.partial())
-	.catchall(z.literal(""));
+export const updateEcoOrderSchema = z.object({
+	ecoOrderID: z.string().cuid(),
+	retireHash: z.string().nullish(),
+	retireFee: z.number().nullish(),
+	orderStatus: ecoOrderStatus.shape.orderStatus.optional().or(z.literal(""))
+});
