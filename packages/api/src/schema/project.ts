@@ -1,9 +1,12 @@
 import { z } from "zod";
 
 export const createEcoProjectSchema = z.object({
-    projectID: z.string().cuid().optional(),
-	locationID: z.string().cuid().min(1, "Please choose a location for this project."),
-	prdUserID: z.string().cuid().nullish(),
+	projectID: z.string().cuid().optional(),
+	locationID: z
+		.string()
+		.cuid()
+		.min(1, "Please choose a location for this project."),
+	producerID: z.string().cuid(),
 	vfyUserID: z.string().cuid().nullish(),
 	ecoNftID: z.number(),
 	ecoType: z.enum(["FUNDED_PROJECT", "CARBON_CREDIT", "WATER_CREDIT"]),

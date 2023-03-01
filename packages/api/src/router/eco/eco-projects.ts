@@ -73,10 +73,10 @@ export const projectsRouter = router({
 		.mutation(async ({ ctx, input }) => {
 			await ctx.prisma.ecoProject.create({
 				data: {
-                    ...input,
-                    siteID: ctx.selectedSite?.siteID ?? ctx.currentSite.siteID,
-                    images: JSON.stringify(input.images)
-                }
+					...input,
+					siteID: ctx.selectedSite?.siteID ?? ctx.currentSite.siteID,
+					images: JSON.stringify(input.images)
+				}
 			});
 		})
 });

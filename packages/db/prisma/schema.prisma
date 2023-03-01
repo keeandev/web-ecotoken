@@ -166,7 +166,6 @@ model EcoBenefit {
 model EcoProject {
     projectID  String        @id @default(cuid())
     ord        Int           @default(0)
-    prdUserID  String?
     vfyUserID  String?
     ecoNftID   Int           @db.UnsignedInt
     ecoType    ProjectType

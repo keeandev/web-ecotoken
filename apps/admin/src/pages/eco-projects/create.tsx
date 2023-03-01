@@ -19,7 +19,7 @@ import Button from "@ecotoken/ui/components/Button";
 import { type ChangeEvent, useMemo, useState } from "react";
 import { Country, State } from "country-state-city";
 import { transformEnum } from "@/utils/transformer";
-import { createId } from "@paralleldrive/cuid2";
+import cuid from "cuid";
 
 const CreateEcoProject = () => {
 	const [images, setImages] = useState<{
@@ -51,11 +51,9 @@ const CreateEcoProject = () => {
 		trpc.ecoLocations.getAll.useInfiniteQuery({});
 
 	const { data: users, isLoading: fetchingUsers } =
-		trpc.users.getAll.useInfiniteQuery(
-			{
-				role: ["Producer", "Verifier"]
-			}
-		);
+		trpc.users.getAll.useInfiniteQuery({
+			role: ["Producer", "Verifier"]
+		});
 
 	const cachedLocations = useMemo(
 		() => ecoLocations?.pages.flatMap((page) => page.locations),
@@ -89,7 +87,7 @@ const CreateEcoProject = () => {
 	const handleImageLoad = (e: ChangeEvent<HTMLInputElement>) => {
 		const files = e.target.files;
 		const key = e.target.name;
-        // we have one file and it's in the images JSON object
+		// we have one file and it's in the images JSON object
 		if (files && files[0] && key in images) {
 			const file = files[0];
 			setImages({
@@ -108,7 +106,7 @@ const CreateEcoProject = () => {
 		<div className="w-full space-y-4">
 			<DefaultCard className="flex flex-col space-y-4" size="half">
 				<div className="flex space-x-2">
-					<Link href="/admin-users" className="inline-block">
+					<Link href="/eco-projects" className="inline-block">
 						<FontAwesomeIcon
 							icon={faArrowLeft}
 							size="lg"
@@ -131,7 +129,7 @@ const CreateEcoProject = () => {
 								location.locationID === project.locationID
 						);
 						if (!currentLocation) return;
-						const projectID = createId();
+						const projectID = cuid();
 						const fileNames = Object.keys(images);
 						const files = Object.values(images);
 						// find the key to use as the image name
@@ -147,7 +145,7 @@ const CreateEcoProject = () => {
 									findKeyByValue(image) ?? ""
 								}.png`,
 								contentType: "image/png",
-                                acl: "public-read"
+								acl: "public-read"
 							}))
 						);
 						// find which url belongs to which object in the `images` object state
@@ -271,7 +269,7 @@ const CreateEcoProject = () => {
 						size="xl"
 						wrapperClass="w-fit"
 						defaultValue=""
-						{...form.register("prdUserID")}
+						{...form.register("producerID")}
 					>
 						<option value="" hidden></option>
 						{producerUsers?.map((user) => (

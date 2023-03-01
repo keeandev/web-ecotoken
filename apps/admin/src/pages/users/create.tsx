@@ -9,6 +9,7 @@ import Form, {
 } from "@ecotoken/ui/components/Form";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Transition } from "@headlessui/react";
 import generator from "generate-password";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -47,7 +48,17 @@ const CreateUser = () => {
 	);
 
 	return (
-		<div className="space-y-4">
+		<Transition
+			show
+			appear
+			enter="ease-out duration-500"
+			enterFrom="opacity-0 -translate-y-2"
+			enterTo="opacity-100 translate-y-0"
+			leave="ease-in duration-500"
+			leaveFrom="opacity-100 translate-y-0"
+			leaveTo="opacity-0 -translate-y-2"
+			className="space-y-4"
+		>
 			<div className="flex space-x-2">
 				<Link href="/users" className="inline-block">
 					<FontAwesomeIcon
@@ -153,7 +164,7 @@ const CreateUser = () => {
 					Create
 				</Button>
 			</Form>
-		</div>
+		</Transition>
 	);
 };
 

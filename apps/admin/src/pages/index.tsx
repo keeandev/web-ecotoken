@@ -7,7 +7,13 @@ const Home: NextPage = () => {
 			<div className="block w-fit bg-cyan-400 p-4">
 				Dashboard (index.tsx)
 			</div>
-			<ImagePicker width={500} height={500} />
+			<ImagePicker
+                aspect={16 / 9}
+				width={500}
+				height={500}
+				border="dashed"
+				style="rectange"
+			/>
 		</div>
 	);
 };

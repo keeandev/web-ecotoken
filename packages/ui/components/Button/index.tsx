@@ -5,20 +5,25 @@ import Spinner from "../Spinner";
 
 const buttonStyles = cva(
 	[
-		"flex gap-2 items-center justify-center rounded-md px-4 py-2 disabled:cursor-not-allowed focus:ease-out focus:outline-none focus:ring-2 focus:ring-offset-1"
+		"flex gap-2 items-center justify-center rounded-md disabled:cursor-not-allowed focus:ease-out focus:outline-none focus:ring-2 focus:ring-offset-1 text-sm"
 	],
 	{
 		variants: {
 			intent: {
 				primary:
-					"text-white bg-slate-500 disabled:bg-slate-400 ring-slate-400 focus:ring-offset-slate-200",
+					"text-slate-100 bg-slate-500 disabled:bg-slate-400 ring-slate-400 focus:ring-offset-slate-200",
 				secondary:
-					"outline outline-2 -outline-offset-2 outline-slate-500 text-slate-500 disabled:outline-slate-400 disabled:text-slate-400",
+					"outline outline-1 -outline-offset-2 outline-slate-500 text-slate-500 ring-slate-400 disabled:outline-slate-400 disabled:text-slate-400",
 				tertiary:
-					"text-slate-400 disabled:text-slate-300 underline underline-offset-2",
+					"text-slate-400 ring-slate-400 disabled:text-slate-300 underline underline-offset-2",
+                "tertiary-no-underline": "text-slate-400 ring-slate-400 disabled:text-slate-300",
 				destructive:
 					"bg-rose-600 disabled:bg-rose-400 ring-rose-400 text-white",
 				none: ""
+			},
+			size: {
+				default: "px-4 py-2",
+				sm: "px-4 py-1"
 			},
 			fullWidth: {
 				true: "w-full"
@@ -29,6 +34,7 @@ const buttonStyles = cva(
 		},
 		defaultVariants: {
 			intent: "primary",
+			size: "default",
 			fullWidth: false,
 			animation: true
 		}

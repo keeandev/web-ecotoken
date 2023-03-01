@@ -55,31 +55,27 @@ const EcoOrders = () => {
 	];
 
 	return (
-		<div>
-			<DefaultCard className="space-y-4">
-				<div className="flex w-full">
-					<div>
-						<CardTitle>Orders</CardTitle>
-						<CardDescription>
-							A list of all available orders.
-						</CardDescription>
-					</div>
-					<div className="flex flex-1 items-end justify-end space-x-2">
-						<Button
-							onClick={() =>
-								router.push(`${router.asPath}/create`)
-							}
-						>
-							Create an order
-						</Button>
-					</div>
+		<div className="space-y-4">
+			<div className="flex w-full">
+				<div>
+					<CardTitle>Orders</CardTitle>
+					<CardDescription>
+						A list of all available orders.
+					</CardDescription>
 				</div>
-				<Table
-					data={orders?.pages[0]?.orders ?? []}
-					columns={columns}
-					fullWidth
-				/>
-			</DefaultCard>
+				<div className="flex flex-1 items-end justify-end space-x-2">
+					<Button
+						onClick={() => router.push(`${router.asPath}/create`)}
+					>
+						Create an order
+					</Button>
+				</div>
+			</div>
+			<Table
+				data={orders?.pages[0]?.orders ?? []}
+				columns={columns}
+				fullWidth
+			/>
 		</div>
 	);
 };
