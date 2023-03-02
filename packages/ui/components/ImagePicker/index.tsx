@@ -10,7 +10,7 @@ const pickerStyles = cva("relative bg-slate-200 rounded-md overflow-hidden", {
 		border: {
 			solid: "",
 			dashed: "border-dashed",
-			dotted: "border-dashed",
+			dotted: "border-dotted",
 			none: ""
 		},
 		size: {

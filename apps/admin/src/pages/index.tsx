@@ -1,5 +1,7 @@
 import { type NextPage } from "next";
 import ImagePicker from "@ecotoken/ui/components/ImagePicker";
+import FileUpload from "@ecotoken/ui/components/FileUpload";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
 
 const Home: NextPage = () => {
 	return (
@@ -7,13 +9,14 @@ const Home: NextPage = () => {
 			<div className="block w-fit bg-cyan-400 p-4">
 				Dashboard (index.tsx)
 			</div>
-			<ImagePicker
+			{/* <ImagePicker
                 aspect={16 / 9}
 				width={500}
 				height={500}
 				border="dashed"
 				style="rectange"
-			/>
+			/> */}
+			<FileUpload defaultIcon={faImage} />
 		</div>
 	);
 };
