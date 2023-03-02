@@ -1,7 +1,8 @@
 import { z } from "zod";
 
 export const createEcoProjectSchema = z.object({
-	projectID: z.string().cuid().optional(),
+    // temporary fix for cuid to cuid2 migration
+	projectID: z.union([z.string().cuid2(), z.string().cuid()]).optional(),
 	locationID: z
 		.string()
 		.cuid()

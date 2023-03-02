@@ -19,7 +19,7 @@ import Button from "@ecotoken/ui/components/Button";
 import { type ChangeEvent, useMemo, useState } from "react";
 import { Country, State } from "country-state-city";
 import { transformEnum } from "@/utils/transformer";
-import cuid from "cuid";
+import { createId } from "@paralleldrive/cuid2";
 
 const CreateEcoProject = () => {
 	const [images, setImages] = useState<{
@@ -129,7 +129,7 @@ const CreateEcoProject = () => {
 								location.locationID === project.locationID
 						);
 						if (!currentLocation) return;
-						const projectID = cuid();
+						const projectID = createId();
 						const fileNames = Object.keys(images);
 						const files = Object.values(images);
 						// find the key to use as the image name
@@ -168,7 +168,8 @@ const CreateEcoProject = () => {
 								await fetch(url, {
 									method: "PUT",
 									headers: {
-										"Content-Type": "image/png"
+										"Content-Type": "image/png",
+										"x-amz-acl": "public-read"
 									},
 									mode: "cors",
 									body: file
