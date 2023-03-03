@@ -6,13 +6,15 @@ import { z } from "zod";
  * This way you can ensure the app isn't built with invalid env vars.
  */
 export const serverSchema = z.object({
-	DATABASE_URL: z.string().url(),
-	NODE_ENV: z.enum(["development", "test", "production"]),
-	IRON_SESSION_PASSWORD: z.string(),
-	IRON_SESSION_COOKIE_EXPIRE_TIME: z.string(),
-	EMAIL_VERIFICATION_EMAIL_ADDRESS: z.string(),
-	EMAIL_VERIFICATION_EXPIRE_TIME: z.string(),
-	DISABLE_EMAIL_VERIFICATION: z.string().optional()
+    DATABASE_URL: z.string().url(),
+    NODE_ENV: z.enum(["development", "test", "production"]),
+    IRON_SESSION_PASSWORD: z.string(),
+    IRON_SESSION_COOKIE_EXPIRE_TIME: z.string(),
+    EMAIL_VERIFICATION_EMAIL_ADDRESS: z.string(),
+    EMAIL_VERIFICATION_EXPIRE_TIME: z.string(),
+    EMAIL_CLIENT_ID: z.string(),
+    EMAIL_PRIVATE_KEY: z.string(),
+    DISABLE_EMAIL_VERIFICATION: z.string().optional(),
 });
 
 /**
@@ -21,9 +23,9 @@ export const serverSchema = z.object({
  * To expose them to the client, prefix them with `NEXT_PUBLIC_`.
  */
 export const clientSchema = z.object({
-	// NEXT_PUBLIC_BAR: z.string(),
-	NEXT_PUBLIC_SOLANA_RPC: z.string(),
-    NEXT_PUBLIC_CDN_URL: z.string()
+    // NEXT_PUBLIC_BAR: z.string(),
+    NEXT_PUBLIC_SOLANA_RPC: z.string(),
+    NEXT_PUBLIC_CDN_URL: z.string(),
 });
 
 /**
@@ -33,7 +35,7 @@ export const clientSchema = z.object({
  * @type {{ [k in keyof z.infer<typeof clientSchema>]: z.infer<typeof clientSchema>[k] | undefined }}
  */
 export const clientEnv = {
-	// NEXT_PUBLIC_BAR: process.env.NEXT_PUBLIC_BAR,
-	NEXT_PUBLIC_SOLANA_RPC: process.env.NEXT_PUBLIC_SOLANA_RPC,
-    NEXT_PUBLIC_CDN_URL: process.env.NEXT_PUBLIC_CDN_URL
+    // NEXT_PUBLIC_BAR: process.env.NEXT_PUBLIC_BAR,
+    NEXT_PUBLIC_SOLANA_RPC: process.env.NEXT_PUBLIC_SOLANA_RPC,
+    NEXT_PUBLIC_CDN_URL: process.env.NEXT_PUBLIC_CDN_URL,
 };
