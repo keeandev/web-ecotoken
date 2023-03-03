@@ -20,7 +20,7 @@ const CreateUser = () => {
 	const router = useRouter();
 	const context = trpc.useContext();
 
-	const { mutate, isLoading } = trpc.users.create.useMutation({
+	const { mutateAsync, isLoading } = trpc.users.create.useMutation({
 		async onSuccess(data) {
 			await router.push(`/users/${data?.userID}/edit`);
 			await context.users.getAll.invalidate();
@@ -77,7 +77,7 @@ const CreateUser = () => {
 			<Form
 				form={form}
 				onSubmit={async (data) => {
-					if (role) await mutate({ ...data, roleID: role?.roleID });
+					if (role) await mutateAsync({ ...data, roleID: role?.roleID });
 				}}
 				className="flex w-full flex-col gap-4"
 			>

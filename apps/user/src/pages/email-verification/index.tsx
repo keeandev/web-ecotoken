@@ -1,5 +1,5 @@
 import EmailVerificationCard from "@/components/email-verification-card";
-import { NextPageWithLayout } from "../_app";
+import { type NextPageWithLayout } from "../_app";
 
 const EmailVerificationNotification: NextPageWithLayout = () => {
 	return (

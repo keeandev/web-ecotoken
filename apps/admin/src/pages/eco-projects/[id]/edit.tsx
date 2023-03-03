@@ -1,5 +1,3 @@
-const EditEcoProject = () => {
-
-};
+const EditEcoProject = () => {};
 
 export default EditEcoProject;

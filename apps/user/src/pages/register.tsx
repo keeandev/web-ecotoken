@@ -1,10 +1,10 @@
-import { RouterInputs, trpc } from "@/utils/trpc";
+import { type RouterInputs, trpc } from "@/utils/trpc";
 import { createUserSchema } from "@ecotoken/api/src/schema/user";
 import Button from "@ecotoken/ui/components/Button";
 import { useRouter } from "next/router";
 import Form, { FormInput, useZodForm } from "@ecotoken/ui/components/Form";
 import { toast } from "react-hot-toast";
-import { NextPageWithLayout } from "./_app";
+import { type NextPageWithLayout } from "./_app";
 import logo from "@ecotoken/ui/assets/brand/logo.png";
 import Image from "next/image";
 import Link from "@ecotoken/ui/components/Link";
@@ -29,9 +29,9 @@ const Register: NextPageWithLayout = () => {
 
 	const router = useRouter();
 
-	const { mutate, isLoading } = trpc.userAuth.register.useMutation({
-		onSuccess() {
-			router.push("/email-verification");
+	const { mutateAsync, isLoading } = trpc.userAuth.register.useMutation({
+		async onSuccess() {
+			await router.push("/email-verification");
 		},
 		onError(e) {
 			toast.error(e.message);
@@ -39,7 +39,7 @@ const Register: NextPageWithLayout = () => {
 	});
 
 	const onSubmit = async (values: RegisterFormInput) => {
-		await mutate({
+		await mutateAsync({
 			...values
 		});
 	};

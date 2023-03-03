@@ -27,7 +27,7 @@ const EditUser: React.FC = () => {
 
 	const { data: user, isLoading: fetchingUser } = trpc.users.get.useQuery(
 		{
-			userID: id as string
+			userID: id
 		},
 		{
 			enabled: !!id,

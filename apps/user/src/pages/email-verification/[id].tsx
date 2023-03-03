@@ -1,6 +1,6 @@
 import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
-import { NextPageWithLayout } from "../_app";
+import { type NextPageWithLayout } from "../_app";
 import EmailVerificationCard from "@/components/email-verification-card";
 
 const EmailVerification: NextPageWithLayout = () => {

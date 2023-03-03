@@ -6,7 +6,7 @@ import { toast } from "react-hot-toast";
 import { trpc } from "@/utils/trpc";
 
 const Login = () => {
-	const { mutate, isLoading } = trpc.adminAuth.login.useMutation({
+	const { mutateAsync, isLoading } = trpc.adminAuth.login.useMutation({
 		onSuccess() {
 			router.push("/");
 			toast.success("Login success.");
@@ -26,7 +26,7 @@ const Login = () => {
 			<Form
 				form={form}
 				onSubmit={async ({ username, password }) => {
-					await mutate({
+					await mutateAsync({
 						username,
 						password
 					});

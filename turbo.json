@@ -18,8 +18,8 @@
 			"cache": false
 		},
 		"dev": {
-			"dependsOn": ["^db:generate"],
-			"cache": false
+			"cache": false,
+            "persistent": true
 		},
 		"build": {
 			"dependsOn": ["^build", "^db:generate"],
@@ -30,9 +30,8 @@
 				"dist/**"
 			]
 		},
-		"lint": {
-			"outputs": []
-		},
+		"lint": {},
+        "lint:fix": {},
 		"clean": {
 			"cache": false
 		},
@@ -44,5 +43,5 @@
 			"cache": false
 		}
 	},
-	"globalEnv": ["DATABASE_URL"]
+	"globalEnv": ["DATABASE_URL", "VERCEL", "VERCEL_URL", "PORT", "NODE_ENV", "NEXT_PUBLIC_CDN_URL", "NEXT_PUBLIC_SOLANA_RPC"]
 }

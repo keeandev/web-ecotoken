@@ -3,7 +3,7 @@ import type { ProjectStatus } from "@prisma/client";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-type ProjectCardProps = {
+export type ProjectCardProps = {
 	title: string;
 	location: string;
 	intro: string;

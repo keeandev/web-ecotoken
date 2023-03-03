@@ -3,7 +3,7 @@ import type { ProjectStatus } from "@prisma/client";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
-type ProjectCardProps = {
+export type ProjectCardProps = {
 	title: string;
 	location: string;
 	intro: string;
@@ -21,9 +21,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 	location,
 	intro,
 	images,
-	status,
-	fundAmount,
-	fundRecieved
 }) => {
 	const router = useRouter();
 
@@ -47,14 +44,18 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 				<Button
 					intent="primary"
 					fullWidth
-					onClick={() => router.push(`/stake/${url}`)}
+					onClick={async () => {
+                        await router.push(`/stake/${url}`)
+                    }}
 				>
 					Stake
 				</Button>
 				<Button
 					intent="secondary"
 					fullWidth
-					onClick={() => router.push(`/projects/${url}`)}
+					onClick={async () => {
+                        await router.push(`/projects/${url}`)
+                    }}
 				>
 					Learn More
 				</Button>

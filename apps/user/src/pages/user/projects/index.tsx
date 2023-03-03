@@ -1,4 +1,4 @@
-import ProjectCard from "@/components/project/project-card";
+import ProjectCard, { type ProjectCardProps } from "@/components/project/project-card";
 import { trpc } from "@/utils/trpc";
 import { useEffect } from "react";
 
@@ -14,14 +14,14 @@ const Projects = () => {
 
 	useEffect(() => {
 		const main = document.querySelector("main");
-		const handleScroll = (e: Event) => {
+		const handleScroll = async (e: Event) => {
 			const target = e.target as Element;
 			if (
 				target.scrollTop + 2 + window.innerHeight >
 					target.scrollHeight &&
 				hasNextPage
 			)
-				fetchNextPage();
+				await fetchNextPage();
 		};
 		main?.addEventListener("scroll", handleScroll);
 		return () => main?.removeEventListener("scroll", handleScroll);
@@ -52,7 +52,7 @@ const Projects = () => {
 							status={status}
 							fundAmount={fundAmount ?? undefined}
 							fundRecieved={fundRecieved ?? undefined}
-							images={JSON.parse(images)}
+							images={JSON.parse(images) as ProjectCardProps["images"]}
 						/>
 					)
 				)

@@ -1,6 +1,5 @@
 import PublicNavbar from "@/components/public/navbar";
-import Link from "next/link";
-import { NextPageWithLayout } from "./_app";
+import { type NextPageWithLayout } from "./_app";
 
 const HomePage: NextPageWithLayout = () => {
 	return (

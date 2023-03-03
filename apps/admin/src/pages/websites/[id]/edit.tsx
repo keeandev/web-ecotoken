@@ -25,7 +25,7 @@ const EditWebsite = () => {
 
 	const { data: website, isLoading: isFetching } = trpc.websites.get.useQuery(
 		{
-			siteID: id as string
+			siteID: id
 		},
 		{
 			enabled: !!id,
@@ -38,7 +38,7 @@ const EditWebsite = () => {
 		}
 	);
 
-	const { mutate, isLoading } = trpc.websites.update.useMutation({
+	const { mutateAsync, isLoading } = trpc.websites.update.useMutation({
 		onSuccess: async () => {
 			await context.websites.get.invalidate({
 				siteID: id as string
@@ -51,7 +51,7 @@ const EditWebsite = () => {
 		}
 	});
 
-	const { mutate: deleteMutate, isLoading: isDeleting } =
+	const { mutateAsync: deleteMutate, isLoading: isDeleting } =
 		trpc.websites.delete.useMutation({
 			onSuccess: async () => {
 				await context.websites.getAll.invalidate();
@@ -103,7 +103,7 @@ const EditWebsite = () => {
 						form={form}
 						className="flex w-full flex-col gap-4"
 						onSubmit={async (website) =>
-							await mutate({
+							await mutateAsync({
 								...website,
 								siteID: id as string
 							})

@@ -13,10 +13,10 @@ const Login = () => {
 		schema: loginUserSchema
 	});
 
-	const { mutate, isLoading } = trpc.userAuth.login.useMutation({
+	const { mutateAsync, isLoading } = trpc.userAuth.login.useMutation({
 		retry: false,
-		onSuccess() {
-			router.push("/user");
+		async onSuccess() {
+			await router.push("/user");
 			toast.success("Login success.");
 		},
 		onError(e) {
@@ -30,7 +30,7 @@ const Login = () => {
 			<Form
 				form={form}
 				onSubmit={async ({ user, password }) => {
-					await mutate({
+					await mutateAsync({
 						user,
 						password
 					});

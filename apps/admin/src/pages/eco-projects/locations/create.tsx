@@ -24,7 +24,7 @@ export const CreateEcoLocation: React.FC = () => {
 	const router = useRouter();
 	const context = trpc.useContext();
 
-	const { mutate, isLoading } = trpc.ecoLocations.create.useMutation({
+	const { mutateAsync, isLoading } = trpc.ecoLocations.create.useMutation({
 		onSuccess: async (data) => {
 			await context.ecoLocations.getAll.invalidate();
 			router.push(`/eco-projects/locations/${data.locationID}/edit`);
@@ -88,7 +88,7 @@ export const CreateEcoLocation: React.FC = () => {
 					className={clsx("flex w-full flex-col gap-4")}
 					onSubmit={async (location) => {
 						if (activeSiteID)
-							await mutate({
+							await mutateAsync({
 								...location,
 								siteID: activeSiteID
 							});

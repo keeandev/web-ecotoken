@@ -32,10 +32,13 @@ export const trpc = createTRPCNext<AppRouter>({
 					queries: {
 						refetchOnWindowFocus: false,
 						// @ts-ignore tRPC convention for infinite queries
+                        // prettier-ignore
+                        // eslint-disable-next-line
 						getNextPageParam: (lastPage) => lastPage.nextCursor,
 
 						// @ts-ignore tRPC convention for infinite queries
 						// prettier-ignore
+                        // eslint-disable-next-line
 						getPreviousPageParam: (firstPage) => firstPage.prevCursor
 					}
 				}

@@ -4,9 +4,6 @@
 	"version": "0.0.0",
 	"main": "./src/index.ts",
 	"types": "./src/index.ts",
-	"scripts": {
-		"build": "tailwindcss build -i src/styles.css -o dist/tailwind.email.css"
-	},
 	"dependencies": {
 		"@ecotoken/tailwind-config": "*",
 		"@ecotoken/ui": "*",

@@ -32,5 +32,5 @@ export const updateEcoOrderSchema = z.object({
 	ecoOrderID: z.string().cuid(),
 	retireHash: z.string().nullish(),
 	retireFee: z.number().nullish(),
-	orderStatus: ecoOrderStatus.shape.orderStatus.optional().or(z.literal(""))
+	orderStatus: ecoOrderStatus.shape.orderStatus.optional()
 });

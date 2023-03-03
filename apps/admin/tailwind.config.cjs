@@ -1,4 +1,4 @@
 /** @type {import("tailwindcss").Config} */
 module.exports = {
-  presets: [require("@ecotoken/tailwind-config")],
+    presets: [require("../../packages/config/tailwind")],
 };

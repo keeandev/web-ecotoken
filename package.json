@@ -7,16 +7,15 @@
 		"apps/workshop",
 		"packages/api",
 		"packages/auth",
-		"packages/config",
+		"packages/config/tailwind",
+		"packages/config/prettier",
+		"packages/config/eslint",
 		"packages/db",
 		"packages/ui",
-		"packages/email",
-		"packages/eslint-config",
-		"packages/prettier-config",
-		"packages/tailwind-config"
+		"packages/email"
 	],
 	"scripts": {
-		"build": "turbo build",
+		"build": "dotenv -- turbo build",
 		"clean": "run-script-os",
 		"clean:windows": "del /f /s node_modules",
 		"clean:default": "rm -rf node_modules",
@@ -26,17 +25,21 @@
 		"db:seed": "dotenv -- turbo db:seed",
 		"db:studio": "dotenv -- turbo db:studio",
 		"dev": "dotenv -- turbo dev --parallel",
-		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
+		"format": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,md,json}\" --ignore-path .gitignore",
 		"lint": "turbo lint && manypkg check",
+		"lint:fix": "turbo lint:fix && manypkg fix",
 		"type-check": "turbo type-check",
-		"postinstall": "npm run db:generate && manypkg check",
-		"fix-dependencies": "manypkg fix"
+		"postinstall": "npm run db:generate && manypkg check"
 	},
 	"dependencies": {
 		"@ecotoken/eslint-config": "*",
 		"@ecotoken/prettier-config": "*",
+		"@ecotoken/tailwind-config": "*",
+		"@ianvs/prettier-plugin-sort-imports": "^3.7.1",
 		"@manypkg/cli": "^0.19.2",
+		"@types/prettier": "^2.7.2",
 		"dotenv-cli": "^6.0.0",
+		"prettier": "^2.8.4",
 		"run-script-os": "^1.1.6",
 		"turbo": "^1.5.5",
 		"typescript": "^4.9.3"

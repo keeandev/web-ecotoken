@@ -1,12 +1,12 @@
 import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
-import { NextPageWithLayout } from "./_app";
+import { type NextPageWithLayout } from "./_app";
 
 const Logout: NextPageWithLayout = () => {
 	const router = useRouter();
 	trpc.userAuth.logout.useQuery(undefined, {
-		onSuccess() {
-			router.replace("/login");
+		async onSuccess() {
+			await router.replace("/login");
 		}
 	});
 	return <></>;

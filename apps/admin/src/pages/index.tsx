@@ -1,5 +1,4 @@
 import { type NextPage } from "next";
-import ImagePicker from "@ecotoken/ui/components/ImagePicker";
 import FileUpload from "@ecotoken/ui/components/FileUpload";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 

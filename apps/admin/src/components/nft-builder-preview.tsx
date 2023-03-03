@@ -16,6 +16,7 @@ type NFTBuilderPreviewProps = {
 	id: string;
 };
 
+// eslint-disable-next-line react/display-name
 const NFTBuilderPreview = forwardRef<HTMLDivElement, NFTBuilderPreviewProps>(
 	(
 		{
@@ -75,6 +76,5 @@ const NFTBuilderPreview = forwardRef<HTMLDivElement, NFTBuilderPreviewProps>(
 		);
 	}
 );
-NFTBuilderPreview.displayName = "NFTBuilderPreview";
 
 export default NFTBuilderPreview;
