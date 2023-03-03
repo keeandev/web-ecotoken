@@ -131,6 +131,7 @@ export const usersRouter = router({
 	update: adminAuthedProcedure
 		.input(updateUserSchema)
 		.mutation(async ({ ctx, input: { userID, ...input } }) => {
+            delete (input as Partial<typeof input>).confirmPassword;
 			await ctx.prisma.user.update({
 				where: {
 					userID
