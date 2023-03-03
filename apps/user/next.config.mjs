@@ -21,6 +21,17 @@ const config = {
 	// We already do linting on GH actions
 	eslint: {
 		ignoreDuringBuilds: !!process.env.CI
+	},
+	images: {
+		remotePatterns: [
+			{
+				protocol: "https",
+				hostname: "ecotoken.nyc3.cdn.digitaloceanspaces.com",
+				port: "",
+				pathname: "/ecoproject/**"
+			}
+		]
+		// domains: ["ecotoken.nyc3.cdn.digitaloceanspaces.com"]
 	}
 };
 
