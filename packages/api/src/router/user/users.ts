@@ -124,7 +124,7 @@ export const usersRouter = router({
 				);
 			} else
 				throw new TRPCError({
-					code: "INTERNAL_SERVER_ERROR",
+					code: "NOT_FOUND",
 					message: "Role not found. Creation process cannot proceed."
 				});
 		}),
