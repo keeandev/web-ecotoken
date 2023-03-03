@@ -115,7 +115,7 @@ export const userAuthRouter = router({
 				permissions: role?.permissions,
 				ipAddress:
 					process.env.NODE_ENV === "production"
-						? ctx.req.connection.remoteAddress ?? ""
+						? ctx.req.headers["x-real-ip"] as string ?? ""
 						: undefined
 			};
 			await ctx.session!.save();

@@ -44,12 +44,10 @@ export const adminAuthRouter = router({
                 id: user.adminID,
                 ipAddress:
                     process.env.NODE_ENV === "production"
-                        ? ctx.req.connection.remoteAddress ?? ""
+                        ? ctx.req.headers["x-real-ip"] as string ?? ""
                         : undefined,
                 selectedSite: firstSite?.siteID,
             };
-            console.log("session", ctx.session);
-            console.log("redeploy")
             await ctx.session!.save();
         }),
     logout: adminAuthedProcedure.query(async ({ ctx }) => {
