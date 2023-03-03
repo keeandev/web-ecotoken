@@ -11,6 +11,7 @@ import { nftBuilderRouter } from "./nft-builder";
 import { nftSeriesRouter } from "./nft-series";
 import { ordersRouter } from "./eco/eco-orders";
 import { uploadRouter } from "./upload";
+import { coinPriceRouter } from "./crypto";
 
 export const appRouter = router({
 	upload: uploadRouter,
@@ -25,7 +26,8 @@ export const appRouter = router({
 	permissions: permissionsRouter,
 	roles: rolesRouter,
 	nftBuilder: nftBuilderRouter,
-	nftSeries: nftSeriesRouter
+	nftSeries: nftSeriesRouter,
+	coinPrice: coinPriceRouter
 });
 
 export type AppRouter = typeof appRouter;
