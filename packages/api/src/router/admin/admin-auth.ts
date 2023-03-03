@@ -49,6 +49,7 @@ export const adminAuthRouter = router({
                 selectedSite: firstSite?.siteID,
             };
             console.log("session", ctx.session);
+            console.log("redeploy")
             await ctx.session!.save();
         }),
     logout: adminAuthedProcedure.query(async ({ ctx }) => {
