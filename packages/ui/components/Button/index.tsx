@@ -22,7 +22,7 @@ const buttonStyles = cva(
                     "bg-rose-600 disabled:bg-rose-400 ring-rose-400 text-white",
                 sky: " rounded text-white bg-[#00AEEF] disabled:bg-slate-400 ring-slate-400 focus:ring-offset-slate-200",
                 skyfilled:
-                    "text-[#00AEEF] bg-white border-[#00AEEF] border  hover:text-white hover:bg-[#00AEEF] disabled:bg-slate-400 ring-slate-400 focus:ring-offset-slate-200 rounded",
+                    "text-[#00AEEF] bg-white border-[#00AEEF] border hover:text-white hover:bg-[#00AEEF] disabled:bg-slate-400 ring-slate-400 focus:ring-offset-slate-200 rounded",
                 gray: "bg-white hover:bg-[#585858] hover:text-white border rounded border-gray-400 text-slate-500 ring-slate-400 disabled:outline-slate-400 disabled:text-slate-400",
                 none: "",
             },

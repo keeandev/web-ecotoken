@@ -1,4 +1,9 @@
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
-  extends: ["../../.eslintrc.cjs", "next"],
+    parserOptions: {
+        ecmaVersion: "latest",
+        tsconfigRootDir: __dirname,
+        project: ["./tsconfig.json"],
+    },
+    extends: ["../../.eslintrc.cjs", "next"],
 };

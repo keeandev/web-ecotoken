@@ -9,9 +9,8 @@ import Button from "@ecotoken/ui/components/Button";
 import credit_icon from "@ecotoken/ui/assets/icons/credits.svg";
 import { clientEnv } from "@/env/schema.mjs";
 import Overview from "./overview";
-import ProjectCard from "@/components/project/project-card";
+import ProjectCard, { ProjectCardProps } from "@/components/project/project-card";
 import DetailCard from "./DetailCard";
-import { useEffect } from "react";
 
 const ProjectDetails = () => {
     const router = useRouter();
@@ -148,7 +147,7 @@ const ProjectDetails = () => {
                                     url={ecoUrl}
                                     location={"ddd"}
                                     intro={intro}
-                                    images={JSON.parse(images)}
+                                    images={JSON.parse(images) as ProjectCardProps["images"]}
                                     fundAmount={fundAmount}
                                     fundRecieved={fundRecieved}
                                 />

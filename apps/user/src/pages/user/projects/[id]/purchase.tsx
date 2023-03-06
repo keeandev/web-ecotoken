@@ -13,14 +13,13 @@ import Form, {
 import Button from "@ecotoken/ui/components/Button";
 import { createEcoOrderSchema } from "@ecotoken/api/src/schema/order";
 import { trpc } from "@/utils/trpc";
-import Preview from "@/components/project/preveiw";
+import Preview from "@/components/project/preview";
 
 const omittedSchema = createEcoOrderSchema.omit({
     userWallet: true,
     payAmount: true,
     payFee: true,
     payHash: true,
-    nftID: true,
 });
 
 const PurchaseProject = () => {

@@ -26,7 +26,7 @@ const DetailCard = () => {
             </div>
             <div className="flex flex-col gap-1">
                 <h1 className="text-[18px] font-semibold uppercase">
-                    project start date
+                    Project Start Date
                 </h1>
                 <span className="text-[16px] text-[#7E7E7E]">
                     December 6, 2021

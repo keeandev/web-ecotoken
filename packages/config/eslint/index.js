@@ -14,6 +14,7 @@ const config = {
         "@typescript-eslint/ban-ts-comment": "off",
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
         "react-hooks/exhaustive-deps": "off",
         "@typescript-eslint/no-unused-vars": [
             "error",

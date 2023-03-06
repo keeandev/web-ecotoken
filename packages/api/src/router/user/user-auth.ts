@@ -167,7 +167,7 @@ export const userAuthRouter = router({
             }
         }),
     logout: userAuthedProcedure.query(async ({ ctx }) => {
-        await ctx.session.destroy();
+        ctx.session.destroy();
         return 200;
     }),
 });
