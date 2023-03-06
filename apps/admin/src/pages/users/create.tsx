@@ -10,7 +10,6 @@ import Form, {
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Transition } from "@headlessui/react";
-import generator from "generate-password";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMemo } from "react";
@@ -90,6 +89,12 @@ const CreateUser = () => {
                     size="full"
                     {...form.register("companyName")}
                 />
+                <FormInput
+                    wrapperClass="w-full"
+                    label="Wallet Address"
+                    size="full"
+                    {...form.register("walletAddress")}
+                />
                 <div className="flex flex-col gap-4 md:flex-row">
                     <FormInput
                         wrapperClass="w-full"
@@ -116,42 +121,6 @@ const CreateUser = () => {
                         type="email"
                         {...form.register("email")}
                     />
-                </div>
-                <div>
-                    <div className="flex flex-col gap-4 md:flex-row">
-                        <FormInput
-                            label="Password"
-                            {...form.register("password")}
-                        />
-                        <FormInput
-                            label="Confirm Password"
-                            {...form.register("confirmPassword", {
-                                deps: ["password"],
-                                validate: (value) => {
-                                    const { password } = form.getValues();
-                                    return (
-                                        password === value ||
-                                        "Passwords don't match!"
-                                    );
-                                },
-                            })}
-                        />
-                    </div>
-                    <span
-                        className="cursor-pointer select-none text-xs text-slate-400 underline underline-offset-2 ease-linear hover:text-slate-500"
-                        onClick={() => {
-                            const password = generator.generate({
-                                length: 20,
-                                numbers: true,
-                                symbols: true,
-                                strict: true,
-                            });
-                            form.setValue("password", password);
-                            form.setValue("confirmPassword", password);
-                        }}
-                    >
-                        Generate a secure password automatically
-                    </span>
                 </div>
                 <Button
                     loading={isLoading || fetchingRoles || fetchingRoles}

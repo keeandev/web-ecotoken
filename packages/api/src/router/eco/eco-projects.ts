@@ -67,7 +67,7 @@ export const projectsRouter = router({
             });
 
             const projects = databaseProjects.map((project) =>
-                exclude(project, ["siteID", ""]),
+                exclude(project, ["siteID"]),
             );
 
             return {

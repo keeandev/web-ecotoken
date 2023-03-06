@@ -1,52 +1,52 @@
-import { type RouterInputs, trpc } from "@/utils/trpc";
-import { createUserSchema } from "@ecotoken/api/src/schema/user";
-import Button from "@ecotoken/ui/components/Button";
-import { useRouter } from "next/router";
-import Form, { FormInput, useZodForm } from "@ecotoken/ui/components/Form";
-import { toast } from "react-hot-toast";
+// import { type RouterInputs, trpc } from "@/utils/trpc";
+// import { createUserSchema } from "@ecotoken/api/src/schema/user";
+// import Button from "@ecotoken/ui/components/Button";
+// import { useRouter } from "next/router";
+// import Form, { FormInput, useZodForm } from "@ecotoken/ui/components/Form";
+// import { toast } from "react-hot-toast";
 import { type NextPageWithLayout } from "./_app";
-import logo from "@ecotoken/ui/assets/brand/logo.png";
-import Image from "next/image";
-import Link from "@ecotoken/ui/components/Link";
+// import logo from "@ecotoken/ui/assets/brand/logo.png";
+// import Image from "next/image";
+// import Link from "@ecotoken/ui/components/Link";
 
-type RegisterFormInput = RouterInputs["userAuth"]["register"];
+// type RegisterFormInput = RouterInputs["userAuth"]["register"];
 
 const Register: NextPageWithLayout = () => {
-	const form = useZodForm({
-		// add the confirm password verifier only to the form, ignoring the official schema to allow
-		schema: createUserSchema.superRefine(
-			({ password, confirmPassword }, ctx) => {
-				if (confirmPassword !== password) {
-					ctx.addIssue({
-						code: "custom",
-						path: ["confirmPassword"],
-						message: "Passwords do not match!"
-					});
-				}
-			}
-		)
-	});
+    // const form = useZodForm({
+    //     // add the confirm password verifier only to the form, ignoring the official schema to allow
+    //     schema: createUserSchema.superRefine(
+    //         ({ password, confirmPassword }, ctx) => {
+    //             if (confirmPassword !== password) {
+    //                 ctx.addIssue({
+    //                     code: "custom",
+    //                     path: ["confirmPassword"],
+    //                     message: "Passwords do not match!",
+    //                 });
+    //             }
+    //         },
+    //     ),
+    // });
 
-	const router = useRouter();
+    // const router = useRouter();
 
-	const { mutateAsync, isLoading } = trpc.userAuth.register.useMutation({
-		async onSuccess() {
-			await router.push("/email-verification");
-		},
-		onError(e) {
-			toast.error(e.message);
-		}
-	});
+    // const { mutateAsync, isLoading } = trpc.userAuth.register.useMutation({
+    // 	async onSuccess() {
+    // 		await router.push("/email-verification");
+    // 	},
+    // 	onError(e) {
+    // 		toast.error(e.message);
+    // 	}
+    // });
 
-	const onSubmit = async (values: RegisterFormInput) => {
-		await mutateAsync({
-			...values
-		});
-	};
+    // const onSubmit = async (values: RegisterFormInput) => {
+    //     await mutateAsync({
+    //         ...values,
+    //     });
+    // };
 
-	return (
-		<div className="flex h-full w-full items-center justify-center">
-			<Form
+    return (
+        <div className="flex h-full w-full items-center justify-center">
+            {/* <Form
 				form={form}
 				onSubmit={onSubmit}
 				className="max-w-sm space-y-4 rounded-md border border-slate-300 bg-slate-200 p-6"
@@ -118,9 +118,9 @@ const Register: NextPageWithLayout = () => {
 						</Link>
 					</span>
 				</div>
-			</Form>
-		</div>
-	);
+			</Form> */}
+        </div>
+    );
 };
 
 Register.getLayout = (page) => <>{page}</>;

@@ -7,17 +7,6 @@ import RetireSection from "./sections/retireSection";
 import AllDesc from "./sections/allDesc";
 import CreatedByYou from "./sections/createdByYou";
 
-interface ProjectProps {
-    projectID: string;
-    ecoTitle: string;
-    ecoUrl: string;
-    intro: string;
-    images: string;
-    status: string;
-    fundAmount: number;
-    fundRecieved: number;
-}
-
 const Home: NextPage = () => {
     const { data, hasNextPage, fetchNextPage } =
         trpc.ecoProjects.getAll.useInfiniteQuery({
