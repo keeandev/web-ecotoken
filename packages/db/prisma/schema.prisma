@@ -57,13 +57,12 @@ enum RoleScope {
 
 model User {
     userID        String  @id @default(cuid())
-    companyName   String? @unique
-    firstName     String
+    walletAddress String
+    companyName   String?
+    firstName     String?
     lastName      String?
-    username      String
-    password      String
-    email         String  @unique
-    walletAddress String? @unique
+    username      String?
+    email         String?
 
     site      Site         @relation(fields: [siteID], references: [siteID])
     siteID    String
@@ -78,6 +77,9 @@ model User {
     updatedAt DateTime @updatedAt
 
     @@unique([username, siteID])
+    @@unique([email, siteID])
+    @@unique([walletAddress, siteID])
+    @@unique([companyName, siteID])
     @@index([siteID])
     @@index([roleID])
     @@map("user")

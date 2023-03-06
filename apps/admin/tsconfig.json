@@ -7,6 +7,6 @@
             "#/*": ["./public/*"]
         }
     },
-    "exclude": ["node_modules"],
+    "exclude": ["**/node_modules", "**/.*/"],
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"]
 }

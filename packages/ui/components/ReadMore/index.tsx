@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-type ReadMoreProps = {
-    children?: React.ReactNode;
-    len: number;
-};
-
-const ReadMore: React.FC<ReadMoreProps> = ({ children, len }) => {
+const ReadMore: React.FC<React.PropsWithChildren & { len: number }> = ({
+    children,
+    len,
+}) => {
     const text = children as string;
     const [isReadMore, setIsReadMore] = useState(true);
     const [isFlush, setIsFlush] = useState(false);

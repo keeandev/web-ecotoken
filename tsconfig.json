@@ -18,5 +18,5 @@
         "noUncheckedIndexedAccess": true
     },
     "include": [".eslintrc.js", "prettier.config.cjs"],
-    "exclude": ["node_modules"]
+    "exclude": ["**/node_modules", "**/.*/"]
 }
