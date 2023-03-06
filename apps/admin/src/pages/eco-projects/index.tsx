@@ -16,7 +16,7 @@ const EcoProjectsList = () => {
 
     const { data } = trpc.ecoProjects.getAll.useInfiniteQuery({});
     const projects = data?.pages.flatMap((data) => data.projects);
-    type Project = NonNullable<Unarrayify<typeof projects>>;
+    type Project = Unarrayify<typeof projects>;
 
     const columnHelper = createColumnHelper<Project>();
     const columns = [
@@ -67,7 +67,11 @@ const EcoProjectsList = () => {
                         </Button>
                     </div>
                 </div>
-                <Table data={projects ?? []} columns={columns} fullWidth />
+                <Table
+                    data={projects ?? []}
+                    columns={columns}
+                    fullWidth
+                />
             </DefaultCard>
         </div>
     );

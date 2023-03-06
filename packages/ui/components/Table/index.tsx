@@ -65,7 +65,7 @@ export interface TableProps
     extends VariantProps<typeof tableStyles>,
         React.ComponentProps<"table"> {
     data: any[];
-    columns: ColumnDef<unknown, unknown>[];
+    columns: ColumnDef<any, any>[];
     getRoleModel?: (table: TanstackTableType<any>) => () => RowModel<any>;
     fullWidth?: boolean;
     search?: boolean;
