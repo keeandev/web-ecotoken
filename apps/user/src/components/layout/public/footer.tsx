@@ -1,11 +1,10 @@
 import footer_image from "@ecotoken/ui/assets/brand/footer_bg.png";
-import type { NextPage } from "next";
 import Button from "@ecotoken/ui/components/Button";
 import Image from "next/image";
 import logo from "@ecotoken/ui/assets/brand/logo-header.png";
 import footer_white from "@ecotoken/ui/assets/brand/footer_white.png";
 
-const Footer: NextPage<React.PropsWithChildren> = () => {
+const PublicFooter = () => {
     return (
         <>
             <div className="relative mt-[280px] w-full bg-[#7E7E7E] px-[130px]">
@@ -67,4 +66,4 @@ const Footer: NextPage<React.PropsWithChildren> = () => {
     );
 };
 
-export default Footer;
+export default PublicFooter;

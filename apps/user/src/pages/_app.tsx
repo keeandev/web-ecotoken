@@ -25,7 +25,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     const defaultLayout = (page: ReactNode) => {
         if (router.pathname.startsWith("/user"))
             return <DashboardLayout>{page}</DashboardLayout>;
-        else <PublicLayout>{page}</PublicLayout>;
+        else return <PublicLayout>{page}</PublicLayout>;
     };
     const getLayout = Component.getLayout ?? defaultLayout;
     return (

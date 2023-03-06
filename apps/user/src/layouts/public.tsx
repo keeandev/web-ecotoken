@@ -1,8 +1,9 @@
-import PublicNavbar from "@/components/public/navbar";
-import { type NextPage } from "next";
+import PublicNavbar from "@/components/layout/public/navbar";
+import PublicFooter from "@/components/layout/public/footer";
+import type { NextPage } from "next";
 import Head from "next/head";
 
-const PublicLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
+const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
     return (
         <>
             <Head>
@@ -15,12 +16,19 @@ const PublicLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <div id="grid">
-                <PublicNavbar />
-                <main id="main">{children}</main>
+            <div className="gap-4border-4 grid h-full w-full grid-flow-col grid-rows-[minmax(0,max-content)_auto_minmax(0,max-content)] border-red-500  bg-green-300">
+                <div className="flex w-full flex-col border-4 border-blue-500 ">
+                    <PublicNavbar />
+                </div>
+                <main className="mt-16 overflow-y-auto border-4 border-yellow-500 ">
+                    {children}
+                </main>
+                <div className="flex w-full auto-rows-max flex-col border-4 border-blue-500">
+                    <PublicFooter />
+                </div>
             </div>
         </>
     );
 };
 
-export default PublicLayout;
+export default DefaultLayout;

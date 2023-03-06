@@ -1,6 +1,9 @@
 import Image from "next/image";
 
-const Banner = ({ children, src }: { children: any; src: any }) => {
+const Banner: React.FC<React.PropsWithChildren & { src: string }> = ({
+    children,
+    src,
+}) => {
     return (
         <div className="relative mb-20 w-full">
             <Image

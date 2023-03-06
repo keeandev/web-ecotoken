@@ -1,4 +1,4 @@
-import Banner from "@/components/layout/banner";
+import Banner from "@/components/layout/public/banner";
 import banner_image from "@ecotoken/ui/assets/brand/dashboard_banner.png";
 import Button from "@ecotoken/ui/components/Button";
 import go_icon from "@ecotoken/ui/assets/icons/go.svg";
