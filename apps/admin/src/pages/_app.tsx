@@ -1,4 +1,4 @@
-import DefaultLayout from "@/layouts/default";
+import DashboardLayout from "@/layouts/default";
 import "@/styles/globals.css";
 import { trpc } from "@/utils/trpc";
 import { config } from "@fortawesome/fontawesome-svg-core";
@@ -20,7 +20,7 @@ type AppPropsWithLayout = AppProps & {
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 	const defaultLayout = (page: ReactNode) => {
-		return <DefaultLayout>{page}</DefaultLayout>;
+		return <DashboardLayout>{page}</DashboardLayout>;
 	};
 	const getLayout = Component.getLayout ?? defaultLayout;
 	return (

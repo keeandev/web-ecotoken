@@ -47,11 +47,13 @@ const buttonStyles = cva(
     },
 );
 
-export type ButtonProps = VariantProps<typeof buttonStyles> &
-    React.ComponentProps<"button"> & {
-        /** Show loading spinner and disable button */
-        loading?: boolean;
-    };
+export interface ButtonProps
+    extends VariantProps<typeof buttonStyles>,
+        React.ComponentProps<"button"> {
+    /* Show loading spinner and disable button */
+    loading?: boolean;
+}
+
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     (
         {

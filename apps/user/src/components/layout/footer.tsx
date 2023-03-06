@@ -45,7 +45,7 @@ const Footer: NextPage<React.PropsWithChildren> = () => {
                             />
                             <Button
                                 className="whitespace-nowrap"
-                                intent={"danger"}
+                                intent="destructive"
                             >
                                 Subscribe Now
                             </Button>

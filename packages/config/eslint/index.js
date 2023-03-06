@@ -16,6 +16,7 @@ const config = {
         "@typescript-eslint/no-floating-promises": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
         "react-hooks/exhaustive-deps": "off",
+        "react/display-name": "off",
         "@typescript-eslint/no-unused-vars": [
             "error",
             {

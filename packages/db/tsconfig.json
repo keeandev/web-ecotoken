@@ -1,4 +1,5 @@
 {
-	"extends": "../../tsconfig.json",
-	"include": ["index.ts", "prisma/seed.ts"]
+    "extends": "../../tsconfig.json",
+    "include": ["index.ts", "prisma/seed.ts"],
+    "exclude": ["node_modules"]
 }
