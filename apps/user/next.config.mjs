@@ -7,32 +7,29 @@
 
 /** @type {import("next").NextConfig} */
 const config = {
-	reactStrictMode: true,
-	swcMinify: true,
-	experimental: {
-		// Enables hot-reload and easy integration for local packages
-		transpilePackages: [
-			"@ecotoken/api",
-			"@ecotoken/db",
-			"@ecotoken/auth",
-			"@ecotoken/ui"
-		]
-	},
-	// We already do linting on GH actions
-	eslint: {
-		ignoreDuringBuilds: !!process.env.CI
-	},
-	images: {
-		remotePatterns: [
-			{
-				protocol: "https",
-				hostname: "ecotoken.nyc3.cdn.digitaloceanspaces.com",
-				port: "",
-				pathname: "/ecoproject/**"
-			}
-		]
-		// domains: ["ecotoken.nyc3.cdn.digitaloceanspaces.com"]
-	}
+    reactStrictMode: true,
+    swcMinify: true,
+    experimental: {
+        // Enables hot-reload and easy integration for local packages
+        transpilePackages: [
+            "@ecotoken/api",
+            "@ecotoken/db",
+            "@ecotoken/auth",
+            "@ecotoken/ui",
+        ],
+    },
+    // We already do linting on GH actions
+    eslint: {
+        ignoreDuringBuilds: !!process.env.CI,
+    },
+    images: {
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "ecotoken.nyc3.cdn.digitaloceanspaces.com",
+            },
+        ],
+    },
 };
 
 export default config;
