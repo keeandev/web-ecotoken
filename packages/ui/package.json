@@ -17,7 +17,7 @@
 		"@fortawesome/react-fontawesome": "^0.2.0",
 		"@headlessui/react": "^1.7.4",
 		"@tanstack/react-table": "^8.7.0",
-		"class-variance-authority": "^0.2.4",
+		"class-variance-authority": "^0.4.0",
 		"clsx": "^1.2.1",
 		"react-dropzone": "^14.2.3",
 		"react-easy-crop": "^4.7.3"
