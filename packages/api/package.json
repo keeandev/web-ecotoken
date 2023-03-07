@@ -23,8 +23,7 @@
 		"bs58": "^5.0.0",
 		"coingecko-api": "^1.0.10",
 		"next": "^13.0.5",
-		"tweetnacl": "^1.0.3",
-		"zod-form-data": "^1.2.4"
+		"tweetnacl": "^1.0.3"
 	},
 	"peerDependencies": {
 		"@trpc/client": "^10.12.0",
