@@ -3,20 +3,17 @@ import UserDropdown from "@/components/user-dropdown";
 // import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
-import logo from "@ecotoken/ui/assets/brand/logo-header.png";
+import footer_white from "@ecotoken/ui/assets/brand/footer_white.png";
+import logo from "@ecotoken/ui/assets/brand/logo_ecotoken-wm-600.png";
 import clsx from "clsx";
 
 const PublicNavbar = () => {
     return (
         <div className="fixed top-0 z-30 flex h-16 w-full items-center border-b border-slate-300 bg-slate-200">
-            <div className="flex-1 justify-start">
-                {/* <div className="capitalize">{getRouteName(router.route)}</div> */}
-                {/* <div>
-					Wallet Address{" "}
-					<span className="rounded-md bg-slate-300 px-2 py-1">
-						{web3auth.loginInfo?.walletAddress}
-					</span>{" "}
-				</div> */}
+            <div
+                className="flex-1 justify-start"
+                style={{ backgroundImage: `url(${footer_white.src})` }}
+            >
                 <Image
                     src={logo}
                     alt="ecoToken System"

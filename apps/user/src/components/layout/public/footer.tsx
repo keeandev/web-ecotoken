@@ -1,8 +1,8 @@
-import footer_image from "@ecotoken/ui/assets/brand/footer_bg.png";
+import bkgd_wave from "@ecotoken/ui/assets/brand/bkgd_wave.png";
+import white_bevel from "@ecotoken/ui/assets/brand/layout_whitebevel.png";
 import Button from "@ecotoken/ui/components/Button";
 import Image from "next/image";
 import logo from "@ecotoken/ui/assets/brand/logo_ecotoken-wm-600.png";
-import footer_white from "@ecotoken/ui/assets/brand/footer_white.png";
 import icon_twitter from "@ecotoken/ui/assets/icons/icon_twitter06.png";
 import icon_telegram from "@ecotoken/ui/assets/icons/icon_telegram06.png";
 import icon_discord from "@ecotoken/ui/assets/icons/icon_discord06.png";
@@ -16,11 +16,11 @@ const PublicFooter = () => {
             <div className="relative flex w-full flex-col content-end">
                 <div
                     className="relative mt-[100px] h-[240px] w-full bg-slate-600 bg-cover bg-right-bottom"
-                    style={{ backgroundImage: `url(${footer_image.src})` }}
+                    style={{ backgroundImage: `url(${bkgd_wave.src})` }}
                 >
                     <div
                         className="absolute left-0 bottom-[20%] flex h-[120%] w-[50%] flex-row justify-end bg-right-top"
-                        style={{ backgroundImage: `url(${footer_white.src})` }}
+                        style={{ backgroundImage: `url(${white_bevel.src})` }}
                     >
                         <div className="relative w-[100%] max-w-[600px] px-16 pt-[40px]">
                             <Image
