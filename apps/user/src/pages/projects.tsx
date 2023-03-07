@@ -1,5 +1,5 @@
 import ProjectCard from "@/components/project/project-card";
-import PublicNavbar from "@/components/public/navbar";
+import PublicNavbar from "@/components/layout/public/navbar";
 import { type NextPageWithLayout } from "./_app";
 
 const ProjectsList: NextPageWithLayout = () => {

@@ -5,7 +5,8 @@
     "updateInternalDeps": true,
     "packageRules": [
         {
-            "matchPackagePatterns": ["^@ecotoken/"]
+            "matchPackagePatterns": ["^@ecotoken/"],
+            "excludePackageNames": "@ecotoken/workshop"
         }
     ],
     "assignees": ["hjozwiak", "dinozoiddev"]
