@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const BannerSection = () => {
     return (
-        <Banner src={banner_image}>
+        <Banner src={banner_image.src}>
             <div className="absolute top-0 left-0 flex h-full w-3/4 items-center justify-center bg-gradient-to-r from-slate-200 to-transparent">
                 <div className="pl-[10%] pr-[30%] font-bold">
                     <h1 className="text-[54px] uppercase leading-normal text-[#00AEEF] ">
