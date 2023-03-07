@@ -44,7 +44,7 @@
 		"@solana/wallet-adapter-wallets": "^0.19.15",
 		"@solana/web3.js": "^1.73.3",
 		"@types/prettier": "^2.7.2",
-		"dotenv-cli": "^6.0.0",
+		"dotenv-cli": "^7.0.0",
 		"prettier": "^2.8.4",
 		"run-script-os": "^1.1.6",
 		"turbo": "^1.5.5",
