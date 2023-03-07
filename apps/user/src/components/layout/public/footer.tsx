@@ -22,7 +22,7 @@ const PublicFooter = () => {
                         className="absolute left-0 bottom-[20%] flex h-[120%] w-[50%] flex-row justify-end bg-right-top"
                         style={{ backgroundImage: `url(${white_bevel.src})` }}
                     >
-                        <div className="relative w-[100%] max-w-[600px] px-16 pt-[40px]">
+                        <div className="relative w-full max-w-[600px] px-16 pt-[40px]">
                             <Image
                                 src={logo}
                                 alt="ecoToken System"

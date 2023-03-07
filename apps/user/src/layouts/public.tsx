@@ -20,9 +20,7 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
                 <div className="flex w-full flex-col">
                     <PublicNavbar />
                 </div>
-                <main className="mt-16 overflow-y-auto border-4 border-yellow-500 ">
-                    {children}
-                </main>
+                <main className="mt-16 overflow-y-auto">{children}</main>
                 <div className="flex w-full auto-rows-max flex-col">
                     <PublicFooter />
                 </div>
