@@ -23,7 +23,7 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
                 <main className="mt-16 overflow-y-auto border-4 border-yellow-500 ">
                     {children}
                 </main>
-                <div className="flex w-full auto-rows-max flex-col border-4 border-blue-500">
+                <div className="flex w-full auto-rows-max flex-col">
                     <PublicFooter />
                 </div>
             </div>
