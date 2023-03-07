@@ -10,7 +10,7 @@ import clsx from "clsx";
 
 const PublicNavbar = () => {
     return (
-        <div className="fixed top-0 z-30 flex h-16 w-full items-start border-b border-slate-300 bg-ecoblue-500">
+        <div className="fixed top-0 z-30 flex h-16 w-full items-start border-b border-slate-400 bg-ecoblue-500">
             <div
                 className="flex h-full w-1/4 min-w-[120px] items-center justify-end bg-right-top md:w-1/3"
                 style={{ backgroundImage: `url(${white_bevel_sm.src})` }}
