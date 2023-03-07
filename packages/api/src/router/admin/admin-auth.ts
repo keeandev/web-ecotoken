@@ -38,13 +38,18 @@ export const adminAuthRouter = router({
                 },
             });
 
-            const firstSite = await ctx.prisma.site.findFirst();
+            // set default site to be ecoToken
+            const firstSite = await ctx.prisma.site.findFirst({
+                where: {
+                    siteName: "ecoToken",
+                },
+            });
             ctx.session!.user = {
                 type: "admin",
                 id: user.adminID,
                 ipAddress:
                     process.env.NODE_ENV === "production"
-                        ? ctx.req.headers["x-real-ip"] as string ?? ""
+                        ? (ctx.req.headers["x-real-ip"] as string) ?? ""
                         : undefined,
                 selectedSite: firstSite?.siteID,
             };

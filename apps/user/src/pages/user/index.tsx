@@ -24,7 +24,6 @@ const Home: NextPage = () => {
 
                 <div className="grid w-full grid-cols-3 content-start gap-7 bg-[#F0F0F0] py-[5em] px-[7em]">
                     {data.pages.flatMap(({ projects }) => {
-                        // console.log("Projects", projects);
                         return projects.map(
                             ({
                                 projectID,

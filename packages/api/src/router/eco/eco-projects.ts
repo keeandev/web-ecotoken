@@ -1,5 +1,4 @@
 import { exclude } from "@ecotoken/db";
-import type { EcoProject } from "@prisma/client";
 import { z } from "zod";
 import { createEcoProjectSchema } from "../../schema/project";
 

@@ -6,6 +6,9 @@ import {
     loginUserSchema,
     type emailVerificationSchema,
 } from "../../schema/user";
+import { sign } from "tweetnacl";
+import bs58 from "bs58";
+import { User } from "@ecotoken/db";
 
 export const userAuthRouter = router({
     emailVerification: publicProcedure
@@ -55,70 +58,81 @@ export const userAuthRouter = router({
         }),
     login: publicProcedure
         .input(loginUserSchema)
-        .mutation(async ({ ctx, input }) => {
-            const user = await ctx.prisma.user.findFirst({
-                where: {
-                    OR: [
-                        {
-                            username: input.user,
-                        },
-                        {
-                            email: input.user,
-                        },
-                    ],
-                    AND: {
+        .mutation(
+            async ({
+                ctx,
+                input: { message, messageSignature, publicKey },
+            }) => {
+                const decodedMessage = bs58.decode(message);
+                const decodedSignature = bs58.decode(messageSignature);
+                const decodedPublicKey = bs58.decode(publicKey);
+
+                if (
+                    !sign.detached.verify(
+                        decodedMessage,
+                        decodedSignature,
+                        decodedPublicKey,
+                    )
+                )
+                    throw new TRPCError({
+                        code: "UNAUTHORIZED",
+                        message: "Signature invalid.",
+                    });
+
+                const role = await ctx.prisma.role.findFirst({
+                    where: {
+                        role: "User",
+                        OR: [
+                            {
+                                sites: {
+                                    some: {
+                                        siteID: ctx.selectedSite?.siteID,
+                                    },
+                                },
+                                scope: "SITE",
+                            },
+                            {
+                                domain: {
+                                    equals: "USER",
+                                },
+                                scope: "DEFAULT",
+                            },
+                        ],
+                    },
+                    include: {
+                        permissions: true,
+                    },
+                });
+
+                let user = await ctx.prisma.user.findFirst({
+                    where: {
+                        walletAddress: publicKey,
                         site: {
                             siteID: ctx.currentSite.siteID,
                         },
                     },
-                },
-            });
-
-            if (!user)
-                throw new TRPCError({
-                    code: "NOT_FOUND",
-                    message: "A user could not be found.",
                 });
-            // else if (!(await verify(user.password, input.password)))
-            //     throw new TRPCError({
-            //         code: "UNAUTHORIZED",
-            //         message: "Username, email, or password is incorrect.",
-            //     });
 
-            const role = await ctx.prisma.role.findFirst({
-                where: {
-                    OR: [
-                        {
-                            sites: {
-                                some: {
-                                    siteID: ctx.selectedSite?.siteID,
-                                },
-                            },
-                            scope: "SITE",
-                        },
-                        {
-                            domain: {
-                                equals: "ADMIN",
-                            },
-                            scope: "DEFAULT",
-                        },
-                    ],
-                },
-                include: {
-                    permissions: true,
-                },
-            });
-            ctx.session!.user = {
-                type: "user",
-                id: user.userID,
-                permissions: role?.permissions,
-                ipAddress:
-                    process.env.NODE_ENV === "production"
-                        ? (ctx.req.headers["x-real-ip"] as string) ?? ""
-                        : undefined,
-            };
-            await ctx.session!.save();
-        }),
+                if (!user) user = await ctx.prisma.user.create({
+                    data: {
+                        walletAddress: publicKey,
+                        siteID: ctx.currentSite.siteID,
+                        roleID: role?.roleID ?? ""
+                    }
+                })
+
+                ctx.session!.user = {
+                    type: "user",
+                    id: user.userID,
+                    permissions: role?.permissions,
+                    ipAddress:
+                        process.env.NODE_ENV === "production"
+                            ? (ctx.req.headers["x-real-ip"] as string) ?? ""
+                            : undefined,
+                };
+                await ctx.session!.save();
+            },
+        ),
     // register: publicProcedure
     //     .input(createUserSchema)
     //     .mutation(async ({ input, ctx }) => {

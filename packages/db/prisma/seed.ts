@@ -507,6 +507,7 @@ const main = async () => {
     });
     console.log("Created ecoBenefits.");
 
+    console.log("Creating ecoLocations...");
     for (const { site, ...remaining } of locationsToCreate) {
         const selectedSite = await prisma.site.findFirst({
             where: {
@@ -520,6 +521,7 @@ const main = async () => {
                     siteID: selectedSite.siteID,
                 },
             });
+        console.log("Created " + remaining.location);
     }
     console.log("Created ecoLocations.");
 
@@ -556,7 +558,7 @@ const main = async () => {
                 })),
             },
         });
-        await prisma.ecoProject.create({
+        const databaseProject = await prisma.ecoProject.create({
             data: {
                 ...project,
                 images: JSON.stringify(images),
@@ -570,6 +572,7 @@ const main = async () => {
                 },
             },
         });
+        console.log("Created " + databaseProject.shortTitle);
     }
     console.log("Created ecoProjects.");
 
@@ -593,10 +596,10 @@ const main = async () => {
                 roleID: roles.find((role) => role.role === "Admin")!.roleID,
             },
             {
-                username: "dozata",
-                email: "dozataio@gmail.com",
-                firstName: "Graham",
-                lastName: "Fleming",
+                username: "Naruto25",
+                email: "dennis1125stephens@gmail.com",
+                firstName: "Dennis",
+                lastName: "Stephens",
                 password: await hash("password123"),
                 roleID: roles.find((role) => role.role === "Admin")!.roleID,
             },

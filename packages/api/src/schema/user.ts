@@ -60,6 +60,14 @@ export const updateUserSchema = z.object({
 });
 
 export const loginUserSchema = z.object({
-    user: z.union([z.string(), z.string().email()]),
-    password: z.string(),
+    publicKey: z.string(),
+    messageSignature: z
+        .string()
+        .min(
+            1,
+            "A message signature is required to verify ownership of wallet.",
+        ),
+    message: z
+        .string()
+        .min(1, "A message is required to verify ownership of wallet."),
 });
