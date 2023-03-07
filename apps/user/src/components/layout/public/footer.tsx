@@ -7,43 +7,41 @@ import footer_white from "@ecotoken/ui/assets/brand/footer_white.png";
 const PublicFooter = () => {
     return (
         <>
-            <div className="relative mt-[280px] w-full bg-[#7E7E7E] px-[130px]">
-                <div className="absolute bottom-[40px] left-0 z-10 h-[130%] w-[60%] pt-[42px] pl-[78px]">
-                    <div className="relative z-10">
-                        <span className="absolute -right-[20%] top-0 h-full w-[100px]"></span>
-                        <Image
-                            src={logo}
-                            alt="ecoToken System"
-                            className={"h-10 w-auto transition-all"}
-                        />
-                        <p className="mt-[40px] text-[36px] font-bold text-black">
-                            SOCIAL MEDIA LINKS
-                        </p>
+            <div className="relative flex w-full flex-col content-end">
+                <div
+                    className="relative mt-[100px] h-[240px] w-full bg-slate-600 bg-cover bg-right-bottom"
+                    style={{ backgroundImage: `url(${footer_image.src})` }}
+                >
+                    <div
+                        className="absolute left-0 bottom-[20%] flex h-[120%] w-[50%] flex-row justify-end bg-right-top"
+                        style={{ backgroundImage: `url(${footer_white.src})` }}
+                    >
+                        <div className="relative w-[100%] max-w-[600px] bg-teal-200/10 py-8 px-16">
+                            <Image
+                                src={logo}
+                                alt="ecoToken System"
+                                className={"w-[50%] transition-all"}
+                            />
+                        </div>
                     </div>
-                    <Image
-                        src={footer_white}
-                        alt="ecoToken System"
-                        className={
-                            "absolute left-0 top-0 z-0 h-full w-full transition-all"
-                        }
-                    />
-                </div>
-                <div className="relative z-10">
-                    <div className=" ml-[60%] pt-[48px] pb-[80px] text-white">
-                        <h2 className="text-[36px]">Get in touch!</h2>
-                        <p className="mt-[18px]">
-                            Fusce varius, dolor tempor interdum tristiquei
-                            bibendum service life. Fusce varius, dolor tempor
-                            interdum tristiquei.
+                    <div className="absolute left-[50%] bottom-0 flex h-full w-[50%] max-w-[500px] flex-col justify-start pr-4 pt-8">
+                        <h2 className="font- text-[36px] text-white">
+                            Get in touch!
+                        </h2>
+                        <p className="mt-[18px] text-white">
+                            If you would like to know more about how the
+                            ecoToken System promotes environmental initiatives
+                            or other ways you can help us bring health to the
+                            planet, please contact us.
                         </p>
-                        <div className="mt-[30px] flex w-full">
+                        <div className="mt-4 flex w-full">
                             <input
                                 type={"email"}
-                                className="w-full border border-[#F5F5F5] bg-transparent px-[18px] py-[12px]"
+                                className="w-full rounded-l-xl rounded-r-none border border-r-0 border-slate-300 bg-slate-900/50 px-[18px] py-[12px]"
                                 placeholder="Email Address"
                             />
                             <Button
-                                className="whitespace-nowrap"
+                                className="bg-ecoblue-500 whitespace-nowrap rounded-l-none rounded-r-xl"
                                 intent="destructive"
                             >
                                 Subscribe Now
@@ -51,16 +49,9 @@ const PublicFooter = () => {
                         </div>
                     </div>
                 </div>
-                <div className="absolute left-0 top-0 z-0 h-full w-full">
-                    <Image
-                        src={footer_image}
-                        alt="ecoToken System"
-                        className={"h-full w-full border-none"}
-                    />
+                <div className="bg-ecoblue-500 w-full py-3 text-center text-xs text-white">
+                    Copyright 2023. All Right Reserved
                 </div>
-            </div>
-            <div className="w-full bg-[#00AEEF] py-3 text-center text-white">
-                Copyright 2023. All Right Reserved
             </div>
         </>
     );

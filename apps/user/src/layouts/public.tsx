@@ -16,7 +16,7 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <div className="gap-4border-4 grid h-full w-full grid-flow-col grid-rows-[minmax(0,max-content)_auto_minmax(0,max-content)] border-red-500  bg-green-300">
+            <div className="gap-4border-4 grid h-full w-full grid-flow-col grid-rows-[minmax(0,max-content)_auto_minmax(0,max-content)] border-red-500  bg-slate-100">
                 <div className="flex w-full flex-col border-4 border-blue-500 ">
                     <PublicNavbar />
                 </div>
