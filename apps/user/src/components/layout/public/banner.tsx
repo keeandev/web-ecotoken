@@ -10,6 +10,7 @@ const Banner: React.FC<React.PropsWithChildren & { src: string }> = ({
                 src={src}
                 alt="ecoToken System"
                 className={"h-auto w-full transition-all"}
+                fill
             />
             {children}
         </div>

@@ -16,11 +16,13 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <div className="gap-4border-4 grid h-full w-full grid-flow-col grid-rows-[minmax(0,max-content)_auto_minmax(0,max-content)] bg-slate-200/75">
+            <div className="grid h-full w-full grid-flow-col grid-rows-[minmax(0,max-content)_auto_minmax(0,max-content)] bg-slate-200/75">
                 <div className="flex w-full flex-col">
                     <PublicNavbar />
                 </div>
-                <main className="overflow-y-auto">{children}</main>
+                <main className="mt-16 flex justify-center overflow-y-auto border-4 border-yellow-300">
+                    {children}
+                </main>
                 <div className="flex w-full auto-rows-max flex-col">
                     <PublicFooter />
                 </div>

@@ -9,6 +9,13 @@ import icon_discord from "@ecotoken/ui/assets/icons/icon_discord06.png";
 import icon_linkedin from "@ecotoken/ui/assets/icons/icon_linkedin06.png";
 import icon_gitcoin from "@ecotoken/ui/assets/icons/icon_gitcoin06.png";
 import Link from "next/link";
+import {
+    faLinkedinIn,
+    faTwitter,
+    faDiscord,
+    faTelegram,
+} from "@fortawesome/free-brands-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const PublicFooter = () => {
     return (
@@ -44,6 +51,7 @@ const PublicFooter = () => {
                                 <Link
                                     href="https://t.me/ecosystemtoken"
                                     target="_new"
+                                    className="h-[42px] w-[42px] rounded-[24px] bg-ecoblue-500 pt-[7px] pl-[2px] text-center"
                                 >
                                     <Image
                                         src={icon_telegram}
@@ -56,6 +64,7 @@ const PublicFooter = () => {
                                 <Link
                                     href="https://discord.gg/wBEBh3FYZ7"
                                     target="_new"
+                                    className="h-[42px] w-[42px] rounded-[24px] bg-ecoblue-500 pt-[7px] pl-[2px] text-center"
                                 >
                                     <Image
                                         src={icon_discord}
@@ -68,6 +77,7 @@ const PublicFooter = () => {
                                 <Link
                                     href="https://www.linkedin.com/company/the-ecotoken/about/"
                                     target="_new"
+                                    className="h-[42px] w-[42px] rounded-[24px] bg-ecoblue-500 pt-[7px] pl-[2px] text-center"
                                 >
                                     <Image
                                         src={icon_linkedin}
@@ -80,14 +90,21 @@ const PublicFooter = () => {
                                 <Link
                                     href="https://gitcoin.co/grants/5371/ecotoken-pilot-and-protocol-development"
                                     target="_new"
+                                    className="h-[42px] w-[42px] rounded-[24px] bg-ecoblue-500 pt-[7px] pl-[2px] text-center"
                                 >
-                                    <Image
+                                    <FontAwesomeIcon
+                                        icon={faLinkedinIn}
+                                        size="2x"
+                                        className="text-white"
+                                    />
+
+                                    {/* <Image
                                         src={icon_gitcoin}
                                         alt="Contact us on GitCoin"
                                         className={
                                             "h-[40px] w-[40px] transition-all"
                                         }
-                                    />
+                                    /> */}
                                 </Link>
                             </div>
                         </div>
