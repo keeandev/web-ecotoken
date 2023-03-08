@@ -15,7 +15,7 @@
         "@cosmjs/cosmwasm-stargate": "^0.28.11",
         "@cosmjs/launchpad": "^0.27.1",
         "@cosmjs/proto-signing": "^0.28.11",
-        "@cosmjs/stargate": "^0.28.11",
+        "@cosmjs/stargate": "^0.29.0",
         "@cosmos-client/core": "^0.46.0",
         "@regen-network/api": "^0.5.0",
         "@metaplex-foundation/js": "^0.18.2",
