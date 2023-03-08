@@ -37,7 +37,7 @@
 		"@ecotoken/tailwind-config": "*",
 		"@ecotoken/user": "^0.0.0",
 		"@ianvs/prettier-plugin-sort-imports": "^3.7.1",
-		"@manypkg/cli": "^0.19.2",
+		"@manypkg/cli": "^0.20.0",
 		"@solana/wallet-adapter-base": "^0.9.22",
 		"@solana/wallet-adapter-react": "^0.15.30",
 		"@solana/wallet-adapter-react-ui": "^0.9.29",
