@@ -14,6 +14,7 @@ import {
     faTwitter,
     faDiscord,
     faTelegram,
+    faTelegramPlane,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -39,55 +40,48 @@ const PublicFooter = () => {
                                 <Link
                                     href="https://twitter.com/THEecoToken"
                                     target="_new"
+                                    className="h-[44px] w-[44px] rounded-[24px] bg-ecoblue-500 pt-[9px] text-center"
                                 >
-                                    <Image
-                                        src={icon_twitter}
-                                        alt="Contact us on Twitter"
-                                        className={
-                                            "h-[40px] w-[40px] transition-all"
-                                        }
+                                    <FontAwesomeIcon
+                                        icon={faTwitter}
+                                        size="2x"
+                                        className="text-white"
                                     />
                                 </Link>
                                 <Link
                                     href="https://t.me/ecosystemtoken"
                                     target="_new"
-                                    className="h-[42px] w-[42px] rounded-[24px] bg-ecoblue-500 pt-[7px] pl-[2px] text-center"
+                                    className="relative h-[44px] w-[44px] rounded-[24px] border-4 border-ecoblue-500 bg-white text-center"
                                 >
-                                    <Image
-                                        src={icon_telegram}
-                                        alt="Contact us on Telegram"
-                                        className={
-                                            "h-[40px] w-[40px] transition-all"
-                                        }
+                                    <FontAwesomeIcon
+                                        icon={faTelegram}
+                                        size="3x"
+                                        className="relative -left-[2px] -top-[3px] m-0 text-ecoblue-500"
                                     />
                                 </Link>
                                 <Link
                                     href="https://discord.gg/wBEBh3FYZ7"
                                     target="_new"
-                                    className="h-[42px] w-[42px] rounded-[24px] bg-ecoblue-500 pt-[7px] pl-[2px] text-center"
+                                    className="h-[44px] w-[44px] rounded-[24px] bg-ecoblue-500 pt-[7px] text-center"
                                 >
-                                    <Image
-                                        src={icon_discord}
-                                        alt="Contact us on Discord"
-                                        className={
-                                            "h-[40px] w-[40px] transition-all"
-                                        }
+                                    <FontAwesomeIcon
+                                        icon={faDiscord}
+                                        size="2x"
+                                        className="text-white"
                                     />
                                 </Link>
                                 <Link
                                     href="https://www.linkedin.com/company/the-ecotoken/about/"
                                     target="_new"
-                                    className="h-[42px] w-[42px] rounded-[24px] bg-ecoblue-500 pt-[7px] pl-[2px] text-center"
+                                    className="h-[44px] w-[44px] rounded-[24px] bg-ecoblue-500 pt-[7px] pl-[2px] text-center"
                                 >
-                                    <Image
-                                        src={icon_linkedin}
-                                        alt="Contact us on LinkIn"
-                                        className={
-                                            "h-[40px] w-[40px] transition-all"
-                                        }
+                                    <FontAwesomeIcon
+                                        icon={faLinkedinIn}
+                                        size="2x"
+                                        className="text-white"
                                     />
                                 </Link>
-                                <Link
+                                {/* <Link
                                     href="https://gitcoin.co/grants/5371/ecotoken-pilot-and-protocol-development"
                                     target="_new"
                                     className="h-[42px] w-[42px] rounded-[24px] bg-ecoblue-500 pt-[7px] pl-[2px] text-center"
@@ -97,15 +91,7 @@ const PublicFooter = () => {
                                         size="2x"
                                         className="text-white"
                                     />
-
-                                    {/* <Image
-                                        src={icon_gitcoin}
-                                        alt="Contact us on GitCoin"
-                                        className={
-                                            "h-[40px] w-[40px] transition-all"
-                                        }
-                                    /> */}
-                                </Link>
+                                </Link> */}
                             </div>
                         </div>
                     </div>
