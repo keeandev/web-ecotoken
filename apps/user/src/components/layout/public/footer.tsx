@@ -1,5 +1,5 @@
 import bkgd_wave from "@ecotoken/ui/assets/brand/bkgd_wave.png";
-import white_bevel from "@ecotoken/ui/assets/brand/layout_whitebevel.png";
+import white_bevel from "@ecotoken/ui/assets/brand/bevel_white_lg.png";
 import Button from "@ecotoken/ui/components/Button";
 import Image from "next/image";
 import logo from "@ecotoken/ui/assets/brand/logo_ecotoken-wm-600.png";

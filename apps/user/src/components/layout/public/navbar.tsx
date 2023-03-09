@@ -3,7 +3,7 @@ import UserDropdown from "@/components/user-dropdown";
 // import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
-import white_bevel_sm from "@ecotoken/ui/assets/brand/layout_whitebevel_sm.png";
+import white_bevel_sm from "@ecotoken/ui/assets/brand/bevel_white_sm.png";
 import wordmark from "@ecotoken/ui/assets/brand/logo_ecotoken-wm-600.png";
 import logo from "@ecotoken/ui/assets/brand/logo_ecotoken-300.png";
 import clsx from "clsx";
