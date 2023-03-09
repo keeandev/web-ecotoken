@@ -4,6 +4,8 @@
     "osvVulnerabilityAlerts": true,
     "prHourlyLimit": 10,
     "updateInternalDeps": true,
+    "postUpdateOptions": [npmDedupe],
+    
     "packageRules": [
         {
             "matchPackagePatterns": ["^@ecotoken/"],

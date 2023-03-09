@@ -32,9 +32,9 @@
 		"postinstall": "npm run db:generate"
 	},
 	"dependencies": {
-		"@ecotoken/eslint-config": "*",
-		"@ecotoken/prettier-config": "*",
-		"@ecotoken/tailwind-config": "*",
+		"@ecotoken/eslint-config": "^0.0.0",
+		"@ecotoken/prettier-config": "^0.0.0",
+		"@ecotoken/tailwind-config": "^0.0.0",
 		"@ecotoken/user": "^0.0.0",
 		"@ianvs/prettier-plugin-sort-imports": "^3.7.1",
 		"@manypkg/cli": "^0.20.0",
@@ -47,7 +47,7 @@
 		"dotenv-cli": "^7.0.0",
 		"prettier": "^2.8.4",
 		"run-script-os": "^1.1.6",
-		"turbo": "^1.5.5",
-		"typescript": "^4.9.3"
+		"turbo": "^1.8.3",
+		"typescript": "^4.9.5"
 	}
 }
