@@ -8,7 +8,10 @@ import {
     QueryClientImpl,
 } from "@regen-network/api/lib/generated/regen/ecocredit/marketplace/v1/query.js";
 import { MsgBuyDirect } from "@regen-network/api/lib/generated/regen/ecocredit/marketplace/v1/tx.js";
-import { DirectSecp256k1Wallet } from "@cosmjs/proto-signing";
+import {
+    DirectSecp256k1Wallet,
+    DirectSecp256k1HdWallet,
+} from "@cosmjs/proto-signing";
 
 export const creditRouter = router({
     getSellOrderByBatch: publicProcedure
@@ -20,10 +23,14 @@ export const creditRouter = router({
                     code: "CONFLICT",
                 });
             const sender = process.env.REGEN_WALLET;
-            const signer = await DirectSecp256k1Wallet.fromKey(
-                Buffer.from(sender.replace("0x", ""), "hex"),
-                "regen",
-            );
+            // const signer = await DirectSecp256k1Wallet.fromKey(
+            //     Buffer.from(sender.replace("0x", ""), "hex"),
+            //     "regen",
+            // );
+
+            const signer = await DirectSecp256k1HdWallet.fromMnemonic(sender, {
+                prefix: "regen",
+            });
 
             try {
                 const regenApi = await RegenApi.connect({
@@ -34,7 +41,7 @@ export const creditRouter = router({
                     },
                 });
                 const queryClient = new QueryClientImpl(regenApi.queryClient);
-                const sellOrder = await queryClient.SellOrdersByBatch({
+                const sellOrder: any = await queryClient.SellOrdersByBatch({
                     batchDenom: input.batch,
                 });
                 console.log(sellOrder);
@@ -48,14 +55,16 @@ export const creditRouter = router({
             }
         }),
     retireCreditFromMarketplace: publicProcedure
-        .input(z.object({
-            sellOrderId: z.string(),
-            quantity: z.string(),
-            denom: z.string(),
-            amount: z.string(),
-            retirementJurisdiction: z.string(),
-            memo: z.string()
-        }))
+        .input(
+            z.object({
+                sellOrderId: z.string(),
+                quantity: z.string(),
+                denom: z.string(),
+                amount: z.string(),
+                retirementJurisdiction: z.string(),
+                memo: z.string(),
+            }),
+        )
         .query(async ({ ctx, input }) => {
             if (!process.env.REGEN_WALLET)
                 throw new TRPCError({
@@ -63,10 +72,13 @@ export const creditRouter = router({
                     code: "CONFLICT",
                 });
             const sender = process.env.REGEN_WALLET;
-            const signer = await DirectSecp256k1Wallet.fromKey(
-                Buffer.from(sender.replace("0x", ""), "hex"),
-                "regen",
-            );
+            // const signer = await DirectSecp256k1Wallet.fromKey(
+            //     Buffer.from(sender.replace("0x", ""), "hex"),
+            //     "regen",
+            // );
+            const signer = await DirectSecp256k1HdWallet.fromMnemonic(sender, {
+                prefix: "regen",
+            });
             const [account] = await signer.getAccounts();
             if (!account)
                 throw new TRPCError({
@@ -82,15 +94,19 @@ export const creditRouter = router({
                         signer,
                     },
                 });
-                const TEST_MSG_BUY = MsgBuyDirect.fromPartial({
+                const TEST_MSG_BUY: any = MsgBuyDirect.fromPartial({
                     buyer: account.address,
                     orders: [
                         {
                             sellOrderId: input.sellOrderId.toString(),
                             quantity: input.quantity.toString(),
-                            bidPrice: { denom: input.denom.toString(), amount: input.amount.toString() },
+                            bidPrice: {
+                                denom: input.denom.toString(),
+                                amount: input.amount.toString(),
+                            },
                             disableAutoRetire: false, // retire only
-                            retirementJurisdiction: input.retirementJurisdiction.toString(),
+                            retirementJurisdiction:
+                                input.retirementJurisdiction.toString(),
                         },
                     ],
                 });
@@ -107,16 +123,17 @@ export const creditRouter = router({
 
                 const { msgClient } = regenApi;
 
-                if (!msgClient) throw new TRPCError({
-                    message: "Error. Try again.",
-                    code: "CONFLICT",
-                });
+                if (!msgClient)
+                    throw new TRPCError({
+                        message: "Error. Try again.",
+                        code: "CONFLICT",
+                    });
 
                 const signedTxBytes = await msgClient.sign(
                     account.address,
                     [TEST_MSG_BUY],
                     TEST_FEE,
-                    input.memo.toString()
+                    input.memo.toString(),
                 );
                 console.log("signedTxBytes", signedTxBytes);
 
