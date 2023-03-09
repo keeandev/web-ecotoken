@@ -13,10 +13,10 @@ const ProjectsFeatured = () => {
             <div className="relative flex min-h-[100px] w-full max-w-[1280px] justify-start align-bottom">
                 <div className="w-95% relative flex min-h-[50px] w-full flex-col-reverse md:w-[90%] lg:w-[75%]">
                     <div className="relative inline-block pl-[2%]">
-                        <h1 className="text-shadow p-0 font-head text-3xl font-bold uppercase leading-none text-ecoblue-400 md:text-5xl lg:text-6xl">
+                        <h1 className="text-shadow font-head p-0 text-3xl font-bold uppercase leading-none text-ecoblue-400 md:text-5xl lg:text-6xl">
                             NFT impact offsetting
                         </h1>
-                        <h1 className="text-shadow m-0 p-0 font-head text-3xl font-bold uppercase leading-normal text-white md:text-5xl lg:text-6xl">
+                        <h1 className="text-shadow font-head m-0 p-0 text-3xl font-bold uppercase leading-normal text-white md:text-5xl lg:text-6xl">
                             With Regen ecocredits
                         </h1>
                         <p className="text-shadow mb-0 mt-2 text-xl font-medium leading-[1.2] text-white md:text-2xl lg:text-3xl">
@@ -27,7 +27,7 @@ const ProjectsFeatured = () => {
                             intent={"sky"}
                             className="mt-4 mb-8 w-36 md:w-40 lg:w-44"
                         >
-                            <span className="flex items-center gap-3 px-1 py-1 font-head text-lg font-medium md:text-xl lg:text-2xl">
+                            <span className="font-head flex items-center gap-3 px-1 py-1 text-lg font-medium md:text-xl lg:text-2xl">
                                 <span className="whitespace-nowrap">
                                     LOG IN
                                 </span>

@@ -28,3 +28,15 @@ body {
     .tab {
     }
 }
+
+@layer utilities {
+    .text-shadow {
+        @apply [text-shadow:_2px_2px_3px_rgba(0,0,0,0.8)];
+    }
+}
+
+@layer utilities {
+    .orphans {
+        @apply [orphans:2];
+    }
+}

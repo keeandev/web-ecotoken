@@ -6,12 +6,10 @@ import { trpc } from "@/utils/trpc";
 
 const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
     const { data: credits, isLoading: fetchingCredits } =
-    trpc.credit.getSellOrderByBatch.useQuery(
-        {
+        trpc.credit.getSellOrderByBatch.useQuery({
             batch: "C50-001-20230301-20230401-001",
-        }
-    );
-    console.log("users",credits, fetchingCredits)
+        });
+    console.log("users", credits, fetchingCredits);
 
     return (
         <>
@@ -24,16 +22,17 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-
-            <div className="grid h-full w-full grid-flow-col grid-rows-[minmax(0,max-content)_auto_minmax(0,max-content)] bg-slate-200/75">
+            <div className="flex flex-col">
                 <div className="flex w-full flex-col">
                     <PublicNavbar />
                 </div>
-                <main className="mt-16 flex justify-center overflow-y-auto">
-                    {children}
-                </main>
-                <div className="flex w-full auto-rows-max flex-col">
-                    <PublicFooter />
+                <div className="grid h-full w-full grid-flow-col grid-rows-[auto_minmax(0,max-content)] bg-slate-200/75">
+                    <main className="mt-16 flex justify-center overflow-y-auto">
+                        {children}
+                    </main>
+                    <div className="flex w-full auto-rows-max flex-col">
+                        <PublicFooter />
+                    </div>
                 </div>
             </div>
         </>
