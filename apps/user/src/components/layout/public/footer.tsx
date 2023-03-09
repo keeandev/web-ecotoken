@@ -40,7 +40,7 @@ const PublicFooter = () => {
                                 <Link
                                     href="https://twitter.com/THEecoToken"
                                     target="_new"
-                                    className="h-[44px] w-[44px] rounded-[24px] bg-ecoblue-500 pt-[9px] text-center"
+                                    className="h-[44px] w-[44px] rounded-[24px] bg-ecoblue-500 pt-[7px] text-center"
                                 >
                                     <FontAwesomeIcon
                                         icon={faTwitter}
@@ -81,17 +81,6 @@ const PublicFooter = () => {
                                         className="text-white"
                                     />
                                 </Link>
-                                {/* <Link
-                                    href="https://gitcoin.co/grants/5371/ecotoken-pilot-and-protocol-development"
-                                    target="_new"
-                                    className="h-[42px] w-[42px] rounded-[24px] bg-ecoblue-500 pt-[7px] pl-[2px] text-center"
-                                >
-                                    <FontAwesomeIcon
-                                        icon={faLinkedinIn}
-                                        size="2x"
-                                        className="text-white"
-                                    />
-                                </Link> */}
                             </div>
                         </div>
                     </div>
