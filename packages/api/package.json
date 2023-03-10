@@ -16,7 +16,7 @@
         "@aws-sdk/s3-request-presigner": "^3.287.0",
         "@cosmjs/cosmwasm-stargate": "^0.29.5",
         "@cosmjs/launchpad": "^0.27.1",
-        "@cosmjs/proto-signing": "^0.29.5",
+        "@cosmjs/proto-signing": "^0.30.0",
         "@cosmjs/stargate": "^0.30.0",
         "@cosmos-client/core": "^0.46.1",
         "@ecotoken/auth": "^0.0.0",
