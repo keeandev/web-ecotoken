@@ -1,9 +1,10 @@
-import HomeBanner from "../components/public/sections/homeBanner";
-import ProjectsFeatured from "../components/public/sections/projectsFeatured";
-import RetireSection from "../components/public/sections/homeRetire";
-import AllCredits from "../components/public/sections/homeAllCredits";
-import CreatedByYou from "../components/public/sections/homeCreated";
-import Grassroots from "../components/public/sections/homeGrassroots";
+import HomeBanner from "../components/layout/public/sections/homeBanner";
+import ProjectsFeatured from "../components/layout/public/sections/projectsFeatured";
+import RetireSection from "../components/layout/public/sections/homeRetire";
+import AllCredits from "../components/layout/public/sections/homeAllCredits";
+import CreatedByYou from "../components/layout/public/sections/homeCreated";
+import Grassroots from "../components/layout/public/sections/homeGrassroots";
+import Responsive from "../components/layout/public/sections/devResponsive";
 
 const HomePage = () => {
     return (
@@ -14,6 +15,7 @@ const HomePage = () => {
             <AllCredits />
             <CreatedByYou />
             <Grassroots />
+            {/* <Responsive /> */}
         </div>
     );
 };

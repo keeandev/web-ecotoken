@@ -6,7 +6,7 @@ import Image from "next/image";
 import white_bevel_sm from "@ecotoken/ui/assets/brand/bevel_white_sm.png";
 import wordmark from "@ecotoken/ui/assets/brand/logo_ecotoken-wm-600.png";
 import logo from "@ecotoken/ui/assets/brand/logo_ecotoken-300.png";
-import clsx from "clsx";
+// import clsx from "clsx";
 
 const PublicNavbar = () => {
     return (

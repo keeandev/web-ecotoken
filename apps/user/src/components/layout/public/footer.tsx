@@ -21,22 +21,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const PublicFooter = () => {
     return (
         <>
-            <div className="relative flex w-full flex-col content-end">
+            <div className="relative flex w-full flex-col content-end border">
                 <div
-                    className="relative mt-[100px] h-[240px] w-full bg-slate-600 bg-cover bg-right-bottom"
+                    className="relative mt-[110px] h-[275px] w-full bg-slate-600 bg-cover bg-right-bottom"
                     style={{ backgroundImage: `url(${bkgd_wave.src})` }}
                 >
                     <div
-                        className="absolute left-0 bottom-[20%] flex h-[120%] w-[50%] flex-row justify-end bg-right-top"
+                        className="absolute left-0 bottom-[225px] flex h-[140px] w-[90%] flex-row justify-end  bg-right-top sm:bottom-[20%] sm:h-[120%] sm:w-[50%]"
                         style={{ backgroundImage: `url(${white_bevel.src})` }}
                     >
-                        <div className="relative w-full max-w-[600px] px-16 pt-[40px]">
+                        <div className="relative w-full max-w-[600px] px-8 pt-[10px] sm:px-16 sm:pt-[16px] sm:pt-[40px]">
                             <Image
                                 src={logo}
                                 alt="ecoToken System"
-                                className={"w-[300px] transition-all"}
+                                className={
+                                    "w-[240px] transition-all sm:w-[300px]"
+                                }
                             />
-                            <div className="w-80% flex gap-4 py-4 pl-2">
+                            <div className="w-80% flex gap-4 py-1 pl-2 sm:py-4">
                                 <Link
                                     href="https://twitter.com/THEecoToken"
                                     target="_new"
@@ -84,17 +86,17 @@ const PublicFooter = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="absolute left-[50%] bottom-0 flex h-full w-[50%] max-w-[500px] flex-col justify-start pr-4 pt-8">
-                        <h2 className="font- text-[36px] text-white">
+                    <div className="relative left-[5%] top-[40px] flex  h-full w-[90%] max-w-[500px] flex-col justify-start pr-4 pt-8 sm:absolute sm:left-[50%] sm:top-[10px] sm:w-[50%]">
+                        <h2 className="text-shadow font-head text-[32px] font-medium text-white sm:text-[36px]">
                             Get in touch!
                         </h2>
-                        <p className="mt-[18px] text-white">
+                        <p className="mt-[18px] text-sm text-white">
                             If you would like to know more about how the
                             ecoToken System promotes environmental initiatives
                             or other ways you can help us bring health to the
                             planet, please contact us.
                         </p>
-                        <div className="mt-4 flex w-full">
+                        <div className="mt-4 flex w-[90%]">
                             <input
                                 type={"email"}
                                 className="w-full rounded-l-xl rounded-r-none border border-r-0 border-slate-300 bg-slate-900/50 px-[18px] py-[12px]"
