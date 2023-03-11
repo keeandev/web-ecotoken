@@ -3,13 +3,6 @@ import { hash } from "argon2";
 
 const prisma = new PrismaClient();
 
-type ProjectImages = {
-    listImage: string;
-    head1: string;
-    head2: string;
-    head3: string;
-};
-
 type CreateRoleOperation = Omit<
     Prisma.RoleCreateInput,
     "permissions" | "sites"
@@ -35,7 +28,6 @@ type CreateProjectOperation = Omit<
     | "site"
     | "siteID"
     | "benefits"
-    | "images"
     | "location"
     | "locationID"
     | "producer"
@@ -45,7 +37,6 @@ type CreateProjectOperation = Omit<
     location: string;
     producer: string;
     benefits: string[];
-    images: Partial<ProjectImages>;
 };
 
 const rolesToCreate: CreateRoleOperation[] = [
@@ -133,7 +124,7 @@ const projectsToCreate: CreateProjectOperation[] = [
     {
         ecoTitle: "Dairy Manure Remediation in Pincher Creek",
         shortTitle: "Dairy Manure Remediation",
-        ecoUrl: "DairyManure001",
+        identifier: "DairyManure001",
         producer: "NOAH Solutions",
         intro: "Manure treatment to tackle Greenhouse Gas, manure odor and groundwater contamination.",
         location: "Leduc",
@@ -145,15 +136,12 @@ const projectsToCreate: CreateProjectOperation[] = [
         ],
         project: "",
         overview: "",
-        images: {
-            listImage: "ecoproject/head_3m_Lagoon01.jpg",
-            head1: "ecoproject/head_dairy_cows01.jpg",
-            head2: "ecoproject/head_manure_01.jpg",
-        },
+        process: "",
+        listImage: "producers//head_3m_Lagoon01.jpg",
+        headImage: "eco-projects/head_dairy_cows01.jpg",
         site: "ecoToken",
-        status: "OPEN",
-        ecoType: "CARBON_CREDIT",
-        ecoNftID: 0,
+        status: "ACTIVE",
+        creditType: "CARBON",
         fundAmount: 80000,
         fundRecieved: 2000,
         payback: "12-48 Months",
@@ -164,7 +152,7 @@ const projectsToCreate: CreateProjectOperation[] = [
     {
         ecoTitle: "Green Waste Treatment in Calgary Alberta",
         shortTitle: "Green Waste Treatment",
-        ecoUrl: "Organics001",
+        identifier: "Organics001",
         producer: "NOAH Solutions",
         intro: "Green waste in landfills generates large quantities of methane. This project will render it into a plant nutrient, while reducing greenhouse gasses and leading to groundwater improvement.",
         location: "Calgary",
@@ -179,15 +167,12 @@ const projectsToCreate: CreateProjectOperation[] = [
         Reduced organics to landfill\n
         Creation of plant nutrient\n
         Elimination of odor`,
-        images: {
-            listImage: "ecoproject/head_harvest_recyling.jpg",
-            head1: "ecoproject/head_harvest_food01.jpg",
-            head2: "ecoproject/head_harvest_frontloader.jpg",
-        },
+        process: "",
+        listImage: "eco-project/head_harvest_recyling.jpg",
+        headImage: "eco-project/head_harvest_food01.jpg",
         site: "ecoToken",
-        status: "OPEN",
-        ecoType: "CARBON_CREDIT",
-        ecoNftID: 0,
+        status: "ACTIVE",
+        creditType: "CARBON",
         fundAmount: 75000,
         fundRecieved: 2500,
         payback: "1-4 Years",
@@ -198,7 +183,7 @@ const projectsToCreate: CreateProjectOperation[] = [
     {
         ecoTitle: "Groundwater Treatment in Pincher Creek Alberta",
         shortTitle: "Groundwater Treatment",
-        ecoUrl: "Groundwater001",
+        identifier: "Groundwater001",
         producer: "NOAH Solutions",
         intro: "Excessive fecal matter from cattle herds can affect local groundwater, making it unhealthy for the cattle and other animals.",
         location: "Pincher Creek",
@@ -213,15 +198,12 @@ const projectsToCreate: CreateProjectOperation[] = [
         overview: `Improved surface water quality\n
         Improved health for livestock\n
         Healthy water for downstream interactions`,
-        images: {
-            listImage: "ecoproject/head_mitchell_pond.jpg",
-            head1: "ecoproject/head_mitchell_cows01.jpg",
-            head2: "ecoproject/head_mitchell_cows02.jpg",
-        },
+        process: "",
+        listImage: "eco-project/head_mitchell_pond.jpg",
+        headImage: "eco-project/head_mitchell_cows01.jpg",
         site: "ecoToken",
-        status: "OPEN",
-        ecoType: "CARBON_CREDIT",
-        ecoNftID: 0,
+        status: "ACTIVE",
+        creditType: "CARBON",
         fundAmount: 30000,
         fundRecieved: 1000,
         payback: "1-4 Years",
@@ -232,7 +214,7 @@ const projectsToCreate: CreateProjectOperation[] = [
     {
         ecoTitle: "Ocean Wise - Seaforestation in Howe Sound British Columbia",
         shortTitle: "Ocean Wise - Seaforestation",
-        ecoUrl: "Oceanwise001",
+        identifier: "Oceanwise001",
         producer: "NOAH Solutions",
         intro: "Kelp forests are rich habitat for marine life, including commercially important fish and invertebrates. Kelp naturally capture carbon in large volumes some of which gets trapped in the ocean floor for centuries.",
         location: "Howe Sound",
@@ -243,15 +225,12 @@ const projectsToCreate: CreateProjectOperation[] = [
         Restore marine habitat\n
         Combat ocean acidification\n
         Creating economic opportunities for Indigenous and coastal communities`,
-        images: {
-            listImage: "ecoproject/head_oceanwise_kelp01.jpg",
-            head1: "ecoproject/head_oceanwise_kelp02.jpg",
-            head2: "ecoproject/head_oceanwise_kelp04.jpg",
-        },
+        process: "",
+        listImage: "eco-project/head_oceanwise_kelp01.jpg",
+        headImage: "eco-project/head_oceanwise_kelp02.jpg",
         site: "ecoToken",
-        status: "PENDING",
-        ecoType: "WATER_CREDIT",
-        ecoNftID: 0,
+        status: "DATA_ENTRY",
+        creditType: "WATER",
         fundAmount: 70000,
         fundRecieved: 8000,
         payback: "24 Months",
@@ -530,7 +509,6 @@ const main = async () => {
         location,
         benefits,
         producer,
-        images,
         ...project
     } of projectsToCreate) {
         const selectedProducer = await prisma.user.findFirst({
@@ -548,7 +526,7 @@ const main = async () => {
         });
         const selectedLocation = await prisma.ecoLocation.findFirst({
             where: {
-                location,
+                location
             },
         });
         const selectedBenefits = await prisma.ecoBenefit.findMany({
@@ -558,21 +536,22 @@ const main = async () => {
                 })),
             },
         });
-        const databaseProject = await prisma.ecoProject.create({
-            data: {
-                ...project,
-                images: JSON.stringify(images),
-                locationID: selectedLocation!.locationID,
-                siteID: selectedSite!.siteID,
-                producerID: selectedProducer!.userID,
-                benefits: {
-                    connect: selectedBenefits?.map(({ benefitID }) => ({
-                        benefitID,
-                    })),
-                },
-            },
-        });
-        console.log("Created " + databaseProject.shortTitle);
+        if(selectedBenefits && selectedLocation && selectedProducer && selectedSite) {
+            // const databaseProject = await prisma.ecoProject.create({
+            //     data: {
+            //         ...project,
+            //         locationID: selectedLocation.locationID,
+            //         siteID: selectedSite.siteID,
+            //         producerID: selectedProducer.userID,
+            //         benefits: {
+            //             connect: selectedBenefits?.map(({ benefitID }) => ({
+            //                 benefitID,
+            //             })),
+            //         },
+            //     },
+            // });
+            // console.log("Created " + databaseProject.shortTitle);
+        }
     }
     console.log("Created ecoProjects.");
 

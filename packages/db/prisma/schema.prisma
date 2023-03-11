@@ -64,12 +64,13 @@ model User {
     username      String?
     email         String?
 
-    site      Site         @relation(fields: [siteID], references: [siteID])
-    siteID    String
-    role      Role         @relation(fields: [roleID], references: [roleID])
-    roleID    String
-    nftSeries NFTSeries[]
-    projects  EcoProject[]
+    site             Site         @relation(fields: [siteID], references: [siteID])
+    siteID           String
+    role             Role         @relation(fields: [roleID], references: [roleID])
+    roleID           String
+    nftSeries        NFTSeries[]
+    projects         EcoProject[] @relation(name: "Producer")
+    verifierProjects EcoProject[] @relation(name: "Verifier")
 
     isDelete  Boolean  @default(false)
     isDisable Boolean  @default(false)
@@ -168,49 +169,67 @@ model EcoBenefit {
 model EcoProject {
     projectID  String        @id @default(cuid())
     ord        Int           @default(0)
-    vfyUserID  String?
-    ecoNftID   Int           @db.UnsignedInt
-    ecoType    ProjectType
     ecoTitle   String
     shortTitle String
-    ecoUrl     String
+    identifier String
     intro      String        @db.Text
     project    String        @db.Text
     overview   String        @db.Text
+    process    String        @db.Text
     status     ProjectStatus
+    creditType CreditType
 
-    site       Site         @relation(fields: [siteID], references: [siteID])
-    siteID     String
     location   EcoLocation  @relation(fields: [locationID], references: [locationID])
     locationID String
-    producer   User         @relation(fields: [producerID], references: [userID])
+    producer   User         @relation(name: "Producer", fields: [producerID], references: [userID])
     producerID String
+    verifier   User?        @relation(name: "Verifier", fields: [verifierID], references: [userID])
+    verifierID String?
     benefits   EcoBenefit[]
     nftSeries  NFTSeries?
 
-    images       String    @db.Text
+    listImage String @db.Text
+    headImage String @db.Text
+
     fundAmount   Int?
     fundRecieved Int?
-    return       Decimal?  @db.Decimal(5, 2)
-    payback      String?
+    return       Decimal? @db.Decimal(5, 2)
+    payback      Decimal? @db.Decimal(5, 2)
+    duration     String?
+    period       String?
+
     dateStart    DateTime?
     dateEnd      DateTime?
+    needsFunding Boolean   @default(false)
+    isFeatured   Boolean   @default(false)
     isVisible    Boolean   @default(true)
-    isDelete     Boolean   @default(false)
-    createdAt    DateTime  @default(now())
-    updatedAt    DateTime  @updatedAt
+
+    isDelete  Boolean  @default(false)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    site   Site   @relation(fields: [siteID], references: [siteID])
+    siteID String
 
     @@index([siteID])
     @@index([locationID])
     @@index([producerID])
+    @@index([verifierID])
     @@map("eco_project")
 }
 
+enum CreditType {
+    CARBON
+    WATER
+    HABITAT
+}
+
 enum ProjectStatus {
-    PENDING
-    COMPLETE
-    FUNDED
-    OPEN
+    DATA_ENTRY
+    NEW
+    UNFUNDED
+    ACTIVE
+    COMPLETED
 }
 
 enum ProjectType {
