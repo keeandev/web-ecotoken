@@ -3,7 +3,7 @@ import ProjectCard, {
 } from "@/components/project/project-card";
 import { trpc } from "@/utils/trpc";
 import { useEffect } from "react";
-import BannerSection from "../sections/bannerSection";
+// import BannerSection from "../sections/bannerSection";
 
 const Projects = () => {
     const { data, hasNextPage, fetchNextPage } =
@@ -30,7 +30,7 @@ const Projects = () => {
     if (!data) return <div>Loading...</div>;
     return (
         <div>
-            <BannerSection />
+            {/* <BannerSection /> */}
             <div className="mx-auto grid w-full grid-cols-1 content-start gap-8 px-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {data.pages.flatMap(({ projects }) =>
                     projects.map(
