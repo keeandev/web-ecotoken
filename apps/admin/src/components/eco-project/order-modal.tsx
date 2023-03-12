@@ -23,9 +23,9 @@ const OrderModal: React.FC<{
     admin?: boolean;
 }> = ({ onOrder, creditType, loading, admin }) => {
     const { data: ecoProjects, isLoading: fetchingEcoProjects } =
-        trpc.ecoProjects.getAll.useInfiniteQuery(
+        trpc.nftSeries.getAll.useInfiniteQuery(
             {
-                hasActiveSeries: true,
+                isActive: true
             },
             {
                 enabled: !!admin,
@@ -42,8 +42,8 @@ const OrderModal: React.FC<{
             },
         );
 
-    const cachedProjects = useMemo(
-        () => ecoProjects?.pages.flatMap((page) => page.projects),
+    const cachedSeries = useMemo(
+        () => ecoProjects?.pages.flatMap((page) => page.series),
         [ecoProjects],
     );
 
@@ -69,15 +69,15 @@ const OrderModal: React.FC<{
                             label="Project"
                             size="full"
                             defaultValue=""
-                            {...form.register("projectID")}
+                            {...form.register("nftSeriesID")}
                         >
                             <option value="" hidden></option>
-                            {cachedProjects?.map((project) => (
+                            {cachedSeries?.map((series) => (
                                 <option
-                                    key={project.projectID}
-                                    value={project.projectID}
+                                    key={series.nftSeriesID}
+                                    value={series.nftSeriesID}
                                 >
-                                    {project.ecoTitle}
+                                    {series.ecoTitle}
                                 </option>
                             ))}
                         </FormSelect>
@@ -101,16 +101,16 @@ const OrderModal: React.FC<{
                     type="number"
                     size="full"
                     defaultValue={100}
-                    {...form.register("creditAmount", {
+                    {...form.register("creditsPurchased", {
                         valueAsNumber: true,
                     })}
                 />
                 <FormSelect
                     label="Currency"
                     size="full"
-                    {...form.register("payType")}
+                    {...form.register("currency")}
                 >
-                    {createEcoOrderSchema.shape.payType.options.map((type) => (
+                    {createEcoOrderSchema.shape.currency.options.map((type) => (
                         <option key={type} value={type}>
                             {type}
                         </option>
@@ -120,11 +120,6 @@ const OrderModal: React.FC<{
                     size="full"
                     label="Retired By"
                     {...form.register("retireBy")}
-                />
-                <FormInput
-                    size="full"
-                    label="Your Location"
-                    {...form.register("userLocation")}
                 />
                 <Button
                     loading={loading || fetchingEcoProjects || fetchingUsers}
