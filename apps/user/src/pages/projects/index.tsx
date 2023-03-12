@@ -1,6 +1,7 @@
+import { useEffect } from "react";
 import ProjectCard from "@/components/project/project-card";
 import { trpc } from "@/utils/trpc";
-import { useEffect } from "react";
+
 // import BannerSection from "../sections/bannerSection";
 
 const Projects = () => {
@@ -8,8 +9,8 @@ const Projects = () => {
         trpc.ecoProjects.getAll.useInfiniteQuery({
             benefits: true,
             location: true,
+            series: true,
         });
-
     useEffect(() => {
         const main = document.querySelector("main");
         const handleScroll = async (e: Event) => {
@@ -42,6 +43,7 @@ const Projects = () => {
                             fundAmount,
                             fundRecieved,
                             listImage,
+                            nftSeries,
                         }) => (
                             <ProjectCard
                                 key={projectID}
@@ -53,6 +55,7 @@ const Projects = () => {
                                 fundAmount={fundAmount ?? undefined}
                                 fundRecieved={fundRecieved ?? undefined}
                                 listImage={listImage ?? undefined}
+                                hasSeries={nftSeries?.isActive}
                             />
                         ),
                     ),

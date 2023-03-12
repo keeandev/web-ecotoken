@@ -1,5 +1,7 @@
 import React, { useMemo } from "react";
+import Image from "next/image";
 import { useRouter } from "next/router";
+import Responsive from "@/components/dev-responsive";
 import { trpc } from "@/utils/trpc";
 import { useWallet } from "@solana/wallet-adapter-react";
 import Decimal from "decimal.js";
@@ -66,61 +68,89 @@ const PurchaseProject = () => {
         return <div>No NFT series are attached to this project.</div>;
     else
         return (
-            <div className="mx-2 mt-6 w-full">
-                <DefaultCard size="full">
-                    <CardTitle className="text-center">
+            <div className="relative mb-8 flex min-h-screen w-full flex-wrap justify-center ">
+                <div
+                    className="flex h-[280px] w-full items-end px-8 py-10  "
+                    style={{
+                        backgroundImage: `url(${
+                            project.listImage?.startsWith("https")
+                                ? project.listImage
+                                : `${process.env.NEXT_PUBLIC_CDN_URL}/eco-projects/${project.projectID}/listImage.png`
+                        })`,
+                    }}
+                >
+                    <h2 className="font-head text-3xl font-semibold text-white ">
                         {project.title}
-                    </CardTitle>
-                    <div className="mt-10 grid w-full grid-cols-2 space-x-4 px-2 py-5">
-                        <div className="w-full">
-                            <Form
-                                className="space-y-4"
-                                form={form}
-                                onSubmit={async (data) => {
-                                    // TODO: order
-                                    if (!publicKey) return;
-                                    await mutateAsync({
-                                        ...data,
-                                        nftSeriesID:
-                                            project.nftSeries?.nftSeriesID ??
-                                            "",
-                                        userWallet: publicKey?.toBase58(),
-                                        payFee: 0,
-                                        payAmount: 10,
-                                        payHash: "asasas",
-                                    });
-                                }}
-                            >
-                                <FormInput
-                                    className="mt-3"
-                                    label={
-                                        project.creditType
-                                            ? `Credits (${project.nftSeries.seriesType})`
-                                            : "Credits"
-                                    }
-                                    type="number"
-                                    size="full"
-                                    defaultValue={100}
-                                    {...form.register("creditsPurchased", {
-                                        setValueAs: (value: string) =>
-                                            new Decimal(value),
-                                    })}
-                                />
-                                <FormSelect
-                                    label="Currency"
-                                    className="mt-3"
-                                    size="full"
-                                    {...form.register("currency")}
+                    </h2>
+                </div>
+                {/* 
+                <div className="relative flex h-[200px] w-full border border-red-500">
+                    <Image
+                        src={
+                            project.listImage?.startsWith("https")
+                                ? project.listImage
+                                : `${process.env.NEXT_PUBLIC_CDN_URL}/eco-projects/${project.projectID}/listImage.png`
+                        }
+                        style={{ objectFit: "cover" }}
+                        alt="EcoProject list image"
+                        fill
+                    />
+                </div> */}
+                <div className="mt-4 w-[1024px] border-2 border-purple-500 px-4">
+                    {/* <div className="mt-10 grid w-full grid-cols-2 space-x-4 border-2 border-red-500 px-2 py-5"> */}
+                    <div className="flex flex-row justify-between border-2 border-red-500">
+                        <div className="min-h-32 flex w-[300px] flex-col border-2 border-green-500 px-2 py-5">
+                            <div className="w-full">
+                                <h3>{project.title}</h3>
+                                <h4>{project.location?.location}</h4>
+                                <Form
+                                    className="space-y-4"
+                                    form={form}
+                                    onSubmit={async (data) => {
+                                        // TODO: order
+                                        if (!publicKey) return;
+                                        await mutateAsync({
+                                            ...data,
+                                            nftSeriesID:
+                                                project.nftSeries
+                                                    ?.nftSeriesID ?? "",
+                                            userWallet: publicKey?.toBase58(),
+                                            payFee: 0,
+                                            payAmount: 10,
+                                            payHash: "asasas",
+                                        });
+                                    }}
                                 >
-                                    {createEcoOrderSchema.shape.currency.options.map(
-                                        (type) => (
-                                            <option key={type} value={type}>
-                                                {type}
-                                            </option>
-                                        ),
-                                    )}
-                                </FormSelect>
-                                {/* <p className="py-5">
+                                    <FormInput
+                                        className="mt-3"
+                                        label={
+                                            project.creditType
+                                                ? `Credits (${project.nftSeries.seriesType})`
+                                                : "Credits"
+                                        }
+                                        type="number"
+                                        size="full"
+                                        defaultValue={100}
+                                        {...form.register("creditsPurchased", {
+                                            setValueAs: (value: string) =>
+                                                new Decimal(value),
+                                        })}
+                                    />
+                                    <FormSelect
+                                        label="Currency"
+                                        className="mt-3"
+                                        size="full"
+                                        {...form.register("currency")}
+                                    >
+                                        {createEcoOrderSchema.shape.currency.options.map(
+                                            (type) => (
+                                                <option key={type} value={type}>
+                                                    {type}
+                                                </option>
+                                            ),
+                                        )}
+                                    </FormSelect>
+                                    {/* <p className="py-5">
                                 Purchase Price:{" "}
                                 {Number(
                                     credits.times(1.5).dividedBy(
@@ -131,29 +161,50 @@ const PurchaseProject = () => {
                                     ),
                                 ).toFixed(2)}
                             </p> */}
-                                {/* <div>
+                                    {/* <div>
                                 {project.nftSeries?.creditPrice &&
                                     `Purchase Price: $${project.nftSeries?.creditPrice.times(
                                         credits,
                                     )}`}
                             </div> */}
-                                <FormInput
-                                    size="full"
-                                    label="Retired By"
-                                    className="mt-3"
-                                    {...form.register("retireBy")}
-                                />
-                                <Button
-                                    className="mt-4"
-                                    fullWidth
-                                    loading={isOrdering}
-                                >
-                                    Purchase Credits
-                                </Button>
-                            </Form>
+                                    <FormInput
+                                        size="full"
+                                        label="Retired By"
+                                        className="mt-3"
+                                        {...form.register("retireBy")}
+                                    />
+                                    <Button
+                                        className="mt-4"
+                                        fullWidth
+                                        loading={isOrdering}
+                                    >
+                                        Purchase Credits
+                                    </Button>
+                                </Form>
+                            </div>
+
+                            {/* <Preview
+                            image={{
+                                src: `/images/${
+                                    JSON.parse(project.images).listImage
+                                }`,
+                            }}
+                            displayData={{ location }}
+                        /> */}
+                            {/* <Image
+							src={`/images/${
+								JSON.parse(project.images).listImage
+							}`}
+							alt="EcoProject thumbnail image"
+							className=" h-60 min-h-[300px] w-full rounded-md object-cover"
+							width={300}
+							height={200}
+						/> */}
                         </div>
+                    </div>
+                    <div className="min-h-32 flex w-[600px] flex-col border-2 border-amber-500 px-0 py-0">
                         <NFTBuilderPreview
-                            className="h-96 w-96"
+                            className="h-[600px] w-[600px]"
                             image={
                                 project.nftSeries.seriesImage?.startsWith(
                                     "https",
@@ -170,25 +221,9 @@ const PurchaseProject = () => {
                             retiredBy={retiredBy}
                             date={date}
                         />
-                        {/* <Preview
-                            image={{
-                                src: `/images/${
-                                    JSON.parse(project.images).listImage
-                                }`,
-                            }}
-                            displayData={{ location }}
-                        /> */}
-                        {/* <Image
-							src={`/images/${
-								JSON.parse(project.images).listImage
-							}`}
-							alt="EcoProject thumbnail image"
-							className=" h-60 min-h-[300px] w-full rounded-md object-cover"
-							width={300}
-							height={200}
-						/> */}
                     </div>
-                </DefaultCard>
+                </div>
+                <Responsive />
             </div>
         );
 };

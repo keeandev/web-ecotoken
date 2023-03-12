@@ -39,15 +39,23 @@ export const ordersRouter = router({
         .input(
             z.object({
                 ecoOrderID: z.string(),
+                project: z.boolean().optional(),
             }),
         )
-        .query(async ({ ctx, input: { ecoOrderID } }) => {
+        .query(async ({ ctx, input: { ecoOrderID, project } }) => {
             return await ctx.prisma.ecoOrder.findFirst({
                 where: {
                     ecoOrderID,
                     ...(ctx.session.user.type === "user" && {
                         userID: ctx.session.user.id,
                     }),
+                },
+                include: {
+                    nftSeries: {
+                        include: {
+                            project,
+                        },
+                    },
                 },
             });
         }),

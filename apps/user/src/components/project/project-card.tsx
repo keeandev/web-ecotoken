@@ -13,6 +13,7 @@ export type ProjectCardProps = {
     status: ProjectStatus;
     fundAmount?: number;
     fundRecieved?: number;
+    hasSeries?: boolean;
 };
 const ProjectCard: React.FC<ProjectCardProps> = ({
     title,
@@ -20,6 +21,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     intro,
     listImage,
     identifier,
+    hasSeries,
     // status,
     // fundAmount,
     // fundRecieved
@@ -47,15 +49,17 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                     </div>
                 </div>
                 <div>{intro}</div>
-                <Button
-                    intent="primary"
-                    fullWidth
-                    onClick={() =>
-                        router.push(`/projects/${identifier}/purchase`)
-                    }
-                >
-                    Buy Credits
-                </Button>
+                {hasSeries && (
+                    <Button
+                        intent="primary"
+                        fullWidth
+                        onClick={() =>
+                            router.push(`/projects/${identifier}/purchase`)
+                        }
+                    >
+                        Buy Credits
+                    </Button>
+                )}
                 <Button
                     intent="secondary"
                     fullWidth

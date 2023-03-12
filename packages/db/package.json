@@ -11,8 +11,8 @@
         "clean": "run-script-os",
         "clean:windows": "del /f /s node_modules",
         "clean:default": "rm -rf node_modules",
-        "dev": "npx prisma studio",
-        "db:push": "prisma db push --skip-generate", 
+        "dev": "npm run db:studio",
+        "db:push": "prisma db push --skip-generate",
         "db:seed": "prisma db seed",
         "db:generate": "prisma generate",
         "db:studio": "prisma studio --browser=none"

@@ -9,6 +9,7 @@
 const config = {
     reactStrictMode: true,
     swcMinify: true,
+    // Enables hot-reload and easy integration for local packages
     transpilePackages: [
         "@ecotoken/api",
         "@ecotoken/db",
@@ -25,6 +26,30 @@ const config = {
             "regen-registry-server.herokuapp.com",
             "eco-token.io",
         ],
+        // remotePatterns: [
+        //     {
+        //         protocol: "https",
+        //         hostname:
+        //             process.env.NEXT_PUBLIC_CDN_URL?.replaceAll(
+        //                 "https://",
+        //                 "",
+        //             ) ?? "",
+        //         port: "",
+        //         pathname: "*",
+        //     },
+        //     {
+        //         protocol: "https",
+        //         hostname: "eco-token.io",
+        //         port: "",
+        //         pathname: "*",
+        //     },
+        //     {
+        //         protocol: "https",
+        //         hostname: "regen-registry-server.herokuapp.com",
+        //         port: "",
+        //         pathname: "*",
+        //     },
+        // ],
     },
 };
 

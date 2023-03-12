@@ -39,6 +39,13 @@ type CreateProjectOperation = Omit<
     benefits: string[];
 };
 
+type NftSeriesOperation = Omit<
+    Prisma.NFTSeriesCreateInput,
+    "project" | "projectID"
+> & {
+    project: string;
+};
+
 const rolesToCreate: CreateRoleOperation[] = [
     {
         role: "Admin",
@@ -102,21 +109,44 @@ const usersToCreate: CreateUserOperation[] = [
         username: "dingo",
         role: "Producer",
         site: "ecoToken",
+        companyName: "ecoToken",
+    },
+    {
+        email: "alan@noahsolutions.com",
+        walletAddress: "1",
+        firstName: "Alan",
+        lastName: "http://noahsolutions.ca/",
+        username: "alan",
+        role: "Producer",
+        site: "ecoToken",
         companyName: "NOAH Solutions",
     },
     {
-        email: "verifier@gmail.com",
-        walletAddress: "37w6QjJGkH5EZq1sz7xAqP7mHCnT6xTKVk6m5XCmG8dk2",
-        username: "test-verifier",
-        role: "Verifier",
-        site: "ecoToken",
+        email: "aaron@wacomet.com ",
+        walletAddress: "2",
+        firstName: "Alan",
+        lastName: "https://www.rh2o.app",
+        username: "aaron",
+        role: "Producer",
+        site: "ecoTokenp",
+        companyName: "Wacomet Water Co.",
     },
     {
-        email: "user@gmail.com",
-        walletAddress: "37w6QjJGkH5EZq1sz7xAqP7mHCnT6xTKVk6m5XCmG8dk3",
-        username: "test-user",
-        role: "User",
+        email: "verifier@gmail.com",
+        walletAddress: "3",
+        lastName: "https://wrlandconservancy.org/",
+        role: "Producer",
         site: "ecoToken",
+        companyName: "Western Reserve Land Conservancy ",
+    },
+    {
+        email: "user@kingcounty.gov",
+        walletAddress: "4",
+        lastName: "https://kingcounty.gov/depts/dnrp.aspx",
+        username: "kingcounty",
+        role: "Producer",
+        site: "ecoToken",
+        companyName: "King County Department of Natural Resources and Parks",
     },
 ];
 
@@ -144,7 +174,6 @@ const projectsToCreate: CreateProjectOperation[] = [
         creditType: "CARBON",
         fundAmount: 80000,
         fundRecieved: 2000,
-        payback: "12-48 Months",
         return: 1.5,
         dateStart: new Date("2022-05-01"),
         dateEnd: new Date("2022-09-30"),
@@ -175,7 +204,6 @@ const projectsToCreate: CreateProjectOperation[] = [
         creditType: "CARBON",
         fundAmount: 75000,
         fundRecieved: 2500,
-        payback: "1-4 Years",
         return: 1.25,
         dateStart: new Date("2022-04-01"),
         dateEnd: new Date("2022-12-31"),
@@ -206,7 +234,6 @@ const projectsToCreate: CreateProjectOperation[] = [
         creditType: "CARBON",
         fundAmount: 30000,
         fundRecieved: 1000,
-        payback: "1-4 Years",
         return: 0.25,
         dateStart: new Date("2022-11-16"),
         dateEnd: new Date("2022-09-30"),
@@ -233,10 +260,26 @@ const projectsToCreate: CreateProjectOperation[] = [
         creditType: "WATER",
         fundAmount: 70000,
         fundRecieved: 8000,
-        payback: "24 Months",
         return: 1.5,
         dateStart: new Date("2022-09-07"),
         dateEnd: new Date("2023-12-24"),
+    },
+];
+
+const nftSeriesToCreate: NftSeriesOperation[] = [
+    {
+        project: "Oceanwise001",
+        seriesName: "Oceanwise001",
+        seriesImage: "",
+        seriesType: "C02",
+        regenBatch: "C02-002",
+        setAmount: 1200,
+        totalCredits: 1500,
+        creditPrice: 29.45,
+        retireWallet: "",
+        recieveWallet: "",
+        creditWallet: "",
+        creditKey: "",
     },
 ];
 
@@ -504,6 +547,7 @@ const main = async () => {
     }
     console.log("Created ecoLocations.");
 
+    console.log("Creating ecoProjects...");
     for (const {
         site,
         location,
@@ -542,23 +586,53 @@ const main = async () => {
             selectedProducer &&
             selectedSite
         ) {
-            // const databaseProject = await prisma.ecoProject.create({
-            //     data: {
-            //         ...project,
-            //         locationID: selectedLocation.locationID,
-            //         siteID: selectedSite.siteID,
-            //         producerID: selectedProducer.userID,
-            //         benefits: {
-            //             connect: selectedBenefits?.map(({ benefitID }) => ({
-            //                 benefitID,
-            //             })),
-            //         },
-            //     },
-            // });
-            // console.log("Created " + databaseProject.shortTitle);
+            // bad way to seed projects
+            const databaseProject = await prisma.ecoProject.create({
+                data: {
+                    ...project,
+                    producer: {
+                        connect: {
+                            userID: selectedProducer.userID,
+                        },
+                    },
+                    site: {
+                        connect: {
+                            siteID: selectedSite.siteID,
+                        },
+                    },
+                    location: {
+                        connect: {
+                            locationID: selectedLocation.locationID,
+                        },
+                    },
+                    benefits: {
+                        connect: selectedBenefits?.map(({ benefitID }) => ({
+                            benefitID,
+                        })),
+                    },
+                },
+            });
+            console.log("Created " + databaseProject.shortTitle);
         }
     }
     console.log("Created ecoProjects.");
+
+    console.log("Creating nftSeries...");
+    for (const { project, ...series } of nftSeriesToCreate) {
+        const selectedProject = await prisma.ecoProject.findFirst({
+            where: {
+                identifier: project,
+            },
+        });
+        await prisma.nFTSeries.create({
+            data: {
+                ...series,
+                projectID: selectedProject!.projectID,
+            },
+        });
+        console.log("Created " + series.seriesName);
+    }
+    console.log("Created nftSeries.");
 
     const roles = await prisma.role.findMany();
     await prisma.adminUser.createMany({

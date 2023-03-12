@@ -11,14 +11,19 @@ const ProjectDetails = () => {
     const router = useRouter();
     const { id } = router.query;
 
-    const { data: project } = trpc.ecoProjects.get.useQuery({
-        identifier: id as string,
-    });
+    const { data: project } = trpc.ecoProjects.get.useQuery(
+        {
+            identifier: id as string,
+            series: true,
+        },
+        { enabled: !!id },
+    );
 
     const { data: projects } = trpc.ecoProjects.getAll.useInfiniteQuery({
         limit: 3,
         benefits: true,
         location: true,
+        series: true,
     });
     if (!project) return <div>Loading...</div>;
 
@@ -88,7 +93,8 @@ const ProjectDetails = () => {
                                     Credits Available
                                 </span>
                                 <span className="text-[15px] font-semibold">
-                                    {project.nftSeries?.setAmount?.toNumber()}
+                                    {project.nftSeries?.setAmount?.toString() ??
+                                        0}
                                 </span>
                             </div>
                             <div className="flex flex-col">
@@ -139,6 +145,7 @@ const ProjectDetails = () => {
                                     status,
                                     fundAmount,
                                     fundRecieved,
+                                    nftSeries,
                                 }) => (
                                     <ProjectCard
                                         key={projectID}
@@ -150,6 +157,7 @@ const ProjectDetails = () => {
                                         intro={intro ?? undefined}
                                         fundAmount={fundAmount ?? undefined}
                                         fundRecieved={fundRecieved ?? undefined}
+                                        hasSeries={nftSeries?.isActive}
                                     />
                                 ),
                             );

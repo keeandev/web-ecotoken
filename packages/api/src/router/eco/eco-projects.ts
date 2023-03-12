@@ -28,7 +28,7 @@ export const projectsRouter = router({
                     nftSeries: input.series,
                 },
             });
-
+            console.log("project", project);
             return project;
         }),
     getAll: publicProcedure
@@ -36,7 +36,7 @@ export const projectsRouter = router({
             z.object({
                 benefits: z.boolean().optional(),
                 location: z.boolean().optional(),
-                hasActiveSeries: z.boolean().optional(),
+                series: z.boolean().optional(),
                 limit: z.number().min(1).max(100).nullish().default(10),
                 cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
             }),
@@ -47,16 +47,11 @@ export const projectsRouter = router({
                 take: limit + 1, // get an extra item at the end which we'll use as next cursor
                 where: {
                     siteID: ctx.selectedSite?.siteID ?? ctx.currentSite.siteID,
-                    ...(input.hasActiveSeries && {
-                        nftSeries: {
-                            isActive: input.hasActiveSeries,
-                        },
-                    }),
                 },
                 include: {
                     benefits: input.benefits,
                     location: input.location,
-                    nftSeries: input.hasActiveSeries,
+                    nftSeries: input.series,
                 },
                 ...(input?.cursor && {
                     cursor: {
