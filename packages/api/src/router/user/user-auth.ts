@@ -1,14 +1,15 @@
-import { z } from "zod";
-import { publicProcedure, router, userAuthedProcedure } from "../../trpc";
-import { unsealData } from "iron-session";
 import { TRPCError } from "@trpc/server";
+import bs58 from "bs58";
+import { unsealData } from "iron-session";
+import { sign } from "tweetnacl";
+import { z } from "zod";
+import { User } from "@ecotoken/db";
+
 import {
     loginUserSchema,
     type emailVerificationSchema,
 } from "../../schema/user";
-import { sign } from "tweetnacl";
-import bs58 from "bs58";
-import { User } from "@ecotoken/db";
+import { publicProcedure, router } from "../../trpc";
 
 export const userAuthRouter = router({
     emailVerification: publicProcedure
@@ -113,13 +114,14 @@ export const userAuthRouter = router({
                     },
                 });
 
-                if (!user) user = await ctx.prisma.user.create({
-                    data: {
-                        walletAddress: publicKey,
-                        siteID: ctx.currentSite.siteID,
-                        roleID: role?.roleID ?? ""
-                    }
-                })
+                if (!user)
+                    user = await ctx.prisma.user.create({
+                        data: {
+                            walletAddress: publicKey,
+                            siteID: ctx.currentSite.siteID,
+                            roleID: role?.roleID ?? "",
+                        },
+                    });
 
                 ctx.session!.user = {
                     type: "user",
@@ -171,8 +173,8 @@ export const userAuthRouter = router({
     //             });
     //         }
     //     }),
-    logout: userAuthedProcedure.query(async ({ ctx }) => {
-        ctx.session.destroy();
+    logout: publicProcedure.mutation(({ ctx }) => {
+        if (ctx.session) ctx.session.destroy();
         return 200;
     }),
 });

@@ -122,7 +122,7 @@ const usersToCreate: CreateUserOperation[] = [
 
 const projectsToCreate: CreateProjectOperation[] = [
     {
-        ecoTitle: "Dairy Manure Remediation in Pincher Creek",
+        title: "Dairy Manure Remediation in Pincher Creek",
         shortTitle: "Dairy Manure Remediation",
         identifier: "DairyManure001",
         producer: "NOAH Solutions",
@@ -150,7 +150,7 @@ const projectsToCreate: CreateProjectOperation[] = [
         dateEnd: new Date("2022-09-30"),
     },
     {
-        ecoTitle: "Green Waste Treatment in Calgary Alberta",
+        title: "Green Waste Treatment in Calgary Alberta",
         shortTitle: "Green Waste Treatment",
         identifier: "Organics001",
         producer: "NOAH Solutions",
@@ -181,7 +181,7 @@ const projectsToCreate: CreateProjectOperation[] = [
         dateEnd: new Date("2022-12-31"),
     },
     {
-        ecoTitle: "Groundwater Treatment in Pincher Creek Alberta",
+        title: "Groundwater Treatment in Pincher Creek Alberta",
         shortTitle: "Groundwater Treatment",
         identifier: "Groundwater001",
         producer: "NOAH Solutions",
@@ -212,7 +212,7 @@ const projectsToCreate: CreateProjectOperation[] = [
         dateEnd: new Date("2022-09-30"),
     },
     {
-        ecoTitle: "Ocean Wise - Seaforestation in Howe Sound British Columbia",
+        title: "Ocean Wise - Seaforestation in Howe Sound British Columbia",
         shortTitle: "Ocean Wise - Seaforestation",
         identifier: "Oceanwise001",
         producer: "NOAH Solutions",
@@ -526,7 +526,7 @@ const main = async () => {
         });
         const selectedLocation = await prisma.ecoLocation.findFirst({
             where: {
-                location
+                location,
             },
         });
         const selectedBenefits = await prisma.ecoBenefit.findMany({
@@ -536,7 +536,12 @@ const main = async () => {
                 })),
             },
         });
-        if(selectedBenefits && selectedLocation && selectedProducer && selectedSite) {
+        if (
+            selectedBenefits &&
+            selectedLocation &&
+            selectedProducer &&
+            selectedSite
+        ) {
             // const databaseProject = await prisma.ecoProject.create({
             //     data: {
             //         ...project,

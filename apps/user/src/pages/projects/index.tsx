@@ -1,6 +1,4 @@
-import ProjectCard, {
-    type ProjectCardProps,
-} from "@/components/project/project-card";
+import ProjectCard from "@/components/project/project-card";
 import { trpc } from "@/utils/trpc";
 import { useEffect } from "react";
 // import BannerSection from "../sections/bannerSection";
@@ -36,29 +34,25 @@ const Projects = () => {
                     projects.map(
                         ({
                             projectID,
-                            ecoTitle,
-                            ecoUrl,
-                            intro,
+                            title,
+                            identifier,
                             location,
+                            intro,
                             status,
                             fundAmount,
                             fundRecieved,
-                            images,
+                            listImage,
                         }) => (
                             <ProjectCard
                                 key={projectID}
-                                title={ecoTitle}
-                                url={ecoUrl}
-                                location={location.location}
-                                intro={intro}
+                                title={title}
+                                identifier={identifier}
+                                location={location?.location}
+                                intro={intro ?? undefined}
                                 status={status}
                                 fundAmount={fundAmount ?? undefined}
                                 fundRecieved={fundRecieved ?? undefined}
-                                images={
-                                    JSON.parse(
-                                        images,
-                                    ) as ProjectCardProps["images"]
-                                }
+                                listImage={listImage ?? undefined}
                             />
                         ),
                     ),

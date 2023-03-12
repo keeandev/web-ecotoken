@@ -1,13 +1,13 @@
+import React, { useRef, useState, type ChangeEvent } from "react";
 import NFTBuilderPreview from "@/components/nft-builder-preview";
+import { trpc } from "@/utils/trpc";
+import html2canvas from "html2canvas";
+import { createNFTSchema } from "@ecotoken/api/src/schema/nft-builder";
+import Button from "@ecotoken/ui/components/Button";
 import DefaultCard, {
     CardDescription,
     CardTitle,
 } from "@ecotoken/ui/components/Card";
-import Button from "@ecotoken/ui/components/Button";
-import { createNFTSchema } from "@ecotoken/api/src/schema/nft-builder";
-import React, { type ChangeEvent, useState, useRef } from "react";
-import { trpc } from "@/utils/trpc";
-import html2canvas from "html2canvas";
 import Form, { FormInput, useZodForm } from "@ecotoken/ui/components/Form";
 
 const NFTBuilder = () => {
@@ -121,7 +121,7 @@ const NFTBuilder = () => {
                         <NFTBuilderPreview
                             ref={componentRef}
                             image={imageBlob?.toString()}
-                            id={"999"}
+                            batch={"999"}
                             credits={credits}
                             symbol={symbol}
                             project={project}

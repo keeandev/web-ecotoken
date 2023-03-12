@@ -1,19 +1,19 @@
 import { type NextPage } from "next";
-import { trpc } from "@/utils/trpc";
 import ProjectCard from "@/components/project/project-card";
-import BannerSection from "./sections/bannerSection";
-import GrassEnv from "./sections/grassEnv";
-import RetireSection from "./sections/retireSection";
-import AllDesc from "./sections/allDesc";
-import CreatedByYou from "./sections/createdByYou";
+import { trpc } from "@/utils/trpc";
+
+import BannerSection from "../../components/public/sections/home-banner";
+import CreatedByYou from "../../components/public/sections/home-created";
+import Credits from "../../components/public/sections/home-credits";
+import RetireSection from "../../components/public/sections/home-how";
+import Support from "../../components/public/sections/home-support";
 
 const Home: NextPage = () => {
-    const { data, hasNextPage, fetchNextPage } =
-        trpc.ecoProjects.getAll.useInfiniteQuery({
-            limit: 3,
-            benefits: true,
-            location: true,
-        });
+    const { data } = trpc.ecoProjects.getAll.useInfiniteQuery({
+        limit: 3,
+        benefits: true,
+        location: true,
+    });
 
     if (!data) return <div>Loading...</div>;
 
@@ -23,38 +23,39 @@ const Home: NextPage = () => {
                 <BannerSection />
 
                 <div className="grid w-full grid-cols-3 content-start gap-7 bg-[#F0F0F0] py-[5em] px-[7em]">
-                    {data.pages.flatMap(({ projects }) => {
-                        return projects.map(
+                    {data.pages.flatMap(({ projects }) =>
+                        projects.map(
                             ({
                                 projectID,
-                                ecoTitle,
-                                ecoUrl,
+                                title,
+                                identifier,
+                                location,
                                 intro,
-                                images,
                                 status,
                                 fundAmount,
                                 fundRecieved,
+                                listImage,
                             }) => (
                                 <ProjectCard
                                     key={projectID}
+                                    title={title}
+                                    identifier={identifier}
+                                    location={location?.location}
+                                    intro={intro ?? undefined}
                                     status={status}
-                                    title={ecoTitle}
-                                    url={ecoUrl}
-                                    location={"ddd"}
-                                    intro={intro}
-                                    images={JSON.parse(images)}
-                                    fundAmount={fundAmount}
-                                    fundRecieved={fundRecieved}
+                                    fundAmount={fundAmount ?? undefined}
+                                    fundRecieved={fundRecieved ?? undefined}
+                                    listImage={listImage ?? undefined}
                                 />
                             ),
-                        );
-                    })}
+                        ),
+                    )}
                 </div>
 
                 <RetireSection />
-                <AllDesc />
+                <Credits />
                 <CreatedByYou />
-                <GrassEnv />
+                <Support />
             </div>
         </>
     );

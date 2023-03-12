@@ -1,13 +1,9 @@
-import Image from "next/image";
-import white_bevel_md from "@ecotoken/ui/assets/brand/bevel_white_md.png";
-import grass_env_image from "@ecotoken/ui/assets/ecoproject/grassEnv.png";
-import globeHands from "@ecotoken/ui/assets/page/bkgd_globehands02.jpg";
-import grass_decorate_white_image from "@ecotoken/ui/assets/brand/grass_decorate.png";
-import check_icon from "@ecotoken/ui/assets/icons/check.svg";
-import Button from "@ecotoken/ui/components/Button";
 import { useRouter } from "next/router";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import white_bevel_md from "@ecotoken/ui/assets/brand/bevel_white_md.png";
+import globeHands from "@ecotoken/ui/assets/page/bkgd_globehands02.jpg";
+import Button from "@ecotoken/ui/components/Button";
 
 const leftItems = [
     "Open ecocredit markets",
@@ -50,12 +46,12 @@ const Grassroots = () => {
                             {leftItems.map((item, index) => {
                                 return (
                                     <div
-                                        key={"left-items" + index}
+                                        key={`left-items_${index}`}
                                         className="my-3 flex items-start gap-2 text-[18px] text-slate-600"
                                     >
                                         <FontAwesomeIcon
                                             icon={faCircleCheck}
-                                            size="lg sm:xl"
+                                            size="lg"
                                             className="mt-0.5 text-ecoblue-500"
                                         />
                                         {item}
@@ -67,12 +63,12 @@ const Grassroots = () => {
                             {rightItems.map((item, index) => {
                                 return (
                                     <div
-                                        key={"right-items" + index}
+                                        key={`right-items_${index}`}
                                         className="my-3 flex items-start gap-2 text-[18px] text-slate-600"
                                     >
                                         <FontAwesomeIcon
                                             icon={faCircleCheck}
-                                            size="lg sm:xl"
+                                            size="lg"
                                             className="mt-0.5 text-ecoblue-500"
                                         />
                                         {item}
@@ -85,7 +81,7 @@ const Grassroots = () => {
                         <Button
                             intent="sky"
                             className="p-5"
-                            onClick={() => router.push(`/user/projects`)}
+                            onClick={() => router.push(`/projects`)}
                         >
                             <span className="m-2 font-head text-[24px] font-semibold">
                                 EXPLORE ALL PROJECTS

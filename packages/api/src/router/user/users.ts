@@ -1,8 +1,14 @@
-import { adminAuthedProcedure, publicProcedure, router } from "../../trpc";
 import { type User } from "@prisma/client";
-import { z } from "zod";
-import { createUserSchema, updateUserSchema } from "../../schema/user";
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+
+import { createUserSchema, updateUserSchema } from "../../schema/user";
+import {
+    adminAuthedProcedure,
+    authedProcedure,
+    publicProcedure,
+    router,
+} from "../../trpc";
 
 export const usersRouter = router({
     usernameCheck: publicProcedure
@@ -22,16 +28,19 @@ export const usersRouter = router({
                     code: "CONFLICT",
                 });
         }),
-    get: adminAuthedProcedure
+    get: authedProcedure
         .input(
             z.object({
-                userID: z.string(),
+                userID: z.string().optional(),
             }),
         )
         .query(async ({ ctx, input }) => {
             const user = await ctx.prisma.user.findFirst({
                 where: {
-                    userID: input.userID,
+                    userID:
+                        input.userID && ctx.session.user.type === "admin"
+                            ? input.userID
+                            : ctx.session.user.id,
                 },
             });
             if (!user)

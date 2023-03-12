@@ -64,13 +64,14 @@ model User {
     username      String?
     email         String?
 
-    site             Site         @relation(fields: [siteID], references: [siteID])
-    siteID           String
-    role             Role         @relation(fields: [roleID], references: [roleID])
-    roleID           String
-    nftSeries        NFTSeries[]
+    site   Site   @relation(fields: [siteID], references: [siteID])
+    siteID String
+    role   Role   @relation(fields: [roleID], references: [roleID])
+    roleID String
+
     projects         EcoProject[] @relation(name: "Producer")
     verifierProjects EcoProject[] @relation(name: "Verifier")
+    orders           EcoOrder[]
 
     isDelete  Boolean  @default(false)
     isDisable Boolean  @default(false)
@@ -241,63 +242,59 @@ enum ProjectType {
 model NFTSeries {
     nftSeriesID String @id @default(cuid())
 
-    project    EcoProject @relation(fields: [projectID], references: [projectID])
-    projectID  String     @unique
-    producer   User       @relation(fields: [producerID], references: [userID])
-    producerID String
+    project   EcoProject @relation(fields: [projectID], references: [projectID])
+    projectID String     @unique
 
-    seriesName     String
-    seriesNumber   Int      @db.UnsignedSmallInt
-    seriesImage    String
-    seriesType     NFTType
-    recieveWallet  String
-    creditWallet   String
-    creditKey      String
-    creditAmount   Decimal? @db.Decimal(12, 2)
-    producerWallet String
+    orders EcoOrder[]
+
+    seriesName    String
+    seriesNumber  Int      @default(autoincrement()) @db.UnsignedSmallInt
+    seriesImage   String
+    seriesType    String
+    retireWallet  String
+    recieveWallet String
+    creditWallet  String
+    creditKey     String
+    regenBatch    String
+    setAmount     Decimal? @db.Decimal(12, 2)
+    totalCredits  Decimal  @db.Decimal(12, 2)
+    creditPrice   Decimal  @db.Decimal(12, 2)
 
     isActive  Boolean  @default(true)
     createdAt DateTime @default(now())
 
     @@index([projectID])
-    @@index([producerID])
     @@index([seriesNumber])
     @@map("nft_series")
 }
 
-enum NFTType {
-    CARBON_CREDIT
-    WATER_CREDIT
-    BIODIVERSITY
-    STEWARDSHIP
-}
-
 model EcoOrder {
-    ecoOrderID   String           @id @default(cuid())
-    projectID    String
-    shortTitle   String
-    orderStatus  EcoOrderStatus
-    userID       String
-    retireBy     String
-    userLocation String
-    userWallet   String
-    creditType   String
-    creditAmount Decimal          @db.Decimal(12, 6)
-    payType      PurchaseCurrency
-    payAmount    Decimal          @db.Decimal(12, 6)
-    payFee       Decimal          @db.Decimal(12, 6)
-    payHash      String
-    ecoWallet    String
-    nftID        String
-    nftBkgd      String
-    creditWallet String
-    creditKey    String
-    retireWallet String
-    retireFee    Decimal?         @db.Decimal(12, 6)
-    retireHash   String?
-    createdAt    DateTime         @default(now())
-    isDelete     Boolean          @default(false)
+    ecoOrderID String @id @default(cuid())
 
+    nftSeries   NFTSeries @relation(fields: [nftSeriesID], references: [nftSeriesID], onDelete: Cascade)
+    nftSeriesID String
+    user        User      @relation(fields: [userID], references: [userID], onDelete: Cascade)
+    userID      String
+
+    status           EcoOrderStatus   @default(PROCESSING)
+    userWallet       String
+    creditsPurchased Decimal          @db.Decimal(12, 6)
+    currency         PurchaseCurrency
+    payAmount        Decimal          @db.Decimal(12, 6)
+    payFee           Decimal          @db.Decimal(12, 6)
+    payHash          String
+    retireBy         String
+    ecoWallet        String
+    retireWallet     String
+    creditWallet     String
+    creditKey        String
+    retireFee        Decimal?         @db.Decimal(12, 6)
+    retireHash       String?
+    createdAt        DateTime         @default(now())
+    isDelete         Boolean          @default(false)
+
+    @@index([nftSeriesID])
+    @@index([userID])
     @@map("eco_order")
 }
 
@@ -307,6 +304,7 @@ enum PurchaseCurrency {
 }
 
 enum EcoOrderStatus {
+    PROCESSING
     FUNDS_RECIEVED
     REQUEST_TO_RETIRE
     CREDITS_RETIRED

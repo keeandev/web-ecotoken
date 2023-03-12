@@ -1,103 +1,129 @@
-import {
-	Menu,
-	MenuButton,
-	MenuItems
-} from "@ecotoken/ui/components/HeadlessUI";
+import type { UrlObject } from "url";
+import { Fragment } from "react";
+import Link from "next/link";
+import { trpc } from "@/utils/trpc";
 import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 import {
-	faChevronDown,
-	faCircleQuestion,
-	faExternalLink,
-	faGift,
-	faMessage,
-	faUser
+    faChevronDown,
+    faCircleQuestion,
+    faCircleUser,
+    faExternalLink,
+    faGift,
+    faMessage,
+    faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu as HeadlessMenu, Transition } from "@headlessui/react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import clsx from "clsx";
-import Link from "next/link";
-import { Fragment } from "react";
-import type { UrlObject } from "url";
+import {
+    Menu,
+    MenuButton,
+    MenuItems,
+} from "@ecotoken/ui/components/HeadlessUI";
 
 import Avatar from "./avatar";
 
-const dropdownItems: {
-	href?: string | UrlObject;
-	label?: string;
-	icon?: IconProp;
-}[] = [
-	{
-		href: "/settings",
-		label: "Profile",
-		icon: faUser
-	},
-	{
-		href: "/rewards",
-		label: "Rewards",
-		icon: faGift
-	},
-	{
-		href: "/support",
-		label: "Support Center",
-		icon: faCircleQuestion
-	},
-	{
-		href: "/contact",
-		label: "Contact Us",
-		icon: faMessage
-	},
-	{
-		href: "/logout",
-		label: "Logout",
-		icon: faExternalLink
-	}
-];
+// const dropdownItems: {
+//     href?: string | UrlObject;
+//     onClick?: () => void;
+//     label?: string;
+//     icon?: IconProp;
+// }[] = [
+//     {
+//         href: "/settings",
+//         label: "Profile",
+//         icon: faUser,
+//     },
+//     {
+//         href: "/rewards",
+//         label: "Rewards",
+//         icon: faGift,
+//     },
+//     {
+//         href: "/support",
+//         label: "Support Center",
+//         icon: faCircleQuestion,
+//     },
+//     {
+//         href: "/contact",
+//         label: "Contact Us",
+//         icon: faMessage,
+//     },
+// ];
 
 const UserDropdown = () => {
-	return (
-		<Menu>
-			<MenuButton intent="none">
-				<Avatar className="w-10" />
-				<FontAwesomeIcon
-					icon={faChevronDown}
-					className="h-4 w-4"
-					aria-hidden="true"
-				/>
-			</MenuButton>
-			<Transition
-				as={Fragment}
-				enter="transition ease-out duration-100"
-				enterFrom="transform opacity-0 scale-95"
-				enterTo="transform opacity-100 scale-100"
-				leave="transition ease-in duration-75"
-				leaveFrom="transform opacity-100 scale-100"
-				leaveTo="transform opacity-0 scale-95"
-			>
-				<MenuItems align="right" className="z-50">
-					{dropdownItems.map((props, index) => (
-						<HeadlessMenu.Item key={index}>
-							{({ active }) => (
-								<Link
-									href={props?.href ?? ""}
-									className={clsx(
-										"group flex w-full items-center space-x-2 rounded-md p-2 text-gray-900",
-										{ "bg-slate-200": active }
-									)}
-								>
-									{props.icon && (
-										<FontAwesomeIcon
-											icon={props.icon}
-											aria-hidden="true"
-										/>
-									)}
-									<span>{props.label}</span>
-								</Link>
-							)}
-						</HeadlessMenu.Item>
-					))}
-				</MenuItems>
-			</Transition>
-		</Menu>
-	);
+    return (
+        <Menu className="mt-1 flex h-[54px] items-center py-1">
+            <MenuButton intent="none">
+                {/* <Avatar className="w-10" /> */}
+                <div className="flex items-center gap-2">
+                    <FontAwesomeIcon
+                        icon={faCircleUser}
+                        size="3x"
+                        className="opacity-50"
+                    />
+                    <FontAwesomeIcon
+                        icon={faChevronDown}
+                        size="1x"
+                        aria-hidden="true"
+                    />
+                </div>
+            </MenuButton>
+            <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+            >
+                <MenuItems align="right" className="z-50">
+                    {/* {dropdownItems.map(
+                        ({ href, icon, label, onClick }, index) => (
+                            <HeadlessMenu.Item key={`${label}_${index}`}>
+                                <Link
+                                    href={href ?? ""}
+                                    className="ui-active:bg-slate-200 group flex w-full items-center space-x-2 rounded-md p-2 text-gray-900"
+                                >
+                                    {icon && (
+                                        <FontAwesomeIcon
+                                            icon={icon}
+                                            aria-hidden="true"
+                                        />
+                                    )}
+                                    <span>{label}</span>
+                                </Link>
+                            </HeadlessMenu.Item>
+                        ),
+                    )} */}
+                    <HeadlessMenu.Item key="Logout">
+                        <LogoutItem />
+                    </HeadlessMenu.Item>
+                </MenuItems>
+            </Transition>
+        </Menu>
+    );
 };
+
+const LogoutItem = () => {
+    const { disconnect } = useWallet();
+
+    const { mutateAsync: logout } = trpc.userAuth.logout.useMutation({});
+
+    return (
+        <div
+            onClick={async () => {
+                logout();
+                await disconnect();
+            }}
+            className="ui-active:bg-slate-200 group flex w-full cursor-pointer items-center space-x-2 rounded-md p-2 text-gray-900"
+        >
+            <FontAwesomeIcon icon={faExternalLink} aria-hidden="true" />
+            <span>Logout</span>
+        </div>
+    );
+};
+
 export default UserDropdown;

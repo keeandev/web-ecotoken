@@ -1,5 +1,5 @@
-import PublicNavbar from "@/components/layout/public/navbar";
-import PublicFooter from "@/components/layout/public/footer";
+import PublicNavbar from "@/components/public/layout/navbar";
+import PublicFooter from "@/components/public/layout/footer";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { trpc } from "@/utils/trpc";

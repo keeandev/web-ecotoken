@@ -1,11 +1,9 @@
 import Image from "next/image";
-// import nftOrlando from "@ecotoken/ui/assets/nft/NFT_WaterCredits.png";
-import nftOrlando from "@ecotoken/ui/assets/nft/NFT_WaterCredits.png";
-import check_icon from "@ecotoken/ui/assets/icons/check.svg";
-import Button from "@ecotoken/ui/components/Button";
+import { useRouter } from "next/router";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useRouter } from "next/router";
+import nftOrlando from "@ecotoken/ui/assets/nft/NFT_WaterCredits.png";
+import Button from "@ecotoken/ui/components/Button";
 
 const descriptions = [
     "User chooses a project they want to support by offsetting their environmental impact with and logs in with Solana wallet.",
@@ -34,7 +32,7 @@ const RetireSection = () => {
                     <div className="mb-2 flex flex-col lg:pr-10">
                         {descriptions.map((desc: string, index: number) => (
                             <div
-                                key={"desc" + index}
+                                key={`desc_${index}`}
                                 className="my-1 flex flex-row gap-3"
                             >
                                 <FontAwesomeIcon
@@ -49,7 +47,7 @@ const RetireSection = () => {
                         ))}
                         <Button
                             intent={"sky"}
-                            className="mt-4 !rounded "
+                            className="mt-4 !rounded"
                             size={"lg"}
                             onClick={() => router.push(`/projects`)}
                         >

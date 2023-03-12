@@ -1,34 +1,34 @@
-import { exclude } from "@ecotoken/db";
 import { z } from "zod";
-import { createEcoProjectSchema } from "../../schema/project";
+import { exclude } from "@ecotoken/db";
 
-import {
-    router,
-    authedProcedure,
-    adminAuthedProcedure,
-    publicProcedure,
-} from "../../trpc";
+import { createEcoProjectSchema } from "../../schema/project";
+import { adminAuthedProcedure, publicProcedure, router } from "../../trpc";
 
 export const projectsRouter = router({
-    get: authedProcedure
+    get: publicProcedure
         .input(
             z.object({
-                url: z.string(),
+                identifier: z.string(),
                 benefits: z.boolean().optional(),
                 location: z.boolean().optional(),
+                producer: z.boolean().optional(),
+                series: z.boolean().optional(),
             }),
         )
         .query(async ({ ctx, input }) => {
             const project = await ctx.prisma.ecoProject.findFirst({
                 where: {
-                    ecoUrl: input.url,
+                    identifier: input.identifier,
                     siteID: ctx.selectedSite?.siteID ?? ctx.currentSite.siteID,
                 },
                 include: {
                     benefits: input.benefits,
                     location: input.location,
+                    producer: input.producer,
+                    nftSeries: input.series,
                 },
             });
+
             return project;
         }),
     getAll: publicProcedure
@@ -79,12 +79,11 @@ export const projectsRouter = router({
     create: adminAuthedProcedure
         .input(createEcoProjectSchema)
         .mutation(async ({ ctx, input }) => {
-            await ctx.prisma.ecoProject.create({
-                data: {
-                    ...input,
-                    siteID: ctx.selectedSite?.siteID ?? ctx.currentSite.siteID,
-                    images: JSON.stringify(input.images),
-                },
-            });
+            // await ctx.prisma.ecoProject.create({
+            //     data: {
+            //         ...input,
+            //         siteID: ctx.selectedSite?.siteID ?? ctx.currentSite.siteID,
+            //     },
+            // });
         }),
 });

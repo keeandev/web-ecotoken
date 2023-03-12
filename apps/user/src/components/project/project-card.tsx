@@ -1,36 +1,39 @@
-import Button from "@ecotoken/ui/components/Button";
-import type { ProjectStatus } from "@prisma/client";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { clientEnv } from "@/env/schema.mjs";
-import ReadMore from "@ecotoken/ui/components/ReadMore";
+import type { ProjectStatus } from "@prisma/client";
+import Button from "@ecotoken/ui/components/Button";
 
 export type ProjectCardProps = {
     title: string;
-    location: string;
-    intro: string;
-    images: {
-        listImage: string;
-    };
-    url: string;
+    location?: string;
+    intro?: string;
+    listImage?: string;
+    headImage?: string;
+    identifier: string;
     status: ProjectStatus;
-    fundAmount?: number | null;
-    fundRecieved?: number | null;
+    fundAmount?: number;
+    fundRecieved?: number;
 };
-
 const ProjectCard: React.FC<ProjectCardProps> = ({
     title,
-    url,
     location,
     intro,
-    images,
+    listImage,
+    identifier,
+    // status,
+    // fundAmount,
+    // fundRecieved
 }) => {
     const router = useRouter();
 
     return (
         <div className="flex max-w-md flex-col rounded-md bg-slate-200 shadow-md">
             <Image
-                src={`${clientEnv.NEXT_PUBLIC_CDN_URL}/${images.listImage}`}
+                src={
+                    listImage?.startsWith("https")
+                        ? listImage
+                        : `${process.env.NEXT_PUBLIC_CDN_URL}/${listImage}`
+                }
                 alt="EcoProject thumbnail image"
                 className="h-60 w-full rounded-md object-cover"
                 width={300}
@@ -43,60 +46,22 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                         {location}
                     </div>
                 </div>
-                <ReadMore len={100}>{intro}</ReadMore>
-                <div className="flex justify-between">
-                    <div className="flex flex-col gap-5">
-                        <div className="flex flex-col">
-                            <span className="text-[#7E7E7E]">Credits Type</span>
-                            <span className="text-[15px] font-semibold">
-                                CO2
-                            </span>
-                        </div>
-                        <div className="flex flex-col">
-                            <span className="text-[#7E7E7E]">
-                                Price Per Ton
-                            </span>
-                            <span className="text-[15px] font-semibold">
-                                $25.43
-                            </span>
-                        </div>
-                    </div>
-                    <div className="flex flex-col gap-5">
-                        <div className="flex flex-col">
-                            <span className="text-[#7E7E7E]">
-                                Credits Available
-                            </span>
-                            <span className="text-[15px] font-semibold">
-                                CO2
-                            </span>
-                        </div>
-                        <div className="flex flex-col">
-                            <span className="text-[#7E7E7E]">
-                                Credits Retired
-                            </span>
-                            <span className="text-[15px] font-semibold">
-                                893.37
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                <div>{intro}</div>
                 <Button
-                    intent="skyfilled"
+                    intent="primary"
                     fullWidth
-                    onClick={async () => {
-                        await router.push(`/stake/${url}`);
-                    }}
+                    onClick={() =>
+                        router.push(`/projects/${identifier}/purchase`)
+                    }
                 >
-                    BUY CREDITS
+                    Buy Credits
                 </Button>
                 <Button
-                    intent="gray"
+                    intent="secondary"
                     fullWidth
-                    onClick={async () => {
-                        await router.push(`/user/projects/${url}`);
-                    }}
+                    onClick={() => router.push(`/projects/${identifier}`)}
                 >
-                    VIEW DETAILS
+                    Learn More
                 </Button>
             </div>
         </div>

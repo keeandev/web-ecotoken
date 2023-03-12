@@ -1,17 +1,17 @@
+import { useMemo, useState, type ChangeEvent } from "react";
+import { transformEnum } from "@/utils/transformer";
+import { trpc } from "@/utils/trpc";
+import { createId } from "@paralleldrive/cuid2";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-hot-toast";
+import { createNFTSeriesSchema } from "@ecotoken/api/src/schema/nft-series";
 import Button from "@ecotoken/ui/components/Button";
+import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
 import Form, {
     FormInput,
     FormSelect,
     useZodForm,
 } from "@ecotoken/ui/components/Form";
-import { createNFTSeriesSchema } from "@ecotoken/api/src/schema/nft-series";
-import { trpc } from "@/utils/trpc";
-import { type ChangeEvent, useMemo, useState } from "react";
-import { transformEnum } from "@/utils/transformer";
-import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
-import { toast } from "react-hot-toast";
-import { createId } from "@paralleldrive/cuid2";
-import { useMutation } from "@tanstack/react-query";
 
 const NFTSeries: React.FC = () => {
     const [seriesImage, setSeriesImage] = useState<File>();
@@ -23,7 +23,7 @@ const NFTSeries: React.FC = () => {
     });
 
     const { mutateAsync: createPresignedUrl } =
-        trpc.upload.createPresignedUrl.useMutation();
+        trpc.spaces.createPresignedUrl.useMutation();
 
     const { mutateAsync, isLoading: isCreating } =
         trpc.nftSeries.create.useMutation({
@@ -131,7 +131,7 @@ const NFTSeries: React.FC = () => {
                             key={project.projectID}
                             value={project.projectID}
                         >
-                            {project.ecoTitle}
+                            {project.title}
                         </option>
                     ))}
                 </FormSelect>

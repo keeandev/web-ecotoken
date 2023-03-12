@@ -2,12 +2,11 @@ import { trpc } from "@/utils/trpc";
 import ProjectCard from "@/components/project/project-card";
 
 const ProjectsFeatured = () => {
-    const { data, hasNextPage, fetchNextPage } =
-        trpc.ecoProjects.getAll.useInfiniteQuery({
-            limit: 3,
-            benefits: true,
-            location: true,
-        });
+    const { data } = trpc.ecoProjects.getAll.useInfiniteQuery({
+        limit: 3,
+        benefits: true,
+        location: true,
+    });
 
     if (!data) return <div>Loading...</div>;
     return (
@@ -18,24 +17,25 @@ const ProjectsFeatured = () => {
                         return projects.map(
                             ({
                                 projectID,
-                                ecoTitle,
-                                ecoUrl,
+                                title,
+                                identifier,
                                 intro,
-                                images,
+                                listImage,
                                 status,
                                 fundAmount,
                                 fundRecieved,
+                                location,
                             }) => (
                                 <ProjectCard
                                     key={projectID}
                                     status={status}
-                                    title={ecoTitle}
-                                    url={ecoUrl}
-                                    location={"ddd"}
-                                    intro={intro}
-                                    images={JSON.parse(images)}
-                                    fundAmount={fundAmount}
-                                    fundRecieved={fundRecieved}
+                                    title={title}
+                                    identifier={identifier}
+                                    location={location?.location}
+                                    intro={intro ?? undefined}
+                                    listImage={listImage ?? undefined}
+                                    fundAmount={fundAmount ?? undefined}
+                                    fundRecieved={fundRecieved ?? undefined}
                                 />
                             ),
                         );

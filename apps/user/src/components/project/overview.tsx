@@ -1,5 +1,6 @@
-import arrow_icon from "@ecotoken/ui/assets/icons/right-arrow.svg";
 import Image from "next/image";
+import arrow_icon from "@ecotoken/ui/assets/icons/right-arrow.svg";
+
 const overviews = [
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "Duis aute irure dolor in reprehenderit in voluptate",

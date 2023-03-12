@@ -9,19 +9,20 @@
 const config = {
     reactStrictMode: true,
     swcMinify: true,
-    experimental: {
-        // Enables hot-reload and easy integration for local packages
-        transpilePackages: [
-            "@ecotoken/api",
-            "@ecotoken/db",
-            "@ecotoken/auth",
-            "@ecotoken/ui",
-        ],
-    },
+    transpilePackages: [
+        "@ecotoken/api",
+        "@ecotoken/db",
+        "@ecotoken/auth",
+        "@ecotoken/ui",
+    ],
     // We already do linting on GH actions
     eslint: {
         ignoreDuringBuilds: !!process.env.CI,
     },
+    domains: [
+        process.env.NEXT_PUBLIC_CDN_URL?.replaceAll("https://", "") ?? "",
+        "eco-token.io",
+    ],
 };
 
 export default config;

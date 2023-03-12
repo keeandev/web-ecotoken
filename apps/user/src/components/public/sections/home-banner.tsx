@@ -1,7 +1,7 @@
-import banner_image from "@ecotoken/ui/assets/brand/head_nftsite-01.jpg";
-import Button from "@ecotoken/ui/components/Button";
 import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import banner_image from "@ecotoken/ui/assets/brand/head_nftsite-01.jpg";
+import Button from "@ecotoken/ui/components/Button";
 
 const ProjectsFeatured = () => {
     return (
@@ -11,7 +11,7 @@ const ProjectsFeatured = () => {
         >
             <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center bg-gradient-to-r from-black/70 to-transparent md:w-4/5"></div>
             <div className="relative flex min-h-[100px] w-full max-w-[1280px] justify-start align-bottom">
-                <div className="relative flex min-h-[50px] w-[95%] w-full flex-col-reverse md:w-[90%] lg:w-[75%]">
+                <div className="relative flex min-h-[50px] w-full flex-col-reverse md:w-[90%] lg:w-[75%]">
                     <div className="relative inline-block pl-4">
                         <h1 className="text-shadow p-0 text-center font-head text-3xl font-bold uppercase leading-none text-ecoblue-400 md:text-left md:text-5xl lg:text-6xl">
                             NFT impact offsetting

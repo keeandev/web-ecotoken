@@ -1,25 +1,25 @@
+import { useMemo, useState, type ChangeEvent } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { transformEnum } from "@/utils/transformer";
+import { trpc } from "@/utils/trpc";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { createId } from "@paralleldrive/cuid2";
+import { Country, State } from "country-state-city";
+import { toast } from "react-hot-toast";
+import { createEcoProjectSchema } from "@ecotoken/api/src/schema/project";
+import Button from "@ecotoken/ui/components/Button";
 import DefaultCard, {
     CardDescription,
     CardTitle,
 } from "@ecotoken/ui/components/Card";
-import { trpc } from "@/utils/trpc";
-import { useRouter } from "next/router";
-import { toast } from "react-hot-toast";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { createEcoProjectSchema } from "@ecotoken/api/src/schema/project";
 import Form, {
     FormInput,
     FormSelect,
     FormTextArea,
     useZodForm,
 } from "@ecotoken/ui/components/Form";
-import Button from "@ecotoken/ui/components/Button";
-import { type ChangeEvent, useMemo, useState } from "react";
-import { Country, State } from "country-state-city";
-import { transformEnum } from "@/utils/transformer";
-import { createId } from "@paralleldrive/cuid2";
 
 const CreateEcoProject = () => {
     const [images, setImages] = useState<{
@@ -45,7 +45,7 @@ const CreateEcoProject = () => {
         });
 
     const { mutateAsync: createUrls, isLoading: isCreatingUrls } =
-        trpc.upload.createPresignedUrl.useMutation();
+        trpc.spaces.createPresignedUrl.useMutation();
 
     const { data: ecoLocations, isLoading: fetchingEcoLocations } =
         trpc.ecoLocations.getAll.useInfiniteQuery({});

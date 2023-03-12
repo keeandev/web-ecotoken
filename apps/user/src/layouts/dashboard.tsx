@@ -1,4 +1,4 @@
-import PublicNavbar from "@/components/layout/public/navbar";
+import PublicNavbar from "@/components/public/layout/navbar";
 import { type NextPage } from "next";
 import Head from "next/head";
 
