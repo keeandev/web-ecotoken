@@ -1,8 +1,7 @@
-import Button, { type ButtonProps } from "@ecotoken/ui/components/Button";
+import React, { Fragment, forwardRef } from "react";
 import { Menu as HeadlessMenu } from "@headlessui/react";
-import type { VariantProps } from "class-variance-authority";
-import { cva, cx } from "class-variance-authority";
-import React, { Fragment } from "react";
+import { cva, cx, type VariantProps } from "class-variance-authority";
+import Button, { type ButtonProps } from "@ecotoken/ui/components/Button";
 
 const menuStyles = cva(["relative"], {
     variants: {
@@ -21,24 +20,26 @@ const menuStyles = cva(["relative"], {
 
 export interface MenuProps
     extends VariantProps<typeof menuStyles>,
-        React.ComponentProps<"div"> {}
-const Menu: React.FC<MenuProps> = ({
-    className,
-    alignButton,
-    inline,
-    children,
-    ...props
-}) => {
-    return (
-        <HeadlessMenu
-            as="div"
-            className={menuStyles({ alignButton, class: className, inline })}
-            {...props}
-        >
-            {children}
-        </HeadlessMenu>
-    );
-};
+        Omit<React.ComponentProps<"div">, "ref"> {}
+// eslint-disable-next-line react/display-name
+const Menu: React.FC<MenuProps> = forwardRef<HTMLElement, MenuProps>(
+    ({ className, alignButton, inline, children, ...props }, ref) => {
+        return (
+            <HeadlessMenu
+                as="div"
+                className={menuStyles({
+                    alignButton,
+                    class: className,
+                    inline,
+                })}
+                ref={ref}
+                {...props}
+            >
+                {children}
+            </HeadlessMenu>
+        );
+    },
+);
 
 const menuButtonStyles = cva([""], {
     variants: {

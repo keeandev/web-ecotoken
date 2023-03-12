@@ -1,7 +1,8 @@
+import { Fragment, forwardRef, useState } from "react";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Combobox as HeadlessCombobox, Transition } from "@headlessui/react";
-import { useState, forwardRef, Fragment } from "react";
+
 import Input, { type InputProps } from "../Input";
 
 declare module "react" {
@@ -32,12 +33,12 @@ export const Combobox = <T, K extends ItemFields>(
         items,
         value,
         onChange,
-        displayValue,
+        // displayValue,
         filterComparison,
         mainText,
         mainValue,
-        ...props
-    }: ComboboxProps<T, K>,
+    }: // ...props
+    ComboboxProps<T, K>,
     ref: React.Ref<HTMLDivElement>,
 ) => {
     const [query, setQuery] = useState("");
@@ -56,16 +57,16 @@ export const Combobox = <T, K extends ItemFields>(
             ref={ref}
         >
             <div className="relative w-full">
-                <HeadlessCombobox.Input
+                {/* <HeadlessCombobox.Input
                     as={Input}
                     size="full"
                     onChange={(event) => setQuery(event.target.value)}
-                    displayValue={(value: T) => {
+                    displayValue={(value: string) => {
                         return displayValue(filteredItems, value);
                     }}
                     {...props}
                     // disabled={disabled}
-                />
+                /> */}
                 <HeadlessCombobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
                     <FontAwesomeIcon
                         icon={faChevronDown}
