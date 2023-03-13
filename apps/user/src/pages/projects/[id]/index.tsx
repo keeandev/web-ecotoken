@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import DetailCard from "@/components/project/detail-card";
 import Overview from "@/components/project/overview";
 import ProjectCard from "@/components/project/project-card";
+import PublicLoading from "@/components/public/loading";
 import { trpc } from "@/utils/trpc";
 import credit_icon from "@ecotoken/ui/assets/icons/credits.svg";
 import Button from "@ecotoken/ui/components/Button";
@@ -25,14 +26,14 @@ const ProjectDetails = () => {
         location: true,
         series: true,
     });
-    if (!project) return <div>Loading...</div>;
+    if (!project) return <PublicLoading />;
 
     console.log(project);
 
     return (
         <div className="">
             <div className="relative">
-                <h1 className="absolute bottom-[1em] left-[2em] text-[48px] font-bold leading-none text-white">
+                <h1 className="absolute bottom-[1em] left-[3em] text-[48px] font-bold leading-none text-white">
                     {project.title}
                 </h1>
                 <Image
@@ -64,7 +65,7 @@ const ProjectDetails = () => {
                 )}
             </div>
             <div className="mx-[10em] mt-7 flex gap-10">
-                <div>
+                <div className="w-2/3">
                     <p className="text-[#7E7E7E]">{project.intro}</p>
                     <Overview />
                     <p className="text-[#7E7E7E]">{project.intro}</p>
@@ -74,7 +75,7 @@ const ProjectDetails = () => {
                                 <span className="text-[#7E7E7E]">
                                     Credit Type
                                 </span>
-                                <span className="text-[15px] font-semibold">
+                                <span className="text-[18px] font-semibold">
                                     {project.nftSeries?.seriesType}
                                 </span>
                             </div>
@@ -82,7 +83,7 @@ const ProjectDetails = () => {
                                 <span className="text-[#7E7E7E]">
                                     Price Per Ton
                                 </span>
-                                <span className="text-[15px] font-semibold">
+                                <span className="text-[18px] font-semibold">
                                     {`$${project.nftSeries?.creditPrice}`}
                                 </span>
                             </div>
@@ -92,7 +93,7 @@ const ProjectDetails = () => {
                                 <span className="text-[#7E7E7E]">
                                     Credits Available
                                 </span>
-                                <span className="text-[15px] font-semibold">
+                                <span className="text-[18px] font-semibold">
                                     {project.nftSeries?.setAmount?.toString() ??
                                         0}
                                 </span>
@@ -101,7 +102,7 @@ const ProjectDetails = () => {
                                 <span className="text-[#7E7E7E]">
                                     Credits Retired
                                 </span>
-                                <span className="text-[15px] font-semibold">
+                                <span className="text-[18px] font-semibold">
                                     893.37
                                 </span>
                             </div>
@@ -124,7 +125,10 @@ const ProjectDetails = () => {
                         </Button>
                     )}
                 </div>
-                <DetailCard />
+                <div className="w-1/3">
+                    {" "}
+                    <DetailCard />
+                </div>
             </div>
             {projects && (
                 <div className="mt-[13em]">

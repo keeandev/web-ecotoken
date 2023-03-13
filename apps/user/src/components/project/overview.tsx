@@ -16,7 +16,7 @@ const Overview = () => {
                 return (
                     <div
                         key={`Overview${index}`}
-                        className="flex items-center gap-5 text-[#7E7E7E]"
+                        className="flex items-center gap-8 pl-5 pt-3 text-[#7E7E7E]"
                     >
                         <Image
                             src={arrow_icon}

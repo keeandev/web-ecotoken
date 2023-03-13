@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import ProjectCard from "@/components/project/project-card";
+import PublicLoading from "@/components/public/loading";
 import ProjectsFeatured from "@/components/public/sections/home-banner";
 import { trpc } from "@/utils/trpc";
 
@@ -27,7 +28,7 @@ const Projects = () => {
         return () => main?.removeEventListener("scroll", handleScroll);
     }, [hasNextPage, fetchNextPage]);
 
-    if (!data) return <div>Loading...</div>;
+    if (!data) return <PublicLoading />;
     return (
         <div>
             {/* <BannerSection /> */}
