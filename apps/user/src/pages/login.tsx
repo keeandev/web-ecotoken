@@ -28,26 +28,27 @@ const Login = () => {
             // `publicKey` will be null if the wallet isn't connected
             if (!publicKey) throw new WalletNotConnectedError();
 
+            // remove sign part
             // `signMessage` will be undefined if the wallet doesn't support it
-            if (!signMessage)
-                throw new Error("Wallet does not support signing messages.");
+            // if (!signMessage)
+            //     throw new Error("Wallet does not support signing messages.");
 
-            // Encode anything as bytes
-            const message = new TextEncoder().encode(
-                `ecotokens.net wants you to sign in with your Solana account: ${publicKey} Clicking Sign or Approve only means you have proved this wallet is owned by you. This request will not trigger any blockchain transaction or cost any gas fee.`,
-            );
-            // Sign the bytes using the wallet
-            const signature = await signMessage(message);
-            // Verify that the bytes were signed using the private key that matches the known public key
-            // if (!sign.detached.verify(message, signature, publicKey.toBytes())) throw new Error('Invalid signature!');
+            // // Encode anything as bytes
+            // const message = new TextEncoder().encode(
+            //     `ecotokens.net wants you to sign in with your Solana account: ${publicKey} Clicking Sign or Approve only means you have proved this wallet is owned by you. This request will not trigger any blockchain transaction or cost any gas fee.`,
+            // );
+            // // Sign the bytes using the wallet
+            // const signature = await signMessage(message);
+            // // Verify that the bytes were signed using the private key that matches the known public key
+            // // if (!sign.detached.verify(message, signature, publicKey.toBytes())) throw new Error('Invalid signature!');
 
-            await mutateAsync({
-                publicKey: publicKey.toBase58(),
-                messageSignature: bs58.encode(signature),
-                message: bs58.encode(message),
-            });
+            // await mutateAsync({
+            //     publicKey: publicKey.toBase58(),
+            //     messageSignature: bs58.encode(signature),
+            //     message: bs58.encode(message),
+            // });
 
-            console.log(`Message signature: ${bs58.encode(signature)}`);
+            // console.log(`Message signature: ${bs58.encode(signature)}`);
         } catch (error: any) {
             console.log(`Signing failed: ${error?.message}`);
         }

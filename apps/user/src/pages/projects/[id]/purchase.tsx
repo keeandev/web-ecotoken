@@ -140,6 +140,7 @@ const PurchaseProject = () => {
                                 className="space-y-4"
                                 form={form}
                                 onSubmit={async (data) => {
+                                    console.log(data)
                                     // TODO: order
                                     if (!publicKey) return;
                                     await mutateAsync({

@@ -21,7 +21,7 @@ const ProjectsFeatured = ({
             <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center bg-gradient-to-r from-black/70 to-transparent md:w-4/5"></div>
             <div className="relative flex min-h-[100px] w-full max-w-[1280px] justify-start align-bottom">
                 <div className="relative flex min-h-[50px] w-full flex-col-reverse md:w-[90%] lg:w-[75%]">
-                    <div className="relative inline-block pl-4">
+                    <div className="relative inline-block pl-4 mb-8">
                         <h1 className="text-shadow p-0 text-center font-head text-3xl font-bold uppercase leading-none text-ecoblue-400 md:text-left md:text-5xl lg:text-6xl">
                             NFT impact offsetting
                         </h1>
@@ -32,7 +32,7 @@ const ProjectsFeatured = ({
                             Verifiable cross chain ecocredit retirement on
                             Solana with Carbon, Water, and Habitat&nbsp;credits
                         </p>
-                        <div className="relative flex w-[100%] justify-center md:justify-start">
+                        {/* <div className="relative flex w-[100%] justify-center md:justify-start">
                             <div className="flex">
                                 <Button
                                     intent={"sky"}
@@ -50,7 +50,7 @@ const ProjectsFeatured = ({
                                     </span>
                                 </Button>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
