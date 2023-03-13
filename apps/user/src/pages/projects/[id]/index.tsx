@@ -32,7 +32,7 @@ const ProjectDetails = () => {
     return (
         <div className="">
             <div className="relative">
-                <h1 className="absolute bottom-[1em] left-[2em] text-[48px] font-bold text-white">
+                <h1 className="absolute bottom-[1em] left-[2em] text-[48px] font-bold leading-none text-white">
                     {project.title}
                 </h1>
                 <Image
@@ -49,7 +49,7 @@ const ProjectDetails = () => {
                 {project.nftSeries?.isActive && (
                     <Button
                         intent={"sky"}
-                        className="mt-10 uppercase"
+                        className="absolute bottom-10 right-6 uppercase"
                         onClick={() => {
                             router.push(`/projects/${id}/purchase`);
                         }}

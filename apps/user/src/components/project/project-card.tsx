@@ -29,7 +29,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     const router = useRouter();
 
     return (
-        <div className="flex max-w-md flex-col rounded-md bg-slate-200 shadow-md">
+        <div className="flex max-w-md flex-col overflow-hidden rounded-md bg-white shadow-md">
             <Image
                 src={
                     listImage?.startsWith("https")
@@ -37,7 +37,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                         : `${process.env.NEXT_PUBLIC_CDN_URL}/${listImage}`
                 }
                 alt="EcoProject thumbnail image"
-                className="h-60 w-full rounded-md object-cover"
+                className="h-60 w-full object-cover shadow-lg"
                 width={300}
                 height={200}
             />
@@ -51,7 +51,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 <div>{intro}</div>
                 {hasSeries && (
                     <Button
-                        intent="primary"
+                        intent="skyfilled"
                         fullWidth
                         onClick={() =>
                             router.push(`/projects/${identifier}/purchase`)
@@ -61,11 +61,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                     </Button>
                 )}
                 <Button
-                    intent="secondary"
+                    intent="gray"
                     fullWidth
                     onClick={() => router.push(`/projects/${identifier}`)}
                 >
-                    Learn More
+                    View Detail
                 </Button>
             </div>
         </div>
