@@ -6,6 +6,7 @@ const ProjectsFeatured = () => {
         limit: 3,
         benefits: true,
         location: true,
+        series: true
     });
 
     if (!data) return <div>Loading...</div>;
@@ -25,6 +26,7 @@ const ProjectsFeatured = () => {
                                 fundAmount,
                                 fundRecieved,
                                 location,
+                                nftSeries,
                             }) => (
                                 <ProjectCard
                                     key={projectID}
@@ -36,6 +38,7 @@ const ProjectsFeatured = () => {
                                     listImage={listImage ?? undefined}
                                     fundAmount={fundAmount ?? undefined}
                                     fundRecieved={fundRecieved ?? undefined}
+                                    hasSeries={nftSeries?.isActive}
                                 />
                             ),
                         );
