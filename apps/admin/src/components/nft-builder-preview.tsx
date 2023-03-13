@@ -41,36 +41,42 @@ const NFTBuilderPreview = forwardRef<HTMLDivElement, NFTBuilderPreviewProps>(
         return image ? (
             <div
                 className={clsx(
-                    "relative overflow-hidden rounded-lg shadow-md",
+                    "relative block overflow-hidden rounded-lg border-8 border-yellow-500 shadow-md",
                     className,
                 )}
                 ref={ref}
                 {...props}
             >
-                <Image
-                    src={image}
-                    alt="NFT image"
-                    {...(!width && !height
-                        ? { fill: true }
-                        : { width, height })}
-                    style={{ objectFit: "cover" }}
-                    className="pointer-events-none select-none"
-                />
-                <div className="absolute bottom-4 left-4 text-white">
-                    <div>
-                        Credits: {credits} {symbol}
-                    </div>
-                    <div>Retired By: {retiredBy}</div>
-                    <div>Project: {project}</div>
-                    <div>Location: {location}</div>
-                    <div>Producer: {producer}</div>
-                    <div>Date: {date && date.toDateString()}</div>
-                    <div>Batch: {batch}</div>
-                </div>
+                <figure className="relative flex h-[640px] w-[640px] flex-col">
+                    <Image
+                        src={image}
+                        alt="NFT image"
+                        {...(!width && !height
+                            ? { fill: true }
+                            : { width, height })}
+                        style={{ objectFit: "cover" }}
+                        className="pointer-events-none select-none"
+                    />
+                    <figcaption className="absolute border border-pink-500">
+                        <div className="absolute border border-purple-500 shadow-md">
+                            <div className="absolute bottom-4 left-4 inline-block h-[300px] w-[400px] border-4 border-red-700 p-8 text-white">
+                                <div className="text-red-500">
+                                    Credits: {credits} {symbol}
+                                </div>
+                                <div>Retired By: {retiredBy}</div>
+                                <div>Project: {project}</div>
+                                <div>Location: {location}</div>
+                                <div>Producer: {producer}</div>
+                                <div>Date: {date && date.toDateString()}</div>
+                                <div>Batch: {batch}</div>
+                            </div>
+                        </div>
+                    </figcaption>
+                </figure>
             </div>
         ) : (
             <div className="relative flex rounded-lg border border-slate-400">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+                {}
                 <img
                     width={width}
                     height={height}
@@ -78,6 +84,7 @@ const NFTBuilderPreview = forwardRef<HTMLDivElement, NFTBuilderPreviewProps>(
                     alt=""
                     className="invisible"
                 />
+
                 <FontAwesomeIcon
                     icon={faFileImage}
                     size="xl"

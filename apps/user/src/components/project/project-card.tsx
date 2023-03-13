@@ -34,7 +34,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 src={
                     listImage?.startsWith("https")
                         ? listImage
-                        : `${process.env.NEXT_PUBLIC_CDN_URL}/${listImage}`
+                        : `${process.env.NEXT_PUBLIC_CDN_URL}/eco-projects/${listImage}`
                 }
                 alt="EcoProject thumbnail image"
                 className="h-60 w-full object-cover shadow-lg"

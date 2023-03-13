@@ -8,5 +8,13 @@
         }
     },
     "exclude": ["**/node_modules", "**/.*/"],
-    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"]
+    "include": [
+        "next-env.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        "**/*.cjs",
+        "**/*.mjs",
+        "../user/src/components/project/nft-preview.tsx",
+        "../user/src/components/project/nft-preview.tsx"
+    ]
 }
