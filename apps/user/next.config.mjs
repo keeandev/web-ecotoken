@@ -25,6 +25,7 @@ const config = {
             process.env.NEXT_PUBLIC_CDN_URL?.replaceAll("https://", "") ?? "",
             "regen-registry-server.herokuapp.com",
             "eco-token.io",
+            "cdn.discordapp.com",
         ],
         // remotePatterns: [
         //     {

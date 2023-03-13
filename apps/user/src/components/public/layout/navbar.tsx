@@ -66,7 +66,6 @@ const PublicNavbar = () => {
             }
         };
         main();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [publicKey, signMessage, connected]);
 
     return (

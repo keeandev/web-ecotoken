@@ -15,7 +15,7 @@ const HomePage = () => {
             <AllCredits />
             <CreatedByYou />
             <Grassroots />
-            <Responsive />
+            {/* <Responsive /> */}
         </div>
     );
 };

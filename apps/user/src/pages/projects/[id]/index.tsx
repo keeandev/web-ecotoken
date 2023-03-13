@@ -44,7 +44,7 @@ const ProjectDetails = () => {
                     height={200}
                 /> */}
                 <div
-                    className="h-60 min-h-[511px] w-full object-cover"
+                    className="h-100 min-h-[600px] w-full object-cover"
                     style={{
                         backgroundImage: `url(
                             ${
@@ -53,6 +53,7 @@ const ProjectDetails = () => {
                                     : `${process.env.NEXT_PUBLIC_CDN_URL}/${project.listImage}`
                             }
                         )`,
+                        backgroundSize: "cover",
                     }}
                 ></div>
                 <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center bg-gradient-to-r from-black/70 to-transparent md:w-4/5"></div>
@@ -74,11 +75,11 @@ const ProjectDetails = () => {
                 )}
             </div>
 
-            <h1 className="mx-[3em] mt-7 text-[48px] font-bold leading-none text-slate-800">
+            <h1 className="mx-2 mt-7 text-[48px] font-bold leading-none text-slate-800 sm:mx-[3em]">
                 {project.title}
             </h1>
 
-            <div className="mx-[10em] mt-7 flex flex-col gap-10 md:flex-row">
+            <div className="mx-4 mt-7 flex flex-col gap-10 sm:mx-[10em] md:flex-row">
                 <div className="w-full md:w-2/3">
                     <p className="text-[#7E7E7E]">{project.intro}</p>
                     <p className="mt-5 text-[1.25rem] text-slate-700">
@@ -151,14 +152,14 @@ const ProjectDetails = () => {
                     <DetailCard projectData={project} />
                 </div>
             </div>
-            <Responsive />
+            {/* <Responsive /> */}
             {projects && (
                 <div className="mt-[13em]">
                     <div className="mx-5 border-4 border-slate-300"></div>
-                    <h1 className="mt-8 text-center font-head text-[36px] font-semibold uppercase text-slate-600">
+                    <h1 className="mt-8 text-center font-head text-[36px] font-semibold uppercase leading-none text-slate-600">
                         Other projects for you to explore
                     </h1>
-                    <div className="grid w-full grid-cols-3 content-start gap-7  py-[5em] px-[7em]">
+                    <div className="grid w-full grid-cols-1 content-start gap-7 py-[5em]  px-8 sm:grid-cols-3 sm:px-[7em]">
                         {projects.pages.flatMap(({ projects }) => {
                             // console.log("Projects", projects);
                             return projects.map(

@@ -50,3 +50,6 @@ body {
     text-overflow: ellipsis;
     overflow: hidden;
 }
+.wallet-adapter-button {
+    line-height: 1 !important;
+}

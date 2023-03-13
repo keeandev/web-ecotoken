@@ -1,12 +1,12 @@
 const DetailCard = ({ projectData }: { projectData: any }) => {
     return (
         <div className="flex flex-col gap-5 rounded-md bg-white p-5 shadow-2xl">
-            <div className="flex flex-col gap-1">
+            {/* <div className="flex flex-col gap-1">
                 <h1 className="text-[18px] font-semibold uppercase">
                     Project Details
                 </h1>
                 <span className="text-[16px] text-[#7E7E7E]">Overview</span>
-            </div>
+            </div> */}
             <div className="flex flex-col gap-1">
                 <h1 className="text-[18px] font-semibold uppercase">
                     project activity
@@ -15,14 +15,14 @@ const DetailCard = ({ projectData }: { projectData: any }) => {
                     {projectData.status}
                 </span>
             </div>
-            <div className="flex flex-col gap-1">
+            {/* <div className="flex flex-col gap-1">
                 <h1 className="text-[18px] font-semibold uppercase">
                     project type
                 </h1>
                 <span className="text-[16px] text-[#7E7E7E]">
                     Agriculture Forestry and Other Land Use
                 </span>
-            </div>
+            </div> */}
             <div className="flex flex-col gap-1">
                 <h1 className="text-[18px] font-semibold uppercase">
                     Reference ID (CFC Project id)
