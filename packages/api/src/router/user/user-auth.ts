@@ -12,6 +12,7 @@ import {
 import { publicProcedure, router } from "../../trpc";
 
 export const userAuthRouter = router({
+    isLoggedIn: publicProcedure.query(({ ctx }) => !!ctx.session?.user?.id),
     emailVerification: publicProcedure
         .input(
             z.object({

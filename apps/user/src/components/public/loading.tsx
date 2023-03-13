@@ -6,10 +6,11 @@ const PublicLoading = () => {
         <div className="fixed z-10 flex h-full w-full items-center justify-center bg-white">
             <Image
                 className=""
-                src={LoadingImage.src}
+                src={LoadingImage}
                 alt="loading"
                 width={200}
                 height={200}
+                quality={100}
             ></Image>
         </div>
     );

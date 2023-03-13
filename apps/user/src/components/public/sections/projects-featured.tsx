@@ -1,6 +1,8 @@
 import ProjectCard from "@/components/project/project-card";
 import { trpc } from "@/utils/trpc";
 
+import { formatCountryAndState } from "../../../../../admin/src/utils/formatter";
+
 const ProjectsFeatured = () => {
     const { data } = trpc.ecoProjects.getAll.useInfiniteQuery({
         limit: 3,
@@ -33,7 +35,11 @@ const ProjectsFeatured = () => {
                                     status={status}
                                     title={title}
                                     identifier={identifier}
-                                    location={location?.location}
+                                    location={formatCountryAndState(
+                                        location?.location ?? "",
+                                        location?.cn ?? "",
+                                        location?.st ?? "",
+                                    )}
                                     intro={intro ?? undefined}
                                     listImage={listImage ?? undefined}
                                     fundAmount={fundAmount ?? undefined}

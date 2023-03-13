@@ -1,13 +1,13 @@
+import { useRouter } from "next/router";
+import { formatEnum } from "@/utils/formatter";
+import { trpc } from "@/utils/trpc";
+import { createColumnHelper } from "@tanstack/react-table";
 import Button from "@ecotoken/ui/components/Button";
 import DefaultCard, {
     CardDescription,
     CardTitle,
 } from "@ecotoken/ui/components/Card";
 import Table from "@ecotoken/ui/components/Table";
-import { useRouter } from "next/router";
-import { createColumnHelper } from "@tanstack/react-table";
-import { trpc } from "@/utils/trpc";
-import { transformEnum } from "@/utils/transformer";
 
 type Unarrayify<T> = T extends Array<infer E> ? E : T;
 
@@ -26,7 +26,7 @@ const EcoProjectsList = () => {
         }),
         columnHelper.accessor("status", {
             header: "Status",
-            cell: (info) => transformEnum(info.getValue()),
+            cell: (info) => formatEnum(info.getValue()),
         }),
         columnHelper.accessor("shortTitle", {
             header: "Short Title",
@@ -39,7 +39,7 @@ const EcoProjectsList = () => {
         }),
         columnHelper.accessor("ecoType", {
             header: "Project Type",
-            cell: (info) => transformEnum(info.getValue()),
+            cell: (info) => formatEnum(info.getValue()),
         }),
         columnHelper.accessor("createdAt", {
             header: "Created At",
@@ -67,11 +67,7 @@ const EcoProjectsList = () => {
                         </Button>
                     </div>
                 </div>
-                <Table
-                    data={projects ?? []}
-                    columns={columns}
-                    fullWidth
-                />
+                <Table data={projects ?? []} columns={columns} fullWidth />
             </DefaultCard>
         </div>
     );

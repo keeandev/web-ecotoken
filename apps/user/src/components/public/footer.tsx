@@ -1,22 +1,16 @@
-import bkgd_wave from "@ecotoken/ui/assets/brand/bkgd_wave.png";
-import white_bevel from "@ecotoken/ui/assets/brand/bevel_white_lg.png";
-import Button from "@ecotoken/ui/components/Button";
 import Image from "next/image";
-import logo from "@ecotoken/ui/assets/brand/logo_ecotoken-wm-600.png";
-import icon_twitter from "@ecotoken/ui/assets/icons/icon_twitter06.png";
-import icon_telegram from "@ecotoken/ui/assets/icons/icon_telegram06.png";
-import icon_discord from "@ecotoken/ui/assets/icons/icon_discord06.png";
-import icon_linkedin from "@ecotoken/ui/assets/icons/icon_linkedin06.png";
-import icon_gitcoin from "@ecotoken/ui/assets/icons/icon_gitcoin06.png";
 import Link from "next/link";
 import {
-    faLinkedinIn,
-    faTwitter,
     faDiscord,
+    faLinkedinIn,
     faTelegram,
-    faTelegramPlane,
+    faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import white_bevel from "@ecotoken/ui/assets/brand/bevel_white_lg.png";
+import bkgd_wave from "@ecotoken/ui/assets/brand/bkgd_wave.png";
+import logo from "@ecotoken/ui/assets/brand/logo_ecotoken-wm-600.png";
+import Button from "@ecotoken/ui/components/Button";
 
 const PublicFooter = () => {
     return (

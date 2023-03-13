@@ -1,7 +1,7 @@
 import { useMemo, useState, type ChangeEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { transformEnum } from "@/utils/transformer";
+import { formatEnum } from "@/utils/formatter";
 import { trpc } from "@/utils/trpc";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -214,7 +214,7 @@ const CreateEcoProject = () => {
                         {createEcoProjectSchema.shape.ecoType.options?.map(
                             (type) => (
                                 <option key={type} value={type}>
-                                    {transformEnum(type)}
+                                    {formatEnum(type)}
                                 </option>
                             ),
                         )}
@@ -228,7 +228,7 @@ const CreateEcoProject = () => {
                         {createEcoProjectSchema.shape.status.options?.map(
                             (type) => (
                                 <option key={type} value={type}>
-                                    {transformEnum(type)}
+                                    {formatEnum(type)}
                                 </option>
                             ),
                         )}

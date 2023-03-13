@@ -146,13 +146,13 @@ const usersToCreate: CreateUserOperation[] = [
         companyName: "NOAH Solutions",
     },
     {
-        email: "aaron@wacomet.com ",
+        email: "aaron@wacomet.com",
         walletAddress: "2",
         firstName: "Alan",
         lastName: "https://www.rh2o.app",
         username: "aaron",
         role: "Producer",
-        site: "ecoTokenp",
+        site: "ecoToken",
         companyName: "Wacomet Water Co.",
     },
     {
@@ -161,7 +161,7 @@ const usersToCreate: CreateUserOperation[] = [
         lastName: "https://wrlandconservancy.org/",
         role: "Producer",
         site: "ecoToken",
-        companyName: "Western Reserve Land Conservancy",
+        companyName: "Western Reserve Land Conservatory",
     },
     {
         email: "user@kingcounty.gov",
@@ -174,7 +174,7 @@ const usersToCreate: CreateUserOperation[] = [
     },
     {
         email: "user@regen.network",
-        walletAddress: "7",
+        walletAddress: "5",
         lastName: "https://regen.network",
         username: "Regen",
         role: "Verifier",
@@ -213,34 +213,34 @@ const projectsToCreate: CreateProjectOperation[] = [
         dateStart: new Date("2022-05-01"),
         dateEnd: new Date("2022-09-30"),
     },
-    // {
-    //     title: "Solar Desalination Plant - Class I Water Credits (RH2O-potable)",
-    //     shortTitle: "Solar Desalination Plant",
-    //     identifier: "Wacomet001",
-    //     producer: "Wacomet001",
-    //     intro: "The project represents the first full-scale, renewable-energy powered, zero discharge desalination plant capable of regenerating fresh water from saltwater using advanced desalination. The project utilizes distributed desalination, which differs greatly from conventional coastal desalination, because solar energy is used to treat inland-brackish water with no brine discharge and 100% water recovery.",
-    //     location: "Central Valley",
-    //     benefits:,
-    //     project: `<p>The project represents the first full-scale, renewable-energy powered, zero discharge desalination plant capable of regenerating fresh water from saltwater using advanced desalination. The project utilizes distributed desalination, which differs greatly from conventional coastal desalination, because solar energy is used to treat inland-brackish water with no brine discharge and 100% water recovery.</p>
+    {
+        title: "Solar Desalination Plant - Class I Water Credits (RH2O-potable)",
+        shortTitle: "Solar Desalination Plant",
+        identifier: "Wacomet001",
+        producer: "Wacomet Water Co.",
+        intro: "The project represents the first full-scale, renewable-energy powered, zero discharge desalination plant capable of regenerating fresh water from saltwater using advanced desalination. The project utilizes distributed desalination, which differs greatly from conventional coastal desalination, because solar energy is used to treat inland-brackish water with no brine discharge and 100% water recovery.",
+        location: "Central Valley",
+        benefits: [],
+        project: `<p>The project represents the first full-scale, renewable-energy powered, zero discharge desalination plant capable of regenerating fresh water from saltwater using advanced desalination. The project utilizes distributed desalination, which differs greatly from conventional coastal desalination, because solar energy is used to treat inland-brackish water with no brine discharge and 100% water recovery.</p>
 
-    //     <p>This results in near zero environmental impact as the residual salts are recovered and recycled as usable solids and converted into value-added byproducts. Using solar energy to power desalination lowers the carbon footprint, enables co-generation of both clean energy and affordable water and accelerates project deployment.</p>
+        <p>This results in near zero environmental impact as the residual salts are recovered and recycled as usable solids and converted into value-added byproducts. Using solar energy to power desalination lowers the carbon footprint, enables co-generation of both clean energy and affordable water and accelerates project deployment.</p>
 
-    //     <p> This plant will generate two million gallons a day (2MGD) of ultra-clean water for large tech companies in Santa Clara Valley and provide a direct, verifiable and highly impactful technology solution to achieve corporate water goals.</p>`,
-    //     overview: "",
-    //     process: "",
-    //     listImage:
-    //         "https://eco-token.io/images/ecoproject/head_wacoment-01.jpg",
-    //     headImage:
-    //         "https://eco-token.io/images/ecoproject/head_wacoment-01.jpg",
-    //     site: "ecoToken",
-    //     status: "ACTIVE",
-    //     creditType: "CARBON",
-    //     fundAmount: 80000,
-    //     fundRecieved: 2000,
-    //     return: 1.5,
-    //     dateStart: new Date("2022-05-01"),
-    //     dateEnd: new Date("2022-09-30"),
-    // },
+        <p> This plant will generate two million gallons a day (2MGD) of ultra-clean water for large tech companies in Santa Clara Valley and provide a direct, verifiable and highly impactful technology solution to achieve corporate water goals.</p>`,
+        overview: "",
+        process: "",
+        listImage:
+            "https://eco-token.io/images/ecoproject/head_wacoment-01.jpg",
+        headImage:
+            "https://eco-token.io/images/ecoproject/head_wacoment-01.jpg",
+        site: "ecoToken",
+        status: "ACTIVE",
+        creditType: "CARBON",
+        fundAmount: 80000,
+        fundRecieved: 2000,
+        return: 1.5,
+        dateStart: new Date("2022-05-01"),
+        dateEnd: new Date("2022-09-30"),
+    },
     {
         title: "Green Waste Treatment in Calgary Alberta",
         shortTitle: "Green Waste Treatment",
@@ -274,7 +274,7 @@ const projectsToCreate: CreateProjectOperation[] = [
         dateEnd: new Date("2022-12-31"),
     },
     {
-        title: "Ranchland Groundwater Treatment",
+        title: "Ranchland Groundwater Treatment in Pincher Creek Alberta",
         shortTitle: "Groundwater Treatment",
         identifier: "Groundwater001",
         producer: "NOAH Solutions",
@@ -305,34 +305,32 @@ const projectsToCreate: CreateProjectOperation[] = [
         dateStart: new Date("2022-11-16"),
         dateEnd: new Date("2022-09-30"),
     },
-    {
-        title: "Ocean Wise - Howe Sound Seaforestation",
-        shortTitle: "Ocean Wise - Howe Sound Seaforestation",
-        identifier: "Oceanwise001",
-        producer: "NOAH Solutions",
-        intro: "Kelp forests are rich habitat for marine life, including commercially important fish and invertebrates. Kelp naturally capture carbon in large volumes some of which gets trapped in the ocean floor for centuries.",
-        location: "Howe Sound",
-        benefits: ["Ecosystem Health", "Greenhouse Gas", "Ocean Health"],
-        project: "",
-        overview: `5,000ha of kelp will be restored and cultivated\n
-        14,600 tonnes of CO2 stored\n
-        Restore marine habitat\n
-        Combat ocean acidification\n
-        Creating economic opportunities for Indigenous and coastal communities`,
-        process: "",
-        listImage:
-            "https://eco-token.io/images/ecoproject/head_oceanwise_kelp01.jpg",
-        headImage:
-            "https://eco-token.io/images/ecoproject/head_oceanwise_kelp01.jpg",
-        site: "ecoToken",
-        status: "DATA_ENTRY",
-        creditType: "WATER",
-        fundAmount: 70000,
-        fundRecieved: 8000,
-        return: 1.5,
-        dateStart: new Date("2022-09-07"),
-        dateEnd: new Date("2023-12-24"),
-    },
+    // {
+    //     title: "Ocean Wise - Howe Sound Seaforestation",
+    //     shortTitle: "Ocean Wise - Howe Sound Seaforestation",
+    //     identifier: "Oceanwise001",
+    //     producer: "NOAH Solutions",
+    //     intro: "Kelp forests are rich habitat for marine life, including commercially important fish and invertebrates. Kelp naturally capture carbon in large volumes some of which gets trapped in the ocean floor for centuries.",
+    //     location: "Howe Sound",
+    //     benefits: ["Ecosystem Health", "Greenhouse Gas", "Ocean Health"],
+    //     overview: `5,000ha of kelp will be restored and cultivated\n
+    //     14,600 tonnes of CO2 stored\n
+    //     Restore marine habitat\n
+    //     Combat ocean acidification\n
+    //     Creating economic opportunities for Indigenous and coastal communities`,
+    //     listImage:
+    //         "https://eco-token.io/images/ecoproject/head_oceanwise_kelp01.jpg",
+    //     headImage:
+    //         "https://eco-token.io/images/ecoproject/head_oceanwise_kelp01.jpg",
+    //     site: "ecoToken",
+    //     status: "DATA_ENTRY",
+    //     creditType: "WATER",
+    //     fundAmount: 70000,
+    //     fundRecieved: 8000,
+    //     return: 1.5,
+    //     dateStart: new Date("2022-09-07"),
+    //     dateEnd: new Date("2023-12-24"),
+    // },
     {
         title: "Sandy Cross Forest Preservation Project",
         shortTitle: "Sandy Cross Forest Preservation",
@@ -372,10 +370,9 @@ const projectsToCreate: CreateProjectOperation[] = [
         intro: "Launched in May 2019, King County’s Forest Carbon Project confronts climate change by offering local companies the opportunity to offset their carbon emissions by keeping forests intact here in the region, making it possible for their employees and their families to explore and enjoy the protected outdoor spaces.",
         location: "King County",
         benefits: ["Preservation", "Wildlife Habitat", "Climate"],
-        project: `<p>Launched in May 2019, King County’s Forest Carbon Project confronts climate change by offering local companies the opportunity to offset their carbon emissions by keeping forests intact here in the region, making it possible for their employees and their families to explore and enjoy the protected outdoor spaces.
-</p> 
-<p>Preservation of the Project is important as intact forests of this size are becoming increasingly rare in Richland County due to agricultural development and urban expansion. Indeed, surrounding forested land is being rapidly converted into agricultural land and is facing a continued threat of urban expansion from the adjacent Village of Lexington.
-</p> <p>The Project contains a diverse, 85-year forest including yellow poplar, sugar maple, oak, black cherry, and pine. Preservation of this forest will offer the residents of Northeast Ohio a wide variety of community and conservation benefits.</p>`,
+        project: `<p>Launched in May 2019, King County’s Forest Carbon Project confronts climate change by offering local companies the opportunity to offset their carbon emissions by keeping forests intact here in the region, making it possible for their employees and their families to explore and enjoy the protected outdoor spaces.</p>
+        <p>Preservation of the Project is important as intact forests of this size are becoming increasingly rare in Richland County due to agricultural development and urban expansion. Indeed, surrounding forested land is being rapidly converted into agricultural land and is facing a continued threat of urban expansion from the adjacent Village of Lexington.
+        </p> <p>The Project contains a diverse, 85-year forest including yellow poplar, sugar maple, oak, black cherry, and pine. Preservation of this forest will offer the residents of Northeast Ohio a wide variety of community and conservation benefits.</p>`,
         overview: `<p><b>Offset Generation Method</b><br>Avoided Emissions</p>
         <p><b>Project Activity</b><br>Tree Preservation</p>
         <p><b>Project Type</b><br>Agriculture Forestry and Other Land Use</p>
@@ -397,7 +394,7 @@ const projectsToCreate: CreateProjectOperation[] = [
         dateEnd: new Date("2118-12-14"),
     },
     {
-        title: "Lapin Septic Treatment System",
+        title: "Lapin Septic Treatment System in Orlando Florida",
         shortTitle: "Lapin Septic Treatment",
         identifier: "Lapin001",
         producer: "NOAH Solutions",
@@ -420,27 +417,51 @@ const projectsToCreate: CreateProjectOperation[] = [
         dateStart: new Date("2023-05-14"),
         dateEnd: new Date("2028-12-14"),
     },
+    {
+        title: "Septic Treatment Project - Class II Water Credit - Agriculture",
+        shortTitle: "Septic Treatment Project",
+        identifier: "Septic001",
+        producer: "NOAH Solutions",
+        location: "Orlando",
+        intro: `On-site treatment of septic water with distilled level water put back into the local water system.`,
+        benefits: [],
+        project: `<p>The septic waste disposal facility in Orlando, Florida is seeking a new technology that will provide a more environmentally friendly solution for the treatment of septic wastewater. Currently, 15% of septic waste is transported to a landfill, where it releases methane emissions, and the remaining 85% is treated with lime before it is shipped 250 miles to Georgia and sprayed on agricultural fields. This process has significant CO2 emissions and can lead to the accumulation of excess nutrients in the soil.</p> <p>The proposed dehumidification technology by NOAH Solutions will allow for the treatment of 100% of the septic waste water on site. It is expected that only 8% solids will remain. The solid waste will be sterilized and suitable as fertilizer. The remaining 92% of potable water (PPM below 70) will meet approved guidelines and will be disposed of back into the Florida public water system. This will eliminate the need for transportation and the potential of harmful minerals seeping into agricultural land.</p>`,
+        overview: "",
+        process: "",
+        listImage:
+            "https://cdn.discordapp.com/attachments/883467545145925632/1084956843387928658/IMG_7143.JPG",
+        headImage:
+            "https://cdn.discordapp.com/attachments/883467545145925632/1084956843387928658/IMG_7143.JPG",
+        site: "ecoToken",
+        status: "ACTIVE",
+        creditType: "WATER",
+        fundAmount: 0,
+        fundRecieved: 0,
+        return: 0,
+        dateStart: new Date("2023-05-14"),
+        dateEnd: new Date("2028-12-14"),
+    },
 ];
 
 const nftSeriesToCreate: NftSeriesOperation[] = [
-    {
-        project: "Oceanwise001",
-        seriesName: "Oceanwise001",
-        seriesImage: "https://eco-token.io/images/nft/NFT_bkgd_Oceanwise.png",
-        seriesType: "C02",
-        regenBatch: "C02-002",
-        setAmount: 1200,
-        totalCredits: 1500,
-        creditPrice: 29.45,
-        retireWallet: "",
-        recieveWallet: "",
-        creditWallet: "",
-        creditKey: "",
-    },
+    // {
+    //     project: "Oceanwise001",
+    //     seriesName: "Oceanwise001",
+    //     seriesImage: "https://eco-token.io/images/nft/NFT_bkgd_Oceanwise.png",
+    //     seriesType: "C02",
+    //     regenBatch: "C02-002",
+    //     setAmount: 1200,
+    //     totalCredits: 1500,
+    //     creditPrice: 29.45,
+    //     retireWallet: "",
+    //     recieveWallet: "",
+    //     creditWallet: "",
+    //     creditKey: "",
+    // },
     {
         project: "KingCounty001",
         seriesName: "KingCounty001",
-        seriesImage: "",
+        seriesImage: "https://eco-token.io/images/nft/NFT_bkgd_KingCounty.png",
         seriesType: "C02",
         regenBatch: "C02-001-20180101-20181231-001",
         setAmount: 5553,
@@ -454,7 +475,7 @@ const nftSeriesToCreate: NftSeriesOperation[] = [
     {
         project: "Lapin001",
         seriesName: "Lapin001",
-        seriesImage: "",
+        seriesImage: "https://eco-token.io/images/nft/NFT_bkgd_Lapin.png",
         seriesType: "RH2O-02",
         regenBatch: "RH2O-02",
         setAmount: 5553,
@@ -464,35 +485,52 @@ const nftSeriesToCreate: NftSeriesOperation[] = [
         recieveWallet: "",
         creditWallet: "",
         creditKey: "",
+        isActive: false,
     },
-    // {
-    //     project: "Wacomet001",
-    //     seriesName: "Wacomet001",
-    //     seriesImage: "",
-    //     seriesType: "RH2O-01",
-    //     regenBatch: "RH2O-02=1",
-    //     setAmount: 5553,
-    //     totalCredits: 12600,
-    //     creditPrice: 1.17,
-    //     retireWallet: "",
-    //     recieveWallet: "",
-    //     creditWallet: "",
-    //     creditKey: "",
-    // },
-    // {
-    //     project: "Sandycross001",
-    //     seriesName: "Sandycross001",
-    //     seriesImage: "https://eco-token.io/images/nft/NFT_bkgd_SandyCross.png",
-    //     seriesType: "C02",
-    //     regenBatch: "C02-002-20211012-20241013-001",
-    //     setAmount: 5553,
-    //     totalCredits: 6497,
-    //     creditPrice: 30.25,
-    //     retireWallet: "",
-    //     recieveWallet: "",
-    //     creditWallet: "",
-    //     creditKey: "",
-    // },
+    {
+        project: "Wacomet001",
+        seriesName: "Wacomet001",
+        seriesImage: "https://eco-token.io/images/nft/NFT_bkgd_Wacomet.png",
+        seriesType: "RH2O-01",
+        regenBatch: "RH2O-02=1",
+        setAmount: 5553,
+        totalCredits: 12600,
+        creditPrice: 1.17,
+        retireWallet: "",
+        recieveWallet: "",
+        creditWallet: "",
+        creditKey: "",
+        isActive: false,
+    },
+    {
+        project: "Sandycross001",
+        seriesName: "Sandycross001",
+        seriesImage: "https://eco-token.io/images/nft/NFT_bkgd_SandyCross.png",
+        seriesType: "C02",
+        regenBatch: "C02-002-20211012-20241013-001",
+        setAmount: 5553,
+        totalCredits: 6497,
+        creditPrice: 30.25,
+        retireWallet: "",
+        recieveWallet: "",
+        creditWallet: "",
+        creditKey: "",
+    },
+    {
+        project: "Septic001",
+        seriesName: "Septic001",
+        seriesImage: "https://eco-token.io/images/nft/NFT_bkgd_Wacomet.png",
+        seriesType: "RH20-02",
+        regenBatch: "RH20-03=1",
+        setAmount: 5553,
+        totalCredits: 6497,
+        creditPrice: 30.25,
+        retireWallet: "",
+        recieveWallet: "",
+        creditWallet: "",
+        creditKey: "",
+        isActive: false,
+    },
 ];
 
 // https://eco-token.io/images/nft/NFT_bkgd_KingCounty.png
@@ -798,40 +836,33 @@ const main = async () => {
                 })),
             },
         });
-        if (
-            selectedBenefits &&
-            selectedLocation &&
-            selectedProducer &&
-            selectedSite
-        ) {
-            // bad way to seed projects
-            const databaseProject = await prisma.ecoProject.create({
-                data: {
-                    ...project,
-                    producer: {
-                        connect: {
-                            userID: selectedProducer.userID,
-                        },
-                    },
-                    site: {
-                        connect: {
-                            siteID: selectedSite.siteID,
-                        },
-                    },
-                    location: {
-                        connect: {
-                            locationID: selectedLocation.locationID,
-                        },
-                    },
-                    benefits: {
-                        connect: selectedBenefits?.map(({ benefitID }) => ({
-                            benefitID,
-                        })),
+        // bad way to seed projects
+        const databaseProject = await prisma.ecoProject.create({
+            data: {
+                ...project,
+                producer: {
+                    connect: {
+                        userID: selectedProducer!.userID,
                     },
                 },
-            });
-            console.log("Created " + databaseProject.shortTitle);
-        }
+                site: {
+                    connect: {
+                        siteID: selectedSite!.siteID,
+                    },
+                },
+                location: {
+                    connect: {
+                        locationID: selectedLocation!.locationID,
+                    },
+                },
+                benefits: {
+                    connect: selectedBenefits?.map(({ benefitID }) => ({
+                        benefitID,
+                    })),
+                },
+            },
+        });
+        console.log("Created " + databaseProject.shortTitle);
     }
     console.log("Created ecoProjects.");
 

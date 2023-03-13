@@ -23,6 +23,8 @@ const WalletMultiButtonDynamic = dynamic(
 const PublicNavbar = () => {
     const { publicKey, signMessage, connected } = useWallet();
 
+    const { data: isLoggedIn } = trpc.userAuth.isLoggedIn.useQuery();
+
     const { mutateAsync } = trpc.userAuth.login.useMutation({
         retry: false,
         onSuccess() {
@@ -40,25 +42,24 @@ const PublicNavbar = () => {
                 if (!publicKey || !connected)
                     throw new WalletNotConnectedError();
 
-                // remove sign part
                 // `signMessage` will be undefined if the wallet doesn't support it
-                // if (!signMessage)
-                //     throw new Error(
-                //         "Wallet does not support signing messages.",
-                //     );
+                if (!signMessage)
+                    throw new Error(
+                        "Wallet does not support signing messages.",
+                    );
 
-                // // Encode anything as bytes
-                // const message = new TextEncoder().encode(
-                //     `ecotokens.net wants you to sign in with your Solana account: ${publicKey} Clicking Sign or Approve only means you have proved this wallet is owned by you. This request will not trigger any blockchain transaction or cost any gas fee.`,
-                // );
-                // // Sign the bytes using the wallet
-                // const signature = await signMessage(message);
+                // Encode anything as bytes
+                const message = new TextEncoder().encode(
+                    `ecotokens.net wants you to sign in with your Solana account: ${publicKey} Clicking Sign or Approve only means you have proved this wallet is owned by you. This request will not trigger any blockchain transaction or cost any gas fee.`,
+                );
+                // Sign the bytes using the wallet
+                const signature = await signMessage(message);
 
-                // await mutateAsync({
-                //     publicKey: publicKey.toBase58(),
-                //     messageSignature: bs58.encode(signature),
-                //     message: bs58.encode(message),
-                // });
+                await mutateAsync({
+                    publicKey: publicKey.toBase58(),
+                    messageSignature: bs58.encode(signature),
+                    message: bs58.encode(message),
+                });
 
                 // console.log(`Message signature: ${bs58.encode(signature)}`);
             } catch (error: any) {
@@ -124,14 +125,13 @@ const PublicNavbar = () => {
                     )} */}
                 </nav>
                 <div className="mr-4 flex h-full items-center">
-                    {/* {publicKey ? (
+                    {publicKey ? (
                         <div className="px-10">
                             <UserDropdown />
                         </div>
                     ) : (
                         <WalletMultiButtonDynamic />
-                    )} */}
-                    <WalletMultiButtonDynamic />
+                    )}
                 </div>
             </div>
         </div>

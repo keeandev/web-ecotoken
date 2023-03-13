@@ -1,5 +1,5 @@
 import { useMemo, useState, type ChangeEvent } from "react";
-import { transformEnum } from "@/utils/transformer";
+import { formatEnum } from "@/utils/formatter";
 import { trpc } from "@/utils/trpc";
 import { createId } from "@paralleldrive/cuid2";
 import { useMutation } from "@tanstack/react-query";
@@ -143,7 +143,7 @@ const NFTSeries: React.FC = () => {
                     {createNFTSeriesSchema.shape.seriesType.options?.map(
                         (type) => (
                             <option key={type} value={type}>
-                                {transformEnum(type)}
+                                {formatEnum(type)}
                             </option>
                         ),
                     )}

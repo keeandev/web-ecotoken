@@ -9,6 +9,8 @@ import { trpc } from "@/utils/trpc";
 import credit_icon from "@ecotoken/ui/assets/icons/credits.svg";
 import Button from "@ecotoken/ui/components/Button";
 
+import { formatCountryAndState } from "../../../../../admin/src/utils/formatter";
+
 const ProjectDetails = () => {
     const router = useRouter();
     const { id } = router.query;
@@ -83,53 +85,54 @@ const ProjectDetails = () => {
                 <div className="w-full md:w-2/3">
                     <p className="text-[#7E7E7E]">{project.intro}</p>
                     <p className="mt-5 text-[1.25rem] text-slate-700">
-                        {project.location.location +
-                            ", " +
-                            project.location.st +
-                            ", " +
-                            project.location.cn}
+                        {formatCountryAndState(
+                            project.location?.location ?? "",
+                            project.location?.cn ?? "",
+                            project.location?.st ?? "",
+                        )}
                     </p>
-                    {console.log("**************", project)}
-                    <Overview datas={project.overview} />
-                    <div className="mt-[5em] flex w-[300px] justify-between">
-                        <div className="flex flex-col gap-5">
-                            <div className="flex flex-col">
-                                <span className="text-[#7E7E7E]">
-                                    Credit Type
-                                </span>
-                                <span className="text-[18px] font-semibold">
-                                    {project.nftSeries?.seriesType}
-                                </span>
+                    <Overview datas={project.overview ?? undefined} />
+                    {project.nftSeries?.isActive && (
+                        <div className="mt-[5em] flex w-[300px] justify-between">
+                            <div className="flex flex-col gap-5">
+                                <div className="flex flex-col">
+                                    <span className="text-[#7E7E7E]">
+                                        Credit Type
+                                    </span>
+                                    <span className="text-[18px] font-semibold">
+                                        {project.nftSeries?.seriesType}
+                                    </span>
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-[#7E7E7E]">
+                                        Price Per Ton
+                                    </span>
+                                    <span className="text-[18px] font-semibold">
+                                        {`$${project.nftSeries?.creditPrice}`}
+                                    </span>
+                                </div>
                             </div>
-                            <div className="flex flex-col">
-                                <span className="text-[#7E7E7E]">
-                                    Price Per Ton
-                                </span>
-                                <span className="text-[18px] font-semibold">
-                                    {`$${project.nftSeries?.creditPrice}`}
-                                </span>
+                            <div className="flex flex-col gap-5">
+                                <div className="flex flex-col">
+                                    <span className="text-[#7E7E7E]">
+                                        Credits Available
+                                    </span>
+                                    <span className="text-[18px] font-semibold">
+                                        {project.nftSeries?.setAmount?.toString() ??
+                                            0}
+                                    </span>
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-[#7E7E7E]">
+                                        Credits Retired
+                                    </span>
+                                    <span className="text-[18px] font-semibold">
+                                        893.37
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                        <div className="flex flex-col gap-5">
-                            <div className="flex flex-col">
-                                <span className="text-[#7E7E7E]">
-                                    Credits Available
-                                </span>
-                                <span className="text-[18px] font-semibold">
-                                    {project.nftSeries?.setAmount?.toString() ??
-                                        0}
-                                </span>
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[#7E7E7E]">
-                                    Credits Retired
-                                </span>
-                                <span className="text-[18px] font-semibold">
-                                    893.37
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                    )}
                     {project.nftSeries?.isActive && (
                         <Button
                             intent={"sky"}
@@ -180,7 +183,11 @@ const ProjectDetails = () => {
                                         title={title}
                                         identifier={identifier}
                                         listImage={listImage ?? undefined}
-                                        location={project.location?.location}
+                                        location={formatCountryAndState(
+                                            project.location?.location ?? "",
+                                            project.location?.cn ?? "",
+                                            project.location?.st ?? "",
+                                        )}
                                         intro={intro ?? undefined}
                                         fundAmount={fundAmount ?? undefined}
                                         fundRecieved={fundRecieved ?? undefined}

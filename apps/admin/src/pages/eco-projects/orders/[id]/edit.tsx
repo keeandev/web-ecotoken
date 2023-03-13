@@ -1,5 +1,11 @@
-import { transformEnum } from "@/utils/transformer";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { formatEnum } from "@/utils/formatter";
 import { trpc } from "@/utils/trpc";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Transition } from "@headlessui/react";
+import { toast } from "react-hot-toast";
 import {
     ecoOrderStatus,
     updateEcoOrderSchema,
@@ -12,12 +18,6 @@ import Form, {
     useZodForm,
 } from "@ecotoken/ui/components/Form";
 import Spinner from "@ecotoken/ui/components/Spinner";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Transition } from "@headlessui/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { toast } from "react-hot-toast";
 
 const EditEcoOrder = () => {
     const router = useRouter();
@@ -128,7 +128,7 @@ const EditEcoOrder = () => {
                 >
                     {ecoOrderStatus.shape.orderStatus.options?.map((status) => (
                         <option key={status} value={status}>
-                            {transformEnum(status)}
+                            {formatEnum(status)}
                         </option>
                     ))}
                 </FormSelect>

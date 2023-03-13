@@ -5,6 +5,8 @@ import PublicLoading from "@/components/public/loading";
 import ProjectsFeatured from "@/components/public/sections/home-banner";
 import { trpc } from "@/utils/trpc";
 
+import { formatCountryAndState } from "../../../../admin/src/utils/formatter";
+
 // import BannerSection from "../sections/bannerSection";
 
 const Projects = () => {
@@ -59,7 +61,11 @@ const Projects = () => {
                                 key={projectID}
                                 title={title}
                                 identifier={identifier}
-                                location={location?.location}
+                                location={formatCountryAndState(
+                                    location?.location ?? "",
+                                    location?.cn ?? "",
+                                    location?.st ?? "",
+                                )}
                                 intro={intro ?? undefined}
                                 status={status}
                                 fundAmount={fundAmount ?? undefined}
