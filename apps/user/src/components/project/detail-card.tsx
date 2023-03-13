@@ -1,13 +1,18 @@
-const DetailCard = () => {
+const DetailCard = ({ projectData }: { projectData: any }) => {
     return (
         <div className="flex flex-col gap-5 rounded-md bg-white p-5 shadow-2xl">
-            <h1 className="mb-5 text-[20px] font-semibold">Project Details</h1>
+            <div className="flex flex-col gap-1">
+                <h1 className="text-[18px] font-semibold uppercase">
+                    Project Details
+                </h1>
+                <span className="text-[16px] text-[#7E7E7E]">Overview</span>
+            </div>
             <div className="flex flex-col gap-1">
                 <h1 className="text-[18px] font-semibold uppercase">
                     project activity
                 </h1>
                 <span className="text-[16px] text-[#7E7E7E]">
-                    Tree Preservation
+                    {projectData.status}
                 </span>
             </div>
             <div className="flex flex-col gap-1">
@@ -22,14 +27,20 @@ const DetailCard = () => {
                 <h1 className="text-[18px] font-semibold uppercase">
                     Reference ID (CFC Project id)
                 </h1>
-                <span className="text-[16px] text-[#7E7E7E]">75</span>
+                <span className="text-[16px] text-[#7E7E7E]">
+                    {projectData.producerID}
+                </span>
             </div>
             <div className="flex flex-col gap-1">
                 <h1 className="text-[18px] font-semibold uppercase">
                     Project Start Date
                 </h1>
                 <span className="text-[16px] text-[#7E7E7E]">
-                    December 6, 2021
+                    {projectData.dateStart.toLocaleDateString("en-US", {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                    })}
                 </span>
             </div>
             <div className="flex flex-col gap-1">
@@ -37,7 +48,11 @@ const DetailCard = () => {
                     Project End Date
                 </h1>
                 <span className="text-[16px] text-[#7E7E7E]">
-                    December 6, 2026
+                    {projectData.dateEnd.toLocaleDateString("en-US", {
+                        month: "long",
+                        day: "numeric",
+                        year: "numeric",
+                    })}
                 </span>
             </div>
         </div>

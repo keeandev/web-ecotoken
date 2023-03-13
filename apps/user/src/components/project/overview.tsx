@@ -8,11 +8,12 @@ const overviews = [
     "Ut enim ad minim veniam, quis nostrud exercitation",
 ];
 
-const Overview = () => {
+const Overview = ({ datas }: { datas: string }) => {
     return (
         <div className="my-10">
-            <h1 className="mb-5 text-[36px]">Overview</h1>
-            {overviews.map((item, index) => {
+            <h1 className="mb-5 text-[36px]">About the Project</h1>
+            <p className="pl-5" dangerouslySetInnerHTML={{ __html: datas }}></p>
+            {/* {overviews.map((item, index) => {
                 return (
                     <div
                         key={`Overview${index}`}
@@ -27,7 +28,7 @@ const Overview = () => {
                         <span>{item}</span>
                     </div>
                 );
-            })}
+            })} */}
         </div>
     );
 };

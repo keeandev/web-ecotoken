@@ -28,15 +28,10 @@ const ProjectDetails = () => {
     });
     if (!project) return <PublicLoading />;
 
-    console.log(project);
-
     return (
-        <div className="">
+        <div className="w-full">
             <div className="relative">
-                <h1 className="absolute bottom-[1em] left-[3em] text-[48px] font-bold leading-none text-white">
-                    {project.title}
-                </h1>
-                <Image
+                {/* <Image
                     src={
                         project.listImage?.startsWith("https")
                             ? project.listImage
@@ -46,7 +41,20 @@ const ProjectDetails = () => {
                     className=" h-60 min-h-[511px] w-full object-cover"
                     width={300}
                     height={200}
-                />
+                /> */}
+                <div
+                    className="h-60 min-h-[511px] w-full object-cover"
+                    style={{
+                        backgroundImage: `url(
+                            ${
+                                project.listImage?.startsWith("https")
+                                    ? project.listImage
+                                    : `${process.env.NEXT_PUBLIC_CDN_URL}/${project.listImage}`
+                            }
+                        )`,
+                    }}
+                ></div>
+                <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center bg-gradient-to-r from-black/70 to-transparent md:w-4/5"></div>
                 {project.nftSeries?.isActive && (
                     <Button
                         intent={"sky"}
@@ -64,11 +72,23 @@ const ProjectDetails = () => {
                     </Button>
                 )}
             </div>
-            <div className="mx-[10em] mt-7 flex gap-10">
-                <div className="w-2/3">
+
+            <h1 className="mx-[3em] mt-7 text-[48px] font-bold leading-none text-slate-800">
+                {project.title}
+            </h1>
+
+            <div className="mx-[10em] mt-7 flex flex-col gap-10 md:flex-row">
+                <div className="w-full md:w-2/3">
                     <p className="text-[#7E7E7E]">{project.intro}</p>
-                    <Overview />
-                    <p className="text-[#7E7E7E]">{project.intro}</p>
+                    <p className="mt-5 text-[1.25rem] text-slate-700">
+                        {project.location.location +
+                            ", " +
+                            project.location.st +
+                            ", " +
+                            project.location.cn}
+                    </p>
+                    {console.log("**************", project)}
+                    <Overview datas={project.overview} />
                     <div className="mt-[5em] flex w-[300px] justify-between">
                         <div className="flex flex-col gap-5">
                             <div className="flex flex-col">
@@ -125,15 +145,16 @@ const ProjectDetails = () => {
                         </Button>
                     )}
                 </div>
-                <div className="w-1/3">
+                <div className="w-full md:w-1/3">
                     {" "}
-                    <DetailCard />
+                    <DetailCard projectData={project} />
                 </div>
             </div>
             {projects && (
                 <div className="mt-[13em]">
-                    <div className="mx-5 border-8 border-[#D9D9D9]"></div>
-                    <h1 className="my-12 text-center text-[36px] uppercase text-[#7E7E7E]">
+                    <div className="mx-5 border-4 border-slate-300"></div>
+
+                    <h1 className="mt-8 text-center font-head text-[36px] font-semibold uppercase text-slate-600">
                         Other projects for you to explore
                     </h1>
                     <div className="grid w-full grid-cols-3 content-start gap-7  py-[5em] px-[7em]">

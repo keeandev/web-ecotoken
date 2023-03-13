@@ -1,19 +1,19 @@
-import { trpc } from "@/utils/trpc";
 import ProjectCard from "@/components/project/project-card";
+import { trpc } from "@/utils/trpc";
 
 const ProjectsFeatured = () => {
     const { data } = trpc.ecoProjects.getAll.useInfiniteQuery({
         limit: 3,
         benefits: true,
         location: true,
-        series: true
+        series: true,
     });
 
     if (!data) return <div>Loading...</div>;
     return (
         <div className="relative flex w-full justify-center">
-            <div className="relative flex w-full max-w-[1280px] justify-start">
-                <div className="grid w-full grid-cols-3 content-start gap-7 px-5 pb-6 pt-6">
+            <div className="relative flex w-full max-w-[1280px] justify-center">
+                <div className="mx-auto grid w-full grid-cols-1 content-center gap-7 px-5 pb-6 pt-6 md:grid-cols-3">
                     {data.pages.flatMap(({ projects }) => {
                         return projects.map(
                             ({

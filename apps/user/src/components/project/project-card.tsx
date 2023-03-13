@@ -29,7 +29,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     const router = useRouter();
 
     return (
-        <div className="flex max-w-md flex-col overflow-hidden rounded-md bg-white shadow-md">
+        <div className=" flex max-w-md flex-col overflow-hidden rounded-md bg-white shadow-md">
             <Image
                 src={
                     listImage?.startsWith("https")

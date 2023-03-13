@@ -30,7 +30,7 @@ const Projects = () => {
 
     if (!data) return <PublicLoading />;
     return (
-        <div>
+        <div className="w-full">
             {/* <BannerSection /> */}
             {/* <div
                 className="relative flex h-[320px] w-full justify-center bg-cover bg-left md:h-[360px] lg:h-[420px]"
@@ -39,7 +39,7 @@ const Projects = () => {
                 <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center bg-gradient-to-r from-black/70 to-transparent md:w-4/5"></div>
             </div> */}
             <ProjectsFeatured listBannerImage />
-            <div className="mx-auto my-5 grid w-full grid-cols-1 content-start gap-8 px-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="mx-auto my-5 grid w-full max-w-[360px] grid-cols-1 content-start gap-8 px-10 md:max-w-[768px] md:grid-cols-2 lg:max-w-[1536px] lg:grid-cols-3 xl:grid-cols-4">
                 {data.pages.flatMap(({ projects }) =>
                     projects.map(
                         ({
