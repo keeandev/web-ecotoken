@@ -161,7 +161,7 @@ const usersToCreate: CreateUserOperation[] = [
         lastName: "https://wrlandconservancy.org/",
         role: "Producer",
         site: "ecoToken",
-        companyName: "Western Reserve Land Conservancy ",
+        companyName: "Western Reserve Land Conservancy",
     },
     {
         email: "user@kingcounty.gov",
@@ -213,6 +213,34 @@ const projectsToCreate: CreateProjectOperation[] = [
         dateStart: new Date("2022-05-01"),
         dateEnd: new Date("2022-09-30"),
     },
+    // {
+    //     title: "Solar Desalination Plant - Class I Water Credits (RH2O-potable)",
+    //     shortTitle: "Solar Desalination Plant",
+    //     identifier: "Wacomet001",
+    //     producer: "Wacomet001",
+    //     intro: "The project represents the first full-scale, renewable-energy powered, zero discharge desalination plant capable of regenerating fresh water from saltwater using advanced desalination. The project utilizes distributed desalination, which differs greatly from conventional coastal desalination, because solar energy is used to treat inland-brackish water with no brine discharge and 100% water recovery.",
+    //     location: "Central Valley",
+    //     benefits:,
+    //     project: `<p>The project represents the first full-scale, renewable-energy powered, zero discharge desalination plant capable of regenerating fresh water from saltwater using advanced desalination. The project utilizes distributed desalination, which differs greatly from conventional coastal desalination, because solar energy is used to treat inland-brackish water with no brine discharge and 100% water recovery.</p>
+
+    //     <p>This results in near zero environmental impact as the residual salts are recovered and recycled as usable solids and converted into value-added byproducts. Using solar energy to power desalination lowers the carbon footprint, enables co-generation of both clean energy and affordable water and accelerates project deployment.</p>
+
+    //     <p> This plant will generate two million gallons a day (2MGD) of ultra-clean water for large tech companies in Santa Clara Valley and provide a direct, verifiable and highly impactful technology solution to achieve corporate water goals.</p>`,
+    //     overview: "",
+    //     process: "",
+    //     listImage:
+    //         "https://eco-token.io/images/ecoproject/head_wacoment-01.jpg",
+    //     headImage:
+    //         "https://eco-token.io/images/ecoproject/head_wacoment-01.jpg",
+    //     site: "ecoToken",
+    //     status: "ACTIVE",
+    //     creditType: "CARBON",
+    //     fundAmount: 80000,
+    //     fundRecieved: 2000,
+    //     return: 1.5,
+    //     dateStart: new Date("2022-05-01"),
+    //     dateEnd: new Date("2022-09-30"),
+    // },
     {
         title: "Green Waste Treatment in Calgary Alberta",
         shortTitle: "Green Waste Treatment",
@@ -368,13 +396,37 @@ const projectsToCreate: CreateProjectOperation[] = [
         dateStart: new Date("2018-12-14"),
         dateEnd: new Date("2118-12-14"),
     },
+    {
+        title: "Lapin Septic Treatment System",
+        shortTitle: "Lapin Septic Treatment",
+        identifier: "Lapin001",
+        producer: "NOAH Solutions",
+        intro: "Launched in May 2021, NOAH Solutions and Lapin Services will treat up to 18,000 gallons of water into essentially distilled water.",
+        location: "Orlando",
+        benefits: ["Preservation", "Wildlife Habitat", "Climate"],
+        project: `<p>Launched in May 2021, NOAH Solutions and Lapin Services will treat up to 18,000 gallons of water into essentially distilled water.</p>`,
+        overview: `<p><b>Offset Generation Method</b><br>RH2O</p>
+        <p><b>Project Activity</b><br>Septic Water Treatment</p>
+        <p><b>Project Type</b><br>Dehumidifaction System</p>`,
+        process: "",
+        listImage: "https://eco-token.io/images/ecoproject/head_lapin-01.jpg",
+        headImage: "https://eco-token.io/images/ecoproject/head_lapin-01.jpg",
+        site: "ecoToken",
+        status: "ACTIVE",
+        creditType: "WATER",
+        fundAmount: 0,
+        fundRecieved: 0,
+        return: 0,
+        dateStart: new Date("2023-05-14"),
+        dateEnd: new Date("2028-12-14"),
+    },
 ];
 
 const nftSeriesToCreate: NftSeriesOperation[] = [
     {
         project: "Oceanwise001",
         seriesName: "Oceanwise001",
-        seriesImage: "",
+        seriesImage: "https://eco-token.io/images/nft/NFT_bkgd_Oceanwise.png",
         seriesType: "C02",
         regenBatch: "C02-002",
         setAmount: 1200,
@@ -399,10 +451,38 @@ const nftSeriesToCreate: NftSeriesOperation[] = [
         creditWallet: "",
         creditKey: "",
     },
+    {
+        project: "Lapin001",
+        seriesName: "Lapin001",
+        seriesImage: "",
+        seriesType: "RH2O-02",
+        regenBatch: "RH2O-02",
+        setAmount: 5553,
+        totalCredits: 12600,
+        creditPrice: 1.17,
+        retireWallet: "",
+        recieveWallet: "",
+        creditWallet: "",
+        creditKey: "",
+    },
+    // {
+    //     project: "Wacomet001",
+    //     seriesName: "Wacomet001",
+    //     seriesImage: "",
+    //     seriesType: "RH2O-01",
+    //     regenBatch: "RH2O-02=1",
+    //     setAmount: 5553,
+    //     totalCredits: 12600,
+    //     creditPrice: 1.17,
+    //     retireWallet: "",
+    //     recieveWallet: "",
+    //     creditWallet: "",
+    //     creditKey: "",
+    // },
     // {
     //     project: "Sandycross001",
     //     seriesName: "Sandycross001",
-    //     seriesImage: "",
+    //     seriesImage: "https://eco-token.io/images/nft/NFT_bkgd_SandyCross.png",
     //     seriesType: "C02",
     //     regenBatch: "C02-002-20211012-20241013-001",
     //     setAmount: 5553,
@@ -414,6 +494,12 @@ const nftSeriesToCreate: NftSeriesOperation[] = [
     //     creditKey: "",
     // },
 ];
+
+// https://eco-token.io/images/nft/NFT_bkgd_KingCounty.png
+// https://eco-token.io/images/nft/NFT_bkgd_Lapin.png
+
+// https://eco-token.io/images/nft/NFT_bkgd_TripleM.png
+// https://eco-token.io/images/nft/NFT_bkgd_Wacomet.png
 
 const main = async () => {
     // wipe old data,

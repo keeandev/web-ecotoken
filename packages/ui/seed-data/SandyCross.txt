@@ -26,7 +26,7 @@ overview:
     {
         title: "Sandy Cross Forest Preservation Project",
         shortTitle: "Sandy Cross Forest Preservation",
-        identifier: "SandyCross001",
+        identifier: "Sandycross001",
         producer: "Western Reserve Land Conservatory",
         intro: "The Sandy Cross Forest Preservation Project is a 132-acre Project Area on a 214-acre property in the Mansfield metro area. Western Reserve Land Conservancy is seeking to preserve the Project, creating substantial conservation and community benefits including carbon sequestration, wildlife habitat, and open space protection.",
         location: "Lexington",
@@ -57,14 +57,14 @@ overview:
 
 
     {
-        project: "SandyCross001",
-        seriesName: "SandyCross001",
+        project: "Sandycross001",
+        seriesName: "Sandycross001",
         seriesImage: "",
         seriesType: "C02",
         regenBatch: "C02-002-20211012-20241013-001",
         setAmount: 5553,
         totalCredits: 6497,
-        creditPrice: 29.45,
+        creditPrice: 30.25,
         retireWallet: "",
         recieveWallet: "",
         creditWallet: "",

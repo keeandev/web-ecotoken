@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import Responsive from "@/components/dev-responsive";
 import ProjectCard from "@/components/project/project-card";
 import PublicLoading from "@/components/public/loading";
 import ProjectsFeatured from "@/components/public/sections/home-banner";
