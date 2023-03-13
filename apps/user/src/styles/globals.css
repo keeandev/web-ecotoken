@@ -40,3 +40,13 @@ body {
         @apply [orphans:2];
     }
 }
+
+.floor-text-three-line {
+    line-height: 1.5rem;
+    max-height: 5rem;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

@@ -59,7 +59,13 @@ const PurchaseProject = () => {
     const date = useMemo(() => new Date(), []);
 
     const currency = form.watch("currency");
-    const credits = form.watch("creditsPurchased");
+    let credits;
+    try {
+        credits = form.watch("creditsPurchased").toNumber();
+        console.log(credits);
+    } catch (error) {
+        credits = form.watch("creditsPurchased") as number;
+    }
     const retiredBy = form.watch("retireBy");
 
     if (!project || !price) return <>Loading...</>;
@@ -83,7 +89,6 @@ const PurchaseProject = () => {
                         {project.title}
                     </h2>
                 </div>
-
                 <div className="mt-16 flex w-[1024px] flex-wrap items-start justify-between px-3 lg:flex-row-reverse lg:flex-nowrap">
                     <div className="flex w-full justify-center px-0 py-0 lg:w-[600px]">
                         <NftPreview
@@ -99,7 +104,7 @@ const PurchaseProject = () => {
                             producer={project.producer.companyName ?? undefined}
                             batch={project.nftSeries.regenBatch}
                             symbol={project.nftSeries?.seriesType}
-                            credits={credits.toNumber()}
+                            credits={credits}
                             retiredBy={retiredBy}
                             date={date}
                         />
@@ -156,10 +161,8 @@ const PurchaseProject = () => {
                                         type="number"
                                         label="Amount of Credits to Purchase"
                                         defaultValue={100}
-                                        {...form.register("creditsPurchased", {
-                                            setValueAs: (value: string) =>
-                                                new Decimal(value),
-                                        })}
+                                        step="any"
+                                        {...form.register("creditsPurchased")}
                                     />
                                     <div className="float-left mb-2 inline-block border">
                                         {project.nftSeries.seriesType}
@@ -180,30 +183,22 @@ const PurchaseProject = () => {
                                 </FormSelect>
 
                                 <div className="inline-block w-[100%] py-2">
-                                    Purchase Price:
-                                    <div className="inline-block w-[100%] py-1 font-semibold">
-                                        Calculated Value
-                                        {/* In equivalent to USDC or for SOL in both SOL and USDC */}
-                                    </div>
+                                    Purchase Price:{" "}
+                                    {Number(
+                                        (Number(credits) * 1.5) /
+                                            (currency === "SOL"
+                                                ? // @ts-ignore eslint-disable-next-line
+                                                  (price.data.solana
+                                                      .usd as number)
+                                                : 1),
+                                    ).toFixed(2)}
                                 </div>
-
-                                {/* <p className="py-5">
-                                Purchase Price:{" "}
-                                {Number(
-                                    credits.times(1.5).dividedBy(
-                                        currency === "SOL"
-                                            ? // @ts-ignore eslint-disable-next-line
-                                              (price.solana.usd as number)
-                                            : 1,
-                                    ),
-                                ).toFixed(2)}
-                            </p> */}
                                 {/* <div>
-                                {project.nftSeries?.creditPrice &&
-                                    `Purchase Price: $${project.nftSeries?.creditPrice.times(
-                                        credits,
-                                    )}`}
-                            </div> */}
+                                    {project.nftSeries?.creditPrice &&
+                                        `Purchase Price: $${project.nftSeries?.creditPrice.times(
+                                            credits,
+                                        )}`}
+                                </div> */}
                                 <FormInput
                                     size="full"
                                     label="Retired By"

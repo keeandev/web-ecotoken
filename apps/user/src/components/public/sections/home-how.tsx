@@ -26,10 +26,10 @@ const RetireSection = () => {
                     />
                 </div>
                 <div className="flex flex-col content-start md:w-2/3">
-                    <h2 className="m-0 font-head text-2xl font-bold uppercase leading-[1.2] text-slate-500 md:text-3xl lg:text-4xl">
+                    <h2 className="m-0 mt-3 font-head text-2xl font-bold uppercase leading-[1.2] text-slate-500 md:text-3xl lg:text-4xl">
                         How users retire ecocredits
                     </h2>
-                    <div className="mb-2 flex flex-col lg:pr-10">
+                    <div className="mb-2 mt-5 flex flex-col lg:pr-10">
                         {descriptions.map((desc: string, index: number) => (
                             <div
                                 key={`desc_${index}`}

@@ -31,7 +31,7 @@ const Grassroots = () => {
 
             <div className="relative mt-[240px] flex w-[100%] max-w-[1280px] justify-center sm:mt-0">
                 <div className="relative z-10 mx-2 inline w-[100%] sm:absolute sm:top-[90px] sm:right-0 sm:w-[60%] md:w-[46%]">
-                    <h1 className=" semibold w-[100%] text-center font-head text-[24px] font-semibold leading-[1.25] text-white sm:text-left sm:text-ecoblue-500">
+                    <h1 className=" semibold w-[100%] text-center font-head text-[28px]  font-semibold leading-[1.5]  text-white sm:text-left sm:text-ecoblue-500">
                         <span className="text-shadow mb-[25px] inline-block sm:hidden">
                             Support decentralized grassroots environmental
                             innovation

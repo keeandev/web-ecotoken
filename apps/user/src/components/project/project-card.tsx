@@ -43,12 +43,21 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             />
             <div className="flex flex-col space-y-2 p-4">
                 <div className="flex flex-col">
-                    <div className="text-xl font-semibold">{title}</div>
+                    <div className="overflow-hidden text-ellipsis whitespace-nowrap text-xl font-semibold">
+                        {title}
+                    </div>
                     <div className="text-normal font-medium text-slate-700">
                         {location}
                     </div>
                 </div>
-                <div>{intro}</div>
+                <div className="floor-text-three-line h-[70px]">{intro}</div>
+                <Button
+                    intent="gray"
+                    fullWidth
+                    onClick={() => router.push(`/projects/${identifier}`)}
+                >
+                    View Detail
+                </Button>
                 {hasSeries && (
                     <Button
                         intent="skyfilled"
@@ -60,13 +69,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                         Buy Credits
                     </Button>
                 )}
-                <Button
-                    intent="gray"
-                    fullWidth
-                    onClick={() => router.push(`/projects/${identifier}`)}
-                >
-                    View Detail
-                </Button>
             </div>
         </div>
     );
