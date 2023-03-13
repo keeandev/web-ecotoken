@@ -1,19 +1,34 @@
 import { z } from "zod";
 import { exclude } from "@ecotoken/db";
 
-import { createEcoProjectSchema } from "../../schema/project";
+import {
+    createEcoProjectSchema,
+    editEcoProjectSchema,
+} from "../../schema/project";
 import { adminAuthedProcedure, publicProcedure, router } from "../../trpc";
 
 export const projectsRouter = router({
     get: publicProcedure
         .input(
-            z.object({
-                identifier: z.string(),
-                benefits: z.boolean().optional(),
-                location: z.boolean().optional(),
-                producer: z.boolean().optional(),
-                series: z.boolean().optional(),
-            }),
+            z
+                .object({
+                    identifier: z.string().optional(),
+                    projectID: z.string().optional(),
+                    benefits: z.boolean().optional(),
+                    location: z.boolean().optional(),
+                    producer: z.boolean().optional(),
+                    series: z.boolean().optional(),
+                })
+                .superRefine(({ identifier, projectID }, ctx) => {
+                    if (!identifier && !projectID) {
+                        ctx.addIssue({
+                            path: ["identifier", "projectID"],
+                            code: "custom",
+                            message:
+                                "Please specify an ID to reference a project by.",
+                        });
+                    }
+                }),
         )
         .query(async ({ ctx, input }) => {
             const project = await ctx.prisma.ecoProject.findFirst({
@@ -25,10 +40,22 @@ export const projectsRouter = router({
                     benefits: input.benefits,
                     location: input.location,
                     producer: input.producer,
-                    nftSeries: input.series,
+                    ...(input.series && {
+                        nftSeries: {
+                            select: {
+                                regenBatch: true,
+                                nftSeriesID: true,
+                                setAmount: true,
+                                totalCredits: true,
+                                creditPrice: true,
+                                seriesType: true,
+                                seriesImage: true,
+                            },
+                        },
+                    }),
                 },
             });
-            console.log("project", project);
+
             return project;
         }),
     getAll: publicProcedure
@@ -47,11 +74,24 @@ export const projectsRouter = router({
                 take: limit + 1, // get an extra item at the end which we'll use as next cursor
                 where: {
                     siteID: ctx.selectedSite?.siteID ?? ctx.currentSite.siteID,
+                    isVisible: true,
                 },
                 include: {
                     benefits: input.benefits,
                     location: input.location,
-                    nftSeries: input.series,
+                    ...(input.series && {
+                        nftSeries: {
+                            select: {
+                                regenBatch: true,
+                                nftSeriesID: true,
+                                setAmount: true,
+                                totalCredits: true,
+                                creditPrice: true,
+                                seriesType: true,
+                                seriesImage: true,
+                            },
+                        },
+                    }),
                 },
                 ...(input?.cursor && {
                     cursor: {
@@ -74,11 +114,35 @@ export const projectsRouter = router({
     create: adminAuthedProcedure
         .input(createEcoProjectSchema)
         .mutation(async ({ ctx, input }) => {
-            // await ctx.prisma.ecoProject.create({
-            //     data: {
-            //         ...input,
-            //         siteID: ctx.selectedSite?.siteID ?? ctx.currentSite.siteID,
-            //     },
-            // });
+            return await ctx.prisma.ecoProject.create({
+                data: {
+                    ...input,
+                    siteID: ctx.selectedSite?.siteID ?? ctx.currentSite.siteID,
+                },
+                select: {
+                    projectID: true,
+                },
+            });
+        }),
+    update: adminAuthedProcedure
+        .input(editEcoProjectSchema)
+        .mutation(async ({ ctx, input: { projectID, ...input } }) => {
+            await ctx.prisma.ecoProject.update({
+                where: {
+                    projectID,
+                },
+                data: {
+                    ...input,
+                },
+            });
+        }),
+    delete: adminAuthedProcedure
+        .input(z.object({ projectID: z.string() }))
+        .mutation(async ({ ctx, input: { projectID } }) => {
+            await ctx.prisma.ecoProject.delete({
+                where: {
+                    projectID,
+                },
+            });
         }),
 });
