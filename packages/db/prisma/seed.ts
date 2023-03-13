@@ -98,6 +98,30 @@ const locationsToCreate: CreateLocationOperation[] = [
         st: "BC",
         site: "ecoToken",
     },
+    {
+        location: "Central Valley",
+        cn: "US",
+        st: "CA",
+        site: "ecoToken",
+    },
+    {
+        location: "King County",
+        cn: "US",
+        st: "WA",
+        site: "ecoToken",
+    },
+    {
+        location: "Lexington",
+        cn: "US",
+        st: "OH",
+        site: "ecoToken",
+    },
+    {
+        location: "Orlando",
+        cn: "US",
+        st: "FL",
+        site: "ecoToken",
+    },
 ];
 
 const usersToCreate: CreateUserOperation[] = [
@@ -147,6 +171,41 @@ const usersToCreate: CreateUserOperation[] = [
         role: "Producer",
         site: "ecoToken",
         companyName: "King County Department of Natural Resources and Parks",
+    },
+    {
+        email: "verifier@gmail.com",
+        walletAddress: "3",
+        lastName: "https://wrlandconservancy.org/",
+        role: "Producer",
+        site: "ecoToken",
+        companyName: "Western Reserve Land Conservancy ",
+    },
+    {
+        email: "user@kingcounty.gov",
+        walletAddress: "4",
+        lastName: "https://kingcounty.gov/depts/dnrp.aspx",
+        username: "kingcounty",
+        role: "Producer",
+        site: "ecoToken",
+        companyName: "King County Department of Natural Resources and Parks",
+    },
+    {
+        email: "user@regen.network",
+        walletAddress: "5",
+        lastName: "https://regen.network",
+        username: "Regen",
+        role: "Verifier",
+        site: "ecoToken",
+        companyName: "Regen Network",
+    },
+    {
+        email: "user@h=rh2o.app",
+        walletAddress: "6",
+        lastName: "https://kingcounty.gov/depts/dnrp.aspx",
+        username: "WaterDAO",
+        role: "Verifier",
+        site: "ecoToken",
+        companyName: "WaterDAO",
     },
 ];
 
@@ -286,10 +345,10 @@ const nftSeriesToCreate: NftSeriesOperation[] = [
 const main = async () => {
     // wipe old data,
     console.log("Deleting data...");
+    await prisma.nFTSeries.deleteMany();
     await prisma.ecoProject.deleteMany();
     await prisma.ecoBenefit.deleteMany();
     await prisma.ecoLocation.deleteMany();
-    await prisma.nFTSeries.deleteMany();
     await prisma.user.deleteMany();
     await prisma.adminUser.deleteMany();
     await prisma.site.deleteMany();
