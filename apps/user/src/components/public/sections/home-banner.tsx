@@ -1,13 +1,22 @@
 import { faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import list_banner_image from "@ecotoken/ui/assets/brand/head_listimages-01.jpg";
 import banner_image from "@ecotoken/ui/assets/brand/head_nftsite-01.jpg";
 import Button from "@ecotoken/ui/components/Button";
 
-const ProjectsFeatured = () => {
+const ProjectsFeatured = ({
+    listBannerImage,
+}: {
+    listBannerImage?: boolean;
+}) => {
     return (
         <div
             className="relative flex h-[320px] w-full justify-center bg-cover bg-left md:h-[360px] lg:h-[420px]"
-            style={{ backgroundImage: `url(${banner_image.src})` }}
+            style={{
+                backgroundImage: `url(${
+                    listBannerImage ? list_banner_image.src : banner_image.src
+                })`,
+            }}
         >
             <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center bg-gradient-to-r from-black/70 to-transparent md:w-4/5"></div>
             <div className="relative flex min-h-[100px] w-full max-w-[1280px] justify-start align-bottom">

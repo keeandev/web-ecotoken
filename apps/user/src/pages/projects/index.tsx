@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import ProjectCard from "@/components/project/project-card";
+import ProjectsFeatured from "@/components/public/sections/home-banner";
 import { trpc } from "@/utils/trpc";
-import banner_image from "@ecotoken/ui/assets/brand/head_nftsite-01.jpg";
 
 // import BannerSection from "../sections/bannerSection";
 
@@ -31,12 +31,13 @@ const Projects = () => {
     return (
         <div>
             {/* <BannerSection /> */}
-            <div
+            {/* <div
                 className="relative flex h-[320px] w-full justify-center bg-cover bg-left md:h-[360px] lg:h-[420px]"
                 style={{ backgroundImage: `url(${banner_image.src})` }}
             >
                 <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center bg-gradient-to-r from-black/70 to-transparent md:w-4/5"></div>
-            </div>
+            </div> */}
+            <ProjectsFeatured listBannerImage />
             <div className="mx-auto my-5 grid w-full grid-cols-1 content-start gap-8 px-10 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {data.pages.flatMap(({ projects }) =>
                     projects.map(
