@@ -7,7 +7,6 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import Decimal from "decimal.js";
 import { createEcoOrderSchema } from "@ecotoken/api/src/schema/order";
 import Button from "@ecotoken/ui/components/Button";
-import DefaultCard, { CardTitle } from "@ecotoken/ui/components/Card";
 import Form, {
     FormInput,
     FormSelect,
@@ -25,6 +24,7 @@ const PurchaseProject = () => {
             identifier: id as string,
             location: true,
             producer: true,
+            series: true,
         },
         {
             enabled: !!id,
