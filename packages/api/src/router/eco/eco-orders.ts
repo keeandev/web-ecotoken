@@ -79,7 +79,7 @@ export const ordersRouter = router({
         .input(
             z.object({
                 ecoOrderID: z.string(),
-                project: z.string().cuid().optional()
+                project: z.boolean().optional()
             }),
         )
         .query(async ({ ctx, input: { ecoOrderID, project } }) => {
@@ -93,7 +93,7 @@ export const ordersRouter = router({
                 include: {
                     nftSeries: {
                         include: {
-                            project: !!project,
+                            project,
                         },
                     },
                 },
