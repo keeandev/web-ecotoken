@@ -11,7 +11,7 @@ const ProjectTabPanel = ({
     projectId?: string | string[] | undefined;
 }) => {
     const router = useRouter();
-    const tabPanels = Array(8).fill(0);
+    const tabPanels = Array(9).fill(0);
     return (
         <>
             <Tabs

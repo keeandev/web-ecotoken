@@ -24,7 +24,10 @@ const EditSeries = () => {
 
     const createForm = useZodForm({
         schema: createNFTSeriesSchema.omit({
+            projectID: true,
             nftSeriesID: true,
+            seriesImage: true,
+            seriesNumber: true,
         }),
     });
 
@@ -76,9 +79,9 @@ const EditSeries = () => {
 
     const { mutateAsync: createMutate, isLoading: isCreating } =
         trpc.nftSeries.create.useMutation({
-            onSuccess: async ({ nftSeriesID }) => {
-                await context.nftSeries.get.invalidate({
-                    nftSeriesID,
+            onSuccess: async () => {
+                await context.ecoProjects.get.invalidate({
+                    projectID: id as string,
                 });
                 toast.success("NFT Series has been created.");
             },
@@ -251,21 +254,21 @@ const EditSeries = () => {
                                     type="text"
                                     wrapperClass="w-fit"
                                     size="xl"
-                                    {...createForm.register("setAmount")}
+                                    {...editForm.register("setAmount")}
                                 />
                                 <FormInput
                                     label="Total Credits"
                                     type="text"
                                     wrapperClass="w-fit"
                                     size="xl"
-                                    {...createForm.register("totalCredits")}
+                                    {...editForm.register("totalCredits")}
                                 />
                                 <FormInput
                                     label="Credit Price"
                                     type="text"
                                     wrapperClass="w-fit"
                                     size="xl"
-                                    {...createForm.register("creditPrice")}
+                                    {...editForm.register("creditPrice")}
                                 />
                                 <FormInput
                                     label="Active"
@@ -297,7 +300,9 @@ const EditSeries = () => {
                                     await createMutate({
                                         ...project,
                                         nftSeriesID,
-                                        seriesImage: `${process.env.NEXT_PUBLIC_CDN_URL}/${imageKey}`,
+                                        seriesNumber: 1,
+                                        projectID: id as string,
+                                        seriesImage: imageKey ?? "",
                                     });
                                 }}
                                 className="flex w-fit flex-col gap-4"
@@ -399,7 +404,14 @@ const EditSeries = () => {
                         <NFTPreview
                             width={600}
                             height={600}
-                            image={displayImage}
+                            image={
+                                displayImage ??
+                                (fetchedProject?.nftSeries?.seriesImage.startsWith(
+                                    "https",
+                                )
+                                    ? fetchedProject?.nftSeries?.seriesImage
+                                    : `${process.env.NEXT_PUBLIC_CDN_URL}/${fetchedProject?.nftSeries?.seriesImage}`)
+                            }
                             onLoad={() => {
                                 if (displayImage)
                                     URL.revokeObjectURL(displayImage);
@@ -428,48 +440,6 @@ const EditSeries = () => {
                             }
                         />
                     </div>
-                    {/* <div>
-                    <div>
-                        <StatusSelector
-                            label="Credits Available: "
-                            datas={[
-                                { key: "credits1", title: "SET AMOUNT" },
-                                { key: "credits2", title: "READ WALLET" },
-                            ]}
-                            multiSelect={false}
-                            getSelectedStatuses={(
-                                selectedStatuses: string[],
-                            ) => {}}
-                        />
-                        <Form
-                            form={form}
-                            onSubmit={async () => {}}
-                            className="flex w-fit flex-col gap-4"
-                        >
-                            <FormInput
-                                label={"Set Amount:"}
-                                type="text"
-                                size="full"
-                                {...form.register("setAmount")}
-                            />
-                            <FormInput
-                                label={"Total Project Credits"}
-                                type="text"
-                                size="full"
-                                {...form.register("totalprojectAmount")}
-                            />
-                            <div className="flex items-end gap-5">
-                                <FormInput
-                                    label={"Price per Credit"}
-                                    type="text"
-                                    size="full"
-                                    {...form.register("pricePerCredits")}
-                                />
-                                <label>USDC</label>
-                            </div>
-                        </Form>
-                    </div>
-                </div> */}
                 </div>
             </ProjectTabPanel>
         );

@@ -17,9 +17,12 @@ export const nftSeriesRouter = router({
             }),
         )
         .query(async ({ ctx, input: { nftSeriesID, project } }) => {
-            const series = await ctx.prisma.nFTSeries.findUnique({
+            const series = await ctx.prisma.nFTSeries.findFirst({
                 where: {
                     nftSeriesID,
+                    project: {
+                        isDelete: false,
+                    },
                 },
                 include: {
                     project,

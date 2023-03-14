@@ -46,6 +46,7 @@ export const projectsRouter = router({
                         ctx.session?.user?.type === "user") && {
                         isVisible: true,
                     }),
+                    isDelete: false,
                 },
                 include: {
                     benefits: input.benefits,
@@ -94,6 +95,7 @@ export const projectsRouter = router({
                         ctx.session?.user?.type === "user") && {
                         isVisible: true,
                     }),
+                    isDelete: false,
                 },
                 include: {
                     benefits: input.benefits,
@@ -159,9 +161,12 @@ export const projectsRouter = router({
     delete: adminAuthedProcedure
         .input(z.object({ projectID: z.string() }))
         .mutation(async ({ ctx, input: { projectID } }) => {
-            await ctx.prisma.ecoProject.delete({
+            await ctx.prisma.ecoProject.update({
                 where: {
                     projectID,
+                },
+                data: {
+                    isDelete: true,
                 },
             });
         }),

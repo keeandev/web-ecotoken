@@ -23,7 +23,7 @@ const WalletMultiButtonDynamic = dynamic(
 const PublicNavbar = () => {
     const { publicKey, signMessage, connected } = useWallet();
 
-    const { data: isLoggedIn } = trpc.userAuth.isLoggedIn.useQuery();
+    const { data: isLoggedIn, isLoading } = trpc.userAuth.isLoggedIn.useQuery();
 
     const { mutateAsync } = trpc.userAuth.login.useMutation({
         retry: false,
@@ -37,6 +37,7 @@ const PublicNavbar = () => {
 
     useEffect(() => {
         const main = async () => {
+            if (isLoggedIn && connected || isLoading) return;
             try {
                 // `publicKey` will be null if the wallet isn't connected
                 if (!publicKey || !connected)
@@ -67,7 +68,8 @@ const PublicNavbar = () => {
             }
         };
         main();
-    }, [publicKey, signMessage, connected]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [publicKey, connected, isLoggedIn, isLoading]);
 
     return (
         <div className="fixed top-0 z-30 flex h-16 w-full items-start justify-between border-b border-slate-400 bg-ecoblue-500">
@@ -96,7 +98,7 @@ const PublicNavbar = () => {
                 <nav className="flex w-3/5 items-end justify-around text-center leading-4 text-white">
                     <Link
                         href="/"
-                        className="mb-4 inline hidden border-b-4 border-ecoblue-500 px-1 py-1 hover:border-ecogreen-500 sm:inline"
+                        className="mb-4 inline border-b-4 border-ecoblue-500 px-1 py-1 hover:border-ecogreen-500 sm:inline"
                     >
                         HOME
                     </Link>
@@ -107,7 +109,6 @@ const PublicNavbar = () => {
                     >
                         PROJECTS
                     </Link>
-
                     {/* <Link
                         href="/contactus"
                         className="ml-2 mb-4 inline border-b-4 border-ecoblue-500 px-1 py-1 hover:border-ecogreen-500"
