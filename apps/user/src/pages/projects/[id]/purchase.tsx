@@ -289,10 +289,7 @@ const PurchaseProject = () => {
                                         toast.error("Transfer SOL failed");
                                         return;
                                     }
-                                    // const {
-                                    //     data: credits,
-                                    //     isLoading: fetchingCredits,
-                                    // } = trpc.credit.retireAdminCredit.useQuery({
+                                    // const result = await retiredInfo({
                                     //     txId,
                                     //     publicKey: publicKey.toString(),
                                     //     batch: project.nftSeries.regenBatch,
@@ -301,31 +298,22 @@ const PurchaseProject = () => {
                                     //         .toString(),
                                     //     memo: "Retire Credit",
                                     // });
-                                    console.log({
-                                        txId,
-                                        publicKey: publicKey.toString(),
-                                        batch: project.nftSeries.regenBatch,
-                                        quantity: data.creditsPurchased
-                                            .toNumber()
-                                            .toString(),
-                                        memo: "Retire Credit",
-                                    });
-                                    // console.log(
-                                    //     "users",
-                                    //     credits,
-                                    //     fetchingCredits,
-                                    // );
+                                    // console.log(result);
 
-                                    // await mutateAsync({
-                                    //     ...data,
-                                    //     nftSeriesID:
-                                    //         project.nftSeries?.nftSeriesID ??
-                                    //         "",
-                                    //     userWallet: publicKey?.toBase58(),
-                                    //     payFee: 0,
-                                    //     payAmount: 10,
-                                    //     payHash: "asasas",
-                                    // });
+                                    await mutateAsync({
+                                        ...data,
+                                        nftSeriesID:
+                                            project.nftSeries?.nftSeriesID ??
+                                            "",
+                                        userWallet: publicKey?.toBase58(),
+                                        payFee: 0,
+                                        payAmount:
+                                            data.creditsPurchased.toNumber() *
+                                            Number(
+                                                project.nftSeries.creditPrice,
+                                            ),
+                                        payHash: txId,
+                                    });
                                 }}
                             >
                                 <div className="mt-4 flex items-end justify-start">

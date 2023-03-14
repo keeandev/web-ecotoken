@@ -83,6 +83,14 @@ export const ordersRouter = router({
                 });
             }
 
+            const existed = await ctx.prisma.ecoOrder.findFirst({
+                where: {
+                    payHash: input.payHash,
+                },
+            });
+
+            console.log(existed);
+
             const order = await ctx.prisma.ecoOrder.create({
                 data: {
                     ...input,
