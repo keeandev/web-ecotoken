@@ -96,7 +96,11 @@ export const ordersRouter = router({
         .mutation(async ({ ctx, input }) => {
             // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
             const network = process.env.NEXT_PUBLIC_SOLANA_NETWORK as Cluster;
-            if (!network || !process.env.SOLANA_ADMIN_WALLET)
+            if (
+                !network ||
+                !process.env.SOLANA_ADMIN_WALLET ||
+                !process.env.REGEN_WALLET
+            )
                 throw new TRPCError({
                     code: "INTERNAL_SERVER_ERROR",
                     message: "Env file error.",
@@ -173,6 +177,81 @@ export const ordersRouter = router({
                 throw new TRPCError({
                     code: "UNAUTHORIZED",
                     message: "That is not real transaction hash.",
+                });
+            }
+
+            // retire credits
+            const sender = process.env.REGEN_WALLET;
+            // const signer = await DirectSecp256k1Wallet.fromKey(
+            //     Buffer.from(sender.replace("0x", ""), "hex"),
+            //     "regen",
+            // );
+            const signer = await DirectSecp256k1HdWallet.fromMnemonic(sender, {
+                prefix: "regen",
+            });
+            const [account] = await signer.getAccounts();
+            if (!account)
+                throw new TRPCError({
+                    message: "Env file is not correct.",
+                    code: "CONFLICT",
+                });
+
+            try {
+                const regenApi = await RegenApi.connect({
+                    connection: {
+                        type: "tendermint",
+                        endpoint: process.env.REGEN_ENDPOINT,
+                        signer,
+                    },
+                });
+                const TEST_MSG_RETIRE = MsgRetire.fromPartial({
+                    owner: account.address,
+                    credits: [
+                        {
+                            batchDenom: series.regenBatch,
+                            amount: input.creditsPurchased.toString(),
+                        },
+                    ],
+                    jurisdiction: "US-OR",
+                });
+                const TEST_FEE = {
+                    amount: [
+                        {
+                            denom: "uregen",
+                            amount: "5000",
+                        },
+                    ],
+                    gas: "200000",
+                };
+                const TEST_MEMO = "Retire credits"
+
+                const { msgClient } = regenApi;
+
+                if (!msgClient)
+                    throw new TRPCError({
+                        message: "Error. Try again.",
+                        code: "CONFLICT",
+                    });
+                    console.log(msgClient)
+
+                const signedTxBytes: any = await msgClient.sign(
+                    account.address,
+                    [TEST_MSG_RETIRE],
+                    TEST_FEE,
+                    TEST_MEMO,
+                );
+                console.log("signedTxBytes", signedTxBytes);
+
+                const txRes = await msgClient.broadcast(signedTxBytes);
+
+                console.log("txRes", txRes);
+
+                // return txRes;
+            } catch (err) {
+                console.log(err);
+                throw new TRPCError({
+                    message: "Error in retiring process. Contact to dev team.",
+                    code: "CONFLICT",
                 });
             }
 

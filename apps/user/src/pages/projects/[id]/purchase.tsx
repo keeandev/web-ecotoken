@@ -290,16 +290,6 @@ const PurchaseProject = () => {
                                         toast.error("Transfer SOL failed");
                                         return;
                                     }
-                                    // const result = await retiredInfo({
-                                    //     txId,
-                                    //     publicKey: publicKey.toString(),
-                                    //     batch: project.nftSeries.regenBatch,
-                                    //     quantity: data.creditsPurchased
-                                    //         .toNumber()
-                                    //         .toString(),
-                                    //     memo: "Retire Credit",
-                                    // });
-                                    // console.log(result);
 
                                     await mutateAsync({
                                         ...data,
