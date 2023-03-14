@@ -47,7 +47,7 @@ const NftPreview = forwardRef<HTMLDivElement, NFTPreviewProps>(
                 {...props}
             >
                 <figure
-                    className="block flex h-full w-full rounded-lg bg-cover"
+                    className="flex h-full w-full rounded-lg bg-cover"
                     style={{ backgroundImage: `url(${image})` }}
                 >
                     {/* <Image
@@ -59,7 +59,7 @@ const NftPreview = forwardRef<HTMLDivElement, NFTPreviewProps>(
                         style={{ objectFit: "cover" }}
                         className="pointer-events-none select-none overflow-hidden"
                     /> */}
-                    <figcaption className="text-shadow w-[100% absolute bottom-0 left-0 inline-block min-h-[200px] p-8 text-xl font-semibold text-white">
+                    <figcaption className="text-shadow absolute bottom-0 left-0 inline-block min-h-[200px] w-[100%] p-8 text-xl font-semibold text-white">
                         <div className="inline-block h-[24px] w-full">
                             <div className="float-left w-[110px] font-normal">
                                 Credits:

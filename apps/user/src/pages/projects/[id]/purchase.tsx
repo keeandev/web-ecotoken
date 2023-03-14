@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import Responsive from "@/components/dev-responsive";
 // import NFTBuilderPreview from "../../../../../admin/src/components/nft-builder-preview";
 import NftPreview from "@/components/project/nft-preview";
+import { clientEnv } from "@/env/schema.mjs";
 import { createAssociatedTokenAccountInstruction } from "@/utils/transferSplToken/createAssociatedTokenAccountInstruction";
 import { createTransferInstruction } from "@/utils/transferSplToken/createTransferInstructions";
 import { getAccountInfo } from "@/utils/transferSplToken/getAccountInfo";
@@ -26,7 +27,7 @@ import {
     SystemProgram,
     Transaction,
     clusterApiUrl,
-    PublicKeyInitData,
+    type PublicKeyInitData,
 } from "@solana/web3.js";
 import Decimal from "decimal.js";
 import { toast } from "react-hot-toast";
@@ -37,12 +38,15 @@ import Form, {
     FormSelect,
     useZodForm,
 } from "@ecotoken/ui/components/Form";
-import { clientEnv } from "@/env/schema.mjs";
 
 // admin wllet
-const adminKey = new PublicKey(clientEnv.NEXT_PUBLIC_SOLANA_ADMIN_PUBKEY as PublicKeyInitData);
+const adminKey = new PublicKey(
+    clientEnv.NEXT_PUBLIC_SOLANA_ADMIN_PUBKEY as PublicKeyInitData,
+);
 // usdc address
-const mint = new PublicKey(clientEnv.NEXT_PUBLIC_SOLANA_USDC as PublicKeyInitData);
+const mint = new PublicKey(
+    clientEnv.NEXT_PUBLIC_SOLANA_USDC as PublicKeyInitData,
+);
 
 const PurchaseProject = () => {
     const router = useRouter();
@@ -285,7 +289,7 @@ const PurchaseProject = () => {
                                             txId,
                                         );
                                         toast.success(
-                                            "Successfully transferred. Wait a second and don't close this tab"
+                                            "Successfully transferred. Wait a second and don't close this tab",
                                         );
                                     } catch (error) {
                                         toast.error("Transfer USDC failed");

@@ -52,5 +52,17 @@ body {
 }
 
 .wallet-adapter-button {
-    @apply !bg-transparent hover:!bg-transparent !font-normal !uppercase hover:!border-b-4 hover:!border-ecogreen-500 !text-sm;
+    @apply !bg-transparent !text-sm !font-normal !uppercase hover:!border-b-4 hover:!border-ecogreen-500 hover:!bg-transparent;
+}
+
+.stepper svg {
+    color: #6f9d02;
+}
+
+.stepper.unactive svg {
+    color: #a6a6a6;
+}
+
+.stepper:hover:not(.unactive) svg {
+    color: white;
 }

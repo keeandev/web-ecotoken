@@ -1,7 +1,7 @@
-import PublicNavbar from "@/components/public/layout/navbar";
-import PublicFooter from "@/components/public/layout/footer";
 import type { NextPage } from "next";
 import Head from "next/head";
+import PublicFooter from "@/components/public/layout/footer";
+import PublicNavbar from "@/components/public/layout/navbar";
 import { trpc } from "@/utils/trpc";
 
 const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
@@ -30,8 +30,8 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
                     <main className="mt-16 flex justify-center overflow-y-auto">
                         {children}
                     </main>
-                    <div className="flex w-full auto-rows-max flex-col">
-                        <PublicFooter />
+                    <div className="mb-20 flex w-full auto-rows-max flex-col">
+                        {/* <PublicFooter /> */}
                     </div>
                 </div>
             </div>
