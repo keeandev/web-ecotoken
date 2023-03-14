@@ -328,6 +328,10 @@ export const ordersRouter = router({
                             trait_type: "Retired By",
                             value: input.userWallet,
                         },
+                        {
+                            trait_type: "Retire Tx Hash",
+                            value: retireHash,
+                        },
                     ],
                 });
 
