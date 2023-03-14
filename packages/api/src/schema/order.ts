@@ -15,6 +15,7 @@ export const createEcoOrderSchema = z.object({
     payAmount: z.number(),
     payFee: decimal(12, 6),
     payHash: z.string(),
+    image: z.string()
 });
 
 export const ecoOrderStatus = z.object({

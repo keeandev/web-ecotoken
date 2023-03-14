@@ -66,3 +66,6 @@ body {
 .stepper:hover:not(.unactive) svg {
     color: white;
 }
+/* .wallet-adapter-button {
+    @apply !bg-[#00AEEF] hover:!bg-[#0ca8e1] !font-normal !uppercase !text-sm;
+} */

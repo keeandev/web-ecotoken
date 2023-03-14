@@ -36,6 +36,8 @@ import { type EcoOrder } from "@ecotoken/db";
 
 import { createEcoOrderSchema, updateEcoOrderSchema } from "../../schema/order";
 import { adminAuthedProcedure, authedProcedure, router } from "../../trpc";
+import { s3Client } from "../../utils/s3";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 
 export const ordersRouter = router({
     getAll: authedProcedure
@@ -273,12 +275,29 @@ export const ordersRouter = router({
                         }),
                     );
 
+                    const imageBuffer = Buffer.from(
+                        input.image.replace(/^data:image\/\w+;base64,/, ""),
+                        "base64"
+                    );
+                    
+                    const imageURL = `/eco-projects/${series.project.projectID}/nft-series/${series.nftSeriesID}/nfts/${retireHash}.png`;
+                    await s3Client.send(
+                        new PutObjectCommand({
+                            Bucket: process.env.SPACES_BUCKET as string,
+                            Key: imageURL,
+                            ContentType: "image/png",
+                            ContentEncoding: "base64",
+                            ACL: "public-read",
+                            Body: imageBuffer
+                        })
+                    );
+
                 const { uri, metadata } = await metaplex.nfts().uploadMetadata({
                     name: `ECO NFT`,
                     symbol: "ECO",
                     description:
                         "This NFT is used to prove the retirement of environment credits.",
-                    image: process.env.IMAGE_URL,
+                    image: `${process.env.NEXT_PUBLIC_CDN_URL}/${imageURL}`,
                     external_url: process.env.EXTERNAL_URL,
                     properties: {
                         creators: [
@@ -370,7 +389,7 @@ export const ordersRouter = router({
                 },
                 data: {
                     setAmount:
-                        series.setAmount - Number(input.creditsPurchased),
+                        series.setAmount?.minus(input.creditsPurchased),
                 },
             });
 

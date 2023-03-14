@@ -131,7 +131,7 @@ const PublicNavbar = () => {
                             <UserDropdown />
                         </div>
                     ) : (
-                        <WalletMultiButtonDynamic />
+                            <WalletMultiButtonDynamic />
                     )}
                 </div>
             </div>

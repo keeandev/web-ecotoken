@@ -9,7 +9,7 @@ import { adminAuthedProcedure, router } from "../trpc";
 import { s3Client } from "../utils/s3";
 
 export const nftBuilderRouter = router({
-    mint: adminAuthedProcedure
+        mint: adminAuthedProcedure
         .input(createNFTSchema)
         .mutation(
             async ({ ctx, input: { credits, retiredBy, nftSeriesID } }) => {
