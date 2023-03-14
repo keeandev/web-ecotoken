@@ -27,6 +27,8 @@ export const clientSchema = z.object({
     NEXT_PUBLIC_SOLANA_RPC: z.string(),
     NEXT_PUBLIC_SOLANA_NETWORK: z.string(),
     NEXT_PUBLIC_CDN_URL: z.string(),
+    NEXT_PUBLIC_SOLANA_ADMIN_PUBKEY: z.string(),
+    NEXT_PUBLIC_SOLANA_USDC: z.string(),
 });
 
 /**
@@ -40,4 +42,6 @@ export const clientEnv = {
     NEXT_PUBLIC_SOLANA_RPC: process.env.NEXT_PUBLIC_SOLANA_RPC,
     NEXT_PUBLIC_SOLANA_NETWORK: process.env.NEXT_PUBLIC_SOLANA_NETWORK,
     NEXT_PUBLIC_CDN_URL: process.env.NEXT_PUBLIC_CDN_URL,
+    NEXT_PUBLIC_SOLANA_ADMIN_PUBKEY: process.env.NEXT_PUBLIC_SOLANA_ADMIN_PUBKEY,
+    NEXT_PUBLIC_SOLANA_USDC: process.env.NEXT_PUBLIC_SOLANA_USDC,
 };

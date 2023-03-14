@@ -36,11 +36,12 @@ import Form, {
     FormSelect,
     useZodForm,
 } from "@ecotoken/ui/components/Form";
+import { clientEnv } from "@/env/schema.mjs";
 
 // admin wllet
-const adminKey = new PublicKey("BddjKVEuSUbmAv7cyXKyzBUQDUHshwihWmkoqwXmpwvi");
+const adminKey = new PublicKey(clientEnv.NEXT_PUBLIC_SOLANA_ADMIN_PUBKEY);
 // usdc address
-const mint = new PublicKey("44GpxBdhPsoPgP96pYCvGFFWojuSoThuiLuwuB3qx2cm");
+const mint = new PublicKey(clientEnv.NEXT_PUBLIC_SOLANA_USDC);
 
 const PurchaseProject = () => {
     const router = useRouter();

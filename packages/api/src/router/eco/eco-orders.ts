@@ -1,4 +1,36 @@
+import {
+    DirectSecp256k1HdWallet,
+    DirectSecp256k1Wallet,
+} from "@cosmjs/proto-signing";
+import {
+    Metaplex,
+    bundlrStorage,
+    keypairIdentity,
+    toMetaplexFile,
+    token,
+} from "@metaplex-foundation/js";
+import { RegenApi } from "@regen-network/api";
+import {
+    QuerySellOrdersByBatchResponse,
+    QueryClientImpl as SellOrderQueryClient,
+} from "@regen-network/api/lib/generated/regen/ecocredit/marketplace/v1/query.js";
+import { MsgBuyDirect } from "@regen-network/api/lib/generated/regen/ecocredit/marketplace/v1/tx.js";
+import {
+    QueryBatchesByProjectResponse,
+    QueryClientImpl as QueryBatchesClient,
+} from "@regen-network/api/lib/generated/regen/ecocredit/v1/query.js";
+import { MsgRetire } from "@regen-network/api/lib/generated/regen/ecocredit/v1/tx.js";
+// import TokenStandard
+import {
+    Cluster,
+    Connection,
+    Keypair,
+    PublicKey,
+    clusterApiUrl,
+} from "@solana/web3.js";
 import { TRPCError } from "@trpc/server";
+import axios from "axios";
+import bs58 from "bs58";
 import { z } from "zod";
 import { type EcoOrder } from "@ecotoken/db";
 
@@ -11,7 +43,6 @@ export const ordersRouter = router({
             z.object({
                 limit: z.number().min(1).max(100).optional().default(10),
                 cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
-                project: z.string().optional(),
             }),
         )
         .query(async ({ ctx, input }) => {
@@ -20,11 +51,6 @@ export const ordersRouter = router({
                 ...(ctx.session.user.type === "user" && {
                     where: {
                         userID: ctx.session.user.id,
-                        ...(input.project && {
-                            nftSeries: {
-                                projectID: input.project,
-                            },
-                        }),
                     },
                 }),
                 ...(input?.cursor && {
@@ -68,6 +94,21 @@ export const ordersRouter = router({
     create: authedProcedure
         .input(createEcoOrderSchema)
         .mutation(async ({ ctx, input }) => {
+            // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
+            const network = process.env.NEXT_PUBLIC_SOLANA_NETWORK as Cluster;
+            if (!network || !process.env.SOLANA_ADMIN_WALLET)
+                throw new TRPCError({
+                    code: "INTERNAL_SERVER_ERROR",
+                    message: "Env file error.",
+                });
+            let secretKey = bs58.decode(process.env.SOLANA_ADMIN_WALLET);
+            const wallet = Keypair.fromSecretKey(secretKey);
+
+            // You can also provide a custom RPC endpoint.
+            const endpoint = clusterApiUrl(network);
+
+            const connection = new Connection(endpoint, "confirmed");
+
             const series = await ctx.prisma.nFTSeries.findUnique({
                 where: {
                     nftSeriesID: input.nftSeriesID,
@@ -89,13 +130,51 @@ export const ordersRouter = router({
                 });
             }
 
+            // check previous tx hash
             const existed = await ctx.prisma.ecoOrder.findFirst({
                 where: {
                     payHash: input.payHash,
                 },
             });
 
-            console.log(existed);
+            if (existed) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "You used previous info.",
+                });
+            }
+
+            let vaildInput = false;
+            try {
+                const txRes = await axios.get(
+                    `https://api.solscan.io/transaction?tx=${input.payHash}&cluster=devnet`,
+                );
+                if (
+                    txRes.data.status === "Success" &&
+                    txRes.data.signer[0] === input.userWallet &&
+                    txRes.data.mainActions[0].action === "spl-transfer" &&
+                    txRes.data.txStatus === "confirmed" &&
+                    txRes.data.mainActions[0].data.source_owner ===
+                        input.userWallet &&
+                    txRes.data.mainActions[0].data.destination_owner ===
+                        wallet.publicKey.toString() &&
+                    txRes.data.mainActions[0].data.token.address ===
+                        process.env.NEXT_PUBLIC_SOLANA_USDC &&
+                    txRes.data.mainActions[0].data.amount ===
+                        (
+                            series.creditPrice *
+                            input.creditsPurchased *
+                            1e9
+                        ).toString()
+                ) {
+                    vaildInput = true;
+                }
+            } catch (error) {
+                throw new TRPCError({
+                    code: "UNAUTHORIZED",
+                    message: "That is not real transaction hash.",
+                });
+            }
 
             const order = await ctx.prisma.ecoOrder.create({
                 data: {
