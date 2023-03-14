@@ -22,11 +22,11 @@ import {
 import { MsgRetire } from "@regen-network/api/lib/generated/regen/ecocredit/v1/tx.js";
 // import TokenStandard
 import {
-    Cluster,
     Connection,
     Keypair,
     PublicKey,
     clusterApiUrl,
+    type Cluster,
 } from "@solana/web3.js";
 import { TRPCError } from "@trpc/server";
 import axios from "axios";
@@ -43,6 +43,7 @@ export const ordersRouter = router({
             z.object({
                 limit: z.number().min(1).max(100).optional().default(10),
                 cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
+                project: z.string().cuid().optional()
             }),
         )
         .query(async ({ ctx, input }) => {
@@ -53,6 +54,13 @@ export const ordersRouter = router({
                         userID: ctx.session.user.id,
                     },
                 }),
+                where: {
+                    ...(input.project && {
+                        nftSeries: {
+                            projectID: input.project,
+                        },
+                    }),
+                },
                 ...(input?.cursor && {
                     cursor: {
                         ecoOrderID: input.cursor,
@@ -71,7 +79,7 @@ export const ordersRouter = router({
         .input(
             z.object({
                 ecoOrderID: z.string(),
-                project: z.boolean().optional(),
+                project: z.string().cuid().optional()
             }),
         )
         .query(async ({ ctx, input: { ecoOrderID, project } }) => {
@@ -85,7 +93,7 @@ export const ordersRouter = router({
                 include: {
                     nftSeries: {
                         include: {
-                            project,
+                            project: !!project,
                         },
                     },
                 },
@@ -99,13 +107,14 @@ export const ordersRouter = router({
             if (
                 !network ||
                 !process.env.SOLANA_ADMIN_WALLET ||
-                !process.env.REGEN_WALLET
+                !process.env.REGEN_WALLET ||
+                !process.env.REGEN_ENDPOINT
             )
                 throw new TRPCError({
                     code: "INTERNAL_SERVER_ERROR",
                     message: "Env file error.",
                 });
-            let secretKey = bs58.decode(process.env.SOLANA_ADMIN_WALLET);
+            const secretKey = bs58.decode(process.env.SOLANA_ADMIN_WALLET);
             const wallet = Keypair.fromSecretKey(secretKey);
 
             // You can also provide a custom RPC endpoint.
@@ -165,11 +174,9 @@ export const ordersRouter = router({
                     txRes.data.mainActions[0].data.token.address ===
                         process.env.NEXT_PUBLIC_SOLANA_USDC &&
                     txRes.data.mainActions[0].data.amount ===
-                        (
-                            series.creditPrice *
-                            input.creditsPurchased *
-                            1e9
-                        ).toString()
+                        series.creditPrice
+                            .times(input.creditsPurchased)
+                            .times(1e9)
                 ) {
                     vaildInput = true;
                 }
@@ -223,7 +230,7 @@ export const ordersRouter = router({
                     ],
                     gas: "200000",
                 };
-                const TEST_MEMO = "Retire credits"
+                const TEST_MEMO = "Retire credits";
 
                 const { msgClient } = regenApi;
 
@@ -232,7 +239,7 @@ export const ordersRouter = router({
                         message: "Error. Try again.",
                         code: "CONFLICT",
                     });
-                    console.log(msgClient)
+                console.log(msgClient);
 
                 const signedTxBytes: any = await msgClient.sign(
                     account.address,

@@ -26,6 +26,7 @@ import {
     SystemProgram,
     Transaction,
     clusterApiUrl,
+    PublicKeyInitData,
 } from "@solana/web3.js";
 import Decimal from "decimal.js";
 import { toast } from "react-hot-toast";
@@ -39,9 +40,9 @@ import Form, {
 import { clientEnv } from "@/env/schema.mjs";
 
 // admin wllet
-const adminKey = new PublicKey(clientEnv.NEXT_PUBLIC_SOLANA_ADMIN_PUBKEY);
+const adminKey = new PublicKey(clientEnv.NEXT_PUBLIC_SOLANA_ADMIN_PUBKEY as PublicKeyInitData);
 // usdc address
-const mint = new PublicKey(clientEnv.NEXT_PUBLIC_SOLANA_USDC);
+const mint = new PublicKey(clientEnv.NEXT_PUBLIC_SOLANA_USDC as PublicKeyInitData);
 
 const PurchaseProject = () => {
     const router = useRouter();
