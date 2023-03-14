@@ -564,13 +564,13 @@ const main = async () => {
                 legalName: "ecoToken System Inc.",
                 devUrl: "localhost:3000",
                 stageUrl: "smy.eco-token.io",
-                prodUrl: "my.ecotoken.io",
+                prodUrl: "ecotokens.net",
             },
             {
                 siteName: "ecoToken Admin",
                 devUrl: "localhost:3001",
                 stageUrl: "admin.eco-token.io",
-                prodUrl: "admin.ecotoken.io",
+                prodUrl: "admin.ecotokens.net",
             },
             {
                 siteName: "ecoWarriors",

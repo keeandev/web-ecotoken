@@ -92,6 +92,7 @@ const PurchaseProject = () => {
         credits = form.watch("creditsPurchased").toNumber();
         console.log(credits);
     } catch (error) {
+        // @ts-ignore
         credits = form.watch("creditsPurchased") as number;
     }
     const retiredBy = form.watch("retireBy");
@@ -178,7 +179,7 @@ const PurchaseProject = () => {
 
                                     // send USDC to admin wallet
                                     let txId;
-                                    let buyerAssiciatedToken =
+                                    const buyerAssiciatedToken =
                                         await getAssociatedTokenAddress(
                                             mint,
                                             publicKey,
@@ -187,7 +188,7 @@ const PurchaseProject = () => {
                                             ASSOCIATED_TOKEN_PROGRAM_ID,
                                         );
 
-                                    let adminAssiciatedToken =
+                                    const adminAssiciatedToken =
                                         await getAssociatedTokenAddress(
                                             mint,
                                             adminKey,
@@ -284,7 +285,6 @@ const PurchaseProject = () => {
                                         toast.success(
                                             "Successfully transferred",
                                         );
-                                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                     } catch (error) {
                                         toast.error("Transfer SOL failed");
                                         return;
