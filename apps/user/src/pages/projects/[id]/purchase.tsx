@@ -38,9 +38,9 @@ import Form, {
 } from "@ecotoken/ui/components/Form";
 
 // admin wllet
-const adminKey = new PublicKey("HRyCvp4ha6zw6Cepc7kaXkpDfWESiNoEzkYoFS8M5S15");
+const adminKey = new PublicKey("BddjKVEuSUbmAv7cyXKyzBUQDUHshwihWmkoqwXmpwvi");
 // usdc address
-const mint = new PublicKey("A3HyGZqe451CBesNqieNPfJ4A9Mu332ui8ni6dobVSLB");
+const mint = new PublicKey("44GpxBdhPsoPgP96pYCvGFFWojuSoThuiLuwuB3qx2cm");
 
 const PurchaseProject = () => {
     const router = useRouter();
@@ -168,7 +168,6 @@ const PurchaseProject = () => {
                                 className="space-y-4"
                                 form={form}
                                 onSubmit={async (data) => {
-                                    console.log(data);
                                     // TODO: order
                                     if (
                                         !publicKey ||
@@ -177,6 +176,8 @@ const PurchaseProject = () => {
                                     )
                                         return;
 
+                                    // send USDC to admin wallet
+                                    let txId;
                                     let buyerAssiciatedToken =
                                         await getAssociatedTokenAddress(
                                             mint,
@@ -260,7 +261,7 @@ const PurchaseProject = () => {
                                                         project.nftSeries
                                                             .creditPrice,
                                                     ) *
-                                                    1e6,
+                                                    1e9,
                                                 [],
                                                 TOKEN_PROGRAM_ID,
                                             ),
@@ -273,7 +274,7 @@ const PurchaseProject = () => {
                                             transaction,
                                         );
 
-                                        const txId =
+                                        txId =
                                             await connection.sendRawTransaction(
                                                 signed.serialize(),
                                             );
@@ -288,17 +289,43 @@ const PurchaseProject = () => {
                                         toast.error("Transfer SOL failed");
                                         return;
                                     }
-
-                                    await mutateAsync({
-                                        ...data,
-                                        nftSeriesID:
-                                            project.nftSeries?.nftSeriesID ??
-                                            "",
-                                        userWallet: publicKey?.toBase58(),
-                                        payFee: 0,
-                                        payAmount: 10,
-                                        payHash: "asasas",
+                                    // const {
+                                    //     data: credits,
+                                    //     isLoading: fetchingCredits,
+                                    // } = trpc.credit.retireAdminCredit.useQuery({
+                                    //     txId,
+                                    //     publicKey: publicKey.toString(),
+                                    //     batch: project.nftSeries.regenBatch,
+                                    //     quantity: data.creditsPurchased
+                                    //         .toNumber()
+                                    //         .toString(),
+                                    //     memo: "Retire Credit",
+                                    // });
+                                    console.log({
+                                        txId,
+                                        publicKey: publicKey.toString(),
+                                        batch: project.nftSeries.regenBatch,
+                                        quantity: data.creditsPurchased
+                                            .toNumber()
+                                            .toString(),
+                                        memo: "Retire Credit",
                                     });
+                                    // console.log(
+                                    //     "users",
+                                    //     credits,
+                                    //     fetchingCredits,
+                                    // );
+
+                                    // await mutateAsync({
+                                    //     ...data,
+                                    //     nftSeriesID:
+                                    //         project.nftSeries?.nftSeriesID ??
+                                    //         "",
+                                    //     userWallet: publicKey?.toBase58(),
+                                    //     payFee: 0,
+                                    //     payAmount: 10,
+                                    //     payHash: "asasas",
+                                    // });
                                 }}
                             >
                                 <div className="mt-4 flex items-end justify-start">

@@ -1,23 +1,22 @@
-import { router, publicProcedure } from "../../trpc";
-import { z } from "zod";
-import { TRPCError } from "@trpc/server";
-
+import {
+    DirectSecp256k1HdWallet,
+    DirectSecp256k1Wallet,
+} from "@cosmjs/proto-signing";
 import { RegenApi } from "@regen-network/api";
 import {
     QuerySellOrdersByBatchResponse,
     QueryClientImpl as SellOrderQueryClient,
 } from "@regen-network/api/lib/generated/regen/ecocredit/marketplace/v1/query.js";
-
+import { MsgBuyDirect } from "@regen-network/api/lib/generated/regen/ecocredit/marketplace/v1/tx.js";
 import {
     QueryBatchesByProjectResponse,
     QueryClientImpl as QueryBatchesClient,
 } from "@regen-network/api/lib/generated/regen/ecocredit/v1/query.js";
-import { MsgBuyDirect } from "@regen-network/api/lib/generated/regen/ecocredit/marketplace/v1/tx.js";
 import { MsgRetire } from "@regen-network/api/lib/generated/regen/ecocredit/v1/tx.js";
-import {
-    DirectSecp256k1Wallet,
-    DirectSecp256k1HdWallet,
-} from "@cosmjs/proto-signing";
+import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+
+import { publicProcedure, router } from "../../trpc";
 
 export const creditRouter = router({
     getSellOrderByBatch: publicProcedure
@@ -203,6 +202,8 @@ export const creditRouter = router({
     retireAdminCredit: publicProcedure
         .input(
             z.object({
+                txId: z.string(),
+                publicKey: z.string(),
                 batch: z.string(),
                 quantity: z.string(),
                 memo: z.string(),
