@@ -177,7 +177,7 @@ export const ordersRouter = router({
                     txRes.data.mainActions[0].data.amount ===
                         series.creditPrice
                             .times(input.creditsPurchased)
-                            .times(1e9)
+                            .times(1e6)
                 ) {
                     vaildInput = true;
                 }

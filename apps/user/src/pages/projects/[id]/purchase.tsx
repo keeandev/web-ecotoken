@@ -264,7 +264,7 @@ const PurchaseProject = () => {
                                                         project.nftSeries
                                                             .creditPrice,
                                                     ) *
-                                                    1e9,
+                                                    1e6,
                                                 [],
                                                 TOKEN_PROGRAM_ID,
                                             ),
@@ -285,7 +285,7 @@ const PurchaseProject = () => {
                                             txId,
                                         );
                                         toast.success(
-                                            "Successfully transferred",
+                                            "Successfully transferred. Wait a second and don't close this tab"
                                         );
                                     } catch (error) {
                                         toast.error("Transfer USDC failed");
