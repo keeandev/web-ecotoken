@@ -1,6 +1,5 @@
 import React, { useMemo, useRef } from "react";
 import { useRouter } from "next/router";
-import html2canvas from 'html2canvas';
 // import NFTBuilderPreview from "../../../../../admin/src/components/nft-builder-preview";
 import NftPreview from "@/components/project/nft-preview";
 import { clientEnv } from "@/env/schema.mjs";
@@ -8,27 +7,20 @@ import { createAssociatedTokenAccountInstruction } from "@/utils/transferSplToke
 import { createTransferInstruction } from "@/utils/transferSplToken/createTransferInstructions";
 import { getAccountInfo } from "@/utils/transferSplToken/getAccountInfo";
 import { getAssociatedTokenAddress } from "@/utils/transferSplToken/getAssociatedTokerAddress";
-import { getOrCreateAssociatedTokenAccount } from "@/utils/transferSplToken/getOrCreateAssociatedTokenAccount";
-import { trpc } from "@/utils/trpc";
+import { trpc, uploadMutation } from "@/utils/trpc";
 import {
     ASSOCIATED_TOKEN_PROGRAM_ID,
     TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
-import {
-    SignerWalletAdapter,
-    WalletNotConnectedError,
-} from "@solana/wallet-adapter-base";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import {
-    Connection,
-    LAMPORTS_PER_SOL,
     PublicKey,
-    SystemProgram,
     Transaction,
-    clusterApiUrl,
     type PublicKeyInitData,
 } from "@solana/web3.js";
+import { useMutation } from "@tanstack/react-query";
 import Decimal from "decimal.js";
+import html2canvas from "html2canvas";
 import { toast } from "react-hot-toast";
 import { createEcoOrderSchema } from "@ecotoken/api/src/schema/order";
 import Button from "@ecotoken/ui/components/Button";
@@ -81,7 +73,7 @@ const PurchaseProject = () => {
             payFee: true,
             payHash: true,
             userID: true,
-            image: true
+            image: true,
         }),
         defaultValues: {
             creditsPurchased: new Decimal(0),
@@ -97,12 +89,20 @@ const PurchaseProject = () => {
     let credits;
     try {
         credits = form.watch("creditsPurchased").toNumber();
-        console.log(credits);
     } catch (error) {
         // @ts-ignore
         credits = form.watch("creditsPurchased") as number;
     }
     const retiredBy = form.watch("retireBy");
+
+    const { mutateAsync: uploadImage, isLoading: isUploadingImage } =
+        useMutation({
+            mutationKey: ["uploadSeriesImage"],
+            mutationFn: uploadMutation,
+        });
+
+    const { mutateAsync: createPresignedUrl } =
+        trpc.spaces.createPresignedUrls.useMutation();
 
     if (!project || !price) return <>Loading...</>;
 
@@ -177,8 +177,8 @@ const PurchaseProject = () => {
                                 className="space-y-4"
                                 form={form}
                                 onSubmit={async (data) => {
-                                    // TODO: order
-                                    if(!publicKey) toast.error("Please connect a wallet.");
+                                    if (!publicKey)
+                                        toast.error("Please connect a wallet.");
                                     if (
                                         !publicKey ||
                                         !signTransaction ||
@@ -186,11 +186,17 @@ const PurchaseProject = () => {
                                     )
                                         return;
 
+                                    let image;
                                     if (nftPreviewRef.current) {
-                                    const canvas = await html2canvas(
-                                        nftPreviewRef.current,
-                                    );
-                                    document.body.appendChild(canvas);
+                                        const canvas = await html2canvas(
+                                            nftPreviewRef.current,
+                                        );
+                                        document.body.appendChild(canvas);
+                                        canvas.toBlob((blob) => {
+                                            image = blob;
+                                            document.body.removeChild(canvas);
+                                        });
+                                    }
 
                                     // send USDC to admin wallet
                                     let txId;
@@ -298,30 +304,45 @@ const PurchaseProject = () => {
                                             txId,
                                         );
                                         toast.success(
-                                            "Successfully transferred. Wait a second and don't close this tab",
+                                            "USDC Successfully transferred. NFT is processing.",
                                         );
                                     } catch (error) {
                                         toast.error("Transfer USDC failed");
                                         return;
                                     }
 
-                                    await mutateAsync({
-                                        ...data,
-                                        nftSeriesID:
-                                            project.nftSeries?.nftSeriesID ??
-                                            "",
-                                        userWallet: publicKey?.toBase58(),
-                                        payFee: 0,
-                                        payAmount:
-                                            data.creditsPurchased.toNumber() *
-                                            Number(
-                                                project.nftSeries.creditPrice,
-                                            ),
-                                        payHash: txId,
-                                        image: canvas.toDataURL()
-                                    });
+                                    const imageURL = `eco-projects/${project?.projectID}/nft-series/${project?.nftSeries?.nftSeriesID}/nfts/${txId}.png`;
+
+                                    const url = (await createPresignedUrl({
+                                        contentType: "image/png",
+                                        key: imageURL,
+                                        acl: "public-read",
+                                    })) as string;
+
+                                    if (image && url) {
+                                        await uploadImage({
+                                            image,
+                                            url,
+                                        });
+
+                                        await mutateAsync({
+                                            ...data,
+                                            nftSeriesID:
+                                                project.nftSeries
+                                                    ?.nftSeriesID ?? "",
+                                            userWallet: publicKey?.toBase58(),
+                                            payFee: 0,
+                                            payAmount:
+                                                data.creditsPurchased.toNumber() *
+                                                Number(
+                                                    project.nftSeries
+                                                        .creditPrice,
+                                                ),
+                                            payHash: txId,
+                                            image: `${process.env.NEXT_PUBLIC_CDN_URL}/${imageURL}`,
+                                        });
+                                    }
                                 }}
-                            }
                             >
                                 <div className="mt-4 flex items-end justify-start">
                                     <FormInput
@@ -331,7 +352,9 @@ const PurchaseProject = () => {
                                         label="Amount of Credits to Purchase"
                                         defaultValue={100}
                                         step="any"
-                                        {...form.register("creditsPurchased")}
+                                        {...form.register("creditsPurchased", {
+                                            min: 0,
+                                        })}
                                     />
                                     <div className="float-left mb-2 inline-block border">
                                         {project.nftSeries.seriesType}
@@ -366,12 +389,6 @@ const PurchaseProject = () => {
                                                 : 1),
                                     ).toFixed(2)}
                                 </div>
-                                {/* <div>
-                                    {project.nftSeries?.creditPrice &&
-                                        `Purchase Price: $${project.nftSeries?.creditPrice.times(
-                                            credits,
-                                        )}`}
-                                </div> */}
                                 <FormInput
                                     size="full"
                                     label="Retired By"
@@ -381,7 +398,7 @@ const PurchaseProject = () => {
                                 <Button
                                     className="mt-8"
                                     fullWidth
-                                    loading={isOrdering}
+                                    loading={isOrdering || isUploadingImage}
                                 >
                                     Purchase Credits
                                 </Button>

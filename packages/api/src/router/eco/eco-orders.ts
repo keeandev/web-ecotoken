@@ -95,7 +95,14 @@ export const ordersRouter = router({
                 include: {
                     nftSeries: {
                         include: {
-                            project,
+                            ...(project && {
+                                project: {
+                                    include: {
+                                        location: true,
+                                        producer: true,
+                                    },
+                                },
+                            }),
                         },
                     },
                 },
@@ -103,7 +110,7 @@ export const ordersRouter = router({
         }),
     create: authedProcedure
         .input(createEcoOrderSchema)
-        .mutation(async ({ ctx, input }) => {
+        .mutation(async ({ ctx, input: { image, ...input } }) => {
             // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
             const network = process.env.NEXT_PUBLIC_SOLANA_NETWORK as Cluster;
             if (
@@ -156,7 +163,7 @@ export const ordersRouter = router({
             if (existed) {
                 throw new TRPCError({
                     code: "UNAUTHORIZED",
-                    message: "You used previous info.",
+                    message: "Order already exists.",
                 });
             }
 
@@ -275,31 +282,12 @@ export const ordersRouter = router({
                         }),
                     );
 
-                const imageBuffer = Buffer.from(
-                    input.image.replace(/^data:image\/\w+;base64,/, ""),
-                    "base64",
-                );
-
-                const file = toMetaplexFile(imageBuffer, `${retireHash}.png`);
-
-                // const imageURL = `/eco-projects/${series.project.projectID}/nft-series/${series.nftSeriesID}/nfts/${retireHash}.png`;
-                // await s3Client.send(
-                //     new PutObjectCommand({
-                //         Bucket: process.env.SPACES_BUCKET as string,
-                //         Key: imageURL,
-                //         ContentType: "image/png",
-                //         ContentEncoding: "base64",
-                //         ACL: "public-read",
-                //         Body: imageBuffer,
-                //     }),
-                // );
-
                 const { uri, metadata } = await metaplex.nfts().uploadMetadata({
                     name: `ECO NFT`,
                     symbol: "ECO",
                     description:
                         "This NFT is used to prove the retirement of environment credits.",
-                    image: file,
+                    image,
                     external_url: process.env.EXTERNAL_URL,
                     properties: {
                         creators: [
@@ -316,7 +304,7 @@ export const ordersRouter = router({
                     attributes: [
                         {
                             trait_type: "Project Name",
-                            value: series.seriesName,
+                            value: series.project?.title,
                         },
                         {
                             trait_type: "Retired Credits",
@@ -328,7 +316,7 @@ export const ordersRouter = router({
                         },
                         {
                             trait_type: "Retired By",
-                            value: input.userWallet,
+                            value: input.retireBy,
                         },
                         {
                             trait_type: "Retire Tx Hash",
@@ -370,8 +358,6 @@ export const ordersRouter = router({
                 });
             }
 
-            delete input["image"];
-
             const order = await ctx.prisma.ecoOrder.create({
                 data: {
                     ...input,
@@ -385,6 +371,7 @@ export const ordersRouter = router({
                     creditKey: series.creditKey,
                     creditWallet: series.creditWallet,
                     retireHash,
+                    status: "ORDER_COMPLETE",
                 },
                 select: {
                     ecoOrderID: true,

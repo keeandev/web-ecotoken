@@ -16,9 +16,6 @@ const ProjectTabPanel = ({
         <>
             <Tabs
                 defaultIndex={index}
-                onSelect={(index, lastIndex) =>
-                    console.log("onselect", index, lastIndex)
-                }
                 className="flex w-full"
             >
                 <TabList>

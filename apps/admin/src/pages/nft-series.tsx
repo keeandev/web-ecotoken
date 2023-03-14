@@ -1,5 +1,5 @@
 import { useMemo, useState, type ChangeEvent } from "react";
-import { trpc } from "@/utils/trpc";
+import { trpc, uploadMutation } from "@/utils/trpc";
 import { createId } from "@paralleldrive/cuid2";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
@@ -35,24 +35,6 @@ const NFTSeries: React.FC = () => {
         });
     const { data: ecoProjects, isLoading: fetchingEcoProjects } =
         trpc.ecoProjects.getAll.useInfiniteQuery({});
-
-    const uploadMutation = async ({
-        url,
-        seriesImage,
-    }: {
-        url: string;
-        seriesImage: File;
-    }) => {
-        await fetch(url, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "image/png",
-                "x-amz-acl": "public-read",
-            },
-            mode: "cors",
-            body: seriesImage,
-        });
-    };
 
     const { mutateAsync: uploadImage, isLoading: isUploadingImage } =
         useMutation({
@@ -92,7 +74,7 @@ const NFTSeries: React.FC = () => {
                     });
                     await uploadImage({
                         url: url as string,
-                        seriesImage,
+                        image: seriesImage,
                     });
                     await mutateAsync({
                         ...data,

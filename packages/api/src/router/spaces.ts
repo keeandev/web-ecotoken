@@ -54,7 +54,6 @@ export const spacesRouter = router({
             ]),
         )
         .mutation(async ({ input }) => {
-            console.log(input);
             if (!Array.isArray(input)) {
                 // change type of input to a single object as it is not an array
                 const url = await getSignedUrl(

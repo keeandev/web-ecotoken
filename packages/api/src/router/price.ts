@@ -13,7 +13,6 @@ const getCoinGeckoPrice = async () => {
         ids: ["solana"],
         vs_currencies: ["usd"],
     });
-    console.log(data);
     return data;
 };
 

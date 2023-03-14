@@ -1,4 +1,5 @@
 import { forwardRef } from "react";
+import Image from "next/image";
 import { faFileImage } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
@@ -47,18 +48,17 @@ const NftPreview = forwardRef<HTMLDivElement, NFTPreviewProps>(
                 {...props}
             >
                 <figure
-                    className="flex h-full w-full rounded-lg bg-cover"
-                    style={{ backgroundImage: `url(${image})` }}
+                    className="flex h-full w-full overflow-hidden rounded-lg bg-cover"
+                    // style={{ backgroundImage: `url(${image})` }}
                 >
-                    {/* <Image
+                    <Image
                         src={image}
                         alt="NFT image"
-                        {...(!width && !height
-                            ? { fill: true }
-                            : { width, height })}
-                        style={{ objectFit: "cover" }}
-                        className="pointer-events-none select-none overflow-hidden"
-                    /> */}
+                        fill
+                        style={{ objectFit: "fill" }}
+                        className="pointer-events-none select-none"
+                        crossOrigin="anonymous"
+                    />
                     <figcaption className="text-shadow absolute bottom-0 left-0 inline-block min-h-[200px] w-[100%] p-8 text-xl font-semibold text-white">
                         <div className="inline-block h-[24px] w-full">
                             <div className="float-left w-[110px] font-normal">

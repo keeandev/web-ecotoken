@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import Responsive from "@/components/dev-responsive";
 import DetailCard from "@/components/project/detail-card";
 import Overview from "@/components/project/overview";
 import ProjectCard from "@/components/project/project-card";
@@ -127,7 +126,12 @@ const ProjectDetails = () => {
                                         Credits Retired
                                     </span>
                                     <span className="text-[18px] font-semibold">
-                                    {project.nftSeries?.totalCredits -project.nftSeries?.setAmount}
+                                        {project.nftSeries?.totalCredits
+                                            .minus(
+                                                project.nftSeries?.setAmount ??
+                                                    0,
+                                            )
+                                            .toString()}
                                     </span>
                                 </div>
                             </div>
@@ -164,7 +168,6 @@ const ProjectDetails = () => {
                     </h1>
                     <div className="grid w-full grid-cols-1 content-start gap-7 py-[5em]  px-8 sm:grid-cols-3 sm:px-[7em]">
                         {projects.pages.flatMap(({ projects }) => {
-                            // console.log("Projects", projects);
                             return projects.map(
                                 ({
                                     projectID,

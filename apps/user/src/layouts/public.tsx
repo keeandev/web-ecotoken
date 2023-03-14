@@ -5,12 +5,6 @@ import PublicNavbar from "@/components/public/layout/navbar";
 import { trpc } from "@/utils/trpc";
 
 const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
-    // const { data: credits, isLoading: fetchingCredits } =
-    //     trpc.credit.getSellOrderByBatch.useQuery({
-    //         batch: "C50-001-20230301-20230401-001",
-    //     });
-    // console.log("users", credits, fetchingCredits);
-
     return (
         <>
             <Head>

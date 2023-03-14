@@ -10,6 +10,24 @@ export const getBaseUrl = () => {
     return `http://localhost:${process.env.PORT ?? 3000}`; // dev SSR should use localhost
 };
 
+export const uploadMutation = async ({
+    url,
+    image,
+}: {
+    url: string;
+    image: File | Blob;
+}) => {
+    await fetch(url, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "image/png",
+            "x-amz-acl": "public-read",
+        },
+        mode: "cors",
+        body: image,
+    });
+};
+
 export const trpc = createTRPCNext<AppRouter>({
     config() {
         return {

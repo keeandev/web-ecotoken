@@ -77,8 +77,6 @@ const CreateEcoProject = () => {
                         form={form}
                         onSubmit={async (project) => {
                             const projectID = createId();
-                            console.log(projectID, project);
-
                             await mutateAsync({
                                 ...project,
                                 projectID,

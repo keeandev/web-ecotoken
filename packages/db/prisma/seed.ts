@@ -170,7 +170,7 @@ const usersToCreate: CreateUserOperation[] = [
         username: "kingcounty",
         role: "Producer",
         site: "ecoToken",
-        companyName: "King County Department of Natural Resources and Parks",
+        companyName: "King County Parks",
     },
     {
         email: "user@regen.network",
@@ -185,33 +185,94 @@ const usersToCreate: CreateUserOperation[] = [
 
 const projectsToCreate: CreateProjectOperation[] = [
     {
-        title: "Dairy Manure Remediation",
-        shortTitle: "Dairy Manure Remediation",
-        identifier: "DairyManure001",
-        producer: "NOAH Solutions",
-        intro: "Manure treatment to tackle Greenhouse Gas, manure odor and groundwater contamination.",
-        location: "Leduc",
-        benefits: [
-            "Animal Welfare",
-            "Ecosystem Health",
-            "Greenhouse Gas",
-            "Groundwater Quality",
-        ],
-        project: "",
-        overview: "",
+        title: "Sandy Cross Forest Preservation Project",
+        shortTitle: "Sandy Cross Forest Preservation",
+        identifier: "Sandycross001",
+        producer: "Western Reserve Land Conservatory",
+        intro: "The Sandy Cross Forest Preservation Project is a 132-acre Project Area on a 214-acre property in the Mansfield metro area. Western Reserve Land Conservancy is seeking to preserve the Project, creating substantial conservation and community benefits including carbon sequestration, wildlife habitat, and open space protection.",
+        location: "Lexington",
+        benefits: ["Preservation", "Wildlife Habitat", "Climate"],
+        project: `<p>The Sandy Cross Forest Preservation Project is a 132-acre Project Area on a 214-acre property in the Mansfield metro area. Western Reserve Land Conservancy is seeking to preserve the Project, creating substantial conservation and community benefits including carbon sequestration, wildlife habitat, and open space protection. </p> 
+        <p>Preservation of the Project is important as intact forests of this size are becoming increasingly rare in Richland County due to agricultural development and urban expansion. Indeed, surrounding forested land is being rapidly converted into agricultural land and is facing a continued threat of urban expansion from the adjacent Village of Lexington.
+        </p> <p>The Project contains a diverse, 85-year forest including yellow poplar, sugar maple, oak, black cherry, and pine. Preservation of this forest will offer the residents of Northeast Ohio a wide variety of community and conservation benefits.</p>`,
+        overview: `<p><b>Offset Generation Method</b><br>Avoided Emissions</p>
+        <p><b>Project Activity</b><br>Tree Preservation</p>
+        <p><b>Project Type</b><br>Agriculture Forestry and Other Land Use</p>
+        <p><b>Documents</b><br><a href="https://www.cityforestcredits.org/wp-content/uploads/2021/07/Sandy-Cross-Project-Design-Document-1.pdf" target="_new">Project Design Document</a></p>
+        <p><b>Reference ID (cfc project id)</b><br><a href="https://www.cityforestcredits.org/carbon-credits/carbon-registry/mansfield-forest-carbon-offsets/" target="_new">Sandy Cross Forest</a></p>
+        <p><b>Offset Protocol</b><br><a href="https://www.cityforestcredits.org/wp-content/uploads/2022/07/City-Forest-Preservation-Protocol-40-Years-V11.40.pdf" target="_new">Preservation Protocol - 40 years</a></p>`,
         process: "",
         listImage:
-            "https://eco-token.io/images/ecoproject/head_dairy_cows01.jpg",
+            "https://regen-registry-server.herokuapp.com/image/projects/C02/sandy-cross.jpg",
         headImage:
-            "https://eco-token.io/images/ecoproject/head_3m_Lagoon01.jpg",
+            "https://regen-registry-server.herokuapp.com/image/projects/C02/sandy-cross.jpg",
+        site: "ecoToken",
+        status: "DATA_ENTRY",
+        creditType: "CARBON",
+        fundAmount: 0,
+        fundRecieved: 0,
+        return: 0,
+        dateStart: new Date("2021-10-14"),
+        dateEnd: new Date("2061-10-14"),
+    },
+    {
+        title: "King County Urban Forest Carbon Project",
+        shortTitle: "King County Urban Forest",
+        identifier: "KingCounty001",
+        producer: "King County Parks",
+        intro: "Launched in May 2019, King County’s Forest Carbon Project confronts climate change by offering local companies the opportunity to offset their carbon emissions by keeping forests intact here in the region, making it possible for their employees and their families to explore and enjoy the protected outdoor spaces.",
+        location: "King County",
+        benefits: ["Preservation", "Wildlife Habitat", "Climate"],
+        project: `<p>Launched in May 2019, King County’s Forest Carbon Project confronts climate change by offering local companies the opportunity to offset their carbon emissions by keeping forests intact here in the region, making it possible for their employees and their families to explore and enjoy the protected outdoor spaces.</p>
+        <p>Preservation of the Project is important as intact forests of this size are becoming increasingly rare in Richland County due to agricultural development and urban expansion. Indeed, surrounding forested land is being rapidly converted into agricultural land and is facing a continued threat of urban expansion from the adjacent Village of Lexington.
+        </p> <p>The Project contains a diverse, 85-year forest including yellow poplar, sugar maple, oak, black cherry, and pine. Preservation of this forest will offer the residents of Northeast Ohio a wide variety of community and conservation benefits.</p>`,
+        overview: `<p><b>Offset Generation Method</b><br>Avoided Emissions</p>
+        <p><b>Project Activity</b><br>Tree Preservation</p>
+        <p><b>Project Type</b><br>Agriculture Forestry and Other Land Use</p>
+        <p><b>Documents</b><br><a href="https://www.cityforestcredits.org/wp-content/uploads/2021/07/Sandy-Cross-Project-Design-Document-1.pdf" target="_new">Project Design Document</a></p>
+        <p><b>Reference ID (cfc project id)</b><br><a href="https://www.cityforestcredits.org/carbon-credits/carbon-registry/mansfield-forest-carbon-offsets/" target="_new">Sandy Cross Forest</a></p>
+        <p><b>Offset Protocol</b><br><a href="https://www.cityforestcredits.org/wp-content/uploads/2022/07/City-Forest-Preservation-Protocol-40-Years-V11.40.pdf" target="_new">Preservation Protocol - 40 years</a></p>`,
+        process: "",
+        listImage:
+            "https://regen-registry-server.herokuapp.com/image/projects/C02/kings-county.jpg",
+        headImage:
+            "https://regen-registry-server.herokuapp.com/image/projects/C02/kings-county.jpg",
         site: "ecoToken",
         status: "ACTIVE",
         creditType: "CARBON",
-        fundAmount: 80000,
-        fundRecieved: 2000,
-        return: 1.5,
-        dateStart: new Date("2022-05-01"),
-        dateEnd: new Date("2022-09-30"),
+        fundAmount: 0,
+        fundRecieved: 0,
+        return: 0,
+        dateStart: new Date("2018-12-14"),
+        dateEnd: new Date("2118-12-14"),
+    },
+    {
+        title: "Septic Treatment Project - Class II Water Credit - Agriculture",
+        shortTitle: "Septic Treatment Project",
+        identifier: "Septic001",
+        producer: "NOAH Solutions",
+        location: "Orlando",
+        intro: `On-site treatment of septic water with distilled level water put back into the local water system.`,
+        benefits: [],
+        project: `<p>The septic waste disposal facility in Orlando, Florida is seeking a new technology that will provide a more environmentally friendly solution for the treatment of septic wastewater. Currently, 15% of septic waste is transported to a landfill, where it releases methane emissions, and the remaining 85% is treated with lime before it is shipped 250 miles to Georgia and sprayed on agricultural fields. This process has significant CO2 emissions and can lead to the accumulation of excess nutrients in the soil.</p> <p>The proposed dehumidification technology by NOAH Solutions will allow for the treatment of 100% of the septic waste water on site. It is expected that only 8% solids will remain. The solid waste will be sterilized and suitable as fertilizer. The remaining 92% of potable water (PPM below 70) will meet approved guidelines and will be disposed of back into the Florida public water system. This will eliminate the need for transportation and the potential of harmful minerals seeping into agricultural land.</p>`,
+        overview: `<p><b>Offset Generation Method</b><br>Water Additionality</p>
+        <p><b>Co-Benefits</b><br>Avoided Emissions (est. 2,591 MTCO2e/yr)</p>
+        <p><b>Project Activity</b><br>Water Restoration</p>
+        <p><b>Project Type</b><br>Septic Waste Water Treatment</p>
+        <p><b>Reference ID (cfc project id)</b><br><a href="https://www.cityforestcredits.org/carbon-credits/carbon-registry/mansfield-forest-carbon-offsets/" target="_new">Sandy Cross Forest</a></p>
+        <p><b>Offset Protocol</b><br>WaterDAO Water Credits</p>`,
+        process: "",
+        listImage:
+            "https://cdn.discordapp.com/attachments/883467545145925632/1084956843387928658/IMG_7143.JPG",
+        headImage:
+            "https://cdn.discordapp.com/attachments/883467545145925632/1084956843387928658/IMG_7143.JPG",
+        site: "ecoToken",
+        status: "ACTIVE",
+        creditType: "WATER",
+        fundAmount: 0,
+        fundRecieved: 0,
+        return: 0,
+        dateStart: new Date("2023-03-01"),
     },
     {
         title: "Solar Desalination Plant - Class I Water Credits (RH2O-potable)",
@@ -232,6 +293,35 @@ const projectsToCreate: CreateProjectOperation[] = [
             "https://eco-token.io/images/ecoproject/head_wacoment-01.jpg",
         headImage:
             "https://eco-token.io/images/ecoproject/head_wacoment-01.jpg",
+        site: "ecoToken",
+        status: "ACTIVE",
+        creditType: "CARBON",
+        fundAmount: 80000,
+        fundRecieved: 2000,
+        return: 1.5,
+        dateStart: new Date("2022-05-01"),
+        dateEnd: new Date("2022-09-30"),
+    },
+    {
+        title: "Dairy Manure Remediation",
+        shortTitle: "Dairy Manure Remediation",
+        identifier: "DairyManure001",
+        producer: "NOAH Solutions",
+        intro: "Manure treatment to tackle Greenhouse Gas, manure odor and groundwater contamination.",
+        location: "Leduc",
+        benefits: [
+            "Animal Welfare",
+            "Ecosystem Health",
+            "Greenhouse Gas",
+            "Groundwater Quality",
+        ],
+        project: "",
+        overview: "",
+        process: "",
+        listImage:
+            "https://eco-token.io/images/ecoproject/head_dairy_cows01.jpg",
+        headImage:
+            "https://eco-token.io/images/ecoproject/head_3m_Lagoon01.jpg",
         site: "ecoToken",
         status: "ACTIVE",
         creditType: "CARBON",
@@ -332,68 +422,6 @@ const projectsToCreate: CreateProjectOperation[] = [
     //     dateEnd: new Date("2023-12-24"),
     // },
     {
-        title: "Sandy Cross Forest Preservation Project",
-        shortTitle: "Sandy Cross Forest Preservation",
-        identifier: "Sandycross001",
-        producer: "Western Reserve Land Conservatory",
-        intro: "The Sandy Cross Forest Preservation Project is a 132-acre Project Area on a 214-acre property in the Mansfield metro area. Western Reserve Land Conservancy is seeking to preserve the Project, creating substantial conservation and community benefits including carbon sequestration, wildlife habitat, and open space protection.",
-        location: "Lexington",
-        benefits: ["Preservation", "Wildlife Habitat", "Climate"],
-        project: `<p>The Sandy Cross Forest Preservation Project is a 132-acre Project Area on a 214-acre property in the Mansfield metro area. Western Reserve Land Conservancy is seeking to preserve the Project, creating substantial conservation and community benefits including carbon sequestration, wildlife habitat, and open space protection. </p> 
-        <p>Preservation of the Project is important as intact forests of this size are becoming increasingly rare in Richland County due to agricultural development and urban expansion. Indeed, surrounding forested land is being rapidly converted into agricultural land and is facing a continued threat of urban expansion from the adjacent Village of Lexington.
-        </p> <p>The Project contains a diverse, 85-year forest including yellow poplar, sugar maple, oak, black cherry, and pine. Preservation of this forest will offer the residents of Northeast Ohio a wide variety of community and conservation benefits.</p>`,
-        overview: `<p><b>Offset Generation Method</b><br>Avoided Emissions</p>
-        <p><b>Project Activity</b><br>Tree Preservation</p>
-        <p><b>Project Type</b><br>Agriculture Forestry and Other Land Use</p>
-        <p><b>Documents</b><br><a href="https://www.cityforestcredits.org/wp-content/uploads/2021/07/Sandy-Cross-Project-Design-Document-1.pdf" target="_new">Project Design Document</a></p>
-        <p><b>Reference ID (cfc project id)</b><br><a href="https://www.cityforestcredits.org/carbon-credits/carbon-registry/mansfield-forest-carbon-offsets/" target="_new">Sandy Cross Forest</a></p>
-        <p><b>Offset Protocol</b><br><a href="https://www.cityforestcredits.org/wp-content/uploads/2022/07/City-Forest-Preservation-Protocol-40-Years-V11.40.pdf" target="_new">Preservation Protocol - 40 years</a></p>`,
-        process: "",
-        listImage:
-            "https://regen-registry-server.herokuapp.com/image/projects/C02/sandy-cross.jpg",
-        headImage:
-            "https://regen-registry-server.herokuapp.com/image/projects/C02/sandy-cross.jpg",
-        site: "ecoToken",
-        status: "DATA_ENTRY",
-        creditType: "CARBON",
-        fundAmount: 0,
-        fundRecieved: 0,
-        return: 0,
-        dateStart: new Date("2021-10-14"),
-        dateEnd: new Date("2061-10-14"),
-    },
-    {
-        title: "King County Urban Forest Carbon Project",
-        shortTitle: "King County Urban Forest",
-        identifier: "KingCounty001",
-        producer: "King County Department of Natural Resources and Parks",
-        intro: "Launched in May 2019, King County’s Forest Carbon Project confronts climate change by offering local companies the opportunity to offset their carbon emissions by keeping forests intact here in the region, making it possible for their employees and their families to explore and enjoy the protected outdoor spaces.",
-        location: "King County",
-        benefits: ["Preservation", "Wildlife Habitat", "Climate"],
-        project: `<p>Launched in May 2019, King County’s Forest Carbon Project confronts climate change by offering local companies the opportunity to offset their carbon emissions by keeping forests intact here in the region, making it possible for their employees and their families to explore and enjoy the protected outdoor spaces.</p>
-        <p>Preservation of the Project is important as intact forests of this size are becoming increasingly rare in Richland County due to agricultural development and urban expansion. Indeed, surrounding forested land is being rapidly converted into agricultural land and is facing a continued threat of urban expansion from the adjacent Village of Lexington.
-        </p> <p>The Project contains a diverse, 85-year forest including yellow poplar, sugar maple, oak, black cherry, and pine. Preservation of this forest will offer the residents of Northeast Ohio a wide variety of community and conservation benefits.</p>`,
-        overview: `<p><b>Offset Generation Method</b><br>Avoided Emissions</p>
-        <p><b>Project Activity</b><br>Tree Preservation</p>
-        <p><b>Project Type</b><br>Agriculture Forestry and Other Land Use</p>
-        <p><b>Documents</b><br><a href="https://www.cityforestcredits.org/wp-content/uploads/2021/07/Sandy-Cross-Project-Design-Document-1.pdf" target="_new">Project Design Document</a></p>
-        <p><b>Reference ID (cfc project id)</b><br><a href="https://www.cityforestcredits.org/carbon-credits/carbon-registry/mansfield-forest-carbon-offsets/" target="_new">Sandy Cross Forest</a></p>
-        <p><b>Offset Protocol</b><br><a href="https://www.cityforestcredits.org/wp-content/uploads/2022/07/City-Forest-Preservation-Protocol-40-Years-V11.40.pdf" target="_new">Preservation Protocol - 40 years</a></p>`,
-        process: "",
-        listImage:
-            "https://regen-registry-server.herokuapp.com/image/projects/C02/kings-county.jpg",
-        headImage:
-            "https://regen-registry-server.herokuapp.com/image/projects/C02/kings-county.jpg",
-        site: "ecoToken",
-        status: "ACTIVE",
-        creditType: "CARBON",
-        fundAmount: 0,
-        fundRecieved: 0,
-        return: 0,
-        dateStart: new Date("2018-12-14"),
-        dateEnd: new Date("2118-12-14"),
-    },
-    {
         title: "Lapin Septic Treatment System in Orlando Florida",
         shortTitle: "Lapin Septic Treatment",
         identifier: "Lapin001",
@@ -408,30 +436,6 @@ const projectsToCreate: CreateProjectOperation[] = [
         process: "",
         listImage: "https://eco-token.io/images/ecoproject/head_lapin-01.jpg",
         headImage: "https://eco-token.io/images/ecoproject/head_lapin-01.jpg",
-        site: "ecoToken",
-        status: "ACTIVE",
-        creditType: "WATER",
-        fundAmount: 0,
-        fundRecieved: 0,
-        return: 0,
-        dateStart: new Date("2023-05-14"),
-        dateEnd: new Date("2028-12-14"),
-    },
-    {
-        title: "Septic Treatment Project - Class II Water Credit - Agriculture",
-        shortTitle: "Septic Treatment Project",
-        identifier: "Septic001",
-        producer: "NOAH Solutions",
-        location: "Orlando",
-        intro: `On-site treatment of septic water with distilled level water put back into the local water system.`,
-        benefits: [],
-        project: `<p>The septic waste disposal facility in Orlando, Florida is seeking a new technology that will provide a more environmentally friendly solution for the treatment of septic wastewater. Currently, 15% of septic waste is transported to a landfill, where it releases methane emissions, and the remaining 85% is treated with lime before it is shipped 250 miles to Georgia and sprayed on agricultural fields. This process has significant CO2 emissions and can lead to the accumulation of excess nutrients in the soil.</p> <p>The proposed dehumidification technology by NOAH Solutions will allow for the treatment of 100% of the septic waste water on site. It is expected that only 8% solids will remain. The solid waste will be sterilized and suitable as fertilizer. The remaining 92% of potable water (PPM below 70) will meet approved guidelines and will be disposed of back into the Florida public water system. This will eliminate the need for transportation and the potential of harmful minerals seeping into agricultural land.</p>`,
-        overview: "",
-        process: "",
-        listImage:
-            "https://cdn.discordapp.com/attachments/883467545145925632/1084956843387928658/IMG_7143.JPG",
-        headImage:
-            "https://cdn.discordapp.com/attachments/883467545145925632/1084956843387928658/IMG_7143.JPG",
         site: "ecoToken",
         status: "ACTIVE",
         creditType: "WATER",
@@ -464,8 +468,8 @@ const nftSeriesToCreate: NftSeriesOperation[] = [
         seriesImage: "https://eco-token.io/images/nft/NFT_bkgd_KingCounty.png",
         seriesType: "C02",
         regenBatch: "C02-001-20180101-20181231-001",
-        setAmount: 5553,
-        totalCredits: 26,
+        setAmount: 916,
+        totalCredits: 916,
         creditPrice: 31.45,
         retireWallet: "",
         recieveWallet: "",
@@ -508,8 +512,8 @@ const nftSeriesToCreate: NftSeriesOperation[] = [
         seriesImage: "https://eco-token.io/images/nft/NFT_bkgd_SandyCross.png",
         seriesType: "C02",
         regenBatch: "C02-002-20211012-20241013-001",
-        setAmount: 5553,
-        totalCredits: 6497,
+        setAmount: 875,
+        totalCredits: 875,
         creditPrice: 30.25,
         retireWallet: "",
         recieveWallet: "",
