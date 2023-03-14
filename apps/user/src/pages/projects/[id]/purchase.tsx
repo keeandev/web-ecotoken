@@ -288,7 +288,7 @@ const PurchaseProject = () => {
                                             "Successfully transferred",
                                         );
                                     } catch (error) {
-                                        toast.error("Transfer SOL failed");
+                                        toast.error("Transfer USDC failed");
                                         return;
                                     }
 

@@ -43,7 +43,7 @@ export const ordersRouter = router({
             z.object({
                 limit: z.number().min(1).max(100).optional().default(10),
                 cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
-                project: z.string().cuid().optional()
+                project: z.string().cuid().optional(),
             }),
         )
         .query(async ({ ctx, input }) => {
@@ -79,7 +79,7 @@ export const ordersRouter = router({
         .input(
             z.object({
                 ecoOrderID: z.string(),
-                project: z.boolean().optional()
+                project: z.boolean().optional(),
             }),
         )
         .query(async ({ ctx, input: { ecoOrderID, project } }) => {
@@ -108,7 +108,8 @@ export const ordersRouter = router({
                 !network ||
                 !process.env.SOLANA_ADMIN_WALLET ||
                 !process.env.REGEN_WALLET ||
-                !process.env.REGEN_ENDPOINT
+                !process.env.REGEN_ENDPOINT ||
+                !process.env.COLLECTION_ADDRESS
             )
                 throw new TRPCError({
                     code: "INTERNAL_SERVER_ERROR",
@@ -203,6 +204,7 @@ export const ordersRouter = router({
                     code: "CONFLICT",
                 });
 
+            let retireHash = "";
             try {
                 const regenApi = await RegenApi.connect({
                     connection: {
@@ -239,7 +241,6 @@ export const ordersRouter = router({
                         message: "Error. Try again.",
                         code: "CONFLICT",
                     });
-                console.log(msgClient);
 
                 const signedTxBytes: any = await msgClient.sign(
                     account.address,
@@ -247,17 +248,99 @@ export const ordersRouter = router({
                     TEST_FEE,
                     TEST_MEMO,
                 );
-                console.log("signedTxBytes", signedTxBytes);
 
                 const txRes = await msgClient.broadcast(signedTxBytes);
-
-                console.log("txRes", txRes);
+                retireHash = txRes.transactionHash;
 
                 // return txRes;
             } catch (err) {
                 console.log(err);
                 throw new TRPCError({
                     message: "Error in retiring process. Contact to dev team.",
+                    code: "CONFLICT",
+                });
+            }
+
+            // create NFT
+            try {
+                const metaplex = Metaplex.make(connection)
+                    .use(keypairIdentity(wallet))
+                    .use(
+                        bundlrStorage({
+                            address: "https://devnet.bundlr.network",
+                            providerUrl: endpoint,
+                            timeout: 60000,
+                        }),
+                    );
+
+                const { uri, metadata } = await metaplex.nfts().uploadMetadata({
+                    name: `ECO NFT`,
+                    symbol: "ECO",
+                    description:
+                        "This NFT is used to prove the retirement of environment credits.",
+                    image: process.env.IMAGE_URL,
+                    external_url: process.env.EXTERNAL_URL,
+                    properties: {
+                        creators: [
+                            {
+                                address: wallet.publicKey.toString(),
+                                share: 100,
+                            },
+                            // {
+                            //     address: creator2.publicKey.toString(),
+                            //     share: 40,
+                            // },
+                        ],
+                    },
+                    attributes: [
+                        {
+                            trait_type: "Project Name",
+                            value: series.seriesName,
+                        },
+                        {
+                            trait_type: "Retired Credits",
+                            value: input.creditsPurchased.toString(),
+                        },
+                        {
+                            trait_type: "Retired Time",
+                            value: new Date().toLocaleDateString(),
+                        },
+                        {
+                            trait_type: "Retired By",
+                            value: input.userWallet,
+                        },
+                    ],
+                });
+
+                console.log(uri, metadata);
+                const { nft } = await metaplex.nfts().create({
+                    uri: uri,
+                    name: `ECO NFT`,
+                    sellerFeeBasisPoints: 500, // Represents 5.00%.
+                    tokenOwner: new PublicKey(input.userWallet),
+
+                    // used for create collection items.
+                    creators: [
+                        {
+                            address: wallet.publicKey,
+                            authority: wallet,
+                            share: 100,
+                        },
+                        //   {
+                        //     address: creator2.publicKey,
+                        //     authority: creator2,
+                        //     share: 40,
+                        //   },
+                    ],
+                    isCollection: true,
+                    collection: new PublicKey(process.env.COLLECTION_ADDRESS),
+                    collectionAuthority: wallet,
+                    collectionIsSized: false,
+                });
+            } catch (err) {
+                throw new TRPCError({
+                    message:
+                        "Error in NFT creating process. Contact to dev team.",
                     code: "CONFLICT",
                 });
             }
@@ -274,9 +357,20 @@ export const ordersRouter = router({
                     ecoWallet: series.creditWallet,
                     creditKey: series.creditKey,
                     creditWallet: series.creditWallet,
+                    retireHash,
                 },
                 select: {
                     ecoOrderID: true,
+                },
+            });
+
+            await ctx.prisma.nFTSeries.update({
+                where: {
+                    nftSeriesID: input.nftSeriesID,
+                },
+                data: {
+                    setAmount:
+                        series.setAmount - Number(input.creditsPurchased),
                 },
             });
 

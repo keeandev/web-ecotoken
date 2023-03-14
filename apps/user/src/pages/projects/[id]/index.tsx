@@ -127,7 +127,7 @@ const ProjectDetails = () => {
                                         Credits Retired
                                     </span>
                                     <span className="text-[18px] font-semibold">
-                                        893.37
+                                    {project.nftSeries?.totalCredits -project.nftSeries?.setAmount}
                                     </span>
                                 </div>
                             </div>
