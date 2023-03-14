@@ -1,7 +1,7 @@
 import { router } from "../trpc";
 import { adminAuthRouter } from "./admin/admin-auth";
 import { adminUsersRouter } from "./admin/admin-users";
-import { coinPriceRouter } from "./crypto";
+import { coinPriceRouter } from "./price";
 import { locationsRouter, projectsRouter } from "./eco";
 import { ordersRouter } from "./eco/eco-orders";
 import { nftBuilderRouter } from "./nft-builder";

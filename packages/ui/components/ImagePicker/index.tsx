@@ -1,9 +1,10 @@
+import { useRef, useState, type ChangeEvent } from "react";
+import Image from "next/image";
 import { faFileImage } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { type ChangeEvent, useRef, useState } from "react";
-import Image from "next/image";
-import CropImageModal from "./crop-modal";
 import { cva, type VariantProps } from "class-variance-authority";
+
+import CropImageModal from "./crop-modal";
 
 const pickerStyles = cva("relative bg-slate-200 rounded-md overflow-hidden", {
     variants: {
@@ -89,11 +90,14 @@ const pickerStyles = cva("relative bg-slate-200 rounded-md overflow-hidden", {
     },
 });
 
-export interface ImagePickerProps extends VariantProps<typeof pickerStyles>, Omit<React.ComponentProps<"div">, "style">  {
+export interface ImagePickerProps
+    extends VariantProps<typeof pickerStyles>,
+        Omit<React.ComponentProps<"div">, "style"> {
     width?: number;
     height?: number;
     aspect?: number;
-} {}
+    setImage?: (value?: string) => void;
+}
 const ImagePicker: React.FC<ImagePickerProps> = ({
     width,
     height,
@@ -101,10 +105,11 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
     style,
     size,
     aspect,
+    setImage,
     ...props
 }) => {
     const [source, setSource] = useState<string>();
-    const [image, setImage] = useState<string>();
+    const [image, setStateImage] = useState<string>();
     const [isDialogOpen, setDialogOpen] = useState(false);
     const ref = useRef<HTMLInputElement>(null);
 
@@ -123,7 +128,10 @@ const ImagePicker: React.FC<ImagePickerProps> = ({
             <CropImageModal
                 aspect={aspect}
                 image={source}
-                setImage={setImage}
+                setImage={(image) => {
+                    setStateImage(image);
+                    if (setImage) setImage(image);
+                }}
                 isOpen={isDialogOpen}
                 setIsOpen={setDialogOpen}
             />

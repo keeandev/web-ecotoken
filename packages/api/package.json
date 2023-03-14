@@ -23,6 +23,7 @@
         "@ecotoken/db": "^0.0.0",
         "@ecotoken/email": "^0.0.0",
         "@metaplex-foundation/js": "^0.18.3",
+        "@napi-rs/canvas": "^0.1.38",
         "@paralleldrive/cuid2": "^2.2.0",
         "@regen-network/api": "^0.5.0",
         "@types/coingecko-api": "^1.0.10",

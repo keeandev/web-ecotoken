@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+
 import { decimal } from "./utils";
 
 export const ecoProjectEnumSchema = z.object({
@@ -40,7 +41,7 @@ export const createEcoProjectSchema = z.object({
     dateEnd: z.date().nullish(),
     needsFunding: z.boolean().default(false),
     isFeatured: z.boolean().default(false),
-    isVisible: z.boolean().default(false),
+    isVisible: z.boolean().default(true),
 });
 
 export const editEcoProjectSchema = z.object({
@@ -49,19 +50,17 @@ export const editEcoProjectSchema = z.object({
     title: z.string().optional(),
     shortTitle: z.string().optional(),
     identifier: z.string().optional(),
-    intro: z.string().optional(),
-    project: z.string().optional(),
-    overview: z.string().optional(),
-    process: z.string().optional(),
-    creditType: z.enum(["CARBON", "WATER", "HABITAT"]).optional(),
-    status: z
-        .enum(["DATA_ENTRY", "NEW", "UNFUNDED", "ACTIVE", "COMPLETED"])
-        .optional(),
+    intro: z.string().nullish(),
+    project: z.string().nullish(),
+    overview: z.string().nullish(),
+    process: z.string().nullish(),
+    creditType: ecoProjectEnumSchema.shape.creditType.optional(),
+    status: ecoProjectEnumSchema.shape.status.optional(),
     locationID: z.string().cuid().optional(),
     producerID: z.string().cuid().optional(),
     verifierID: z.string().cuid().nullish(),
-    listImage: z.string().optional(),
-    headImage: z.string().optional(),
+    listImage: z.string().nullish(),
+    headImage: z.string().nullish(),
     fundAmount: z.number().nullish(),
     fundRecieved: z.number().nullish(),
     return: decimal(5, 2).nullish(),

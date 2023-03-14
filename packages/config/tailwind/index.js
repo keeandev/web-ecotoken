@@ -30,7 +30,6 @@ const config = {
                     900: "#001f2e",
                 },
             },
-
             fontFamily: {
                 head: ["Poppins"],
             },

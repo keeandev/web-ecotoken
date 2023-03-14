@@ -27,7 +27,6 @@ const config = {
             "cdn.discordapp.com",
             "discordapp.com",
             "eco-token.io",
-            "cdn.discordapp.com",
         ],
         // remotePatterns: [
         //     {

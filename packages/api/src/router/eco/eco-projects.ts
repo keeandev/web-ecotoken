@@ -33,8 +33,19 @@ export const projectsRouter = router({
         .query(async ({ ctx, input }) => {
             const project = await ctx.prisma.ecoProject.findFirst({
                 where: {
-                    identifier: input.identifier,
+                    OR: [
+                        {
+                            identifier: input.identifier,
+                        },
+                        {
+                            projectID: input.projectID,
+                        },
+                    ],
                     siteID: ctx.selectedSite?.siteID ?? ctx.currentSite.siteID,
+                    ...((!ctx.session ||
+                        ctx.session?.user?.type === "user") && {
+                        isVisible: true,
+                    }),
                 },
                 include: {
                     benefits: input.benefits,
@@ -51,6 +62,10 @@ export const projectsRouter = router({
                                 seriesType: true,
                                 seriesImage: true,
                                 isActive: true,
+                                creditWallet: true,
+                                recieveWallet: true,
+                                retireWallet: true,
+                                seriesName: true,
                             },
                         },
                     }),
@@ -75,7 +90,10 @@ export const projectsRouter = router({
                 take: limit + 1, // get an extra item at the end which we'll use as next cursor
                 where: {
                     siteID: ctx.selectedSite?.siteID ?? ctx.currentSite.siteID,
-                    isVisible: true,
+                    ...((!ctx.session ||
+                        ctx.session?.user?.type === "user") && {
+                        isVisible: true,
+                    }),
                 },
                 include: {
                     benefits: input.benefits,

@@ -13,8 +13,7 @@ import Form, { FormInput, useZodForm } from "@ecotoken/ui/components/Form";
 const NFTBuilder = () => {
     const form = useZodForm({
         schema: createNFTSchema.omit({
-            image: true,
-            id: true,
+            nftSeriesID: true,
         }),
     });
     const { isLoading, mutateAsync } = trpc.nftBuilder.mint.useMutation();
@@ -23,18 +22,7 @@ const NFTBuilder = () => {
     const componentRef = useRef<HTMLDivElement | null>(null);
 
     const credits = form.watch("credits");
-    const symbol = form.watch("symbol");
-    const project = form.watch("project");
-    const location = form.watch("location");
-    const producer = form.watch("producer");
-    const date = form.watch("date");
-
-    const handleImageLoad = (e: ChangeEvent<HTMLInputElement>) => {
-        const files = e.target.files;
-        if (files && files[0]) {
-            setImageBlob(URL.createObjectURL(files[0]));
-        }
-    };
+    const retiredBy = form.watch("retiredBy");
 
     return (
         <div className="h-full w-full">
@@ -50,27 +38,18 @@ const NFTBuilder = () => {
                         <Form
                             form={form}
                             onSubmit={async (data) => {
-                                if (componentRef.current) {
-                                    const canvas = await html2canvas(
-                                        componentRef.current,
-                                    );
-                                    document.body.appendChild(canvas);
-                                    await mutateAsync({
-                                        ...data,
-                                        image: canvas.toDataURL(),
-                                        id: "999",
-                                    });
-                                }
+                                // if (componentRef.current) {
+                                //     const canvas = await html2canvas(
+                                //         componentRef.current,
+                                //     );
+                                //     document.body.appendChild(canvas);
+                                await mutateAsync({
+                                    ...data,
+                                    nftSeriesID: "clf5u97ve001rygfew00btecw",
+                                });
                             }}
                             className="flex w-full flex-col gap-4"
                         >
-                            <FormInput
-                                name="Image"
-                                label="Image"
-                                type="file"
-                                onChange={handleImageLoad}
-                                size="full"
-                            />
                             <FormInput
                                 label="Credits"
                                 type="number"
@@ -85,32 +64,9 @@ const NFTBuilder = () => {
                                 size="full"
                             />
                             <FormInput
-                                label="Symbol"
+                                label="Retired By"
                                 size="full"
-                                {...form.register("symbol")}
-                            />
-                            <FormInput
-                                label="Project"
-                                size="full"
-                                {...form.register("project")}
-                            />
-                            <FormInput
-                                label="Location"
-                                size="full"
-                                {...form.register("location")}
-                            />
-                            <FormInput
-                                label="Producer"
-                                size="full"
-                                {...form.register("producer")}
-                            />
-                            <FormInput
-                                label="Date"
-                                type="date"
-                                size="full"
-                                {...form.register("date", {
-                                    valueAsDate: true,
-                                })}
+                                {...form.register("retiredBy")}
                             />
                             <Button loading={isLoading} fullWidth>
                                 Build
@@ -118,7 +74,7 @@ const NFTBuilder = () => {
                         </Form>
                     </div>
                     <div className="relative flex flex-1 flex-col overflow-hidden rounded-lg">
-                        <NFTBuilderPreview
+                        {/* <NFTBuilderPreview
                             ref={componentRef}
                             image={imageBlob?.toString()}
                             batch={"999"}
@@ -130,7 +86,7 @@ const NFTBuilder = () => {
                             date={date}
                             width={1200}
                             height={1200}
-                        />
+                        /> */}
                         {/* {imageBlob && <Image src={imageBlob} alt="preview" fill />} */}
                     </div>
                 </div>

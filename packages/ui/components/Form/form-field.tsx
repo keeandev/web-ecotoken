@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 import { useFormContext } from "react-hook-form";
 import Label from "../Label";
 

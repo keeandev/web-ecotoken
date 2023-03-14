@@ -1,11 +1,12 @@
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { adminAuthedProcedure, authedProcedure, router } from "../trpc";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { z } from "zod";
-
-import { authedProcedure, router } from "../trpc";
+import { PutObjectCommand, ListObjectsV2Command } from "@aws-sdk/client-s3";
 import { s3Client } from "../utils/s3";
 
-const requiredInput = z.object({
+import { z } from "zod";
+import { TRPCError } from "@trpc/server";
+
+const requiredPresignedUrlInput = z.object({
     key: z.string(),
     contentType: z.string(),
     expiresIn: z
@@ -17,20 +18,41 @@ const requiredInput = z.object({
 });
 
 const createPutBucketCommand = (
-    Key: string,
-    ContentType: string,
-    ACL?: string,
+    key: string,
+    contentType: string,
+    acl?: string,
 ) =>
     new PutObjectCommand({
         Bucket: process.env.SPACES_BUCKET as string,
-        Key,
-        ContentType,
-        ACL,
+        Key: key,
+        ContentType: contentType,
+        ACL: acl,
+    });
+
+const createListObjectCommand = ({
+    prefix,
+    limit,
+    startAfterKey,
+}: {
+    prefix?: string;
+    limit?: number;
+    startAfterKey?: string;
+}) =>
+    new ListObjectsV2Command({
+        Bucket: process.env.SPACES_BUCKET as string,
+        MaxKeys: limit,
+        Prefix: prefix,
+        StartAfter: startAfterKey,
     });
 
 export const spacesRouter = router({
-    createPresignedUrl: authedProcedure
-        .input(z.union([requiredInput, requiredInput.array().max(20)]))
+    createPresignedUrls: authedProcedure
+        .input(
+            z.union([
+                requiredPresignedUrlInput,
+                requiredPresignedUrlInput.array().max(20),
+            ]),
+        )
         .mutation(async ({ input }) => {
             console.log(input);
             if (!Array.isArray(input)) {
@@ -65,6 +87,28 @@ export const spacesRouter = router({
                 });
                 return await Promise.all(promises);
             }
-            // @ts-ignore
+        }),
+    listObjects: adminAuthedProcedure
+        .input(
+            z.object({
+                prefix: z.string().optional(),
+                limit: z.number().min(1).max(100).default(30),
+                startAfterKey: z.string().optional(),
+            }),
+        )
+        .query(async ({ input }) => {
+            const objects = await s3Client.send(
+                createListObjectCommand({ ...input }),
+            );
+            if (!objects || !objects.Contents)
+                throw new TRPCError({
+                    message: "No objects found.",
+                    code: "NOT_FOUND",
+                });
+
+            // remove the folder from the urls
+            objects.Contents.shift();
+            const keys = objects.Contents.map((key) => key.Key ?? "");
+            return keys;
         }),
 });

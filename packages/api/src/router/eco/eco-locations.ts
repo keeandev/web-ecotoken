@@ -25,7 +25,6 @@ export const locationsRouter = router({
 		.input(
 			z.object({
 				siteID: z.string().optional(),
-
 				limit: z.number().min(1).max(100).nullish().default(10),
 				cursor: z.string().nullish() // <-- "cursor" needs to exist, but can be any type
 			})

@@ -37,7 +37,7 @@ const EcoProjectsList = () => {
         columnHelper.accessor("fundRecieved", {
             header: "Fund Recieved",
         }),
-        columnHelper.accessor("ecoType", {
+        columnHelper.accessor("creditType", {
             header: "Project Type",
             cell: (info) => formatEnum(info.getValue()),
         }),
@@ -48,8 +48,8 @@ const EcoProjectsList = () => {
     ];
 
     return (
-        <div>
-            <DefaultCard className="space-y-4">
+        <div className="w-full text-black">
+            <DefaultCard className="flex w-full flex-col space-y-4" size="half">
                 <div className="flex w-full">
                     <div>
                         <CardTitle>Eco Projects</CardTitle>

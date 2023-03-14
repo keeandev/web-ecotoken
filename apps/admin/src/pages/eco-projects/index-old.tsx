@@ -1,12 +1,16 @@
-import { useMemo } from "react";
+// @ts-nocheck
+
+import { useMemo, useState, type ChangeEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import ProjectTabPanelForCreate from "@/components/eco-project/project-tab-panel-for-create";
+import ProjectTabPanel from "@/components/eco-project/project-tab-panel";
+import StatusSelector from "@/components/eco-project/status-selector";
 import { formatEnum } from "@/utils/formatter";
 import { trpc } from "@/utils/trpc";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { createId } from "@paralleldrive/cuid2";
+import { Country, State } from "country-state-city";
 import { toast } from "react-hot-toast";
 import { createEcoProjectSchema } from "@ecotoken/api/src/schema/project";
 import Button from "@ecotoken/ui/components/Button";
@@ -17,23 +21,44 @@ import Form, {
     useZodForm,
 } from "@ecotoken/ui/components/Form";
 
-const CreateEcoProject = () => {
+const Summary = () => {
+    const [images, setImages] = useState<{
+        listImage: File | null;
+        headOne: File | null;
+        headTwo: File | null;
+        headThree: File | null;
+    }>({
+        listImage: null,
+        headOne: null,
+        headTwo: null,
+        headThree: null,
+    });
     const router = useRouter();
     const context = trpc.useContext();
-
     const { mutateAsync, isLoading: isCreatingProject } =
         trpc.ecoProjects.create.useMutation({
-            async onSuccess(data) {
+            async onSuccess() {
                 context.ecoProjects.getAll.invalidate();
-                await router.push(`/eco-projects/${data.projectID}/edit`);
+                await router.push("/eco-projects");
                 toast.success("Project created successfully.");
             },
         });
+
+    const { mutateAsync: createUrls, isLoading: isCreatingUrls } =
+        trpc.upload.createPresignedUrl.useMutation();
+
+    const { data: ecoLocations, isLoading: fetchingEcoLocations } =
+        trpc.ecoLocations.getAll.useInfiniteQuery({});
 
     const { data: users, isLoading: fetchingUsers } =
         trpc.users.getAll.useInfiniteQuery({
             role: ["Producer", "Verifier"],
         });
+
+    const cachedLocations = useMemo(
+        () => ecoLocations?.pages.flatMap((page) => page.locations),
+        [ecoLocations],
+    );
 
     const cachedUsers = useMemo(
         () => users?.pages.flatMap((page) => page.users),
@@ -45,15 +70,41 @@ const CreateEcoProject = () => {
         [cachedUsers],
     );
 
+    const verifierUsers = useMemo(
+        () => cachedUsers?.filter((user) => user.role.role === "Verifier"),
+        [cachedUsers],
+    );
+
     const form = useZodForm({
         schema: createEcoProjectSchema.omit({
+            ecoNftID: true,
+            title: true,
+            images: true,
             projectID: true,
         }),
     });
 
+    const handleImageLoad = (e: ChangeEvent<HTMLInputElement>) => {
+        const files = e.target.files;
+        const key = e.target.name;
+        // we have one file and it's in the images JSON object
+        if (files && files[0] && key in images) {
+            const file = files[0];
+            setImages({
+                ...images,
+                [key]: file,
+            });
+        }
+    };
+
+    const formatCountryAndState = (countryCode: string, stateCode: string) =>
+        `${
+            State.getStateByCodeAndCountry(stateCode, countryCode)?.name ?? ""
+        }, ${Country.getCountryByCode(countryCode)?.name ?? ""}`;
+
     return (
         <div className="w-full space-y-4">
-            <ProjectTabPanelForCreate index={1}>
+            <ProjectTabPanel index={1}>
                 <DefaultCard
                     className="flex w-full flex-col space-y-4"
                     size="half"
@@ -76,12 +127,77 @@ const CreateEcoProject = () => {
                     <Form
                         form={form}
                         onSubmit={async (project) => {
+                            if (!images) return;
+                            const currentLocation = cachedLocations?.find(
+                                (location) =>
+                                    location.locationID === project.locationID,
+                            );
+                            if (!currentLocation) return;
                             const projectID = createId();
-                            console.log(projectID, project);
+                            const fileNames = Object.keys(images);
+                            const files = Object.values(images);
+                            // find the key to use as the image name
+                            const findKeyByValue = (image: File | null) =>
+                                fileNames.find(
+                                    (key) =>
+                                        images[key as keyof typeof images] ===
+                                        image,
+                                );
 
+                            const urls = await createUrls(
+                                files.map((image) => ({
+                                    key: `eco-projects/${projectID}/${
+                                        findKeyByValue(image) ?? ""
+                                    }.png`,
+                                    contentType: "image/png",
+                                    acl: "public-read",
+                                })),
+                            );
+                            // find which url belongs to which object in the `images` object state
+                            for (const url of urls) {
+                                const split = url.split("/");
+                                let fileName = split[split.length - 1];
+                                // split between the last / and the ? <- AWS uses for attributes, to get the file name of this url
+                                fileName = fileName?.substring(
+                                    0,
+                                    fileName.indexOf("?"),
+                                );
+                                if (fileName) {
+                                    const file =
+                                        images[
+                                            fileName.replace(
+                                                ".png",
+                                                "",
+                                            ) as keyof typeof images
+                                        ];
+                                    await fetch(url, {
+                                        method: "PUT",
+                                        headers: {
+                                            "Content-Type": "image/png",
+                                            "x-amz-acl": "public-read",
+                                        },
+                                        mode: "cors",
+                                        body: file,
+                                    });
+                                }
+                            }
+                            const projectImages = Object.keys(images).map(
+                                (imageKey) => ({
+                                    [imageKey]: `eco-projects/${projectID}/${imageKey}.png`,
+                                }),
+                            );
                             await mutateAsync({
                                 ...project,
                                 projectID,
+                                title:
+                                    project.shortTitle +
+                                    " in " +
+                                    formatCountryAndState(
+                                        currentLocation.cn,
+                                        currentLocation.st,
+                                    ),
+                                // eslint-disable-next-line
+                                images: Object.assign({}, ...projectImages),
                             });
                         }}
                         className="flex w-fit flex-col gap-4"
@@ -120,6 +236,20 @@ const CreateEcoProject = () => {
                                 </option>
                             ))}
                         </FormSelect>
+                        {/* <FormSelect
+                                label="Project Type"
+                                size="xl"
+                                wrapperClass="w-fit"
+                                {...form.register("ecoType")}
+                            >
+                                {createEcoProjectSchema.shape.ecoType.options?.map(
+                                    (type) => (
+                                        <option key={type} value={type}>
+                                            {transformEnum(type)}
+                                        </option>
+                                    ),
+                                )}
+                            </FormSelect> */}
                         <FormSelect
                             label="Project Status"
                             size="xl"
@@ -134,43 +264,42 @@ const CreateEcoProject = () => {
                                 ),
                             )}
                         </FormSelect>
-                        <FormSelect
-                            label="Credit Type"
-                            size="xl"
-                            wrapperClass="w-fit"
-                            {...form.register("creditType")}
-                        >
-                            {createEcoProjectSchema.shape.creditType.options?.map(
-                                (type) => (
-                                    <option key={type} value={type}>
-                                        {formatEnum(type)}
-                                    </option>
-                                ),
-                            )}
-                        </FormSelect>
-                        <FormInput
-                            label="Needs Funding"
-                            type="checkbox"
-                            size="xl"
-                            wrapperClass="w-fit flex space-x-2"
-                            className="w-fit"
-                            {...form.register("needsFunding")}
+                        <StatusSelector
+                            label="Status:"
+                            datas={[
+                                { key: "status1", title: "Data Entry" },
+                                { key: "status2", title: "New" },
+                                { key: "status3", title: "Undefined" },
+                                { key: "status4", title: "Active" },
+                                { key: "status5", title: "Completed" },
+                            ]}
+                            multiSelect={false}
+                            getSelectedStatuses={(
+                                selectedStatuses: string[],
+                            ) => {}}
                         />
-                        <FormInput
-                            label="Featured"
-                            type="checkbox"
-                            size="xl"
-                            wrapperClass="w-fit flex space-x-2"
-                            className="w-fit"
-                            {...form.register("isFeatured")}
+                        <StatusSelector
+                            label="Credit Types:"
+                            datas={[
+                                { key: "credit1", title: "CARBON" },
+                                { key: "credit2", title: "WATER" },
+                                { key: "credit3", title: "HABITAT" },
+                            ]}
+                            multiSelect={true}
+                            getSelectedStatuses={(
+                                selectedStatuses: string[],
+                            ) => {}}
                         />
-                        <FormInput
-                            label="Visible"
-                            type="checkbox"
-                            size="xl"
-                            wrapperClass="w-fit flex space-x-2"
-                            className="w-fit"
-                            {...form.register("isVisible")}
+                        <StatusSelector
+                            label="Needs Funding:"
+                            datas={[
+                                { key: "funding1", title: "YES" },
+                                { key: "funding2", title: "NO" },
+                            ]}
+                            multiSelect={false}
+                            getSelectedStatuses={(
+                                selectedStatuses: string[],
+                            ) => {}}
                         />
                         {/* <FormSelect
                                 label="Location"
@@ -329,15 +458,21 @@ const CreateEcoProject = () => {
                             /> */}
                         <Button
                             fullWidth
-                            loading={isCreatingProject || fetchingUsers}
+                            loading={
+                                fetchingUsers ||
+                                fetchingEcoLocations ||
+                                isCreatingProject ||
+                                isCreatingUrls
+                            }
+                            className="uppercase"
                         >
                             Create
                         </Button>
                     </Form>
                 </DefaultCard>
-            </ProjectTabPanelForCreate>
+            </ProjectTabPanel>
         </div>
     );
 };
 
-export default CreateEcoProject;
+export default Summary;

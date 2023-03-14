@@ -1,21 +1,31 @@
 import { useRouter } from "next/router";
+import ProjectTabPanel from "@/components/eco-project/project-tab-panel";
 import { trpc } from "@/utils/trpc";
 import { createColumnHelper } from "@tanstack/react-table";
-import Button from "@ecotoken/ui/components/Button";
-import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
+import { toast } from "react-hot-toast";
+import { CardTitle } from "@ecotoken/ui/components/Card";
+import Spinner from "@ecotoken/ui/components/Spinner";
 import Table from "@ecotoken/ui/components/Table";
 
 type Unarrayify<T> = T extends Array<infer E> ? E : T;
 
-const EcoOrders = () => {
+const Orders = () => {
     const router = useRouter();
+    const { id } = router.query;
 
-    const { data } = trpc.ecoOrders.getAll.useInfiniteQuery({});
+    const { data, isLoading } = trpc.ecoOrders.getAll.useInfiniteQuery(
+        {
+            project: id as string,
+        },
+        {
+            enabled: !!id,
+        },
+    );
+
     const orders = data?.pages.flatMap((data) => data.orders);
     type Order = Unarrayify<typeof orders>;
 
     const columnHelper = createColumnHelper<Order>();
-
     const columns = [
         columnHelper.accessor("ecoOrderID", {
             header: "Order ID",
@@ -48,26 +58,22 @@ const EcoOrders = () => {
         }),
     ];
 
-    return (
-        <div className="space-y-4">
-            <div className="flex w-full">
-                <div>
+    if (!data) {
+        if (isLoading) return <Spinner />;
+        else {
+            toast.error("No orders found.");
+            router.push("/eco-projects");
+            return null;
+        }
+    } else
+        return (
+            <ProjectTabPanel index={8} projectId={id}>
+                <div className="p-5 overflow-x-auto">
                     <CardTitle>Orders</CardTitle>
-                    <CardDescription>
-                        A list of all available orders.
-                    </CardDescription>
+                    <Table data={orders ?? []} columns={columns} fullWidth />
                 </div>
-                <div className="flex flex-1 items-end justify-end space-x-2">
-                    <Button
-                        onClick={() => router.push(`${router.asPath}/create`)}
-                    >
-                        Create an order
-                    </Button>
-                </div>
-            </div>
-            <Table data={orders ?? []} columns={columns} fullWidth />
-        </div>
-    );
+            </ProjectTabPanel>
+        );
 };
 
-export default EcoOrders;
+export default Orders;

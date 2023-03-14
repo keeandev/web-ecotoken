@@ -1,5 +1,4 @@
 import { useMemo, useState, type ChangeEvent } from "react";
-import { formatEnum } from "@/utils/formatter";
 import { trpc } from "@/utils/trpc";
 import { createId } from "@paralleldrive/cuid2";
 import { useMutation } from "@tanstack/react-query";
@@ -23,7 +22,7 @@ const NFTSeries: React.FC = () => {
     });
 
     const { mutateAsync: createPresignedUrl } =
-        trpc.spaces.createPresignedUrl.useMutation();
+        trpc.spaces.createPresignedUrls.useMutation();
 
     const { mutateAsync, isLoading: isCreating } =
         trpc.nftSeries.create.useMutation({
@@ -37,11 +36,6 @@ const NFTSeries: React.FC = () => {
     const { data: ecoProjects, isLoading: fetchingEcoProjects } =
         trpc.ecoProjects.getAll.useInfiniteQuery({});
 
-    const { data: users, isLoading: fetchingUsers } =
-        trpc.users.getAll.useInfiniteQuery({
-            role: "Producer",
-        });
-
     const uploadMutation = async ({
         url,
         seriesImage,
@@ -53,6 +47,7 @@ const NFTSeries: React.FC = () => {
             method: "PUT",
             headers: {
                 "Content-Type": "image/png",
+                "x-amz-acl": "public-read",
             },
             mode: "cors",
             body: seriesImage,
@@ -68,11 +63,6 @@ const NFTSeries: React.FC = () => {
     const cachedProjects = useMemo(
         () => ecoProjects?.pages.flatMap((page) => page.projects),
         [ecoProjects],
-    );
-
-    const cachedUsers = useMemo(
-        () => users?.pages.flatMap((page) => page.users),
-        [users],
     );
 
     const handleImageLoad = (e: ChangeEvent<HTMLInputElement>) => {
@@ -128,26 +118,18 @@ const NFTSeries: React.FC = () => {
                     <option value="" hidden></option>
                     {cachedProjects?.map((project) => (
                         <option
-                            key={project.projectID}
-                            value={project.projectID}
+                            key={project?.projectID}
+                            value={project?.projectID}
                         >
-                            {project.title}
+                            {project?.title}
                         </option>
                     ))}
                 </FormSelect>
-                <FormSelect
+                <FormInput
                     label="Series Type"
-                    {...form.register("seriesType")}
                     size="full"
-                >
-                    {createNFTSeriesSchema.shape.seriesType.options?.map(
-                        (type) => (
-                            <option key={type} value={type}>
-                                {formatEnum(type)}
-                            </option>
-                        ),
-                    )}
-                </FormSelect>
+                    {...form.register("seriesType")}
+                />
                 <FormInput
                     label="Series Name"
                     size="full"
@@ -162,23 +144,10 @@ const NFTSeries: React.FC = () => {
                         valueAsNumber: true,
                     })}
                 />
-                <FormSelect
-                    label="Producer"
-                    size="full"
-                    defaultValue=""
-                    {...form.register("producerID")}
-                >
-                    <option value="" hidden></option>
-                    {cachedUsers?.map((user) => (
-                        <option key={user.userID} value={user.userID}>
-                            {user.companyName}
-                        </option>
-                    ))}
-                </FormSelect>
                 <FormInput
-                    label="Producer Wallet Address"
+                    label="Retirement Wallet Address"
                     size="full"
-                    {...form.register("producerWallet")}
+                    {...form.register("retireWallet")}
                 />
                 <FormInput
                     label="Recieving Wallet Address"
@@ -197,10 +166,7 @@ const NFTSeries: React.FC = () => {
                 />
                 <Button
                     loading={
-                        fetchingEcoProjects ||
-                        fetchingUsers ||
-                        isCreating ||
-                        isUploadingImage
+                        fetchingEcoProjects || isCreating || isUploadingImage
                     }
                     fullWidth
                 >

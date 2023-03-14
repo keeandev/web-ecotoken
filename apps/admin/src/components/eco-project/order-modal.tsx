@@ -22,15 +22,15 @@ const OrderModal: React.FC<{
     loading?: boolean;
     admin?: boolean;
 }> = ({ onOrder, creditType, loading, admin }) => {
-    const { data: ecoProjects, isLoading: fetchingEcoProjects } =
-        trpc.nftSeries.getAll.useInfiniteQuery(
-            {
-                isActive: true
-            },
-            {
-                enabled: !!admin,
-            },
-        );
+    // const { data: ecoProjects, isLoading: fetchingEcoProjects } =
+    //     trpc.nftSeries.getAll.useInfiniteQuery(
+    //         {
+    //             isActive: true
+    //         },
+    //         {
+    //             enabled: !!admin,
+    //         },
+    //     );
 
     const { data: users, isLoading: fetchingUsers } =
         trpc.users.getAll.useInfiniteQuery(
@@ -42,10 +42,10 @@ const OrderModal: React.FC<{
             },
         );
 
-    const cachedSeries = useMemo(
-        () => ecoProjects?.pages.flatMap((page) => page.series),
-        [ecoProjects],
-    );
+    // const cachedSeries = useMemo(
+    //     () => ecoProjects?.pages.flatMap((page) => page.series),
+    //     [ecoProjects],
+    // );
 
     const cachedUsers = useMemo(
         () => users?.pages.flatMap((page) => page.users),
@@ -65,7 +65,7 @@ const OrderModal: React.FC<{
             <div className="space-y-4">
                 {admin && (
                     <>
-                        <FormSelect
+                        {/* <FormSelect
                             label="Project"
                             size="full"
                             defaultValue=""
@@ -77,10 +77,10 @@ const OrderModal: React.FC<{
                                     key={series.nftSeriesID}
                                     value={series.nftSeriesID}
                                 >
-                                    {series.ecoTitle}
+                                    {series.title}
                                 </option>
                             ))}
-                        </FormSelect>
+                        </FormSelect> */}
                         <FormSelect
                             label="User"
                             size="full"
@@ -122,7 +122,7 @@ const OrderModal: React.FC<{
                     {...form.register("retireBy")}
                 />
                 <Button
-                    loading={loading || fetchingEcoProjects || fetchingUsers}
+                    loading={loading /* || fetchingEcoProjects */ || fetchingUsers}
                     fullWidth
                 >
                     Purchase Credits

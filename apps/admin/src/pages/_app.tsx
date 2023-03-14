@@ -1,5 +1,6 @@
 import DashboardLayout from "@/layouts/default";
 import "@/styles/globals.css";
+import "@/styles/react-tabs.css";
 import { trpc } from "@/utils/trpc";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
@@ -11,32 +12,32 @@ import { Toaster } from "react-hot-toast";
 config.autoAddCss = false;
 
 export type NextPageWithLayout = NextPage & {
-	getLayout?: (page: ReactElement) => ReactNode;
+    getLayout?: (page: ReactElement) => ReactNode;
 };
 
 type AppPropsWithLayout = AppProps & {
-	Component: NextPageWithLayout;
+    Component: NextPageWithLayout;
 };
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
-	const defaultLayout = (page: ReactNode) => {
-		return <DashboardLayout>{page}</DashboardLayout>;
-	};
-	const getLayout = Component.getLayout ?? defaultLayout;
-	return (
-		<>
-			{getLayout(<Component {...pageProps} />)}
-			<Toaster
-				position="bottom-right"
-				toastOptions={{
-					duration: 2000,
-					custom: {
-						className: "bg-slate-200 text-black"
-					}
-				}}
-			/>
-		</>
-	);
+    const defaultLayout = (page: ReactNode) => {
+        return <DashboardLayout>{page}</DashboardLayout>;
+    };
+    const getLayout = Component.getLayout ?? defaultLayout;
+    return (
+        <>
+            {getLayout(<Component {...pageProps} />)}
+            <Toaster
+                position="bottom-right"
+                toastOptions={{
+                    duration: 2000,
+                    custom: {
+                        className: "bg-slate-200 text-black",
+                    },
+                }}
+            />
+        </>
+    );
 };
 
 export default trpc.withTRPC(App);

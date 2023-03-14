@@ -13,7 +13,8 @@ const avatarStyles = cva("overflow-hidden relative", {
         size: {
             sm: "w-10 h-10",
             md: "w-16 h-16",
-            lg: "w-32 h-32",
+            lg: "w-24 h-24",
+            xl: "w-32 h-32",
         },
     },
     defaultVariants: {

@@ -180,10 +180,18 @@ const FileUpload: React.FC<FileUploadProps> = ({
 const Image = forwardRef<
     Omit<HTMLDivElement, "onClick">,
     AvatarProps & { onClick?: () => void }
->(({ onClick, ...props }, ref) => {
+>(({ onClick, key, ...props }, ref) => {
     return (
-        <div className="relative h-fit w-fit text-inherit" ref={ref}>
-            <Avatar {...props} quality={30} />
+        <div
+            className="relative h-fit w-fit select-none text-inherit"
+            ref={ref}
+            key={key}
+        >
+            <Avatar
+                {...props}
+                quality={30}
+                className="pointer-events-none select-none"
+            />
             <FontAwesomeIcon
                 icon={faTrashAlt}
                 size="xl"

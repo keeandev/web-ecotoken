@@ -1,7 +1,7 @@
 import React, { Fragment, forwardRef } from "react";
 import { Menu as HeadlessMenu } from "@headlessui/react";
 import { cva, cx, type VariantProps } from "class-variance-authority";
-import Button, { type ButtonProps } from "@ecotoken/ui/components/Button";
+import Button, { type ButtonProps } from "../Button";
 
 const menuStyles = cva(["relative"], {
     variants: {

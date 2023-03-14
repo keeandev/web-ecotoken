@@ -23,7 +23,6 @@ const config = {
     images: {
         domains: [
             process.env.NEXT_PUBLIC_CDN_URL?.replaceAll("https://", "") ?? "",
-            "regen-registry-server.herokuapp.com",
             "eco-token.io",
         ],
         // remotePatterns: [

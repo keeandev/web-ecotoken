@@ -4,12 +4,12 @@
     "osvVulnerabilityAlerts": true,
     "prHourlyLimit": 10,
     "updateInternalDeps": true,
-    "postUpdateOptions": [npmDedupe],
+    "postUpdateOptions": ["npmDedupe"],
     
     "packageRules": [
         {
             "matchPackagePatterns": ["^@ecotoken/"],
-            "excludePackageNames": "@ecotoken/workshop"
+            "excludePackageNames": ["@ecotoken/workshop"]
         }
     ],
     "assignees": ["hjozwiak", "dinozoiddev"]

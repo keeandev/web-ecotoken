@@ -11,6 +11,7 @@ export const ordersRouter = router({
             z.object({
                 limit: z.number().min(1).max(100).optional().default(10),
                 cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
+                project: z.string().optional(),
             }),
         )
         .query(async ({ ctx, input }) => {
@@ -19,6 +20,11 @@ export const ordersRouter = router({
                 ...(ctx.session.user.type === "user" && {
                     where: {
                         userID: ctx.session.user.id,
+                        ...(input.project && {
+                            nftSeries: {
+                                projectID: input.project,
+                            },
+                        }),
                     },
                 }),
                 ...(input?.cursor && {

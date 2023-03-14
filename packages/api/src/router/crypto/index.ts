@@ -1,1 +1,0 @@
-export { coinPriceRouter } from "./price";

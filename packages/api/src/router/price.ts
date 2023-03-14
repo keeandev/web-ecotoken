@@ -1,7 +1,7 @@
 import CoinGecko from "coingecko-api";
 import { z } from "zod";
 
-import { publicProcedure, router } from "../../trpc";
+import { publicProcedure, router } from "../trpc";
 
 const getCoinGeckoPrice = async () => {
     //1. Import coingecko-api

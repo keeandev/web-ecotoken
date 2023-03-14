@@ -3,7 +3,7 @@ import { faFileImage } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 
-type NFTBuilderPreviewProps = {
+type NFTPreviewProps = {
     image?: string;
     width?: number;
     height?: number;
@@ -18,7 +18,7 @@ type NFTBuilderPreviewProps = {
 } & React.ComponentProps<"div">;
 
 // eslint-disable-next-line react/display-name
-const NftPreview = forwardRef<HTMLDivElement, NFTBuilderPreviewProps>(
+const NftPreview = forwardRef<HTMLDivElement, NFTPreviewProps>(
     (
         {
             image,
