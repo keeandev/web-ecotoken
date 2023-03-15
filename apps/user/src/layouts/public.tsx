@@ -15,13 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import PublicNavbar from "@/components/public/layout/navbar";
-import PublicFooter from "@/components/public/layout/footer";
+// import PublicFooter from "@/components/public/layout/footer";
 import type { NextPage } from "next";
 import Head from "next/head";
-import PublicFooter from "@/components/public/layout/footer";
 import PublicNavbar from "@/components/public/layout/navbar";
-import { trpc } from "@/utils/trpc";
 
 const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
     return (
