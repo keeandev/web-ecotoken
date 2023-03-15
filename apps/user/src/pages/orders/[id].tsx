@@ -76,7 +76,7 @@ const Order: React.FC = () => {
                             undefined
                         }
                         batch={order.nftSeries.regenBatch}
-                        symbol={order.currency}
+                        symbol={order.nftSeries.seriesType}
                         credits={Number(order.creditsPurchased)}
                         retiredBy={order.retireBy}
                         date={new Date(order.createdAt)}
