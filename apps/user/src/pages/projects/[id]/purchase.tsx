@@ -157,8 +157,8 @@ const PurchaseProject = () => {
                             project={project.shortTitle}
                             location={formatCountryAndState(
                                 project.location?.location ?? "",
-                                project.location?.location.cn ?? "",
-                                project.location?.location.st ?? "",
+                                project.location?.cn ?? "",
+                                project.location?.st ?? "",
                             )}
                             producer={project.producer.companyName ?? undefined}
                             batch={project.nftSeries.regenBatch}
