@@ -192,9 +192,12 @@ const projectsToCreate: CreateProjectOperation[] = [
         intro: "The Sandy Cross Forest Preservation Project is a 132-acre Project Area on a 214-acre property in the Mansfield metro area. Western Reserve Land Conservancy is seeking to preserve the Project, creating substantial conservation and community benefits including carbon sequestration, wildlife habitat, and open space protection.",
         location: "Lexington",
         benefits: ["Preservation", "Wildlife Habitat", "Climate"],
-        project: `<p>The Sandy Cross Forest Preservation Project is a 132-acre Project Area on a 214-acre property in the Mansfield metro area. Western Reserve Land Conservancy is seeking to preserve the Project, creating substantial conservation and community benefits including carbon sequestration, wildlife habitat, and open space protection. </p> 
+        project: `<p>The Sandy Cross Forest Preservation Project is a 132-acre Project Area on a 214-acre property in the Mansfield metro area. Western Reserve Land Conservancy is seeking to preserve the Project, creating substantial conservation and community benefits including carbon sequestration, wildlife habitat, and open space protection. </p><br>
+
         <p>Preservation of the Project is important as intact forests of this size are becoming increasingly rare in Richland County due to agricultural development and urban expansion. Indeed, surrounding forested land is being rapidly converted into agricultural land and is facing a continued threat of urban expansion from the adjacent Village of Lexington.
-        </p> <p>The Project contains a diverse, 85-year forest including yellow poplar, sugar maple, oak, black cherry, and pine. Preservation of this forest will offer the residents of Northeast Ohio a wide variety of community and conservation benefits.</p>`,
+        </p><br>
+
+        <p>The Project contains a diverse, 85-year forest including yellow poplar, sugar maple, oak, black cherry, and pine. Preservation of this forest will offer the residents of Northeast Ohio a wide variety of community and conservation benefits.</p>`,
         overview: `<p><b>Offset Generation Method</b><br>Avoided Emissions</p>
         <p><b>Project Activity</b><br>Tree Preservation</p>
         <p><b>Project Type</b><br>Agriculture Forestry and Other Land Use</p>
@@ -207,7 +210,7 @@ const projectsToCreate: CreateProjectOperation[] = [
         headImage:
             "https://regen-registry-server.herokuapp.com/image/projects/C02/sandy-cross.jpg",
         site: "ecoToken",
-        status: "DATA_ENTRY",
+        status: "ACTIVE",
         creditType: "CARBON",
         fundAmount: 0,
         fundRecieved: 0,
@@ -223,9 +226,11 @@ const projectsToCreate: CreateProjectOperation[] = [
         intro: "Launched in May 2019, King County’s Forest Carbon Project confronts climate change by offering local companies the opportunity to offset their carbon emissions by keeping forests intact here in the region, making it possible for their employees and their families to explore and enjoy the protected outdoor spaces.",
         location: "King County",
         benefits: ["Preservation", "Wildlife Habitat", "Climate"],
-        project: `<p>Launched in May 2019, King County’s Forest Carbon Project confronts climate change by offering local companies the opportunity to offset their carbon emissions by keeping forests intact here in the region, making it possible for their employees and their families to explore and enjoy the protected outdoor spaces.</p>
+        project: `<p>Launched in May 2019, King County’s Forest Carbon Project confronts climate change by offering local companies the opportunity to offset their carbon emissions by keeping forests intact here in the region, making it possible for their employees and their families to explore and enjoy the protected outdoor spaces.</p><br>
         <p>Preservation of the Project is important as intact forests of this size are becoming increasingly rare in Richland County due to agricultural development and urban expansion. Indeed, surrounding forested land is being rapidly converted into agricultural land and is facing a continued threat of urban expansion from the adjacent Village of Lexington.
-        </p> <p>The Project contains a diverse, 85-year forest including yellow poplar, sugar maple, oak, black cherry, and pine. Preservation of this forest will offer the residents of Northeast Ohio a wide variety of community and conservation benefits.</p>`,
+        </p><br>
+
+        <p>The Project contains a diverse, 85-year forest including yellow poplar, sugar maple, oak, black cherry, and pine. Preservation of this forest will offer the residents of Northeast Ohio a wide variety of community and conservation benefits.</p>`,
         overview: `<p><b>Offset Generation Method</b><br>Avoided Emissions</p>
         <p><b>Project Activity</b><br>Tree Preservation</p>
         <p><b>Project Type</b><br>Agriculture Forestry and Other Land Use</p>
@@ -254,12 +259,13 @@ const projectsToCreate: CreateProjectOperation[] = [
         location: "Orlando",
         intro: `On-site treatment of septic water with distilled level water put back into the local water system.`,
         benefits: [],
-        project: `<p>The septic waste disposal facility in Orlando, Florida is seeking a new technology that will provide a more environmentally friendly solution for the treatment of septic wastewater. Currently, 15% of septic waste is transported to a landfill, where it releases methane emissions, and the remaining 85% is treated with lime before it is shipped 250 miles to Georgia and sprayed on agricultural fields. This process has significant CO2 emissions and can lead to the accumulation of excess nutrients in the soil.</p> <p>The proposed dehumidification technology by NOAH Solutions will allow for the treatment of 100% of the septic waste water on site. It is expected that only 8% solids will remain. The solid waste will be sterilized and suitable as fertilizer. The remaining 92% of potable water (PPM below 70) will meet approved guidelines and will be disposed of back into the Florida public water system. This will eliminate the need for transportation and the potential of harmful minerals seeping into agricultural land.</p>`,
+        project: `<p>The septic waste disposal facility in Orlando, Florida is seeking a new technology that will provide a more environmentally friendly solution for the treatment of septic wastewater. Currently, 15% of septic waste is transported to a landfill, where it releases methane emissions, and the remaining 85% is treated with lime before it is shipped 250 miles to Georgia and sprayed on agricultural fields. This process has significant CO2 emissions and can lead to the accumulation of excess nutrients in the soil.</p><br>
+        
+        <p>The proposed dehumidification technology by NOAH Solutions will allow for the treatment of 100% of the septic waste water on site. It is expected that only 8% solids will remain. The solid waste will be sterilized and suitable as fertilizer. The remaining 92% of potable water (PPM below 70) will meet approved guidelines and will be disposed of back into the Florida public water system. This will eliminate the need for transportation and the potential of harmful minerals seeping into agricultural land.</p>`,
         overview: `<p><b>Offset Generation Method</b><br>Water Additionality</p>
         <p><b>Co-Benefits</b><br>Avoided Emissions (est. 2,591 MTCO2e/yr)</p>
         <p><b>Project Activity</b><br>Water Restoration</p>
         <p><b>Project Type</b><br>Septic Waste Water Treatment</p>
-        <p><b>Reference ID (cfc project id)</b><br><a href="https://www.cityforestcredits.org/carbon-credits/carbon-registry/mansfield-forest-carbon-offsets/" target="_new">Sandy Cross Forest</a></p>
         <p><b>Offset Protocol</b><br>WaterDAO Water Credits</p>`,
         process: "",
         listImage:
@@ -282,9 +288,9 @@ const projectsToCreate: CreateProjectOperation[] = [
         intro: "The project represents the first full-scale, renewable-energy powered, zero discharge desalination plant capable of regenerating fresh water from saltwater using advanced desalination. The project utilizes distributed desalination, which differs greatly from conventional coastal desalination, because solar energy is used to treat inland-brackish water with no brine discharge and 100% water recovery.",
         location: "Central Valley",
         benefits: [],
-        project: `<p>The project represents the first full-scale, renewable-energy powered, zero discharge desalination plant capable of regenerating fresh water from saltwater using advanced desalination. The project utilizes distributed desalination, which differs greatly from conventional coastal desalination, because solar energy is used to treat inland-brackish water with no brine discharge and 100% water recovery.</p>
+        project: `<p>The project represents the first full-scale, renewable-energy powered, zero discharge desalination plant capable of regenerating fresh water from saltwater using advanced desalination. The project utilizes distributed desalination, which differs greatly from conventional coastal desalination, because solar energy is used to treat inland-brackish water with no brine discharge and 100% water recovery.</p><br>
 
-        <p>This results in near zero environmental impact as the residual salts are recovered and recycled as usable solids and converted into value-added byproducts. Using solar energy to power desalination lowers the carbon footprint, enables co-generation of both clean energy and affordable water and accelerates project deployment.</p>
+        <p>This results in near zero environmental impact as the residual salts are recovered and recycled as usable solids and converted into value-added byproducts. Using solar energy to power desalination lowers the carbon footprint, enables co-generation of both clean energy and affordable water and accelerates project deployment.</p><br>
 
         <p> This plant will generate two million gallons a day (2MGD) of ultra-clean water for large tech companies in Santa Clara Valley and provide a direct, verifiable and highly impactful technology solution to achieve corporate water goals.</p>`,
         overview: "",
@@ -468,8 +474,8 @@ const nftSeriesToCreate: NftSeriesOperation[] = [
         seriesImage: "https://eco-token.io/images/nft/NFT_bkgd_KingCounty.png",
         seriesType: "C02",
         regenBatch: "C02-001-20180101-20181231-001",
-        setAmount: 916,
-        totalCredits: 916,
+        setAmount: 917,
+        totalCredits: 917,
         creditPrice: 31.45,
         retireWallet: "",
         recieveWallet: "",
@@ -512,8 +518,8 @@ const nftSeriesToCreate: NftSeriesOperation[] = [
         seriesImage: "https://eco-token.io/images/nft/NFT_bkgd_SandyCross.png",
         seriesType: "C02",
         regenBatch: "C02-002-20211012-20241013-001",
-        setAmount: 875,
-        totalCredits: 875,
+        setAmount: 876,
+        totalCredits: 876,
         creditPrice: 30.25,
         retireWallet: "",
         recieveWallet: "",
@@ -895,7 +901,15 @@ const main = async () => {
                 email: "randy@eco-token.io",
                 firstName: "Randy",
                 lastName: "Christie",
-                password: await hash("password123"),
+                password: await hash("password123 "),
+                roleID: roles.find((role) => role.role === "Admin")!.roleID,
+            },
+            {
+                username: "James",
+                email: "james@eco-token.io",
+                firstName: "James",
+                lastName: "Bettauer",
+                password: await hash("password123 "),
                 roleID: roles.find((role) => role.role === "Admin")!.roleID,
             },
             {

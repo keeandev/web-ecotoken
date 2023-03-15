@@ -97,7 +97,12 @@ const NftPreview = forwardRef<HTMLDivElement, NFTPreviewProps>(
                                 Date:
                             </div>
                             <div className="float-left">
-                                {date && date.toDateString()}
+                                {date &&
+                                    date.toLocaleDateString("en-US", {
+                                        month: "long",
+                                        day: "numeric",
+                                        year: "numeric",
+                                    })}
                             </div>
                         </div>
                         <div className="inline-block h-[24px] w-[100%]">

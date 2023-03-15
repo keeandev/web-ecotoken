@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import DetailCard from "@/components/project/detail-card";
-import Overview from "@/components/project/overview";
 import ProjectCard from "@/components/project/project-card";
 import PublicLoading from "@/components/public/loading";
 import { trpc } from "@/utils/trpc";
@@ -33,17 +32,6 @@ const ProjectDetails = () => {
     return (
         <div className="w-full">
             <div className="relative">
-                {/* <Image
-                    src={
-                        project.listImage?.startsWith("https")
-                            ? project.headImage
-                            : `${process.env.NEXT_PUBLIC_CDN_URL}/${project.listImage}`
-                    }
-                    alt="EcoProject thumbnail image"
-                    className=" h-60 min-h-[511px] w-full object-cover"
-                    width={300}
-                    height={200}
-                /> */}
                 <div
                     className="h-100 min-h-[600px] w-full object-cover"
                     style={{
@@ -70,29 +58,40 @@ const ProjectDetails = () => {
                             src={credit_icon}
                             alt="Credit Icon"
                             className="h-[30px] w-[30px]"
+                            quality={100}
                         />
                         Buy Credits
                     </Button>
                 )}
             </div>
 
-            <h1 className="mx-2 mt-7 text-[48px] font-bold leading-none text-slate-800 sm:mx-[3em]">
-                {project.title}
-            </h1>
-
             <div className="mx-4 mt-7 flex flex-col gap-10 sm:mx-[10em] md:flex-row">
-                <div className="w-full md:w-2/3">
-                    <p className="text-[#7E7E7E]">{project.intro}</p>
-                    <p className="mt-5 text-[1.25rem] text-slate-700">
-                        {formatCountryAndState(
-                            project.location?.location ?? "",
-                            project.location?.cn ?? "",
-                            project.location?.st ?? "",
-                        )}
-                    </p>
-                    <Overview datas={project.overview ?? undefined} />
+                <div className="w-full space-y-6 md:w-2/3">
+                    <div className="space-y-2 leading-none">
+                        <h1 className="text-5xl font-bold text-slate-800">
+                            {project.title}
+                        </h1>
+                        <h3 className="text-xl font-semibold text-slate-600">
+                            {formatCountryAndState(
+                                project.location?.location ?? "",
+                                project.location?.cn ?? "",
+                                project.location?.st ?? "",
+                            )}
+                        </h3>
+                    </div>
+                    <div
+                        className="text-[#7E7E7E]"
+                        dangerouslySetInnerHTML={{
+                            __html: project.project ?? "",
+                        }}
+                    ></div>
+                    <p
+                        dangerouslySetInnerHTML={{
+                            __html: project.overview ?? "",
+                        }}
+                    ></p>
                     {project.nftSeries?.isActive && (
-                        <div className="mt-[5em] flex w-[300px] justify-between">
+                        <div className="flex w-[300px] justify-between">
                             <div className="flex flex-col gap-5">
                                 <div className="flex flex-col">
                                     <span className="text-[#7E7E7E]">
@@ -112,28 +111,37 @@ const ProjectDetails = () => {
                                 </div>
                             </div>
                             <div className="flex flex-col gap-5">
-                                <div className="flex flex-col">
-                                    <span className="text-[#7E7E7E]">
-                                        Credits Available
-                                    </span>
-                                    <span className="text-[18px] font-semibold">
-                                        {project.nftSeries?.setAmount?.toString() ??
-                                            0}
-                                    </span>
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-[#7E7E7E]">
-                                        Credits Retired
-                                    </span>
-                                    <span className="text-[18px] font-semibold">
-                                        {project.nftSeries?.totalCredits
-                                            .minus(
-                                                project.nftSeries?.setAmount ??
-                                                    0,
-                                            )
-                                            .toString()}
-                                    </span>
-                                </div>
+                                {project.nftSeries?.setAmount && (
+                                    <div className="flex flex-col">
+                                        <span className="text-[#7E7E7E]">
+                                            Credits Available
+                                        </span>
+                                        <span className="text-[18px] font-semibold">
+                                            {project.nftSeries?.setAmount?.toString() ??
+                                                0}
+                                        </span>
+                                    </div>
+                                )}
+                                {project.nftSeries?.totalCredits &&
+                                    project.nftSeries?.setAmount && (
+                                        <div className="flex flex-col">
+                                            <span className="text-[#7E7E7E]">
+                                                Credits Retired
+                                            </span>
+                                            <span className="text-[18px] font-semibold">
+                                                {(
+                                                    Number(
+                                                        project.nftSeries
+                                                            ?.totalCredits,
+                                                    ) -
+                                                    Number(
+                                                        project.nftSeries
+                                                            ?.setAmount,
+                                                    )
+                                                ).toFixed(2)}
+                                            </span>
+                                        </div>
+                                    )}
                             </div>
                         </div>
                     )}
@@ -154,7 +162,7 @@ const ProjectDetails = () => {
                         </Button>
                     )}
                 </div>
-                <div className="w-full md:w-1/3">
+                <div className="mt-20 w-full md:w-1/3">
                     {" "}
                     <DetailCard projectData={project} />
                 </div>

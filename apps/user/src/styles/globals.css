@@ -67,5 +67,5 @@ body {
     color: white;
 }
 .wallet-adapter-button-trigger {
-    @apply !bg-[#00AEEF] hover:!bg-[#0ca8e1];
+    @apply !bg-[#00AEEF] !text-xs !leading-4 hover:!bg-[#0ca8e1];
 }
