@@ -16,13 +16,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 /* eslint-disable */
-import { useState } from "react";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import NftPreview from "@/components/project/nft-preview";
-import Stepper from "@/components/project/stepper";
 import { trpc } from "@/utils/trpc";
-import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
 import Spinner from "@ecotoken/ui/components/Spinner";
 
 import { formatCountryAndState } from "../../../../admin/src/utils/formatter";
@@ -34,19 +30,11 @@ const Order: React.FC = () => {
     if (typeof id !== "string" && typeof id !== "undefined") id = id[0];
     if (!id) id = "";
 
-    const [shouldFetch, setShouldFetch] = useState(true);
     const { data: order, isLoading } = trpc.ecoOrders.get.useQuery(
         {
             ecoOrderID: id,
             project: true,
-        },
-        {
-            onSuccess(data) {
-                if (!data?.nftSeries?.project?.projectID) setShouldFetch(false);
-            },
-            enabled: shouldFetch,
-            refetchInterval: 5000,
-        },
+        }
     );
 
     if (isLoading) return <Spinner />;
