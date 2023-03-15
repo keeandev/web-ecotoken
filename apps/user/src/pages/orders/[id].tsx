@@ -1,4 +1,3 @@
-
 /*
  * Copyright (C) 2023 EcoToken Systems
  *
@@ -30,12 +29,10 @@ const Order: React.FC = () => {
     if (typeof id !== "string" && typeof id !== "undefined") id = id[0];
     if (!id) id = "";
 
-    const { data: order, isLoading } = trpc.ecoOrders.get.useQuery(
-        {
-            ecoOrderID: id,
-            project: true,
-        }
-    );
+    const { data: order, isLoading } = trpc.ecoOrders.get.useQuery({
+        ecoOrderID: id,
+        project: true,
+    });
 
     if (isLoading) return <Spinner />;
     else if (!order) return <div>No order found.</div>;
@@ -69,7 +66,11 @@ const Order: React.FC = () => {
                     <NftPreview
                         image={imageUrl}
                         project={order.nftSeries?.project?.shortTitle}
-                        location={order.nftSeries?.project?.location?.location}
+                        location={formatCountryAndState(
+                            order.nftSeries?.project?.location?.location ?? "",
+                            order.nftSeries?.project?.location?.cn ?? "",
+                            order.nftSeries?.project?.location?.st ?? "",
+                        )}
                         producer={
                             order.nftSeries?.project?.producer?.companyName ??
                             undefined
