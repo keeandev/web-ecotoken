@@ -37,14 +37,14 @@
         "@cosmjs/proto-signing": "^0.28.11",
         "@cosmjs/stargate": "^0.28.11",
         "@cosmos-client/core": "^0.45.9",
-        "@regen-network/api": "^0.5.0",
-        "@metaplex-foundation/js": "^0.18.2",
         "@ecotoken/eslint-config": "^0.0.0",
         "@ecotoken/prettier-config": "^0.0.0",
         "@ecotoken/tailwind-config": "^0.0.0",
         "@ecotoken/user": "^0.0.0",
         "@ianvs/prettier-plugin-sort-imports": "^3.7.1",
         "@manypkg/cli": "^0.20.0",
+        "@metaplex-foundation/js": "^0.18.2",
+        "@regen-network/api": "^0.5.0",
         "@solana/spl-token": "^0.3.7",
         "@solana/wallet-adapter-base": "^0.9.22",
         "@solana/wallet-adapter-react": "^0.15.30",
@@ -62,5 +62,6 @@
     },
     "devDependencies": {
         "@types/coingecko-api": "^1.0.10"
-    }
+    },
+    "license": "AGPL-3.0-or-later"
 }
