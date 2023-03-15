@@ -47,6 +47,8 @@ import Form, {
     useZodForm,
 } from "@ecotoken/ui/components/Form";
 
+import { formatCountryAndState } from "../../../../../admin/src/utils/formatter";
+
 // admin wllet
 const adminKey = new PublicKey(
     clientEnv.NEXT_PUBLIC_SOLANA_ADMIN_PUBKEY as PublicKeyInitData,
@@ -153,7 +155,11 @@ const PurchaseProject = () => {
                                     : `${process.env.NEXT_PUBLIC_CDN_URL}/eco-projects/${project.projectID}/nft-series/${project.nftSeries.nftSeriesID}/baseImage.png`
                             }
                             project={project.shortTitle}
-                            location={project.location?.location}
+                            location={formatCountryAndState(
+                                project.location?.location ?? "",
+                                project.location?.location.cn ?? "",
+                                project.location?.location.st ?? "",
+                            )}
                             producer={project.producer.companyName ?? undefined}
                             batch={project.nftSeries.regenBatch}
                             symbol={project.nftSeries?.seriesType}
