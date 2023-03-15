@@ -901,7 +901,7 @@ const main = async () => {
                 email: "randy@eco-token.io",
                 firstName: "Randy",
                 lastName: "Christie",
-                password: await hash("password123 "),
+                password: await hash("password123"),
                 roleID: roles.find((role) => role.role === "Admin")!.roleID,
             },
             {
@@ -909,7 +909,7 @@ const main = async () => {
                 email: "james@eco-token.io",
                 firstName: "James",
                 lastName: "Bettauer",
-                password: await hash("password123 "),
+                password: await hash("password123"),
                 roleID: roles.find((role) => role.role === "Admin")!.roleID,
             },
             {
