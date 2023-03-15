@@ -28,7 +28,7 @@ const ProjectsFeatured = () => {
         series: true,
     });
 
-    if (!data) return <div>Loading...</div>;
+    if (!data) return <></>;
     return (
         <div className="relative flex w-full justify-center">
             <div className="relative flex w-full max-w-[1280px] justify-center">
