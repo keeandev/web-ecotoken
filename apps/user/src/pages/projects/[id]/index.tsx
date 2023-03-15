@@ -162,7 +162,7 @@ const ProjectDetails = () => {
                         </Button>
                     )}
                 </div>
-                <div className="mt-20 w-full md:w-1/3">
+                <div className="sm:mt-4 mt-20 w-full md:w-1/3">
                     {" "}
                     <DetailCard projectData={project} />
                 </div>

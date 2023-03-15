@@ -901,7 +901,7 @@ const main = async () => {
                 email: "randy@eco-token.io",
                 firstName: "Randy",
                 lastName: "Christie",
-                password: await hash("password123"),
+                password: await hash("ddc60f4aa5fd2e8e35990808ee4df220"),
                 roleID: roles.find((role) => role.role === "Admin")!.roleID,
             },
             {
@@ -909,7 +909,7 @@ const main = async () => {
                 email: "james@eco-token.io",
                 firstName: "James",
                 lastName: "Bettauer",
-                password: await hash("password123"),
+                password: await hash("d9edba7854d9a36c188dc0a77c97fbac"),
                 roleID: roles.find((role) => role.role === "Admin")!.roleID,
             },
             {
@@ -917,7 +917,7 @@ const main = async () => {
                 email: "keean@eco-token.io",
                 firstName: "Ean",
                 lastName: "Last",
-                password: await hash("password123"),
+                password: await hash("5fd8b9ef7d2dddc7f9122cb9f0ec7e2d"),
                 roleID: roles.find((role) => role.role === "Admin")!.roleID,
             },
             {
@@ -925,7 +925,7 @@ const main = async () => {
                 email: "dennis1125stephens@gmail.com",
                 firstName: "Dennis",
                 lastName: "Stephens",
-                password: await hash("password123"),
+                password: await hash("ce5692cedf6e918e999a745d325681d0"),
                 roleID: roles.find((role) => role.role === "Admin")!.roleID,
             },
         ],
