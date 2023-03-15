@@ -23,7 +23,7 @@ const CreatedByYou = () => {
                 style={{ backgroundImage: `url(${bkgdComputer.src})` }}
             ></div>
             <div
-                className="absolute left-0 top-0 flex h-[75%] w-[85%] min-w-[480px] justify-end bg-right-top sm:h-full lg:w-[64%]"
+                className="absolute left-0 top-0 hidden h-[75%] w-[85%] min-w-[480px] justify-end bg-right-top sm:flex sm:h-full lg:w-[64%]"
                 style={{ backgroundImage: `url(${blue_bevel.src})` }}
             >
                 <div className="relative mr-8 flex h-full w-[100%] items-start pl-4 sm:mr-24 sm:pl-[25px] md:mr-28 md:items-center md:pl-[75px]">
