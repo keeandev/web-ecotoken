@@ -29,7 +29,7 @@
         "lint": "turbo lint && manypkg check",
         "lint:fix": "turbo lint:fix && manypkg fix",
         "type-check": "turbo type-check",
-        "postinstall": "npm run db:generate"
+        "prepare": "npm run db:generate"
     },
     "dependencies": {
         "@cosmjs/proto-signing": "^0.28.11",
