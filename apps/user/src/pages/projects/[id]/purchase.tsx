@@ -376,7 +376,7 @@ const PurchaseProject = () => {
                                         defaultValue={100}
                                         step="any"
                                         {...form.register("creditsPurchased", {
-                                            min: 0,
+                                            min: 1,
                                         })}
                                     />
                                     <div className="float-left mb-2 inline-block border">

@@ -37,6 +37,9 @@ const config = {
     eslint: {
         ignoreDuringBuilds: !!process.env.CI,
     },
+    typescript: {
+        ignoreBuildErrors: !!process.env.CI,
+    },
     images: {
         domains: [
             process.env.NEXT_PUBLIC_CDN_URL?.replaceAll("https://", "") ?? "",

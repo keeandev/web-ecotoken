@@ -67,9 +67,9 @@ const Order: React.FC = () => {
                         image={imageUrl}
                         project={order.nftSeries?.project?.shortTitle}
                         location={formatCountryAndState(
-                            order.nftSeries?.project?.location?.location ?? "",
-                            order.nftSeries?.project?.location?.cn ?? "",
-                            order.nftSeries?.project?.location?.st ?? "",
+                            order.nftSeries.project?.location?.location ?? "",
+                            order.nftSeries.project?.location?.cn ?? "",
+                            order.nftSeries.project?.location?.st ?? "",
                         )}
                         producer={
                             order.nftSeries?.project?.producer?.companyName ??

@@ -16,20 +16,18 @@
  */
 
 import { useRouter } from "next/router";
-import { trpc } from "@/utils/trpc";
+import { RouterOutputs, trpc } from "@/utils/trpc";
 import { createColumnHelper } from "@tanstack/react-table";
 import Button from "@ecotoken/ui/components/Button";
 import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
 import Table from "@ecotoken/ui/components/Table";
-
-type Unarrayify<T> = T extends Array<infer E> ? E : T;
 
 const EcoOrders = () => {
     const router = useRouter();
 
     const { data } = trpc.ecoOrders.getAll.useInfiniteQuery({});
     const orders = data?.pages.flatMap((data) => data.orders);
-    type Order = Unarrayify<typeof orders>;
+    type Order = RouterOutputs["ecoOrders"]["getAll"]["orders"][number];
 
     const columnHelper = createColumnHelper<Order>();
 

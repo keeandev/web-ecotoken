@@ -17,7 +17,7 @@
 
 import { useRouter } from "next/router";
 import { formatEnum } from "@/utils/formatter";
-import { trpc } from "@/utils/trpc";
+import { trpc, type RouterOutputs } from "@/utils/trpc";
 import { createColumnHelper } from "@tanstack/react-table";
 import Button from "@ecotoken/ui/components/Button";
 import DefaultCard, {
@@ -26,14 +26,12 @@ import DefaultCard, {
 } from "@ecotoken/ui/components/Card";
 import Table from "@ecotoken/ui/components/Table";
 
-type Unarrayify<T> = T extends Array<infer E> ? E : T;
-
 const EcoProjectsList = () => {
     const router = useRouter();
 
     const { data } = trpc.ecoProjects.getAll.useInfiniteQuery({});
     const projects = data?.pages.flatMap((data) => data.projects);
-    type Project = Unarrayify<typeof projects>;
+    type Project = RouterOutputs["ecoProjects"]["getAll"]["projects"][number];
 
     const columnHelper = createColumnHelper<Project>();
     const columns = [

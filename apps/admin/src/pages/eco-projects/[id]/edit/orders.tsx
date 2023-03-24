@@ -17,14 +17,12 @@
 
 import { useRouter } from "next/router";
 import ProjectTabPanel from "@/components/eco-project/project-tab-panel";
-import { trpc } from "@/utils/trpc";
+import { RouterOutputs, trpc } from "@/utils/trpc";
 import { createColumnHelper } from "@tanstack/react-table";
 import { toast } from "react-hot-toast";
 import { CardTitle } from "@ecotoken/ui/components/Card";
 import Spinner from "@ecotoken/ui/components/Spinner";
 import Table from "@ecotoken/ui/components/Table";
-
-type Unarrayify<T> = T extends Array<infer E> ? E : T;
 
 const Orders = () => {
     const router = useRouter();
@@ -40,7 +38,7 @@ const Orders = () => {
     );
 
     const orders = data?.pages.flatMap((data) => data.orders);
-    type Order = Unarrayify<typeof orders>;
+    type Order = RouterOutputs["ecoOrders"]["getAll"]["orders"][number];
 
     const columnHelper = createColumnHelper<Order>();
     const columns = [

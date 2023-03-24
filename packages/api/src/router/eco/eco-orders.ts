@@ -47,14 +47,12 @@ import {
     type Cluster,
 } from "@solana/web3.js";
 import { TRPCError } from "@trpc/server";
-import axios from "axios";
 import bs58 from "bs58";
 import { z } from "zod";
 import { type EcoOrder } from "@ecotoken/db";
 
 import { createEcoOrderSchema, updateEcoOrderSchema } from "../../schema/order";
 import { adminAuthedProcedure, authedProcedure, router } from "../../trpc";
-import { s3Client } from "../../utils/s3";
 
 export const ordersRouter = router({
     getAll: authedProcedure
@@ -186,21 +184,23 @@ export const ordersRouter = router({
 
             let vaildInput = false;
             try {
-                const txRes = await axios.get(
+                const txRes = await fetch(
                     `https://api.solscan.io/transaction?tx=${input.payHash}&cluster=devnet`,
                 );
+                // temporary fix
+                const data: any = txRes.json();
                 if (
-                    txRes.data.status === "Success" &&
-                    txRes.data.signer[0] === input.userWallet &&
-                    txRes.data.mainActions[0].action === "spl-transfer" &&
-                    txRes.data.txStatus === "confirmed" &&
-                    txRes.data.mainActions[0].data.source_owner ===
+                    data.status! === "Success" &&
+                    data.signer[0] === input.userWallet &&
+                    data.mainActions[0].action === "spl-transfer" &&
+                    data.txStatus === "confirmed" &&
+                    data.mainActions[0].data.source_owner ===
                         input.userWallet &&
-                    txRes.data.mainActions[0].data.destination_owner ===
+                    data.mainActions[0].data.destination_owner ===
                         wallet.publicKey.toString() &&
-                    txRes.data.mainActions[0].data.token.address ===
+                    data.mainActions[0].data.token.address ===
                         process.env.NEXT_PUBLIC_SOLANA_USDC &&
-                    txRes.data.mainActions[0].data.amount ===
+                    data.mainActions[0].data.amount ===
                         series.creditPrice
                             .times(input.creditsPurchased)
                             .times(1e6)
