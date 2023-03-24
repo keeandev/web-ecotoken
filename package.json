@@ -24,7 +24,7 @@
         "db:push": "dotenv -- turbo db:push",
         "db:seed": "dotenv -- turbo db:seed",
         "db:studio": "dotenv -- turbo db:studio",
-        "dev": "dotenv -- turbo dev --parallel",
+        "dev": "dotenv -- turbo dev --parallel --concurrency 11",
         "format": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,md,json}\" --ignore-path .gitignore",
         "lint": "turbo lint && manypkg check",
         "lint:fix": "turbo lint:fix && manypkg fix",
