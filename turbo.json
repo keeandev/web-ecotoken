@@ -57,6 +57,14 @@
         "SOLANA_ADMIN_WALLET",
         "REGEN_WALLET",
         "REGEN_ENDPOINT",
-        "COLLECTION_ADDRESS"
+        "COLLECTION_ADDRESS",
+        "EXTERNAL_URL",
+        "SPACES_BUCKET",
+        "SPACES_KEY",
+        "SPACES_SECRET",
+        "EMAIL_VERIFICATION_EXPIRE_TIME",
+        "IRON_SESSION_PASSWORD",
+        "IRON_SESSION_EXPIRE_TIME",
+        ""
     ]
 }

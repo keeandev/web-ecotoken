@@ -16,7 +16,6 @@
  */
 
 import CoinGecko from "coingecko-api";
-import { z } from "zod";
 
 import { publicProcedure, router } from "../trpc";
 

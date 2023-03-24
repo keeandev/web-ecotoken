@@ -4,12 +4,10 @@
     "workspaces": [
         "apps/admin",
         "apps/user",
-        "apps/workshop",
         "packages/api",
         "packages/auth",
         "packages/config/tailwind",
         "packages/config/prettier",
-        "packages/config/eslint",
         "packages/db",
         "packages/ui",
         "packages/email"
@@ -26,10 +24,10 @@
         "db:studio": "dotenv -- turbo db:studio",
         "dev": "dotenv -- turbo dev --parallel --concurrency 11",
         "format": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,md,json}\" --ignore-path .gitignore",
-        "lint": "turbo lint && manypkg check",
+        "lint": "dotenv -- turbo lint && manypkg check",
         "lint:fix": "turbo lint:fix && manypkg fix",
         "type-check": "turbo type-check",
-        "prepare": "npm run db:generate"
+        "postinstall": "npm run db:generate"
     },
     "dependencies": {
         "@cosmjs/proto-signing": "^0.28.11",
