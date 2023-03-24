@@ -15,11 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { promises } from "fs";
-import { join } from "path";
-import { createCanvas, loadImage } from "@napi-rs/canvas";
+// import { promises } from "fs";
+// import { join } from "path";
 
-import { formatCountryAndState } from "../../../../apps/admin/src/utils/formatter";
+// import { createCanvas, loadImage } from "@napi-rs/canvas";
+
+// import { formatCountryAndState } from "../../../../apps/admin/src/utils/formatter";
 import { createNFTSchema } from "../schema/nft-builder";
 import { adminAuthedProcedure, router } from "../trpc";
 
@@ -27,8 +28,8 @@ export const nftBuilderRouter = router({
     mint: adminAuthedProcedure
         .input(createNFTSchema)
         .mutation(
-            async ({ ctx, input: { credits, retiredBy, nftSeriesID } }) => {
-                const series = await ctx.prisma.nFTSeries.findUnique({
+            async ({ ctx, input: { /*credits, retiredBy,*/ nftSeriesID } }) => {
+                /*const series =*/ await ctx.prisma.nFTSeries.findUnique({
                     where: {
                         nftSeriesID,
                     },
@@ -52,65 +53,65 @@ export const nftBuilderRouter = router({
                     },
                 });
 
-                const IMAGE_WIDTH = 1200,
-                    IMAGE_HEIGHT = 1200,
-                    IMAGE_X_OFFSET = 20,
-                    IMAGE_Y_OFFSET = 20,
-                    FONT_HEIGHT = 36;
+                // const IMAGE_WIDTH = 1200,
+                //     IMAGE_HEIGHT = 1200,
+                //     IMAGE_X_OFFSET = 20,
+                //     IMAGE_Y_OFFSET = 20,
+                //     FONT_HEIGHT = 36;
 
-                const canvas = createCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
-                const canvasContext = canvas.getContext("2d");
+                // const canvas = createCanvas(IMAGE_WIDTH, IMAGE_HEIGHT);
+                // const canvasContext = canvas.getContext("2d");
 
-                const baseImage = await loadImage(
-                    series?.seriesImage.startsWith("https")
-                        ? series.seriesImage
-                        : `${process.env.NEXT_PUBLIC_CDN_URL}/eco-projects/${series?.project.projectID}/nft-series/${series?.nftSeriesID}/seriesImage.png`,
-                );
+                // const baseImage = await loadImage(
+                //     series?.seriesImage.startsWith("https")
+                //         ? series.seriesImage
+                //         : `${process.env.NEXT_PUBLIC_CDN_URL}/eco-projects/${series?.project.projectID}/nft-series/${series?.nftSeriesID}/seriesImage.png`,
+                // );
 
-                const scale = Math.max(
-                    canvas.width / baseImage.width,
-                    canvas.height / baseImage.height,
-                );
+                // const scale = Math.max(
+                //     canvas.width / baseImage.width,
+                //     canvas.height / baseImage.height,
+                // );
 
-                const w = baseImage.width * scale;
-                const h = baseImage.height * scale;
-                const x = canvas.width / 2 - w / 2;
-                const y = canvas.height / 2 - h / 2;
+                // const w = baseImage.width * scale;
+                // const h = baseImage.height * scale;
+                // const x = canvas.width / 2 - w / 2;
+                // const y = canvas.height / 2 - h / 2;
 
-                canvasContext.drawImage(baseImage, x, y, w, h);
+                // canvasContext.drawImage(baseImage, x, y, w, h);
 
-                canvasContext.font = `${FONT_HEIGHT}px Arial`;
-                canvasContext.fillStyle = "white";
+                // canvasContext.font = `${FONT_HEIGHT}px Arial`;
+                // canvasContext.fillStyle = "white";
 
-                const texts = [
-                    `Credits: ${credits} ${series?.seriesType}`,
-                    `Retired By: ${retiredBy}`,
-                    `Project: ${series?.project.shortTitle}`,
-                    `Location: ${formatCountryAndState(
-                        series?.project.location?.location ?? "",
-                        series?.project?.location?.cn ?? "",
-                        series?.project?.location?.st ?? "",
-                    )}`,
-                    `Producer: ${series?.project.producer.companyName}`,
-                    `Date: ${new Date().toDateString()}`,
-                    `ID: ${series?.regenBatch}`,
-                ];
-                texts
-                    .reverse()
-                    .forEach((text, index) =>
-                        canvasContext.fillText(
-                            text,
-                            IMAGE_X_OFFSET,
-                            IMAGE_HEIGHT - IMAGE_Y_OFFSET - FONT_HEIGHT * index,
-                        ),
-                    );
+                // const texts = [
+                //     `Credits: ${credits} ${series?.seriesType}`,
+                //     `Retired By: ${retiredBy}`,
+                //     `Project: ${series?.project.shortTitle}`,
+                //     `Location: ${formatCountryAndState(
+                //         series?.project.location?.location ?? "",
+                //         series?.project?.location?.cn ?? "",
+                //         series?.project?.location?.st ?? "",
+                //     )}`,
+                //     `Producer: ${series?.project.producer.companyName}`,
+                //     `Date: ${new Date().toDateString()}`,
+                //     `ID: ${series?.regenBatch}`,
+                // ];
+                // texts
+                //     .reverse()
+                //     .forEach((text, index) =>
+                //         canvasContext.fillText(
+                //             text,
+                //             IMAGE_X_OFFSET,
+                //             IMAGE_HEIGHT - IMAGE_Y_OFFSET - FONT_HEIGHT * index,
+                //         ),
+                //     );
 
-                // const buffer = canvas.toBuffer("image/png");
-                const finalImage = await canvas.encode("png");
-                await promises.writeFile(
-                    join(__dirname, "simple.png"),
-                    finalImage,
-                );
+                // // const buffer = canvas.toBuffer("image/png");
+                // const finalImage = await canvas.encode("png");
+                // await promises.writeFile(
+                //     join(__dirname, "simple.png"),
+                //     finalImage,
+                // );
 
                 // next up, create the metadata and mint the nft, problem is we need to add wallet support and mint somehow :)
             },
