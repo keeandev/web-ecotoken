@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import type { EcoLocation } from "@prisma/client";
+import  { type EcoLocation } from "@prisma/client";
 import { z } from "zod";
 import {
 	createEcoLocationSchema,

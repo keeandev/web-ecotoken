@@ -15,7 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Responsive from "@/components/dev-responsive";
 import Grassroots from "@/components/project/home-support";
 import HomeBanner from "@/components/public/sections/home-banner";
 import CreatedByYou from "@/components/public/sections/home-created";

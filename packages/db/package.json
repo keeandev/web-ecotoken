@@ -5,7 +5,9 @@
     "main": "./index.ts",
     "types": "./index.ts",
     "prisma": {
-        "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+        "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts",
+        "lint": "eslint . --ext .ts,.tsx",
+        "lint:fix": "npm run lint --fix"
     },
     "scripts": {
         "clean": "run-script-os",

@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Permission } from "@ecotoken/db";
+import { type Permission } from "@ecotoken/db";
 
 export const hasPermission = (
 	permissions: Permission[],

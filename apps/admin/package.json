@@ -8,6 +8,7 @@
         "clean": "rm -rf .next .turbo node_modules",
         "start": "next start",
         "lint": "next lint",
+        "lint:fix": "npm run lint --fix",
         "type-check": "tsc --noEmit"
     },
     "dependencies": {

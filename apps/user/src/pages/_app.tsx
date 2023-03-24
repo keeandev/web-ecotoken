@@ -17,27 +17,28 @@
 
 import DashboardLayout from "@/layouts/dashboard";
 import PublicLayout from "@/layouts/public";
+
 import "@/styles/globals.css";
 import { trpc } from "@/utils/trpc";
 import { config } from "@fortawesome/fontawesome-svg-core";
+
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import type { NextPage } from "next";
-import type { AppProps } from "next/app";
-import type { ReactElement, ReactNode } from "react";
-import { Toaster } from "react-hot-toast";
+import { useMemo, type ReactElement, type ReactNode } from "react";
+import { type NextPage } from "next";
+import { type AppProps } from "next/app";
 import { useRouter } from "next/router";
-import { useMemo } from "react";
 import {
     ConnectionProvider,
     WalletProvider,
 } from "@solana/wallet-adapter-react";
-import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
-import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import { Cluster, clusterApiUrl } from "@solana/web3.js";
+import { PhantomWalletAdapter } from "@solana/wallet-adapter-wallets";
+import { clusterApiUrl, type Cluster } from "@solana/web3.js";
+import { Toaster } from "react-hot-toast";
 
 import "@solana/wallet-adapter-react-ui/styles.css";
 import { clientEnv } from "@/env/schema.mjs";
+
 config.autoAddCss = false;
 
 export type NextPageWithLayout = NextPage & {

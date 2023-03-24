@@ -27,27 +27,30 @@ const config = {
     rules: {
         "@next/next/no-html-link-for-pages": "off",
         "@typescript-eslint/restrict-template-expressions": "off",
-        "@typescript-eslint/no-misused-promises": "off",
+        // "@typescript-eslint/no-misused-promises": "off",
         "@typescript-eslint/ban-ts-comment": "off",
         "@typescript-eslint/no-empty-function": "off",
-        "@typescript-eslint/no-floating-promises": "off",
-        "@typescript-eslint/no-non-null-assertion": "off",
-        "react-hooks/exhaustive-deps": "off",
-        "react/display-name": "off",
+        // "@typescript-eslint/no-non-null-assertion": "off",
+        // "react-hooks/exhaustive-deps": "off",
+        "@typescript-eslint/restrict-template-expressions": "off",
         "@typescript-eslint/no-unused-vars": [
             "error",
-            {
-                argsIgnorePattern: "^_",
-                varsIgnorePattern: "^_",
-                caughtErrorsIgnorePattern: "^_",
-            },
+            { argsIgnorePattern: "^_", destructuredArrayIgnorePattern: "^_" },
         ],
         "@typescript-eslint/consistent-type-imports": [
             "error",
             { prefer: "type-imports", fixStyle: "inline-type-imports" },
         ],
+        "import/consistent-type-specifier-style": ["error", "prefer-inline"],
     },
-    ignorePatterns: ["**/*.config.js", "**/*.config.cjs", "packages/config/**"],
+    ignorePatterns: [
+        ".eslintrc.cjs",
+        "**/*.config.js",
+        "**/*.config.cjs",
+        "packages/config/**",
+        "node_modules",
+        "**/node_modules",
+    ],
     reportUnusedDisableDirectives: true,
 };
 

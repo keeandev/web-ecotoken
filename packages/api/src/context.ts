@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import type { NextApiRequest, NextApiResponse } from "next";
+import  { type NextApiRequest, type NextApiResponse } from "next";
 import { type inferAsyncReturnType } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
 import { type AdminSession, type UserSession } from "@ecotoken/auth";

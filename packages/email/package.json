@@ -4,14 +4,15 @@
 	"version": "0.0.0",
 	"main": "./src/index.ts",
 	"types": "./src/index.ts",
+	"scripts": {
+		"type-check": "tsc --noEmit",
+		"lint": "eslint . --ext .ts,.tsx",
+        "lint:fix": "npm run lint --fix"
+	},
 	"dependencies": {
 		"@ecotoken/tailwind-config": "^0.0.0",
 		"@ecotoken/ui": "^0.0.0",
-		"juice": "^9.0.0",
-		"nodemailer": "^6.9.1",
-		"rehype": "^12.0.1",
-		"rehype-rewrite": "^3.0.6",
-		"rehype-stringify": "^9.0.3"
+		"nodemailer": "^6.9.1"
 	},
 	"devDependencies": {
 		"@types/node": "^18.11.18",

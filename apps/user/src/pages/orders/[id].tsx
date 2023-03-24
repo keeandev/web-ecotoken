@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-/* eslint-disable */
 import { useRouter } from "next/router";
 import NftPreview from "@/components/project/nft-preview";
 import { trpc } from "@/utils/trpc";
@@ -40,8 +39,6 @@ const Order: React.FC = () => {
     const imageUrl = order.nftSeries?.project?.headImage?.startsWith("https")
         ? order.nftSeries.project?.headImage
         : `${process.env.NEXT_PUBLIC_CDN_URL}/${order.nftSeries.project?.headImage}`;
-
-    const nftImageURL = `${process.env.NEXT_PUBLIC_CDN_URL}/eco-projects/${order.nftSeries?.project?.projectID}/nft-series/${order.nftSeries?.nftSeriesID}/nfts/${order.payHash}.png`;
 
     if (order?.status === "ORDER_COMPLETE")
         return (

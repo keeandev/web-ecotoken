@@ -16,11 +16,11 @@
  */
 
 import { TRPCError, initTRPC } from "@trpc/server";
-import type { AdminSession, UserSession } from "@ecotoken/auth";
+import  { type AdminSession, type UserSession } from "@ecotoken/auth";
 import { exclude } from "@ecotoken/db";
 
 import { transformer } from "../transformer";
-import type { Context } from "./context";
+import  { type Context } from "./context";
 import { hasPermission } from "./utils/permission";
 
 type Meta = {

@@ -16,7 +16,7 @@
  */
 
 import { adminAuthedProcedure, router } from "../../trpc";
-import { AdminUser } from "@prisma/client";
+import { type AdminUser } from "@prisma/client";
 import {
 	createAdminUserSchema,
 	updateAdminUserSchema

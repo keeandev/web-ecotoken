@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Site } from "@ecotoken/db";
+import { type Site } from "@ecotoken/db";
 import { z } from "zod";
 import { createWebsiteSchema, updateWebsiteSchema } from "../../schema/website";
 import { adminAuthedProcedure, router } from "../../trpc";
