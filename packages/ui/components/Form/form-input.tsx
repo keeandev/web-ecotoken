@@ -22,6 +22,7 @@ import FormField, { useFormField, type UseFormFieldProps } from "./form-field";
 
 export type Props = UseFormFieldProps & RootProps;
 
+// eslint-disable-next-line react/display-name
 const FormInput = forwardRef<HTMLInputElement, Props>((props, ref) => {
     const { formFieldProps, childProps } = useFormField(props);
     return (

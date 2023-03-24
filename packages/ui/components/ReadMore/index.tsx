@@ -33,6 +33,7 @@ const ReadMore: React.FC<React.PropsWithChildren & { len: number }> = ({
         console.log(text.length, len, text.length > len);
         if (text.length > len) setIsFlush(true);
         else setIsFlush(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

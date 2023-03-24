@@ -54,7 +54,7 @@ const PublicNavbar = () => {
 
     useEffect(() => {
         const main = async () => {
-            if (isLoggedIn && connected || isLoading) return;
+            if ((isLoggedIn && connected) || isLoading) return;
             try {
                 // `publicKey` will be null if the wallet isn't connected
                 if (!publicKey || !connected)
@@ -80,11 +80,11 @@ const PublicNavbar = () => {
                 });
 
                 // console.log(`Message signature: ${bs58.encode(signature)}`);
-            } catch (error: any) {
-                console.log(`Signing failed: ${error?.message}`);
+            } catch (error: unknown) {
+                console.log(`Signing failed: ${error}`);
             }
         };
-        main();
+        void main();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [publicKey, connected, isLoggedIn, isLoading]);
 
@@ -148,7 +148,7 @@ const PublicNavbar = () => {
                             <UserDropdown />
                         </div>
                     ) : (
-                            <WalletMultiButtonDynamic />
+                        <WalletMultiButtonDynamic />
                     )}
                 </div>
             </div>

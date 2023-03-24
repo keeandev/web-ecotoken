@@ -20,10 +20,10 @@ import {
     TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
 import {
-    PublicKey,
     SYSVAR_RENT_PUBKEY,
     SystemProgram,
     TransactionInstruction,
+    type PublicKey,
 } from "@solana/web3.js";
 
 export function createAssociatedTokenAccountInstruction(

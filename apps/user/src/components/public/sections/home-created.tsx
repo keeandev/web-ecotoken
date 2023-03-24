@@ -15,14 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Image from "next/image";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import blue_bevel from "@ecotoken/ui/assets/brand/bevel_blue_lg.png";
-import nfts_created_image from "@ecotoken/ui/assets/ecoproject/nfts_created.png";
 import bkgdComputer from "@ecotoken/ui/assets/ecoproject/nfts_mint_process.jpg";
-import sky_triangle_image from "@ecotoken/ui/assets/ecoproject/triangle-sky.png";
-import check_white_icon from "@ecotoken/ui/assets/icons/check_white.svg";
 
 const nftsCreated = [
     "Project Supported (Determines Background)",
@@ -53,7 +49,7 @@ const CreatedByYou = () => {
                                 return (
                                     <div
                                         className="my-2 flex items-start gap-2 text-[1.0rem] text-white sm:items-center sm:text-[1.125rem] md:text-[1.25rem] lg:text-[1.4375rem]"
-                                        key={"nfts-created" + index}
+                                        key={`nfts-created ${index}`}
                                     >
                                         <FontAwesomeIcon
                                             icon={faCircleCheck}

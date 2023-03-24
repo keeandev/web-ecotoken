@@ -181,7 +181,7 @@ const EditSeries = () => {
         if (fetchingProject) return <Spinner />;
         else {
             toast.error("Project does not exist.");
-            router.push("/eco-projects");
+            void router.push("/eco-projects");
             return null;
         }
     } else

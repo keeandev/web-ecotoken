@@ -16,7 +16,6 @@
  */
 
 import { useEffect } from "react";
-import Responsive from "@/components/dev-responsive";
 import ProjectCard from "@/components/project/project-card";
 import PublicLoading from "@/components/public/loading";
 import ProjectsFeatured from "@/components/public/sections/home-banner";
@@ -35,14 +34,14 @@ const Projects = () => {
         });
     useEffect(() => {
         const main = document.querySelector("main");
-        const handleScroll = async (e: Event) => {
+        const handleScroll = (e: Event) => {
             const target = e.target as Element;
             if (
                 target.scrollTop + 2 + window.innerHeight >
                     target.scrollHeight &&
                 hasNextPage
             )
-                await fetchNextPage();
+                void fetchNextPage();
         };
         main?.addEventListener("scroll", handleScroll);
         return () => main?.removeEventListener("scroll", handleScroll);

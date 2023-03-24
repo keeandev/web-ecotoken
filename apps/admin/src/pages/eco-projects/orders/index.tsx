@@ -16,7 +16,7 @@
  */
 
 import { useRouter } from "next/router";
-import { RouterOutputs, trpc } from "@/utils/trpc";
+import { trpc, type RouterOutputs } from "@/utils/trpc";
 import { createColumnHelper } from "@tanstack/react-table";
 import Button from "@ecotoken/ui/components/Button";
 import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
@@ -74,7 +74,9 @@ const EcoOrders = () => {
                 </div>
                 <div className="flex flex-1 items-end justify-end space-x-2">
                     <Button
-                        onClick={() => router.push(`${router.asPath}/create`)}
+                        onClick={() =>
+                            void router.push(`${router.asPath}/create`)
+                        }
                     >
                         Create an order
                     </Button>

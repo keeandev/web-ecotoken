@@ -19,12 +19,12 @@ import {
     ASSOCIATED_TOKEN_PROGRAM_ID,
     TOKEN_PROGRAM_ID,
 } from "@solana/spl-token";
-import { SignerWalletAdapterProps } from "@solana/wallet-adapter-base";
+import { type SignerWalletAdapterProps } from "@solana/wallet-adapter-base";
 import {
-    Commitment,
-    Connection,
-    PublicKey,
     Transaction,
+    type Commitment,
+    type Connection,
+    type PublicKey,
 } from "@solana/web3.js";
 
 import { createAssociatedTokenAccountInstruction } from "./createAssociatedTokenAccountInstruction";
@@ -60,12 +60,15 @@ export async function getOrCreateAssociatedTokenAccount(
             commitment,
             programId,
         );
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         // TokenAccountNotFoundError can be possible if the associated address has already received some lamports,
         // becoming a system account. Assuming program derived addressing is safe, this is the only case for the
         // TokenInvalidAccountOwnerError in this code path.
         if (
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             error.message === "TokenAccountNotFoundError" ||
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             error.message === "TokenInvalidAccountOwnerError"
         ) {
             // As this isn't atomic, it's possible others can create associated accounts meanwhile.
@@ -82,8 +85,8 @@ export async function getOrCreateAssociatedTokenAccount(
                 );
 
                 const blockHash = await connection.getRecentBlockhash();
-                transaction.feePayer = await payer;
-                transaction.recentBlockhash = await blockHash.blockhash;
+                transaction.feePayer = payer;
+                transaction.recentBlockhash = blockHash.blockhash;
                 const signed = await signTransaction(transaction);
 
                 const signature = await connection.sendRawTransaction(

@@ -16,19 +16,18 @@
  */
 
 import React from "react";
-import type { ColumnDef } from "@tanstack/react-table";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import {
-    type RowModel,
-    type Table as TanstackTableType,
     flexRender,
     getCoreRowModel,
     useReactTable,
+    type ColumnDef,
+    type RowModel,
+    type Table as TanstackTableType,
 } from "@tanstack/react-table";
-import type { VariantProps } from "class-variance-authority";
-import { cva } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 import { clsx } from "clsx";
-import Link from "next/link";
-import { useRouter, type NextRouter } from "next/router";
 
 // Table styles are a work in progress, not 100% sure of the best way to style with variants for tables
 const tableStyles = cva([], {
@@ -81,8 +80,11 @@ const tableStyles = cva([], {
 export interface TableProps
     extends VariantProps<typeof tableStyles>,
         React.ComponentProps<"table"> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data: any[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     columns: ColumnDef<any, any>[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     getRoleModel?: (table: TanstackTableType<any>) => () => RowModel<any>;
     fullWidth?: boolean;
     search?: boolean;
@@ -104,14 +106,14 @@ const Table: React.FC<TableProps> = ({
     data,
     columns,
     fullWidth = false,
-    rounded = true,
+    // rounded = true,
     roundedHeader = true,
     link = "default",
     getRoleModel,
-    limit = 10,
-    search,
-    showEntries,
-    linkHref = "",
+    // limit = 10,
+    // search,
+    // showEntries,
+    // linkHref = "",
     ...props
 }) => {
     const table = useReactTable({
@@ -119,9 +121,8 @@ const Table: React.FC<TableProps> = ({
         columns,
         getCoreRowModel: getRoleModel ?? getCoreRowModel(),
     });
-    let router: NextRouter;
 
-    if (link) router = useRouter();
+    const router = useRouter();
 
     return (
         <div
@@ -136,7 +137,7 @@ const Table: React.FC<TableProps> = ({
                 className={tableStyles({
                     intent,
                     fixed,
-                    class: className + " w-full",
+                    class: clsx(className, "w-full"),
                 })}
                 {...props}
             >

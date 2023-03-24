@@ -15,13 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Image from "next/image";
 import { useRouter } from "next/router";
 import DetailCard from "@/components/project/detail-card";
 import ProjectCard from "@/components/project/project-card";
 import PublicLoading from "@/components/public/loading";
 import { trpc } from "@/utils/trpc";
-import credit_icon from "@ecotoken/ui/assets/icons/credits.svg";
+import { faCoins } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "@ecotoken/ui/components/Button";
 
 import { formatCountryAndState } from "../../../../../admin/src/utils/formatter";
@@ -68,15 +68,10 @@ const ProjectDetails = () => {
                         intent={"sky"}
                         className="absolute bottom-10 right-6 uppercase"
                         onClick={() => {
-                            router.push(`/projects/${id}/purchase`);
+                            void router.push(`/projects/${id}/purchase`);
                         }}
                     >
-                        <Image
-                            src={credit_icon}
-                            alt="Credit Icon"
-                            className="h-[30px] w-[30px]"
-                            quality={100}
-                        />
+                        <FontAwesomeIcon icon={faCoins} size="2xl" />
                         Buy Credits
                     </Button>
                 )}
@@ -167,19 +162,15 @@ const ProjectDetails = () => {
                             intent={"sky"}
                             className="mt-10 uppercase"
                             onClick={() => {
-                                router.push(`/projects/${id}/purchase`);
+                                void router.push(`/projects/${id}/purchase`);
                             }}
                         >
-                            <Image
-                                src={credit_icon}
-                                alt="Credit Icon"
-                                className="h-[30px] w-[30px]"
-                            />
+                            <FontAwesomeIcon icon={faCoins} size="2xl" />
                             Buy Credits
                         </Button>
                     )}
                 </div>
-                <div className="sm:mt-4 mt-20 w-full md:w-1/3">
+                <div className="mt-20 w-full sm:mt-4 md:w-1/3">
                     {" "}
                     <DetailCard projectData={project} />
                 </div>

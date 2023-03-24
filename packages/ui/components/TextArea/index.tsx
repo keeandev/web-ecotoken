@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { forwardRef, type ComponentProps } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { type ComponentProps, forwardRef } from "react";
 
 const styles = cva(
     [
@@ -52,8 +52,10 @@ const styles = cva(
     },
 );
 
-export interface Props extends Omit<ComponentProps<"textarea">, "size">,
-    VariantProps<typeof styles> {}
+export interface Props
+    extends Omit<ComponentProps<"textarea">, "size">,
+        VariantProps<typeof styles> {}
+// eslint-disable-next-line react/display-name
 const TextArea = forwardRef<HTMLTextAreaElement, Props>(
     ({ intent, width, height, className, ...props }, ref) => (
         <textarea

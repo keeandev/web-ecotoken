@@ -109,7 +109,7 @@ const Summary = () => {
         trpc.ecoProjects.delete.useMutation({
             onSuccess: async () => {
                 await context.ecoProjects.getAll.invalidate();
-                router.push("/eco-projects");
+                await router.push("/eco-projects");
                 toast.success("Project has been deleted.");
             },
             onError(e) {
@@ -127,7 +127,7 @@ const Summary = () => {
         if (fetchingProject) return <Spinner />;
         else {
             toast.error("Project does not exist.");
-            router.push("/eco-projects");
+            await router.push("/eco-projects");
             return null;
         }
     } else
@@ -265,9 +265,8 @@ const Summary = () => {
                                     type="button"
                                     loading={isDeleting}
                                     fullWidth
-                                    onClick={async () => {
-                                        if (location)
-                                            await deleteMutate({
+                                    onClick={() => {
+                                            void deleteMutate({
                                                 projectID: id as string,
                                             });
                                     }}

@@ -18,8 +18,8 @@
 import { getIronSession } from "iron-session/edge";
 // imported getIronSession from edge package
 import { getOptionsBySite } from "./session-options";
-import { IncomingMessage, ServerResponse } from "http";
-import type { AdminSession, UserSession } from "../..";
+import { type IncomingMessage, type ServerResponse } from "http";
+import  { type AdminSession, type UserSession } from "../..";
 
 export const getEdgeSession = async (
 	req: IncomingMessage | Request,

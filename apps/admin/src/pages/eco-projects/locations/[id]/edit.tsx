@@ -74,7 +74,7 @@ export const EditEcoLocation: React.FC = () => {
         trpc.ecoLocations.delete.useMutation({
             onSuccess: async () => {
                 await context.ecoLocations.getAll.invalidate();
-                router.push("/eco-projects/locations");
+                await router.push("/eco-projects/locations");
                 toast.success("Location has been deleted.");
             },
             onError(e) {
@@ -176,9 +176,9 @@ export const EditEcoLocation: React.FC = () => {
                             type="button"
                             loading={isDeleting}
                             fullWidth
-                            onClick={async () => {
+                            onClick={() => {
                                 if (location)
-                                    await deleteMutate({
+                                    void deleteMutate({
                                         locationID: location?.locationID,
                                     });
                             }}

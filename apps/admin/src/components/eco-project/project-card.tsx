@@ -17,7 +17,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/router";
-import type { ProjectStatus } from "@prisma/client";
+import { type ProjectStatus } from "@prisma/client";
 import Button from "@ecotoken/ui/components/Button";
 
 export type ProjectCardProps = {
@@ -63,14 +63,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 <Button
                     intent="primary"
                     fullWidth
-                    onClick={() => router.push(`/stake/${identifier}`)}
+                    onClick={() => void router.push(`/stake/${identifier}`)}
                 >
                     Stake
                 </Button>
                 <Button
                     intent="secondary"
                     fullWidth
-                    onClick={() => router.push(`/projects/${identifier}`)}
+                    onClick={() => void router.push(`/projects/${identifier}`)}
                 >
                     Learn More
                 </Button>

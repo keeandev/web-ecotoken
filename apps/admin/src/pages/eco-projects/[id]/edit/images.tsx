@@ -99,7 +99,7 @@ const Images = () => {
         if (fetchingProject) return <Spinner />;
         else {
             toast.error("Project does not exist.");
-            router.push("/eco-projects");
+            void router.push("/eco-projects");
             return null;
         }
     } else
@@ -128,9 +128,7 @@ const Images = () => {
                             if (listImage) {
                                 const listImageUrl = (await createPresignedUrl({
                                     contentType: "image/png",
-                                    key: `eco-projects/${
-                                        project.projectID
-                                    }/listImage.png`,
+                                    key: `eco-projects/${project.projectID}/listImage.png`,
                                     acl: "public-read",
                                 })) as string;
                                 await uploadImage({
@@ -141,9 +139,7 @@ const Images = () => {
                             if (headImage) {
                                 const headImageUrl = (await createPresignedUrl({
                                     contentType: "image/png",
-                                    key: `eco-projects/${
-                                        project.projectID
-                                    }/headImage.png`,
+                                    key: `eco-projects/${project.projectID}/headImage.png`,
                                     acl: "public-read",
                                 })) as string;
                                 await uploadImage({
@@ -154,14 +150,10 @@ const Images = () => {
                             await editMutate({
                                 projectID: id as string,
                                 ...(listImage && {
-                                    listImage: `eco-projects/${
-                                        project.projectID
-                                    }/listImage.png`,
+                                    listImage: `eco-projects/${project.projectID}/listImage.png`,
                                 }),
                                 ...(headImage && {
-                                    headImage: `eco-projects/${
-                                        project.projectID
-                                    }/headImage.png`,
+                                    headImage: `eco-projects/${project.projectID}/headImage.png`,
                                 }),
                             });
                         }}

@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { IronSessionOptions } from "iron-session";
+import { type IronSessionOptions } from "iron-session";
 
 export const ironOptions: IronSessionOptions = {
 	cookieName: "ecotoken-session",

@@ -10,7 +10,7 @@
 		"clean:windows": "del /f /s node_modules",
 		"clean:default": "rm -rf node_modules",
 		"type-check": "tsc --noEmit",
-		"lint": "next lint",
+        "lint": "eslint . --ext .ts,.tsx",
         "lint:fix": "npm run lint --fix"
 	},
 	"dependencies": {

@@ -15,22 +15,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import OrderModal from "@/components/eco-project/order-modal";
 import { trpc } from "@/utils/trpc";
-import { useRouter } from "next/router";
-import { toast } from "react-hot-toast";
-import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Transition } from "@headlessui/react";
+import { toast } from "react-hot-toast";
+import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
 
 const OrderCredits = () => {
     const router = useRouter();
     const { mutateAsync, isLoading: isCreatingOrder } =
         trpc.ecoOrders.create.useMutation({
-            onSuccess() {
-                router.push("/eco-projects/orders");
+            async onSuccess() {
+                await router.push("/eco-projects/orders");
                 toast.success("Order created successfully.");
             },
         });
@@ -64,8 +64,8 @@ const OrderCredits = () => {
             </div>
             <OrderModal
                 admin
-                onOrder={async (order) => {
-                    await mutateAsync({
+                onOrder={(order) => {
+                    void mutateAsync({
                         ...order,
                         payAmount: 0.5,
                         payFee: 0.1,

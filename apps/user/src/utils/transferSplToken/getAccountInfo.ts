@@ -16,7 +16,11 @@
  */
 
 import { AccountLayout, TOKEN_PROGRAM_ID } from "@solana/spl-token";
-import { Commitment, Connection, PublicKey } from "@solana/web3.js";
+import {
+    type Commitment,
+    type Connection,
+    type PublicKey,
+} from "@solana/web3.js";
 
 export enum AccountState {
     Uninitialized = 0,

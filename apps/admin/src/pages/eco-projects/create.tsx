@@ -41,7 +41,7 @@ const CreateEcoProject = () => {
     const { mutateAsync, isLoading: isCreatingProject } =
         trpc.ecoProjects.create.useMutation({
             async onSuccess(data) {
-                context.ecoProjects.getAll.invalidate();
+                await context.ecoProjects.getAll.invalidate();
                 await router.push(`/eco-projects/${data.projectID}/edit`);
                 toast.success("Project created successfully.");
             },

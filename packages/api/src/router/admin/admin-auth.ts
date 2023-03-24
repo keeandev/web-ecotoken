@@ -15,10 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { publicProcedure, router, adminAuthedProcedure } from "../../trpc";
 import { TRPCError } from "@trpc/server";
 import { verify } from "argon2";
+
 import { loginAdminUserSchema } from "../../schema/admin-user";
+import { adminAuthedProcedure, publicProcedure, router } from "../../trpc";
 
 export const adminAuthRouter = router({
     login: publicProcedure
@@ -61,6 +62,7 @@ export const adminAuthRouter = router({
                     siteName: "ecoToken",
                 },
             });
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             ctx.session!.user = {
                 type: "admin",
                 id: user.adminID,
@@ -70,9 +72,10 @@ export const adminAuthRouter = router({
                         : undefined,
                 selectedSite: firstSite?.siteID,
             };
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             await ctx.session!.save();
         }),
-    logout: adminAuthedProcedure.query(async ({ ctx }) => {
+    logout: adminAuthedProcedure.query(({ ctx }) => {
         ctx.session.destroy();
         return 200;
     }),

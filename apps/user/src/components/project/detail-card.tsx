@@ -14,9 +14,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+import { type EcoProject } from "@ecotoken/db";
+
 import { formatEnum } from "../../../../admin/src/utils/formatter";
 
-const DetailCard = ({ projectData }: { projectData: any }) => {
+const DetailCard = ({ projectData }: { projectData: EcoProject }) => {
     return (
         <div className="flex flex-col gap-5 rounded-md bg-white p-5 shadow-2xl">
             {/* <div className="flex flex-col gap-1">
@@ -71,7 +73,7 @@ const DetailCard = ({ projectData }: { projectData: any }) => {
                     <span className="text-[16px] text-[#7E7E7E]">
                         {projectData.dateEnd?.toLocaleDateString("en-US", {
                             month: "long",
-                            day: "numeric",  
+                            day: "numeric",
                             year: "numeric",
                         })}
                     </span>

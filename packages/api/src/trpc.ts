@@ -84,7 +84,8 @@ export const isUserAuthenticated = isAuthenticated.unstable_pipe(
         return next({
             ctx: {
                 // Infers the `session` as non-nullable and excludes the session type when we know for a fact that the user is not an admin
-                user: exclude(ctx.session.user, ["type"]),
+                ...session,
+                user: exclude(session.user, ["type"]),
             },
         });
     },
@@ -104,7 +105,7 @@ export const isAdminAuthenticated = isAuthenticated.unstable_pipe(
                 // Infers the `session` as non-nullable and excludes the session type when we know for a fact that the user is an admin
                 session: {
                     ...session,
-                    user: exclude(ctx.session.user, ["type"]),
+                    user: exclude(session.user, ["type"]),
                 },
             },
         });

@@ -16,17 +16,16 @@
  */
 
 import React from "react";
+import { useRouter } from "next/router";
+import { trpc } from "@/utils/trpc";
+import { type User } from "@prisma/client";
+import { createColumnHelper } from "@tanstack/react-table";
+import Button from "@ecotoken/ui/components/Button";
 import DefaultCard, {
     CardDescription,
     CardTitle,
 } from "@ecotoken/ui/components/Card";
 import Table from "@ecotoken/ui/components/Table";
-import { createColumnHelper } from "@tanstack/react-table";
-import { trpc } from "@/utils/trpc";
-
-import { type User } from "@prisma/client";
-import Button from "@ecotoken/ui/components/Button";
-import { useRouter } from "next/router";
 
 const Users = () => {
     const router = useRouter();
@@ -74,9 +73,9 @@ const Users = () => {
                     </div>
                     <div className="flex flex-1 items-end justify-end space-x-2">
                         <Button
-                            onClick={() =>
-                                router.push(`${router.asPath}/create`)
-                            }
+                            onClick={() => {
+                                void router.push(`${router.asPath}/create`);
+                            }}
                         >
                             Add User
                         </Button>

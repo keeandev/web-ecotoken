@@ -66,7 +66,7 @@ const RetireSection = () => {
                             intent={"sky"}
                             className="mt-4 !rounded"
                             size={"lg"}
-                            onClick={() => router.push(`/projects`)}
+                            onClick={() => void router.push(`/projects`)}
                         >
                             <span className="px-4 font-head text-lg font-medium uppercase">
                                 EXPLORE ALL PROJECTS

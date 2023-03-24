@@ -18,6 +18,7 @@
 import React, { Fragment, forwardRef } from "react";
 import { Menu as HeadlessMenu } from "@headlessui/react";
 import { cva, cx, type VariantProps } from "class-variance-authority";
+
 import Button, { type ButtonProps } from "../Button";
 
 const menuStyles = cva(["relative"], {
@@ -69,7 +70,7 @@ const menuButtonStyles = cva([""], {
 export interface MenuButtonProps
     extends Omit<ButtonProps, "animation" | "ref" | "intent">,
         VariantProps<typeof menuButtonStyles> {}
-
+// eslint-disable-next-line react/display-name
 const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
     ({ className, children, intent = "none", ...props }, ref) => (
         <HeadlessMenu.Button as={Fragment}>
@@ -108,6 +109,7 @@ const menuItemsStyles = cva(["absolute w-56 shadow-md rounded-md border"], {
 export interface MenuItemsProps
     extends VariantProps<typeof menuItemsStyles>,
         React.ComponentProps<"div"> {}
+// eslint-disable-next-line react/display-name
 const MenuItems = React.forwardRef<HTMLDivElement, MenuItemsProps>(
     ({ className, align, children }, ref) => (
         <HeadlessMenu.Items

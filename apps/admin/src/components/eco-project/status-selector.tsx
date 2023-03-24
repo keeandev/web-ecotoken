@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 
 interface StatusSelectorProps {
     datas: { key: string; title: string }[];
@@ -44,9 +44,15 @@ const StatusSelector = ({
                 }
             }
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const onStatusClicked = (eve: any, key: string) => {
+    const onStatusClicked = ({
+        key,
+    }: {
+        event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>;
+        key: string;
+    }) => {
         if (multiSelect) {
             const newStatuses = [...selectedStatuses];
             if (newStatuses.includes(key)) {
@@ -80,7 +86,9 @@ const StatusSelector = ({
                                     : selectedStatus == data.key) &&
                                 "bg-[#63fa7c]"
                             }`}
-                            onClick={(eve) => onStatusClicked(eve, data.key)}
+                            onClick={(eve) =>
+                                onStatusClicked({ event: eve, key: data.key })
+                            }
                         >
                             {data.title}
                         </button>

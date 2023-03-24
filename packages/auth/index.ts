@@ -20,8 +20,8 @@ export {
 	adminIronOptions
 } from "./src/iron-session/session-options";
 export type { IronSessionData } from "iron-session";
-import type { IronSession } from "iron-session";
-import { Permission } from "@ecotoken/db";
+import  { type IronSession } from "iron-session";
+import { type Permission } from "@ecotoken/db";
 
 export type UserSession = {
 	user?: {

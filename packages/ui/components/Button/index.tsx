@@ -71,6 +71,7 @@ export interface ButtonProps
     loading?: boolean;
 }
 
+// eslint-disable-next-line react/display-name
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     (
         {

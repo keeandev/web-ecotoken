@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import type { Area } from "react-easy-crop";
+import { type Area } from "react-easy-crop";
 
 export const createImage = (
     url: string,

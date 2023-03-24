@@ -17,16 +17,14 @@
 
 import { promises } from "fs";
 import { join } from "path";
-import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { createCanvas, loadImage, type SKRSContext2D } from "@napi-rs/canvas";
+import { createCanvas, loadImage } from "@napi-rs/canvas";
 
 import { formatCountryAndState } from "../../../../apps/admin/src/utils/formatter";
 import { createNFTSchema } from "../schema/nft-builder";
 import { adminAuthedProcedure, router } from "../trpc";
-import { s3Client } from "../utils/s3";
 
 export const nftBuilderRouter = router({
-        mint: adminAuthedProcedure
+    mint: adminAuthedProcedure
         .input(createNFTSchema)
         .mutation(
             async ({ ctx, input: { credits, retiredBy, nftSeriesID } }) => {

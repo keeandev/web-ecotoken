@@ -82,7 +82,7 @@ const EditEcoOrder = () => {
         trpc.ecoOrders.delete.useMutation({
             onSuccess: async () => {
                 await context.ecoOrders.getAll.invalidate();
-                router.push("/eco-projects/orders");
+                await router.push("/eco-projects/orders");
                 toast.success("Order has been deleted.");
             },
             onError(e) {
@@ -97,7 +97,7 @@ const EditEcoOrder = () => {
         if (fetchingOrder) return <Spinner />;
         else {
             toast.error("Order does not exist.");
-            router.push("/eco-projects/orders");
+            void router.push("/eco-projects/orders");
             return null;
         }
     }
@@ -170,8 +170,8 @@ const EditEcoOrder = () => {
                         type="button"
                         fullWidth
                         loading={isDeletingOrder}
-                        onClick={async () =>
-                            await deleteOrder({
+                        onClick={() =>
+                            void deleteOrder({
                                 ecoOrderID: id as string,
                             })
                         }

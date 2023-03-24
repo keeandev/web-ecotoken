@@ -98,7 +98,7 @@ const Grassroots = () => {
                         <Button
                             intent="sky"
                             className="p-5"
-                            onClick={() => router.push(`/projects`)}
+                            onClick={() => void router.push(`/projects`)}
                         >
                             <span className="m-2 font-head text-[24px] font-semibold">
                                 EXPLORE ALL PROJECTS

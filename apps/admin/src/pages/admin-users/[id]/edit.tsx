@@ -15,7 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { Fragment, useMemo } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { trpc } from "@/utils/trpc";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Transition } from "@headlessui/react";
+import generator from "generate-password";
+import toast from "react-hot-toast";
+import { updateAdminUserSchema } from "@ecotoken/api/src/schema/admin-user";
 import Button from "@ecotoken/ui/components/Button";
 import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
 import Form, {
@@ -24,15 +33,6 @@ import Form, {
     useZodForm,
 } from "@ecotoken/ui/components/Form";
 import Spinner from "@ecotoken/ui/components/Spinner";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Transition } from "@headlessui/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { Fragment, useMemo } from "react";
-import toast from "react-hot-toast";
-import generator from "generate-password";
-import { updateAdminUserSchema } from "@ecotoken/api/src/schema/admin-user";
 
 const AdminUserEdit = () => {
     const router = useRouter();
@@ -71,7 +71,7 @@ const AdminUserEdit = () => {
         trpc.adminUsers.delete.useMutation({
             onSuccess: async () => {
                 await context.adminUsers.getAll.invalidate();
-                router.push("/admin-users");
+                await router.push("/admin-users");
                 toast.success("Admin user has been deleted.");
             },
             onError(e) {
@@ -94,7 +94,7 @@ const AdminUserEdit = () => {
         if (isFetching) return <Spinner />;
         else {
             toast.error("User does not exist.");
-            router.push("/admin-users");
+            void router.push("/admin-users");
             return null;
         }
     } else {
@@ -230,8 +230,8 @@ const AdminUserEdit = () => {
                                 type="button"
                                 fullWidth
                                 loading={isDeleting}
-                                onClick={async () => {
-                                    await deleteMutate({
+                                onClick={() => {
+                                    void deleteMutate({
                                         id: id as string,
                                     });
                                 }}

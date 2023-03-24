@@ -24,8 +24,8 @@ import { trpc } from "@/utils/trpc";
 
 const Login = () => {
     const { mutateAsync, isLoading } = trpc.adminAuth.login.useMutation({
-        onSuccess() {
-            router.push("/");
+        async onSuccess() {
+            await router.push("/");
             toast.success("Login success.");
         },
         onError(e) {

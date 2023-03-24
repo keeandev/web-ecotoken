@@ -71,7 +71,7 @@ const EditUser: React.FC = () => {
         trpc.users.delete.useMutation({
             onSuccess: async () => {
                 await context.users.getAll.invalidate();
-                router.push("/users");
+                void router.push("/users");
                 toast.success("User has been deleted.");
             },
             onError(e) {
@@ -94,7 +94,7 @@ const EditUser: React.FC = () => {
         if (fetchingUser) return <Spinner />;
         else {
             toast.error("User does not exist.");
-            router.push("/users");
+            void router.push("/users");
             return null;
         }
     }
@@ -193,8 +193,8 @@ const EditUser: React.FC = () => {
                         type="button"
                         fullWidth
                         loading={isDeleting}
-                        onClick={async () => {
-                            await deleteUser({
+                        onClick={() => {
+                            void deleteUser({
                                 userID: id as string,
                             });
                         }}

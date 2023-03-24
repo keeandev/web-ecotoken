@@ -22,7 +22,7 @@ import NftPreview from "@/components/project/nft-preview";
 import { clientEnv } from "@/env/schema.mjs";
 import { createAssociatedTokenAccountInstruction } from "@/utils/transferSplToken/createAssociatedTokenAccountInstruction";
 import { createTransferInstruction } from "@/utils/transferSplToken/createTransferInstructions";
-import { getAccountInfo } from "@/utils/transferSplToken/getAccountInfo";
+// import { getAccountInfo } from "@/utils/transferSplToken/getAccountInfo";
 import { getAssociatedTokenAddress } from "@/utils/transferSplToken/getAssociatedTokerAddress";
 import { trpc, uploadMutation } from "@/utils/trpc";
 import {
@@ -99,7 +99,7 @@ const PurchaseProject = () => {
         },
     });
 
-    const { publicKey, wallet, sendTransaction, signTransaction } = useWallet();
+    const { publicKey, signTransaction } = useWallet();
 
     const date = useMemo(() => new Date(), []);
     const nftPreviewRef = useRef<HTMLDivElement | null>(null);
@@ -242,18 +242,24 @@ const PurchaseProject = () => {
                                         );
 
                                     const transaction = new Transaction();
-                                    let account;
+                                    // let account;
                                     try {
-                                        account = await getAccountInfo(
-                                            connection,
-                                            buyerAssiciatedToken,
-                                            undefined,
-                                            TOKEN_PROGRAM_ID,
-                                        );
+                                        // account = await getAccountInfo(
+                                        //     connection,
+                                        //     buyerAssiciatedToken,
+                                        //     undefined,
+                                        //     TOKEN_PROGRAM_ID,
+                                        // );
+                                        // @ts-ignore
+                                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                     } catch (error: any) {
                                         if (
+                                            // @ts-ignore
+                                            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                                             error.message ===
                                                 "TokenAccountNotFoundError" ||
+                                            // @ts-ignore
+                                            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                                             error.message ===
                                                 "TokenInvalidAccountOwnerError"
                                         ) {
@@ -270,16 +276,22 @@ const PurchaseProject = () => {
                                         }
                                     }
                                     try {
-                                        account = await getAccountInfo(
-                                            connection,
-                                            adminAssiciatedToken,
-                                            undefined,
-                                            TOKEN_PROGRAM_ID,
-                                        );
+                                        // account = await getAccountInfo(
+                                        //     connection,
+                                        //     adminAssiciatedToken,
+                                        //     undefined,
+                                        //     TOKEN_PROGRAM_ID,
+                                        // );
+                                        // @ts-ignore
+                                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                     } catch (error: any) {
                                         if (
+                                            // @ts-ignore
+                                            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                                             error.message ===
                                                 "TokenAccountNotFoundError" ||
+                                            // @ts-ignore
+                                            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                                             error.message ===
                                                 "TokenInvalidAccountOwnerError"
                                         ) {
@@ -406,7 +418,7 @@ const PurchaseProject = () => {
                                                 project.nftSeries.creditPrice,
                                             )) /
                                             (currency === "SOL"
-                                                ? // @ts-ignore eslint-disable-next-line
+                                                ? // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                                                   (price.data.solana
                                                       .usd as number)
                                                 : 1),

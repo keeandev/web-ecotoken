@@ -16,17 +16,16 @@
  */
 
 import React, { useMemo } from "react";
+import { useRouter } from "next/router";
+import { trpc } from "@/utils/trpc";
+import { type AdminUser } from "@prisma/client";
+import { createColumnHelper } from "@tanstack/react-table";
+import Button from "@ecotoken/ui/components/Button";
 import DefaultCard, {
     CardDescription,
     CardTitle,
 } from "@ecotoken/ui/components/Card";
 import Table from "@ecotoken/ui/components/Table";
-import { createColumnHelper } from "@tanstack/react-table";
-import { trpc } from "@/utils/trpc";
-
-import { type AdminUser } from "@prisma/client";
-import Button from "@ecotoken/ui/components/Button";
-import { useRouter } from "next/router";
 
 const AdminUsers = () => {
     const { data } = trpc.adminUsers.getAll.useInfiniteQuery({});
@@ -101,7 +100,7 @@ const AdminUsers = () => {
                     <div className="flex flex-1 items-end justify-end space-x-2">
                         <Button
                             onClick={() =>
-                                router.push(`${router.asPath}/create`)
+                                void router.push(`${router.asPath}/create`)
                             }
                         >
                             Add User

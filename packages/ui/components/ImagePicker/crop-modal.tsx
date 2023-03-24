@@ -135,27 +135,34 @@ export const CropImageModal: React.FC<ImageCropModalProps> = ({
                                         </Button>
                                         <Button
                                             ref={finishButtonRef}
-                                            onClick={async () => {
-                                                if (!setImage) return;
-                                                if (
-                                                    image &&
-                                                    croppedAreaPixels
-                                                ) {
-                                                    const croppedImage =
-                                                        await cropImage(
-                                                            image,
-                                                            croppedAreaPixels,
-                                                        );
-                                                    if (
-                                                        croppedImage instanceof
-                                                        Error
-                                                    )
-                                                        console.error(
-                                                            croppedImage,
-                                                        );
-                                                    else setImage(croppedImage);
-                                                }
-                                                setIsOpen(false);
+                                            onClick={() => {
+                                                const asyncFunction =
+                                                    async () => {
+                                                        if (!setImage) return;
+                                                        if (
+                                                            image &&
+                                                            croppedAreaPixels
+                                                        ) {
+                                                            const croppedImage =
+                                                                await cropImage(
+                                                                    image,
+                                                                    croppedAreaPixels,
+                                                                );
+                                                            if (
+                                                                croppedImage instanceof
+                                                                Error
+                                                            )
+                                                                console.error(
+                                                                    croppedImage,
+                                                                );
+                                                            else
+                                                                setImage(
+                                                                    croppedImage,
+                                                                );
+                                                        }
+                                                        setIsOpen(false);
+                                                    };
+                                                void asyncFunction();
                                             }}
                                         >
                                             Finish

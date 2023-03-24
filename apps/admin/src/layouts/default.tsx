@@ -39,10 +39,35 @@ import clsx from "clsx";
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
-import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
+import Navbar from "@/components/layout/navbar";
+import Sidebar, {
+    SidebarCategory,
+    SidebarItem,
+    type SidebarCategoryProps,
+    type SidebarItemProps,
+} from "@/components/layout/sidebar";
+import { trpc } from "@/utils/trpc";
+import {
+    faAddressCard,
+    faArrowLeft,
+    faGear,
+    faGlobe,
+    faHammer,
+    faHandHoldingMedical,
+    faHouse,
+    faImages,
+    faLeaf,
+    faLocationDot,
+    faScrewdriverWrench,
+    faShoppingCart,
+    faUser,
+    faWallet,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Transition } from "@headlessui/react";
+import clsx from "clsx";
+import logo from "@ecotoken/ui/assets/brand/logo.png";
 
 const sidebarCategories: Readonly<SidebarCategoryProps>[] = [
     {
@@ -194,11 +219,11 @@ const DefaultLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
                                 <select
                                     name="Current site"
                                     className="appearance-none bg-transparent text-center"
-                                    onChange={async (e) => {
-                                        await updateCurrentSite({
+                                    onChange={(e) => {
+                                        void updateCurrentSite({
                                             siteID: e.target.value,
                                         });
-                                        router.push("/");
+                                        void router.push("/");
                                     }}
                                     value={selectedSiteID}
                                 >

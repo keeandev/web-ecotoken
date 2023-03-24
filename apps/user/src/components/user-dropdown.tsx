@@ -15,31 +15,21 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import type { UrlObject } from "url";
 import { Fragment } from "react";
-import Link from "next/link";
 import { trpc } from "@/utils/trpc";
-import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 import {
     faChevronDown,
-    faCircleQuestion,
     faCircleUser,
     faExternalLink,
-    faGift,
-    faMessage,
-    faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Menu as HeadlessMenu, Transition } from "@headlessui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import clsx from "clsx";
 import {
     Menu,
     MenuButton,
     MenuItems,
 } from "@ecotoken/ui/components/HeadlessUI";
-
-import Avatar from "./avatar";
 
 // const dropdownItems: {
 //     href?: string | UrlObject;
@@ -125,15 +115,16 @@ const UserDropdown = () => {
 };
 
 const LogoutItem = () => {
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     const { disconnect } = useWallet();
 
     const { mutateAsync: logout } = trpc.userAuth.logout.useMutation({});
 
     return (
         <div
-            onClick={async () => {
-                logout();
-                await disconnect();
+            onClick={() => {
+                void logout();
+                void disconnect();
             }}
             className="ui-active:bg-slate-200 group flex w-full cursor-pointer items-center space-x-2 rounded-md p-2 text-gray-900"
         >

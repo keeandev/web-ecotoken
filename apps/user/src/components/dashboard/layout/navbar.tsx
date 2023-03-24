@@ -15,13 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import UserDropdown from "@/components/user-dropdown";
 // import { getRouteName } from "@/utils/route";
 // import { useRouter } from "next/router";
-import type { NextPage } from "next";
+import { type NextPage } from "next";
 import Image from "next/image";
-import logo from "@ecotoken/ui/assets/brand/logo-header.png";
+import UserDropdown from "@/components/user-dropdown";
 import clsx from "clsx";
+import logo from "@ecotoken/ui/assets/brand/logo-header.png";
 
 const Navbar: NextPage<React.PropsWithChildren> = ({ children }) => {
     return (

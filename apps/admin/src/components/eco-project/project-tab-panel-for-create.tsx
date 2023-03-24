@@ -15,19 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Router, { useRouter } from "next/router";
-
-import { Tab, Tabs, TabList } from "react-tabs";
-import Link from "next/link";
+import { useRouter } from "next/router";
+import { Tab, TabList, Tabs } from "react-tabs";
 
 const ProjectTabPanelForCreate = ({
     children,
     index,
-    projectId,
 }: {
-    children: any;
+    children: React.ReactNode;
     index: number;
-    projectId?: string;
 }) => {
     const router = useRouter();
     return (
@@ -43,7 +39,7 @@ const ProjectTabPanelForCreate = ({
                     ) : (
                         <Tab
                             onClick={() => {
-                                router.push("/eco-projects");
+                                void router.push("/eco-projects");
                             }}
                         >
                             Project List
@@ -54,7 +50,7 @@ const ProjectTabPanelForCreate = ({
                     ) : (
                         <Tab
                             onClick={() => {
-                                router.push(`/eco-projects/create`);
+                                void router.push(`/eco-projects/create`);
                             }}
                         >
                             Summary
@@ -62,15 +58,6 @@ const ProjectTabPanelForCreate = ({
                     )}
                 </TabList>
                 <div className="w-full">{children}</div>
-                {/* {[...Array(2).keys()].map((value) => {
-                    console.log(value === index);
-                    if (value === index) return <TabPanel>{children}</TabPanel>;
-                    else {
-                        <TabPanel>
-                            <h5>123asdf</h5>
-                        </TabPanel>;
-                    }
-                })} */}
             </Tabs>
         </>
     );

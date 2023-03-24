@@ -74,8 +74,8 @@ const EcoProjectsList = () => {
                     </div>
                     <div className="flex flex-1 items-end justify-end space-x-2">
                         <Button
-                            onClick={async () =>
-                                await router.push(`${router.asPath}/create`)
+                            onClick={() =>
+                                void router.push(`${router.asPath}/create`)
                             }
                         >
                             Create a project

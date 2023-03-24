@@ -15,21 +15,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import dingo from "@ecotoken/ui/assets/dingo.png";
+import Image, { type ImageProps } from "next/image";
 import clsx from "clsx";
-import type { ImageProps } from "next/image";
-import Image from "next/image";
+import dingo from "@ecotoken/ui/assets/dingo.png";
 
 type AvatarProps = Omit<ImageProps, "src" | "alt">;
 const Avatar: React.FC<AvatarProps> = ({ className, ...props }) => {
-	return (
-		<Image
-			src={dingo}
-			alt="User profile picture"
-			className={clsx("rounded-full", className)}
-			{...props}
-		/>
-	);
+    return (
+        <Image
+            src={dingo}
+            alt="User profile picture"
+            className={clsx("rounded-full", className)}
+            {...props}
+        />
+    );
 };
 
 export default Avatar;

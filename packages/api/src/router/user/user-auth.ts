@@ -20,7 +20,6 @@ import bs58 from "bs58";
 import { unsealData } from "iron-session";
 import { sign } from "tweetnacl";
 import { z } from "zod";
-import { User } from "@ecotoken/db";
 
 import {
     loginUserSchema,
@@ -141,6 +140,7 @@ export const userAuthRouter = router({
                         },
                     });
 
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 ctx.session!.user = {
                     type: "user",
                     id: user.userID,
@@ -150,6 +150,7 @@ export const userAuthRouter = router({
                             ? (ctx.req.headers["x-real-ip"] as string) ?? ""
                             : undefined,
                 };
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 await ctx.session!.save();
             },
         ),

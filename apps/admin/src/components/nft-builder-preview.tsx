@@ -93,7 +93,7 @@ const NFTBuilderPreview = forwardRef<HTMLDivElement, NFTBuilderPreviewProps>(
             </div>
         ) : (
             <div className="relative flex rounded-lg border border-slate-400">
-                {}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                     width={width}
                     height={height}

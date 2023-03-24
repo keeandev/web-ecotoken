@@ -72,7 +72,7 @@ const EditWebsite = () => {
         trpc.websites.delete.useMutation({
             onSuccess: async () => {
                 await context.websites.getAll.invalidate();
-                router.push("/websites");
+                void router.push("/websites");
                 toast.success("Website has been deleted.");
             },
             onError(e) {
@@ -84,7 +84,7 @@ const EditWebsite = () => {
         if (isFetching) return <Spinner />;
         else {
             toast.error("Website does not exist.");
-            router.push("/websites");
+            void router.push("/websites");
             return null;
         }
     } else {
@@ -167,8 +167,8 @@ const EditWebsite = () => {
                                 loading={isDeleting}
                                 intent="destructive"
                                 fullWidth
-                                onClick={async () =>
-                                    await deleteMutate({
+                                onClick={() =>
+                                    void deleteMutate({
                                         siteID: id as string,
                                     })
                                 }

@@ -68,7 +68,7 @@ export const EcoLocations: React.FC = () => {
                     <div className="flex flex-1 items-end justify-end space-x-2">
                         <Button
                             onClick={() =>
-                                router.push(`${router.asPath}/create`)
+                                void router.push(`${router.asPath}/create`)
                             }
                         >
                             Add location

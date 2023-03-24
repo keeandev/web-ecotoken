@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { cva, type VariantProps } from "class-variance-authority";
 import { forwardRef } from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 
 const inputStyles = cva(
     "rounded-md p-1.5 duration-100 ease-in focus:ease-out focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-slate-200 disabled:opacity-90",
@@ -44,6 +44,7 @@ const inputStyles = cva(
 export interface InputProps
     extends VariantProps<typeof inputStyles>,
         Omit<React.ComponentProps<"input">, "size"> {}
+// eslint-disable-next-line react/display-name
 const Input = forwardRef<HTMLInputElement, InputProps>(
     ({ id, intent, className, size, ...props }, ref) => {
         return (

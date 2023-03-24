@@ -33,7 +33,8 @@ const Website = () => {
             if (typeof id !== "string" && typeof id !== "undefined") id = id[0];
             if (id && id !== selectedSite) await mutateAsync({ siteID: id });
         };
-        asyncFunction();
+        void asyncFunction();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return <div>{router.query.id}</div>;

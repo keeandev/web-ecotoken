@@ -17,7 +17,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/router";
-import type { ProjectStatus } from "@prisma/client";
+import { type ProjectStatus } from "@prisma/client";
 import Button from "@ecotoken/ui/components/Button";
 
 export type ProjectCardProps = {
@@ -71,7 +71,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                 <Button
                     intent="gray"
                     fullWidth
-                    onClick={() => router.push(`/projects/${identifier}`)}
+                    onClick={() => void router.push(`/projects/${identifier}`)}
                 >
                     View Detail
                 </Button>
@@ -80,7 +80,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
                         intent="skyfilled"
                         fullWidth
                         onClick={() =>
-                            router.push(`/projects/${identifier}/purchase`)
+                            void router.push(`/projects/${identifier}/purchase`)
                         }
                     >
                         Buy Credits

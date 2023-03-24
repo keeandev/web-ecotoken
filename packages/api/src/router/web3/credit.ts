@@ -17,16 +17,16 @@
 
 import {
     DirectSecp256k1HdWallet,
-    DirectSecp256k1Wallet,
+    // DirectSecp256k1Wallet,
 } from "@cosmjs/proto-signing";
 import { RegenApi } from "@regen-network/api";
 import {
-    QuerySellOrdersByBatchResponse,
+    // QuerySellOrdersByBatchResponse,
     QueryClientImpl as SellOrderQueryClient,
 } from "@regen-network/api/lib/generated/regen/ecocredit/marketplace/v1/query.js";
 import { MsgBuyDirect } from "@regen-network/api/lib/generated/regen/ecocredit/marketplace/v1/tx.js";
 import {
-    QueryBatchesByProjectResponse,
+    // QueryBatchesByProjectResponse,
     QueryClientImpl as QueryBatchesClient,
 } from "@regen-network/api/lib/generated/regen/ecocredit/v1/query.js";
 import { MsgRetire } from "@regen-network/api/lib/generated/regen/ecocredit/v1/tx.js";
@@ -38,7 +38,7 @@ import { publicProcedure, router } from "../../trpc";
 export const creditRouter = router({
     getSellOrderByBatch: publicProcedure
         .input(z.object({ batch: z.string() }))
-        .query(async ({ ctx, input }) => {
+        .query(async ({ input }) => {
             if (!process.env.REGEN_WALLET)
                 throw new TRPCError({
                     message: "Env file is not correct.",
@@ -65,7 +65,7 @@ export const creditRouter = router({
                 const queryClient = new SellOrderQueryClient(
                     regenApi.queryClient,
                 );
-                const sellOrder: any = await queryClient.SellOrdersByBatch({
+                const sellOrder = await queryClient.SellOrdersByBatch({
                     batchDenom: input.batch,
                 });
                 console.log(sellOrder);
@@ -80,7 +80,7 @@ export const creditRouter = router({
         }),
     getCreditsByProject: publicProcedure
         .input(z.object({ projectId: z.string() }))
-        .query(async ({ ctx, input }) => {
+        .query(async ({ input }) => {
             if (!process.env.REGEN_WALLET)
                 throw new TRPCError({
                     message: "Env file is not correct.",
@@ -107,7 +107,7 @@ export const creditRouter = router({
                 const queryClient = new QueryBatchesClient(
                     regenApi.queryClient,
                 );
-                const batches: any = await queryClient.BatchesByProject({
+                const batches = await queryClient.BatchesByProject({
                     projectId: input.projectId,
                 });
                 console.log(batches);
@@ -131,7 +131,7 @@ export const creditRouter = router({
                 memo: z.string(),
             }),
         )
-        .query(async ({ ctx, input }) => {
+        .query(async ({ input }) => {
             if (!process.env.REGEN_WALLET)
                 throw new TRPCError({
                     message: "Env file is not correct.",
@@ -160,7 +160,7 @@ export const creditRouter = router({
                         signer,
                     },
                 });
-                const TEST_MSG_BUY: any = MsgBuyDirect.fromPartial({
+                const TEST_MSG_BUY = MsgBuyDirect.fromPartial({
                     buyer: account.address,
                     orders: [
                         {
@@ -195,7 +195,7 @@ export const creditRouter = router({
                         code: "CONFLICT",
                     });
 
-                const signedTxBytes: any = await msgClient.sign(
+                const signedTxBytes = await msgClient.sign(
                     account.address,
                     [TEST_MSG_BUY],
                     TEST_FEE,
@@ -226,7 +226,7 @@ export const creditRouter = router({
                 memo: z.string(),
             }),
         )
-        .query(async ({ ctx, input }) => {
+        .query(async ({ input }) => {
             if (!process.env.REGEN_WALLET)
                 throw new TRPCError({
                     message: "Env file is not correct.",
@@ -283,7 +283,7 @@ export const creditRouter = router({
                         code: "CONFLICT",
                     });
 
-                const signedTxBytes: any = await msgClient.sign(
+                const signedTxBytes = await msgClient.sign(
                     account.address,
                     [TEST_MSG_RETIRE],
                     TEST_FEE,

@@ -16,7 +16,7 @@
  */
 
 // import PublicFooter from "@/components/public/layout/footer";
-import type { NextPage } from "next";
+import { type NextPage } from "next";
 import Head from "next/head";
 import PublicFooter from "@/components/public/footer";
 import PublicNavbar from "@/components/public/layout/navbar";

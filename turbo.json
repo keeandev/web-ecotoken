@@ -68,6 +68,6 @@
         "EMAIL_PRIVATE_KEY",
         "IRON_SESSION_PASSWORD",
         "IRON_SESSION_EXPIRE_TIME",
-        ""
+        "IRON_SESSION_COOKIE_EXPIRE_TIME"
     ]
 }

@@ -15,16 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { useRouter } from "next/router";
+import { trpc } from "@/utils/trpc";
+import { createColumnHelper } from "@tanstack/react-table";
+import { type Site } from "@ecotoken/db";
+import Button from "@ecotoken/ui/components/Button";
 import DefaultCard, {
     CardDescription,
     CardTitle,
 } from "@ecotoken/ui/components/Card";
 import Table from "@ecotoken/ui/components/Table";
-import { createColumnHelper } from "@tanstack/react-table";
-import { type Site } from "@ecotoken/db";
-import Button from "@ecotoken/ui/components/Button";
-import { useRouter } from "next/router";
-import { trpc } from "@/utils/trpc";
 
 const Websites = () => {
     const router = useRouter();
@@ -68,7 +68,7 @@ const Websites = () => {
                     <div className="flex flex-1 items-end justify-end space-x-2">
                         <Button
                             onClick={() =>
-                                router.push(`${router.asPath}/create`)
+                                void router.push(`${router.asPath}/create`)
                             }
                         >
                             Add website

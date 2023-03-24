@@ -23,6 +23,7 @@ interface Props extends UseFormFieldProps, RootProps {
     name: string;
 }
 
+// eslint-disable-next-line react/display-name
 const FormSelect = forwardRef<HTMLSelectElement, Props>((props, ref) => {
     const { formFieldProps, childProps } = useFormField(props);
 

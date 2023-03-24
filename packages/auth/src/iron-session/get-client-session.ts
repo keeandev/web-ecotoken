@@ -15,14 +15,18 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { type IncomingMessage, type ServerResponse } from "http";
 import { getIronSession } from "iron-session";
+
+import { type AdminSession, type UserSession } from "../..";
 // imported getIronSession from client package
-import { getOptionsBySite, ironOptions } from "./session-options";
-import { IncomingMessage, ServerResponse } from "http";
-import { AdminSession, UserSession } from "../..";
+import { getOptionsBySite } from "./session-options";
 
 export const getClientSession = async (
-	req: IncomingMessage | Request,
-	res: ServerResponse | Response,
-    url: string
-) => await getIronSession(req, res, getOptionsBySite(url)) as UserSession | AdminSession;
+    req: IncomingMessage | Request,
+    res: ServerResponse | Response,
+    url: string,
+) =>
+    (await getIronSession(req, res, getOptionsBySite(url))) as
+        | UserSession
+        | AdminSession;

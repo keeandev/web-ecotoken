@@ -33,7 +33,7 @@ const CreateWebsite = () => {
 	const context = trpc.useContext();
 	const { mutateAsync, isLoading } = trpc.websites.create.useMutation({
 		onSuccess: async (data) => {
-			router.push(`/websites/${data.siteID}/edit`);
+			await router.push(`/websites/${data.siteID}/edit`);
 			await context.websites.getAll.invalidate();
 			toast.success("Admin user has been created.");
 		},

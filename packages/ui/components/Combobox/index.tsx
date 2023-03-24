@@ -20,7 +20,7 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Combobox as HeadlessCombobox, Transition } from "@headlessui/react";
 
-import Input, { type InputProps } from "../Input";
+import { type InputProps } from "../Input";
 
 declare module "react" {
     // eslint-disable-next-line @typescript-eslint/ban-types

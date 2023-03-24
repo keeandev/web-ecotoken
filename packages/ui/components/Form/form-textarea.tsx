@@ -23,6 +23,7 @@ interface Props extends UseFormFieldProps, RootProps {
     name: string;
 }
 
+// eslint-disable-next-line react/display-name
 const FormTextArea = forwardRef<HTMLTextAreaElement, Props>((props, ref) => {
     const { formFieldProps, childProps } = useFormField(props);
 

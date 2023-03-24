@@ -15,25 +15,19 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import bkgd_wave from "@ecotoken/ui/assets/brand/bkgd_wave.png";
-import white_bevel from "@ecotoken/ui/assets/brand/bevel_white_lg.png";
-import Button from "@ecotoken/ui/components/Button";
 import Image from "next/image";
-import logo from "@ecotoken/ui/assets/brand/logo_ecotoken-wm-600.png";
-import icon_twitter from "@ecotoken/ui/assets/icons/icon_twitter06.png";
-import icon_telegram from "@ecotoken/ui/assets/icons/icon_telegram06.png";
-import icon_discord from "@ecotoken/ui/assets/icons/icon_discord06.png";
-import icon_linkedin from "@ecotoken/ui/assets/icons/icon_linkedin06.png";
-import icon_gitcoin from "@ecotoken/ui/assets/icons/icon_gitcoin06.png";
 import Link from "next/link";
 import {
-    faLinkedinIn,
-    faTwitter,
     faDiscord,
+    faLinkedinIn,
     faTelegram,
-    faTelegramPlane,
+    faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import white_bevel from "@ecotoken/ui/assets/brand/bevel_white_lg.png";
+import bkgd_wave from "@ecotoken/ui/assets/brand/bkgd_wave.png";
+import logo from "@ecotoken/ui/assets/brand/logo_ecotoken-wm-600.png";
+import Button from "@ecotoken/ui/components/Button";
 
 const PublicFooter = () => {
     return (
@@ -47,7 +41,7 @@ const PublicFooter = () => {
                         className="absolute left-0 bottom-[225px] flex h-[140px] w-[90%] flex-row justify-end  bg-right-top sm:bottom-[20%] sm:h-[120%] sm:w-[50%]"
                         style={{ backgroundImage: `url(${white_bevel.src})` }}
                     >
-                        <div className="relative w-full max-w-[600px] px-8 pt-[10px] sm:px-16 sm:pt-[16px] sm:pt-[40px]">
+                        <div className="relative w-full max-w-[600px] px-8 pt-[10px] sm:px-16 sm:pt-[40px]">
                             <Image
                                 src={logo}
                                 alt="ecoToken System"

@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { forwardRef, type ComponentProps } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { type ComponentProps, forwardRef } from "react";
 
 const styles = cva(
     [
@@ -46,6 +46,7 @@ const styles = cva(
 export interface Props
     extends Omit<ComponentProps<"select">, "size">,
         VariantProps<typeof styles> {}
+// eslint-disable-next-line react/display-name
 const Select = forwardRef<HTMLSelectElement, Props>(
     ({ intent, size, className, ...props }, ref) => (
         <select

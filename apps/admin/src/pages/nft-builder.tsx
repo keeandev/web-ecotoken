@@ -15,10 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import React, { useRef, useState, type ChangeEvent } from "react";
-import NFTBuilderPreview from "@/components/nft-builder-preview";
+// import NFTBuilderPreview from "@/components/nft-builder-preview";
 import { trpc } from "@/utils/trpc";
-import html2canvas from "html2canvas";
+// import html2canvas from "html2canvas";
 import { createNFTSchema } from "@ecotoken/api/src/schema/nft-builder";
 import Button from "@ecotoken/ui/components/Button";
 import DefaultCard, {
@@ -35,11 +34,11 @@ const NFTBuilder = () => {
     });
     const { isLoading, mutateAsync } = trpc.nftBuilder.mint.useMutation();
 
-    const [imageBlob, setImageBlob] = useState<string>();
-    const componentRef = useRef<HTMLDivElement | null>(null);
+    // const [imageBlob, setImageBlob] = useState<string>();
+    // const componentRef = useRef<HTMLDivElement | null>(null);
 
-    const credits = form.watch("credits");
-    const retiredBy = form.watch("retiredBy");
+    // const credits = form.watch("credits");
+    // const retiredBy = form.watch("retiredBy");
 
     return (
         <div className="h-full w-full">

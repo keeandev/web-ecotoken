@@ -15,15 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { forwardRef, useCallback, useState } from "react";
 import {
     faFileArrowUp,
-    type IconDefinition,
     faTrashAlt,
+    type IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { cva, type VariantProps } from "class-variance-authority";
-import { useCallback, useState, forwardRef } from "react";
-import { type Accept, useDropzone } from "react-dropzone";
+import { useDropzone, type Accept } from "react-dropzone";
+
 import Avatar, { type AvatarProps } from "../Avatar";
 import Button from "../Button";
 
@@ -193,7 +194,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
         </div>
     );
 };
-
+// eslint-disable-next-line react/display-name
 const Image = forwardRef<
     Omit<HTMLDivElement, "onClick">,
     AvatarProps & { onClick?: () => void }
