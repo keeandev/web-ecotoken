@@ -127,7 +127,7 @@ const Summary = () => {
         if (fetchingProject) return <Spinner />;
         else {
             toast.error("Project does not exist.");
-            await router.push("/eco-projects");
+            void router.push("/eco-projects");
             return null;
         }
     } else
@@ -266,9 +266,9 @@ const Summary = () => {
                                     loading={isDeleting}
                                     fullWidth
                                     onClick={() => {
-                                            void deleteMutate({
-                                                projectID: id as string,
-                                            });
+                                        void deleteMutate({
+                                            projectID: id as string,
+                                        });
                                     }}
                                 >
                                     Delete
