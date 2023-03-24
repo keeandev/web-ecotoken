@@ -24,10 +24,10 @@ jobs:
           cache: "npm"
 
       - name: Install Dependencies
-        runs: npm install
+        run: npm install
 
       - name: Typecheck
-        runs: npm run type-check
+        run: npm run type-check
 
       - name: Lint
-        runs: npm run lint
+        run: npm run lint
