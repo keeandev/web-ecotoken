@@ -33,20 +33,20 @@ const RetireSection = () => {
     const router = useRouter();
 
     return (
-        <div className="relative flex w-full justify-center bg-slate-50">
-            <div className="relative flex w-[100%] max-w-[1280px] flex-col justify-center gap-8 px-5 pb-6 pt-6 md:flex-row">
-                <div className="w-9/10 relative w-[100%] px-[10%] sm:px-[20%] md:w-1/3 md:px-0">
+        <div className="relative flex w-full justify-center  bg-slate-50">
+            <div className="relative flex w-[100%] max-w-[1280px] flex-col justify-center gap-6  px-5 pb-6 pt-6 sm:px-5 md:flex-row lg:px-6">
+                <div className="md:max-w-1/3 relative w-[100%] px-[10%] sm:px-[20%] md:w-[400px] md:px-0">
                     <Image
                         src={nftOrlando}
                         alt="Septic Sewage Treatment, Orlando, Florida"
                         className="w-[100%]"
                     />
                 </div>
-                <div className="flex flex-col content-start md:w-2/3">
-                    <h2 className="m-0 mt-3 font-head text-2xl font-bold uppercase leading-[1.2] text-slate-500 md:text-3xl lg:text-4xl">
+                <div className="flex flex-wrap justify-center  md:w-2/3">
+                    <h2 className="m-0 mt-3 w-full text-center font-head text-2xl font-bold uppercase leading-[1.2] text-slate-500 md:text-left md:text-3xl lg:text-4xl">
                         How users retire ecocredits
                     </h2>
-                    <div className="mb-2 mt-5 flex flex-col lg:pr-10">
+                    <div className="mb-2 mt-5 flex max-w-[520px] flex-col md:w-full md:max-w-[800px] lg:pr-10">
                         {descriptions.map((desc: string, index: number) => (
                             <div
                                 key={`desc_${index}`}
@@ -57,21 +57,23 @@ const RetireSection = () => {
                                     size="2xl"
                                     className="mt-0.5 text-slate-400"
                                 />
-                                <p className="text-base font-medium text-slate-800 lg:text-lg">
+                                <p className="max-w-[520px] text-base font-medium text-slate-800 lg:max-w-[800px] lg:text-lg">
                                     {desc}
                                 </p>
                             </div>
                         ))}
-                        <Button
-                            intent={"sky"}
-                            className="mt-4 !rounded"
-                            size={"lg"}
-                            onClick={() => void router.push(`/projects`)}
-                        >
-                            <span className="px-4 font-head text-lg font-medium uppercase">
-                                EXPLORE ALL PROJECTS
-                            </span>
-                        </Button>
+                        <div className="flex justify-center">
+                            <Button
+                                intent={"sky"}
+                                className="mt-4 w-3/4 !rounded md:w-2/3"
+                                size={"lg"}
+                                onClick={() => void router.push(`/projects`)}
+                            >
+                                <span className="px-4 font-head text-lg font-medium uppercase">
+                                    EXPLORE ALL PROJECTS
+                                </span>
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>

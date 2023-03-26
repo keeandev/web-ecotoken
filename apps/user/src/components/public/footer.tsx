@@ -38,10 +38,10 @@ const PublicFooter = () => {
                     style={{ backgroundImage: `url(${bkgd_wave.src})` }}
                 >
                     <div
-                        className="absolute left-0 bottom-[225px] flex h-[140px] w-[90%] flex-row justify-end  bg-right-top sm:bottom-[20%] sm:h-[120%] sm:w-[50%]"
+                        className="absolute left-0 bottom-[225px] flex h-[140px] w-[90%] flex-row justify-end bg-right-top pl-5 sm:bottom-[20%] sm:h-[120%] sm:w-[60%] md:w-[55%]"
                         style={{ backgroundImage: `url(${white_bevel.src})` }}
                     >
-                        <div className="relative w-full max-w-[600px] px-8 pt-[10px] sm:px-16 sm:pt-[16px] sm:pt-[40px]">
+                        <div className="relative w-full pt-[10px] sm:pt-[40px] lg:max-w-[680px] lg:pr-6">
                             <Image
                                 src={logo}
                                 alt="ecoToken System"
@@ -97,7 +97,7 @@ const PublicFooter = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="relative left-[5%] top-[40px] flex  h-full w-[90%] max-w-[500px] flex-col justify-start pr-4 pt-8 sm:absolute sm:left-[50%] sm:top-[10px] sm:w-[50%]">
+                    <div className="relative left-[5%] top-[40px] flex h-full w-[90%] max-w-[500px] flex-col justify-start pr-4 pt-8 sm:absolute sm:left-[50%] sm:top-[10px] sm:w-[50%] lg:pl-12">
                         <h2 className="text-shadow font-head text-[32px] font-medium text-white sm:text-[36px]">
                             Get in touch!
                         </h2>

@@ -32,17 +32,17 @@ const ProjectsFeatured = ({
                 })`,
             }}
         >
-            <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center bg-gradient-to-r from-black/70 to-transparent md:w-4/5"></div>
+            <div className="absolute top-0 left-0 flex h-full w-full bg-gradient-to-r from-black/70 to-transparent md:w-4/5"></div>
             <div className="relative flex min-h-[100px] w-full max-w-[1280px] justify-start align-bottom">
-                <div className="relative flex min-h-[50px] w-full flex-col-reverse md:w-[90%] lg:w-[75%]">
-                    <div className="relative mb-8 inline-block pl-4">
-                        <h1 className="text-shadow p-0 text-center font-head text-3xl font-bold uppercase leading-none text-ecoblue-400 md:text-left md:text-5xl lg:text-6xl">
+                <div className="relative flex min-h-[50px] w-full flex-col-reverse p-4 sm:p-5 md:w-[90%] lg:w-[75%] xl:p-6">
+                    <div className="relative mb-1 inline-block w-full">
+                        <h1 className="text-shadow p-0 text-center font-head text-3xl font-bold uppercase leading-none text-ecoblue-400 sm:text-left md:text-5xl lg:text-6xl">
                             NFT impact offsetting
                         </h1>
-                        <h1 className="text-shadow m-0 p-0 text-center font-head text-3xl font-bold uppercase leading-normal text-white md:text-left md:text-5xl lg:text-6xl">
+                        <h1 className="text-shadow m-0 p-0 text-center font-head text-3xl font-bold uppercase leading-normal text-white sm:text-left md:text-5xl lg:text-6xl">
                             With Regen ecocredits
                         </h1>
-                        <p className="text-shadow mb-0 mt-2 text-center text-xl font-medium leading-[1.2] text-white md:text-left md:text-2xl lg:text-3xl">
+                        <p className="text-shadow mb-0 mt-2 text-center text-xl font-medium leading-[1.2] text-white sm:w-4/5 sm:text-left md:text-2xl lg:text-3xl">
                             Verifiable cross chain ecocredit retirement on
                             Solana with Carbon, Water, and Habitat&nbsp;credits
                         </p>

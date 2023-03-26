@@ -42,14 +42,14 @@ const Grassroots = () => {
                 style={{ backgroundImage: `url(${globeHands.src})` }}
             ></div>
             <div
-                className="absolute top-[25px] right-0 h-[50px] w-[75%] opacity-[35%] sm:w-[62%] sm:opacity-100 md:w-[46%]"
+                className="absolute top-[25px] right-0 h-[50px] w-[90%] opacity-[35%] sm:w-[96%] sm:opacity-[60%] md:w-[94%] md:max-w-[1260px] xl:w-[1320px]"
                 style={{ backgroundImage: `url(${white_bevel_md.src})` }}
             ></div>
 
-            <div className="relative mt-[240px] flex w-[100%] max-w-[1280px] justify-center sm:mt-0">
+            <div className="relative mt-[180px] flex w-[100%] max-w-[1280px] justify-center sm:mt-0">
                 <div className="relative z-10 mx-2 inline w-[100%] sm:absolute sm:top-[90px] sm:right-0 sm:w-[60%] md:w-[46%]">
                     <h1 className=" semibold w-[100%] text-center font-head text-[28px]  font-semibold leading-[1.5]  text-white sm:text-left sm:text-ecoblue-500">
-                        <span className="text-shadow mb-[25px] inline-block sm:hidden">
+                        <span className="text-shadow inline-block min-h-[150px] sm:hidden">
                             Support decentralized grassroots environmental
                             innovation
                         </span>

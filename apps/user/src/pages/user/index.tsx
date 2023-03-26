@@ -19,11 +19,11 @@ import { type NextPage } from "next";
 import ProjectCard from "@/components/project/project-card";
 import { trpc } from "@/utils/trpc";
 
-import Support from "../../components/project/home-support";
 import BannerSection from "../../components/public/sections/home-banner";
 import CreatedByYou from "../../components/public/sections/home-created";
 import Credits from "../../components/public/sections/home-credits";
 import RetireSection from "../../components/public/sections/home-how";
+import Support from "../../components/public/sections/home-support";
 
 const Home: NextPage = () => {
     const { data } = trpc.ecoProjects.getAll.useInfiniteQuery({

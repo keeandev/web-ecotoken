@@ -3,6 +3,15 @@ Site:  https://app.regen.network/project/C02-001
 image link: https://regen-registry-server.herokuapp.com/image/projects/C02/kings-county.jpg
 
 
+https://eco-token.io/images/nft/NFT_bkgd_KingCounty.png
+https://eco-token.io/images/nft/NFT_bkgd_Lapin.png
+https://eco-token.io/images/nft/NFT_bkgd_Oceanwise.png
+https://eco-token.io/images/nft/NFT_bkgd_SandyCross.png
+https://eco-token.io/images/nft/NFT_bkgd_TripleM.png
+https://eco-token.io/images/nft/NFT_bkgd_Wacomet.png
+
+
+
 title: Lapin Septic Treatment System
 
 intro:
@@ -48,14 +57,14 @@ overview:
 
 
     {
-        project: "KingCounty001",
-        seriesName: "KingCounty001",
+        project: "Lapin001",
+        seriesName: "Lapin001",
         seriesImage: "",
-        seriesType: "C02",
-        regenBatch: "C02-001-20180101-20181231-001",
+        seriesType: "RH2O-02",
+        regenBatch: "RH2O-02",
         setAmount: 5553,
-        totalCredits: 26,
-        creditPrice: 31.45,
+        totalCredits: 12600,
+        creditPrice: 1.17,
         retireWallet: "",
         recieveWallet: "",
         creditWallet: "",

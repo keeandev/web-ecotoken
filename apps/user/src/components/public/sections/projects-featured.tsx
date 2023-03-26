@@ -31,8 +31,8 @@ const ProjectsFeatured = () => {
     if (!data) return <></>;
     return (
         <div className="relative flex w-full justify-center">
-            <div className="relative flex w-full max-w-[1280px] justify-center">
-                <div className="mx-auto grid w-full grid-cols-1 content-center gap-7 px-5 pb-6 pt-6 md:grid-cols-3">
+            <div className="relative flex w-full max-w-[1280px] justify-center px-5 pb-8 pt-6 md:px-6 xl:px-6">
+                <div className="mx-auto grid w-full grid-cols-1 content-center gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
                     {data.pages.flatMap(({ projects }) => {
                         return projects.map(
                             ({

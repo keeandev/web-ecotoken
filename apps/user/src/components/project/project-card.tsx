@@ -46,46 +46,59 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
     const router = useRouter();
 
     return (
-        <div className=" flex max-w-md flex-col overflow-hidden rounded-md bg-white shadow-md">
-            <Image
-                src={
-                    listImage?.startsWith("https")
-                        ? listImage
-                        : `${process.env.NEXT_PUBLIC_CDN_URL}/eco-projects/${listImage}`
-                }
-                alt="EcoProject thumbnail image"
-                className="h-60 w-full object-cover shadow-lg"
-                width={300}
-                height={200}
-            />
-            <div className="flex flex-col space-y-2 p-4">
-                <div className="flex flex-col">
-                    <div className="overflow-hidden text-ellipsis whitespace-nowrap text-xl font-semibold">
-                        {title}
-                    </div>
-                    <div className="text-normal font-medium text-slate-700">
-                        {location}
+        <div className="flex w-full justify-center">
+            <div className=" flex max-w-[420px] flex-col overflow-hidden rounded-md bg-white shadow-md">
+                <div className="relative inline-block aspect-[3/2] w-full">
+                    <Image
+                        src={
+                            listImage?.startsWith("https")
+                                ? listImage
+                                : `${process.env.NEXT_PUBLIC_CDN_URL}/eco-projects/${listImage}`
+                        }
+                        alt="EcoProject thumbnail image"
+                        className=" h-full w-full object-cover shadow-lg"
+                        width={300}
+                        height={200}
+                    />
+                    <div className="absolute bottom-0 left-0 flex h-2/3 w-full items-end bg-gradient-to-b from-transparent to-black/25">
+                        <h4 className="text-normal text-shadow px-4 pb-3 text-base font-medium text-white">
+                            {location}
+                        </h4>
                     </div>
                 </div>
-                <div className="floor-text-three-line h-[70px]">{intro}</div>
-                <Button
-                    intent="gray"
-                    fullWidth
-                    onClick={() => void router.push(`/projects/${identifier}`)}
-                >
-                    View Detail
-                </Button>
-                {hasSeries && (
+
+                <div className="flex flex-col px-4 pb-4">
+                    <h3 className="mt-2 overflow-hidden text-ellipsis whitespace-nowrap text-xl font-semibold text-slate-700">
+                        {title}
+                    </h3>
+                    <div className="floor-text-three-line mt-1 h-[75px] overflow-hidden text-ellipsis">
+                        {intro}
+                    </div>
                     <Button
-                        intent="skyfilled"
+                        className="mt-2"
+                        intent="gray"
                         fullWidth
                         onClick={() =>
-                            void router.push(`/projects/${identifier}/purchase`)
+                            void router.push(`/projects/${identifier}`)
                         }
                     >
-                        Buy Credits
+                        View Detail
                     </Button>
-                )}
+                    {hasSeries && (
+                        <Button
+                            className="mt-2"
+                            intent="skyfilled"
+                            fullWidth
+                            onClick={() =>
+                                void router.push(
+                                    `/projects/${identifier}/purchase`,
+                                )
+                            }
+                        >
+                            Buy Credits
+                        </Button>
+                    )}
+                </div>
             </div>
         </div>
     );

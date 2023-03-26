@@ -89,50 +89,52 @@ const PublicNavbar = () => {
     }, [publicKey, connected, isLoggedIn, isLoading]);
 
     return (
-        <div className="fixed top-0 z-30 flex h-16 w-full items-start justify-between border-b border-slate-400 bg-ecoblue-500">
-            <div
-                className="flex h-full w-1/4 min-w-[120px] items-center justify-end bg-right-top md:w-1/3"
-                style={{ backgroundImage: `url(${white_bevel_sm.src})` }}
-            >
-                <Link href="/" className="w-full">
-                    <div className="flex w-full justify-center pr-4 md:hidden">
-                        <Image
-                            src={logo}
-                            alt="ecoToken System"
-                            className="h-auto w-[75%] max-w-[54px]"
-                        />
-                    </div>
-                    <div className="p relative hidden w-full max-w-[360px] px-16 md:flex ">
-                        <Image
-                            src={wordmark}
-                            alt="ecoToken System"
-                            className="w-full min-w-[150px] max-w-[200px]"
-                        />
-                    </div>
-                </Link>
-            </div>
-            <div className="flex h-full w-3/4 max-w-[600px] justify-between md:w-2/3 lg:w-1/2">
-                <nav className="flex w-3/5 items-end justify-around text-center leading-4 text-white">
-                    <Link
-                        href="/"
-                        className="mb-4 inline border-b-4 border-ecoblue-500 px-1 py-1 hover:border-ecogreen-500 sm:inline"
-                    >
-                        HOME
+        <div className="fixed top-0 z-20 flex h-16 w-full items-start justify-center border-b border-slate-400 bg-ecoblue-500">
+            <div className="absolute top-0 left-0 hidden h-full w-1/4 bg-white lg:inline-block"></div>
+            <div className="relative z-30 flex h-full w-full justify-between xl:w-[1280px]">
+                <div
+                    className="z-40 flex h-full w-1/4 min-w-[120px] items-center justify-start bg-cover bg-right-top pl-4 sm:pl-5 md:w-1/3 lg:pl-6 xl:pl-6"
+                    style={{ backgroundImage: `url(${white_bevel_sm.src})` }}
+                >
+                    <Link href="/" className="w-full">
+                        <div className="flex w-full md:hidden">
+                            <Image
+                                src={logo}
+                                alt="ecoToken System"
+                                className="h-auto w-[75%] max-w-[54px]"
+                            />
+                        </div>
+                        <div className="relative hidden w-full max-w-[320px] md:flex">
+                            <Image
+                                src={wordmark}
+                                alt="ecoToken System"
+                                className="w-full min-w-[150px] max-w-[192px]"
+                            />
+                        </div>
                     </Link>
+                </div>
+                <div className="flex h-full w-3/4 max-w-[600px] justify-between pr-4 sm:w-[420px] sm:pr-5 md:w-[450px] lg:w-[500px] lg:pr-6 xl:pr-8">
+                    <nav className="flex w-3/5 items-end justify-around text-center leading-4 text-white">
+                        <Link
+                            href="/"
+                            className="mb-4 inline border-b-4 border-ecoblue-500 px-1 py-1 hover:border-ecogreen-500 sm:inline"
+                        >
+                            HOME
+                        </Link>
 
-                    <Link
-                        href="/projects"
-                        className="ml-2 mb-4 inline border-b-4 border-ecoblue-500 px-1 py-1 hover:border-ecogreen-500"
-                    >
-                        PROJECTS
-                    </Link>
-                    {/* <Link
+                        <Link
+                            href="/projects"
+                            className="ml-2 mb-4 inline border-b-4 border-ecoblue-500 px-1 py-1 hover:border-ecogreen-500"
+                        >
+                            PROJECTS
+                        </Link>
+                        {/* <Link
                         href="/contactus"
                         className="ml-2 mb-4 inline border-b-4 border-ecoblue-500 px-1 py-1 hover:border-ecogreen-500"
                     >
                         CONTACT US
                     </Link> */}
-                    {/* {!publicKey && (
+                        {/* {!publicKey && (
                         <Button
                             className="mb-3 inline"
                             intent="skyfilled"
@@ -141,15 +143,16 @@ const PublicNavbar = () => {
                             CONNECT WALLET
                         </Button>
                     )} */}
-                </nav>
-                <div className="mr-4 flex h-full items-center">
-                    {publicKey ? (
-                        <div className="px-10">
-                            <UserDropdown />
-                        </div>
-                    ) : (
-                        <WalletMultiButtonDynamic />
-                    )}
+                    </nav>
+                    <div className="flex h-full items-center">
+                        {publicKey ? (
+                            <div className="px-10">
+                                <UserDropdown />
+                            </div>
+                        ) : (
+                            <WalletMultiButtonDynamic />
+                        )}
+                    </div>
                 </div>
             </div>
         </div>
