@@ -22,7 +22,7 @@ import NftPreview from "@/components/project/nft-preview";
 import { clientEnv } from "@/env/schema.mjs";
 import { createAssociatedTokenAccountInstruction } from "@/utils/transferSplToken/createAssociatedTokenAccountInstruction";
 import { createTransferInstruction } from "@/utils/transferSplToken/createTransferInstructions";
-// import { getAccountInfo } from "@/utils/transferSplToken/getAccountInfo";
+import { getAccountInfo } from "@/utils/transferSplToken/getAccountInfo";
 import { getAssociatedTokenAddress } from "@/utils/transferSplToken/getAssociatedTokerAddress";
 import { trpc, uploadMutation } from "@/utils/trpc";
 import {
@@ -242,7 +242,7 @@ const PurchaseProject = () => {
                                         );
 
                                     const transaction = new Transaction();
-                                    // let account;
+                                    let account;
                                     try {
                                         // account = await getAccountInfo(
                                         //     connection,
