@@ -38,7 +38,7 @@ const CreatedByYou = () => {
                 className="absolute left-0 top-0 h-[75%] w-[92%] w-[85%] min-w-[480px] justify-end bg-cover bg-right-top sm:flex  sm:h-full sm:w-[85%] lg:w-[64%]"
                 style={{ backgroundImage: `url(${blue_bevel.src})` }}
             ></div>
-            <div className="relative flex w-full max-w-[1280px] border-4 pb-[120px] sm:bg-none sm:pt-4 sm:pb-6">
+            <div className="relative flex w-full max-w-[1280px] pb-[120px] sm:bg-none sm:pt-4 sm:pb-6">
                 <div className="relative mr-8 flex h-full w-[98%] items-start pl-4 sm:w-[85%] md:w-[75%] lg:w-[56%] ">
                     <div className="relative flex w-[100%] flex-col pt-2 sm:pt-2">
                         <h2 className="mb-2 font-head text-[1.75rem] font-semibold leading-[.9] text-white sm:mb-2 sm:text-[1.75rem] md:mb-2 md:text-[2rem] lg:text-[2.5rem]">
