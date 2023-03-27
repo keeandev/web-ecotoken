@@ -119,7 +119,7 @@ const UserDropdown = () => {
 const LogoutItem = forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
     ({ className, ...props }, ref) => {
         // eslint-disable-next-line @typescript-eslint/unbound-method
-        const { disconnect, publicKey } = useWallet();
+        const { disconnect } = useWallet();
 
         const { mutateAsync: logout } = trpc.userAuth.logout.useMutation({});
 
