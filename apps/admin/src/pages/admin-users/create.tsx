@@ -15,23 +15,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { Fragment, useMemo } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { trpc } from "@/utils/trpc";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Transition } from "@headlessui/react";
+import generator from "generate-password";
+import toast from "react-hot-toast";
 import { createAdminUserSchema } from "@ecotoken/api/src/schema/admin-user";
-import { CardTitle, CardDescription } from "@ecotoken/ui/components/Card";
+import Button from "@ecotoken/ui/components/Button";
+import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
 import Form, {
     FormInput,
     FormSelect,
     useZodForm,
 } from "@ecotoken/ui/components/Form";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Transition } from "@headlessui/react";
-import generator from "generate-password";
-import { useRouter } from "next/router";
-import toast from "react-hot-toast";
-import { Fragment, useMemo } from "react";
-import Link from "next/link";
-import Button from "@ecotoken/ui/components/Button";
 
 const AdminUserCreate = () => {
     const router = useRouter();

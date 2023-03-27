@@ -17,7 +17,6 @@
 
 /* eslint-disable */
 // @ts-nocheck
-
 import { TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import {
     TransactionInstruction,
@@ -25,7 +24,6 @@ import {
     type PublicKey,
     type Signer,
 } from "@solana/web3.js";
-// import BufferLayout from 'buffer-layout'
 import BN from "bn.js";
 
 import BufferLayout = require("buffer-layout");

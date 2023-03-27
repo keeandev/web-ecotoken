@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { cva, type VariantProps } from "class-variance-authority";
 import Image, { type ImageProps } from "next/image";
+import { cva, type VariantProps } from "class-variance-authority";
 
 const avatarStyles = cva("overflow-hidden relative", {
     variants: {

@@ -15,10 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
-import { type NextPageWithLayout } from "../_app";
 import EmailVerificationCard from "@/components/dashboard/email-verification-card";
+import { trpc } from "@/utils/trpc";
+
+import { type NextPageWithLayout } from "../_app";
 
 const EmailVerification: NextPageWithLayout = () => {
     const router = useRouter();

@@ -16,11 +16,11 @@
  */
 
 import { type NextPage } from "next";
+import { clientEnv } from "@/env/schema.mjs";
+import { trpc } from "@/utils/trpc";
+import { faImage } from "@fortawesome/free-solid-svg-icons";
 import FileUpload from "@ecotoken/ui/components/FileUpload";
 import ImageGroup from "@ecotoken/ui/components/ImageGroup";
-import { faImage } from "@fortawesome/free-solid-svg-icons";
-import { trpc } from "@/utils/trpc";
-import { clientEnv } from "@/env/schema.mjs";
 
 const Home: NextPage = () => {
     const context = trpc.useContext();
@@ -49,7 +49,7 @@ const Home: NextPage = () => {
             </div>
             <FileUpload defaultIcon={faImage} />
             {imageURLs && (
-                <div className="rounded-lg border border-slate-400 bg-slate-200 p-2 w-fit space-y-2">
+                <div className="w-fit space-y-2 rounded-lg border border-slate-400 bg-slate-200 p-2">
                     <div className="text-lg">Project Images</div>
                     <ImageGroup images={imageURLs} />
                 </div>

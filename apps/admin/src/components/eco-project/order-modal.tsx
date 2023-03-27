@@ -15,7 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { useMemo } from "react";
 import { trpc } from "@/utils/trpc";
+import { type z } from "zod";
 import { createEcoOrderSchema } from "@ecotoken/api/src/schema/order";
 import Button from "@ecotoken/ui/components/Button";
 import Form, {
@@ -23,8 +25,6 @@ import Form, {
     FormSelect,
     useZodForm,
 } from "@ecotoken/ui/components/Form";
-import { useMemo } from "react";
-import { type z } from "zod";
 
 const omittedSchema = createEcoOrderSchema.omit({
     userWallet: true,
@@ -139,7 +139,9 @@ const OrderModal: React.FC<{
                     {...form.register("retireBy")}
                 />
                 <Button
-                    loading={loading /* || fetchingEcoProjects */ || fetchingUsers}
+                    loading={
+                        loading /* || fetchingEcoProjects */ || fetchingUsers
+                    }
                     fullWidth
                 >
                     Purchase Credits

@@ -31,10 +31,7 @@ const ProjectTabPanel = ({
     const tabPanels = Array(9).fill(0);
     return (
         <>
-            <Tabs
-                defaultIndex={index}
-                className="flex w-full"
-            >
+            <Tabs defaultIndex={index} className="flex w-full">
                 <TabList>
                     {index === 0 ? (
                         <Tab>Project List</Tab>

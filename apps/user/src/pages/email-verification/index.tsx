@@ -16,6 +16,7 @@
  */
 
 import EmailVerificationCard from "@/components/dashboard/email-verification-card";
+
 import { type NextPageWithLayout } from "../_app";
 
 const EmailVerificationNotification: NextPageWithLayout = () => {

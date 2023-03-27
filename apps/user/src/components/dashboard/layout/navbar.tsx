@@ -23,7 +23,7 @@ import UserDropdown from "@/components/user-dropdown";
 import clsx from "clsx";
 import logo from "@ecotoken/ui/assets/brand/logo-header.png";
 
-const Navbar: NextPage<React.PropsWithChildren> = ({ children }) => {
+const Navbar = ({ children }: React.PropsWithChildren) => {
     return (
         <div className="fixed top-0 z-30 flex h-16 w-full items-center border-b border-slate-300 bg-slate-200">
             <div className="flex-1 justify-start">

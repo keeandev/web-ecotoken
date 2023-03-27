@@ -16,8 +16,9 @@
  */
 
 import { forwardRef } from "react";
+
 import Root, { type Props as RootProps } from "../TextArea";
-import FormField, { type UseFormFieldProps, useFormField } from "./form-field";
+import FormField, { useFormField, type UseFormFieldProps } from "./form-field";
 
 interface Props extends UseFormFieldProps, RootProps {
     name: string;

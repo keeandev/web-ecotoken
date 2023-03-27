@@ -15,8 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { cva, type VariantProps } from "class-variance-authority";
 import React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 
 const labelStyles = cva([""], {
     variants: {

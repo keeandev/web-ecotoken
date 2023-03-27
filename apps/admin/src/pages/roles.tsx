@@ -15,14 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Button from "@ecotoken/ui/components/Button";
-import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
-import { Tab } from "@headlessui/react";
 import { Fragment } from "react";
-import DefaultCard from "@ecotoken/ui/components/Card";
 import { trpc } from "@/utils/trpc";
+import { Tab, Transition } from "@headlessui/react";
 import clsx from "clsx";
-import { Transition } from "@headlessui/react";
+import Button from "@ecotoken/ui/components/Button";
+import DefaultCard, {
+    CardDescription,
+    CardTitle,
+} from "@ecotoken/ui/components/Card";
 
 const RoleItem: React.FC<{ name?: string; loading?: boolean }> = ({
     name,

@@ -17,7 +17,9 @@
         "db:push": "prisma db push --skip-generate",
         "db:seed": "prisma db seed",
         "db:generate": "prisma generate",
-        "db:studio": "prisma studio --browser=none"
+        "db:studio": "prisma studio --browser=none",
+        "lint": "eslint . --ext .ts,.tsx",
+        "lint:fix": "npm run lint --fix"
     },
     "dependencies": {
         "@prisma/client": "^4.11.0",

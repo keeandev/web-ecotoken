@@ -15,9 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { type VariantProps, cva } from "class-variance-authority";
-import { type LinkProps as NextLinkProps } from "next/link";
-import NextLink from "next/link";
+import NextLink, { type LinkProps as NextLinkProps } from "next/link";
+import { cva, type VariantProps } from "class-variance-authority";
 
 const linkStyles = cva("", {
     variants: {

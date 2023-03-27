@@ -15,12 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Form, { FormInput, useZodForm } from "@ecotoken/ui/components/Form";
+import { useRouter } from "next/router";
+import { trpc } from "@/utils/trpc";
+import { toast } from "react-hot-toast";
 import { loginAdminUserSchema } from "@ecotoken/api/src/schema/admin-user";
 import Button from "@ecotoken/ui/components/Button";
-import { useRouter } from "next/router";
-import { toast } from "react-hot-toast";
-import { trpc } from "@/utils/trpc";
+import Form, { FormInput, useZodForm } from "@ecotoken/ui/components/Form";
 
 const Login = () => {
     const { mutateAsync, isLoading } = trpc.adminAuth.login.useMutation({

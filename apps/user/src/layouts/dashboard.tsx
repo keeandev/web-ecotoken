@@ -15,9 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import PublicNavbar from "@/components/public/layout/navbar";
 import { type NextPage } from "next";
 import Head from "next/head";
+import PublicNavbar from "@/components/public/layout/navbar";
 
 const PublicLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
     return (

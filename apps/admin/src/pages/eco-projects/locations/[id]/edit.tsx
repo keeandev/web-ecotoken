@@ -15,25 +15,22 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { updateEcoLocationSchema } from "@ecotoken/api/src/schema/location";
-import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Button from "@ecotoken/ui/components/Button";
-import { Transition } from "@headlessui/react";
-import { toast } from "react-hot-toast";
+import React, { Fragment } from "react";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { trpc } from "@/utils/trpc";
-import { Fragment } from "react";
-import Link from "next/link";
-import React from "react";
-
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Transition } from "@headlessui/react";
 import { Country, State } from "country-state-city";
-
+import { toast } from "react-hot-toast";
+import { updateEcoLocationSchema } from "@ecotoken/api/src/schema/location";
+import Button from "@ecotoken/ui/components/Button";
+import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
 import Form, {
-    useZodForm,
     FormInput,
     FormSelect,
+    useZodForm,
 } from "@ecotoken/ui/components/Form";
 
 export const EditEcoLocation: React.FC = () => {

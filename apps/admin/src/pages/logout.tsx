@@ -15,8 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
+import { trpc } from "@/utils/trpc";
+
 import { type NextPageWithLayout } from "./_app";
 
 const Logout: NextPageWithLayout = () => {

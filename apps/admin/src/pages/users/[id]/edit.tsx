@@ -15,7 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { useMemo } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { trpc } from "@/utils/trpc";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Transition } from "@headlessui/react";
+import { toast } from "react-hot-toast";
 import { updateUserSchema } from "@ecotoken/api/src/schema/user";
 import Button from "@ecotoken/ui/components/Button";
 import { CardDescription, CardTitle } from "@ecotoken/ui/components/Card";
@@ -24,13 +31,6 @@ import Form, {
     FormSelect,
     useZodForm,
 } from "@ecotoken/ui/components/Form";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Transition } from "@headlessui/react";
-import { useRouter } from "next/router";
-import { useMemo } from "react";
-import Link from "next/link";
-import { toast } from "react-hot-toast";
 import Spinner from "@ecotoken/ui/components/Spinner";
 
 const EditUser: React.FC = () => {

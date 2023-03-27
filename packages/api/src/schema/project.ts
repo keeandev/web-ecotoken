@@ -17,7 +17,6 @@
 
 import { z } from "zod";
 
-
 import { decimal } from "./utils";
 
 export const ecoProjectEnumSchema = z.object({

@@ -15,13 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { adminAuthedProcedure, authedProcedure, router } from "../trpc";
+import { ListObjectsV2Command, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { PutObjectCommand, ListObjectsV2Command } from "@aws-sdk/client-s3";
-import { s3Client } from "../utils/s3";
-
-import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { z } from "zod";
+
+import { adminAuthedProcedure, authedProcedure, router } from "../trpc";
+import { s3Client } from "../utils/s3";
 
 const requiredPresignedUrlInput = z.object({
     key: z.string(),

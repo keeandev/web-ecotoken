@@ -15,16 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { useRouter } from "next/router";
+import { trpc } from "@/utils/trpc";
+import { createColumnHelper } from "@tanstack/react-table";
+import { type EcoLocation } from "@ecotoken/db";
 import Button from "@ecotoken/ui/components/Button";
 import DefaultCard, {
     CardDescription,
     CardTitle,
 } from "@ecotoken/ui/components/Card";
 import Table from "@ecotoken/ui/components/Table";
-import { useRouter } from "next/router";
-import { createColumnHelper } from "@tanstack/react-table";
-import { trpc } from "@/utils/trpc";
-import { type EcoLocation } from "@ecotoken/db";
 
 export const EcoLocations: React.FC = () => {
     const router = useRouter();

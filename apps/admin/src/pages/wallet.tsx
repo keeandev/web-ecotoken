@@ -16,7 +16,7 @@
  */
 
 const Wallet = () => {
-	return <div>Wallet</div>;
+    return <div>Wallet</div>;
 };
 
 export default Wallet;

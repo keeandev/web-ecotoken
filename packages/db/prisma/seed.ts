@@ -15,6 +15,9 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+// @ts-nocheck
+/* eslint-disable */
+
 import { PrismaClient, type Prisma } from "@prisma/client";
 import { hash } from "argon2";
 

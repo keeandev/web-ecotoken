@@ -16,6 +16,7 @@
  */
 
 import clsx from "clsx";
+
 import Avatar from "../Avatar";
 
 const ImageGroup: React.FC<{
