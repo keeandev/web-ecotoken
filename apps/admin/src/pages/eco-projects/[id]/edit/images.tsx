@@ -19,7 +19,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import ProjectTabPanel from "@/components/eco-project/project-tab-panel";
-import { trpc } from "@/utils/trpc";
+import { trpc, uploadMutation } from "@/utils/trpc";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMutation } from "@tanstack/react-query";
@@ -61,24 +61,6 @@ const Images = () => {
 
     const { mutateAsync: createPresignedUrl } =
         trpc.spaces.createPresignedUrls.useMutation();
-
-    const uploadMutation = async ({
-        url,
-        file,
-    }: {
-        url: string;
-        file: File;
-    }) => {
-        await fetch(url, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "image/png",
-                "x-amz-acl": "public-read",
-            },
-            mode: "cors",
-            body: file,
-        });
-    };
 
     const { mutateAsync: uploadImage, isLoading: isUploadingImage } =
         useMutation({
@@ -133,7 +115,7 @@ const Images = () => {
                                 })) as string;
                                 await uploadImage({
                                     url: listImageUrl,
-                                    file: listImage,
+                                    image: listImage,
                                 });
                             }
                             if (headImage) {
@@ -144,7 +126,7 @@ const Images = () => {
                                 })) as string;
                                 await uploadImage({
                                     url: headImageUrl,
-                                    file: headImage,
+                                    image: headImage,
                                 });
                             }
                             await editMutate({

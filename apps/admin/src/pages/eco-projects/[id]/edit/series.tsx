@@ -19,7 +19,7 @@ import { useMemo, useState, type ChangeEvent } from "react";
 import { useRouter } from "next/router";
 import ProjectTabPanel from "@/components/eco-project/project-tab-panel";
 import { formatCountryAndState } from "@/utils/formatter";
-import { trpc } from "@/utils/trpc";
+import { trpc, uploadMutation } from "@/utils/trpc";
 import { createId } from "@paralleldrive/cuid2";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
@@ -143,23 +143,7 @@ const EditSeries = () => {
     const { mutateAsync: uploadImage, isLoading: isUploadingImage } =
         useMutation({
             mutationKey: ["uploadSeriesImage"],
-            mutationFn: async ({
-                url,
-                seriesImage,
-            }: {
-                url: string;
-                seriesImage: File;
-            }) => {
-                await fetch(url, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "image/png",
-                        "x-amz-acl": "public-read",
-                    },
-                    mode: "cors",
-                    body: seriesImage,
-                });
-            },
+            mutationFn: uploadMutation,
         });
 
     const createImage = async (nftSeriesID: string) => {
@@ -172,7 +156,7 @@ const EditSeries = () => {
         });
         await uploadImage({
             url: url as string,
-            seriesImage,
+            image: seriesImage,
         });
         return imageKey;
     };

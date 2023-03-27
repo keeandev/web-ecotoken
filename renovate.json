@@ -12,5 +12,5 @@
             "excludePackageNames": ["@ecotoken/workshop"]
         }
     ],
-    "assignees": ["hjozwiak", "dinozoiddev"]
+    "assignees": ["hjozwiak"]
 }

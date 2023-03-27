@@ -87,21 +87,23 @@ export const spacesRouter = router({
                 );
                 return url;
             } else {
-                const promises = input.map((singleInput) => {
-                    return getSignedUrl(
-                        // @ts-ignore
-                        s3Client,
-                        createPutBucketCommand(
-                            singleInput.key,
-                            singleInput.contentType,
-                            singleInput.acl,
+                const urls = input.map(async (url) => {
+                    return {
+                        [url.key]: await getSignedUrl(
+                            // @ts-ignore
+                            s3Client,
+                            createPutBucketCommand(
+                                url.key,
+                                url.contentType,
+                                url.acl,
+                            ),
+                            {
+                                expiresIn: url.expiresIn,
+                            },
                         ),
-                        {
-                            expiresIn: singleInput.expiresIn,
-                        },
-                    );
+                    };
                 });
-                return await Promise.all(promises);
+                return Object.assign({}, urls);
             }
         }),
     listObjects: adminAuthedProcedure

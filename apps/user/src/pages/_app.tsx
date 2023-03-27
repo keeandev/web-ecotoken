@@ -52,13 +52,6 @@ type AppPropsWithLayout = AppProps & {
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     const router = useRouter();
 
-    const defaultLayout = (page: ReactNode) => {
-        if (router.pathname.startsWith("/user"))
-            return <DashboardLayout>{page}</DashboardLayout>;
-        else return <PublicLayout>{page}</PublicLayout>;
-    };
-    const getLayout = Component.getLayout ?? defaultLayout;
-
     // The network can be set to 'devnet', 'testnet', or 'mainnet-beta'.
     const network = clientEnv.NEXT_PUBLIC_SOLANA_NETWORK as Cluster;
 
@@ -84,6 +77,13 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [network],
     );
+
+    const defaultLayout = (page: ReactNode) => {
+        if (router.pathname.startsWith("/user"))
+            return <DashboardLayout>{page}</DashboardLayout>;
+        else return <PublicLayout>{page}</PublicLayout>;
+    };
+    const getLayout = Component.getLayout ?? defaultLayout;
 
     return (
         <ConnectionProvider endpoint={endpoint}>
