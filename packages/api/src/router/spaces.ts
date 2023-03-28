@@ -20,7 +20,11 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { adminAuthedProcedure, authedProcedure, router } from "../trpc";
+import {
+    adminAuthedProcedure,
+    authedProcedure,
+    createTRPCRouter,
+} from "../trpc";
 import { s3Client } from "../utils/s3";
 
 const requiredPresignedUrlInput = z.object({
@@ -62,7 +66,7 @@ const createListObjectCommand = ({
         StartAfter: startAfterKey,
     });
 
-export const spacesRouter = router({
+export const spacesRouter = createTRPCRouter({
     createPresignedUrls: authedProcedure
         .input(
             z.union([

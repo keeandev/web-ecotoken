@@ -5,11 +5,11 @@
     "prHourlyLimit": 10,
     "updateInternalDeps": true,
     "postUpdateOptions": ["npmDedupe"],
-
+    "rangeStrategy": "bump",
     "packageRules": [
         {
             "matchPackagePatterns": ["^@ecotoken/"],
-            "excludePackageNames": ["@ecotoken/workshop"]
+            "enabled": false
         }
     ],
     "assignees": ["hjozwiak"]

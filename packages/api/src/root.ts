@@ -15,21 +15,20 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { createTRPCRouter } from "../trpc";
-import { adminAuthRouter } from "./admin/admin-auth";
-import { adminUsersRouter } from "./admin/admin-users";
-import { creditRouter } from "./credit";
-import { locationsRouter, projectsRouter } from "./eco";
-import { ordersRouter } from "./eco/eco-orders";
-import { nftBuilderRouter } from "./nft-builder";
-import { nftSeriesRouter } from "./nft-series";
-import { permissionsRouter } from "./permissions";
-import { coinPriceRouter } from "./price";
-import { rolesRouter } from "./roles";
-import { spacesRouter } from "./spaces";
-import { userAuthRouter } from "./user/user-auth";
-import { usersRouter } from "./user/users";
-import { websiteRouter } from "./websites";
+import { adminAuthRouter } from "./router/admin/admin-auth";
+import { adminUsersRouter } from "./router/admin/admin-users";
+import { creditRouter } from "./router/credit";
+import { locationsRouter, ordersRouter, projectsRouter } from "./router/eco";
+import { nftBuilderRouter } from "./router/nft-builder";
+import { nftSeriesRouter } from "./router/nft-series";
+import { permissionsRouter } from "./router/permissions";
+import { coinPriceRouter } from "./router/price";
+import { rolesRouter } from "./router/roles";
+import { spacesRouter } from "./router/spaces";
+import { userAuthRouter } from "./router/user/user-auth";
+import { usersRouter } from "./router/user/users";
+import { websiteRouter } from "./router/websites";
+import { createTRPCRouter } from "./trpc";
 
 export const appRouter = createTRPCRouter({
     spaces: spacesRouter,

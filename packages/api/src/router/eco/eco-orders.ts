@@ -50,9 +50,13 @@ import { z } from "zod";
 import { type EcoOrder } from "@ecotoken/db";
 
 import { createEcoOrderSchema, updateEcoOrderSchema } from "../../schema/order";
-import { adminAuthedProcedure, authedProcedure, router } from "../../trpc";
+import {
+    adminAuthedProcedure,
+    authedProcedure,
+    createTRPCRouter,
+} from "../../trpc";
 
-export const ordersRouter = router({
+export const ordersRouter = createTRPCRouter({
     getAll: authedProcedure
         .input(
             z.object({

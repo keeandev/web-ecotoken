@@ -6,8 +6,7 @@
         "apps/user",
         "packages/api",
         "packages/auth",
-        "packages/config/tailwind",
-        "packages/config/prettier",
+        "packages/config/*",
         "packages/db",
         "packages/ui",
         "packages/email"
@@ -40,9 +39,11 @@
         "@types/prettier": "^2.7.2",
         "dotenv-cli": "^7.0.0",
         "prettier": "^2.8.4",
+        "prettier-plugin-tailwindcss": "^0.2.4",
         "run-script-os": "^1.1.6",
         "turbo": "^1.8.5",
-        "typescript": "^5.0.0"
+        "eslint": "^8.36.0",
+        "typescript": "^5.0.2"
     },
     "license": "AGPL-3.0-or-later"
 }

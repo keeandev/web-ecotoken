@@ -23,11 +23,11 @@ import { createUserSchema, updateUserSchema } from "../../schema/user";
 import {
     adminAuthedProcedure,
     authedProcedure,
+    createTRPCRouter,
     publicProcedure,
-    router,
 } from "../../trpc";
 
-export const usersRouter = router({
+export const usersRouter = createTRPCRouter({
     usernameCheck: publicProcedure
         .input(z.object({ username: z.string() }))
         .query(async ({ ctx, input }) => {

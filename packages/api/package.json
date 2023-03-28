@@ -20,9 +20,9 @@
         "@cosmjs/proto-signing": "^0.30.0",
         "@cosmjs/stargate": "^0.30.0",
         "@cosmos-client/core": "^0.46.1",
-        "@ecotoken/auth": "^0.0.0",
-        "@ecotoken/db": "^0.0.0",
-        "@ecotoken/email": "^0.0.0",
+        "@ecotoken/auth": "*",
+        "@ecotoken/db": "*",
+        "@ecotoken/email": "*",
         "@metaplex-foundation/js": "^0.18.3",
         "@paralleldrive/cuid2": "^2.2.0",
         "@regen-network/api": "^0.6.0",
@@ -32,21 +32,16 @@
         "coingecko-api": "^1.0.10",
         "decimal.js": "^10.4.3",
         "next": "^13.2.3",
-        "tweetnacl": "^1.0.3"
-    },
-    "peerDependencies": {
-        "@trpc/client": "^10.12.0",
-        "@trpc/server": "^10.12.0",
-        "superjson": "^1.9.1",
-        "zod": "^3.18.0"
-    },
-    "devDependencies": {
+        "tweetnacl": "^1.0.3",
+        "zod": "^3.21.4",
         "@trpc/client": "^10.14.1",
         "@trpc/server": "^10.14.1",
+        "superjson": "^1.12.2"
+    },
+    "devDependencies": {
+        "@ecotoken/eslint-config": "*",
         "eslint": "^8.35.0",
-        "superjson": "^1.12.2",
-        "typescript": "^5.0.0",
-        "zod": "^3.21.4"
+        "typescript": "^5.0.0"
     },
     "license": "AGPL-3.0-or-later"
 }

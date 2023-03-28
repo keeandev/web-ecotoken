@@ -22,13 +22,12 @@
         "lint:fix": "npm run lint --fix"
     },
     "dependencies": {
-        "@prisma/client": "^4.11.0",
+        "@prisma/client": "^4.12.0",
         "argon2": "^0.30.3"
     },
     "devDependencies": {
-        "dotenv-cli": "^7.0.0",
-        "prisma": "^4.11.0",
-        "typescript": "^5.0.0"
+        "prisma": "^4.12.0",
+        "typescript": "^5.0.2"
     },
     "license": "AGPL-3.0-or-later"
 }

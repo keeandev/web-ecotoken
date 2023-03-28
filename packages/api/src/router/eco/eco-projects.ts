@@ -22,9 +22,13 @@ import {
     createEcoProjectSchema,
     editEcoProjectSchema,
 } from "../../schema/project";
-import { adminAuthedProcedure, publicProcedure, router } from "../../trpc";
+import {
+    adminAuthedProcedure,
+    createTRPCRouter,
+    publicProcedure,
+} from "../../trpc";
 
-export const projectsRouter = router({
+export const projectsRouter = createTRPCRouter({
     get: publicProcedure
         .input(
             z

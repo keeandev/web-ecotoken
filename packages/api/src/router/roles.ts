@@ -16,25 +16,41 @@
  */
 
 import { z } from "zod";
-import { type Permission } from "@ecotoken/db";
+import { UserDomain, type Role } from "@ecotoken/db";
 
-import {
-    createPermissionSchema,
-    updatePermissionSchema,
-} from "../../schema/permission";
-import { adminAuthedProcedure, router } from "../../trpc";
+import { createRoleSchema, updateRoleSchema } from "../schema/role";
+import { adminAuthedProcedure, createTRPCRouter } from "../trpc";
 
-export const permissionsRouter = router({
+export const rolesRouter = createTRPCRouter({
     get: adminAuthedProcedure
         .input(
-            z.object({
-                id: z.string(),
-            }),
+            z
+                .object({
+                    id: z.string().optional(),
+                    name: z.string().optional(),
+                })
+                .superRefine(({ id, name }, ctx) => {
+                    if (!id && !name) {
+                        ctx.addIssue({
+                            path: ["id", "name"],
+                            code: "custom",
+                            message:
+                                "You must specify a ID or name to find a role by.",
+                        });
+                    }
+                }),
         )
         .query(async ({ ctx, input }) => {
-            return await ctx.prisma.role.findUnique({
+            return await ctx.prisma.role.findFirst({
                 where: {
-                    roleID: input.id,
+                    OR: [
+                        {
+                            roleID: input.id,
+                        },
+                        {
+                            role: input.name,
+                        },
+                    ],
                 },
             });
         }),
@@ -43,44 +59,46 @@ export const permissionsRouter = router({
             z.object({
                 limit: z.number().min(1).max(100).optional().default(10),
                 cursor: z.string().nullish(),
+                domain: z.nativeEnum(UserDomain).optional(),
             }),
         )
         .query(async ({ ctx, input }) => {
-            const permissions = await ctx.prisma.permission.findMany({
-                where: {},
+            const roles = await ctx.prisma.role.findMany({
+                where: {
+                    domain: input.domain,
+                },
                 take: input.limit + 1,
                 ...(input?.cursor && {
                     cursor: {
-                        permissionID: input.cursor,
+                        roleID: input.cursor,
                     },
                 }),
             });
 
-            let nextCursor: Permission | undefined;
-            if (permissions?.length > input.limit)
-                nextCursor = permissions.pop();
+            let nextCursor: Role | undefined;
+            if (roles?.length > input.limit) nextCursor = roles.pop();
 
             return {
-                permissions,
+                roles,
                 nextCursor,
             };
         }),
     create: adminAuthedProcedure
         .meta({
-            requiredPermissions: ["PERMISSION_CONFIG"],
+            requiredPermissions: ["ROLES_CONFIG"],
         })
-        .input(createPermissionSchema)
+        .input(createRoleSchema)
         .mutation(async ({ ctx, input }) => {
-            await ctx.prisma.permission.create({
+            await ctx.prisma.role.create({
                 data: {
                     ...input,
                 },
             });
         }),
     update: adminAuthedProcedure
-        .meta({ requiredPermissions: ["PERMISSION_CONFIG"] })
-        .input(updatePermissionSchema)
-        .mutation(async ({ ctx, input: { id, ...input } }) => {
+        .meta({ requiredPermissions: ["ROLES_CONFIG"] })
+        .input(updateRoleSchema)
+        .mutation(async ({ ctx, input: { roleID: id, ...input } }) => {
             await ctx.prisma.role.update({
                 where: {
                     roleID: id,

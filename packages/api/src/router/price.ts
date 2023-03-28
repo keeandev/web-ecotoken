@@ -17,7 +17,7 @@
 
 import CoinGecko from "coingecko-api";
 
-import { publicProcedure, router } from "../trpc";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
 const getCoinGeckoPrice = async () => {
     //1. Import coingecko-api
@@ -32,7 +32,7 @@ const getCoinGeckoPrice = async () => {
     return data;
 };
 
-export const coinPriceRouter = router({
+export const coinPriceRouter = createTRPCRouter({
     get: publicProcedure.query(async ({}) => {
         const data = await getCoinGeckoPrice();
         return data;

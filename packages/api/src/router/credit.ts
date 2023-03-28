@@ -33,9 +33,9 @@ import { MsgRetire } from "@regen-network/api/lib/generated/regen/ecocredit/v1/t
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
-import { publicProcedure, router } from "../../trpc";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
-export const creditRouter = router({
+export const creditRouter = createTRPCRouter({
     getSellOrderByBatch: publicProcedure
         .input(z.object({ batch: z.string() }))
         .query(async ({ input }) => {

@@ -18,10 +18,10 @@
 import { z } from "zod";
 import { type Site } from "@ecotoken/db";
 
-import { createWebsiteSchema, updateWebsiteSchema } from "../../schema/website";
-import { adminAuthedProcedure, router } from "../../trpc";
+import { createWebsiteSchema, updateWebsiteSchema } from "../schema/website";
+import { adminAuthedProcedure, createTRPCRouter } from "../trpc";
 
-export const websiteRouter = router({
+export const websiteRouter = createTRPCRouter({
     getAll: adminAuthedProcedure
         .input(
             z.object({

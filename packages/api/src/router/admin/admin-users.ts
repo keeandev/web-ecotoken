@@ -30,9 +30,9 @@ import {
 } from "@ecotoken/api/src/schema/admin-user";
 import { exclude } from "@ecotoken/db";
 
-import { adminAuthedProcedure, router } from "../../trpc";
+import { adminAuthedProcedure, createTRPCRouter } from "../../trpc";
 
-export const adminUsersRouter = router({
+export const adminUsersRouter = createTRPCRouter({
     get: adminAuthedProcedure
         .input(
             z.object({

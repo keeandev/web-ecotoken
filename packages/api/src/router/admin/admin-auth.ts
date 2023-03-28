@@ -19,9 +19,13 @@ import { TRPCError } from "@trpc/server";
 import { verify } from "argon2";
 
 import { loginAdminUserSchema } from "../../schema/admin-user";
-import { adminAuthedProcedure, publicProcedure, router } from "../../trpc";
+import {
+    adminAuthedProcedure,
+    createTRPCRouter,
+    publicProcedure,
+} from "../../trpc";
 
-export const adminAuthRouter = router({
+export const adminAuthRouter = createTRPCRouter({
     login: publicProcedure
         .input(loginAdminUserSchema)
         .mutation(async ({ ctx, input }) => {

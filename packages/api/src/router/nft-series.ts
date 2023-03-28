@@ -23,9 +23,9 @@ import {
     createNFTSeriesSchema,
     editNFTSeriesSchema,
 } from "../schema/nft-series";
-import { adminAuthedProcedure, router } from "../trpc";
+import { adminAuthedProcedure, createTRPCRouter } from "../trpc";
 
-export const nftSeriesRouter = router({
+export const nftSeriesRouter = createTRPCRouter({
     get: adminAuthedProcedure
         .input(
             z.object({

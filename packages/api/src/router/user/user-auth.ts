@@ -25,9 +25,9 @@ import {
     loginUserSchema,
     type emailVerificationSchema,
 } from "../../schema/user";
-import { publicProcedure, router } from "../../trpc";
+import { createTRPCRouter, publicProcedure } from "../../trpc";
 
-export const userAuthRouter = router({
+export const userAuthRouter = createTRPCRouter({
     isLoggedIn: publicProcedure.query(({ ctx }) => !!ctx.session?.user?.id),
     emailVerification: publicProcedure
         .input(

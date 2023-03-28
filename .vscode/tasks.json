@@ -7,6 +7,13 @@
             "problemMatcher": [],
             "label": "npm: type-check",
             "detail": "turbo type-check"
+        },
+        {
+            "type": "npm",
+            "script": "lint",
+            "problemMatcher": [],
+            "label": "npm: lint",
+            "detail": "turbo lint"
         }
     ]
 }

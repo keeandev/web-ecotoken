@@ -22,9 +22,9 @@ import {
     createEcoLocationSchema,
     updateEcoLocationSchema,
 } from "../../schema/location";
-import { adminAuthedProcedure, router } from "../../trpc";
+import { adminAuthedProcedure, createTRPCRouter } from "../../trpc";
 
-export const locationsRouter = router({
+export const locationsRouter = createTRPCRouter({
     get: adminAuthedProcedure
         .input(
             z.object({
