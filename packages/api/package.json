@@ -40,7 +40,7 @@
     },
     "devDependencies": {
         "@ecotoken/eslint-config": "*",
-        "eslint": "^8.35.0",
+        "eslint": "^8.37.0",
         "typescript": "^5.0.0"
     },
     "license": "AGPL-3.0-or-later"
