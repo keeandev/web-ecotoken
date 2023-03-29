@@ -44,6 +44,7 @@
         }
     },
     "globalEnv": [
+        "CI",
         "DATABASE_URL",
         "VERCEL",
         "VERCEL_URL",
