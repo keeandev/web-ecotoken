@@ -17,7 +17,7 @@
 
 import { type NextPage } from "next";
 import Head from "next/head";
-import PublicNavbar from "@/components/public/layout/navbar";
+import Navbar from "@/components/dashboard/layout/navbar";
 
 const PublicLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
     return (
@@ -33,7 +33,7 @@ const PublicLayout: NextPage<React.PropsWithChildren> = ({ children }) => {
             </Head>
 
             <div id="grid">
-                <PublicNavbar />
+                <Navbar />
                 <main id="main">{children}</main>
             </div>
         </>
