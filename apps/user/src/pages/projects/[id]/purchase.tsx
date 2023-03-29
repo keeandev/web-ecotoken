@@ -82,7 +82,7 @@ const PurchaseProject = () => {
             },
         });
 
-    const { data: price } = trpc.coinPrice.get.useQuery();
+    // const { data: price } = trpc.coinPrice.get.useQuery();
 
     const form = useZodForm({
         schema: createEcoOrderSchema.omit({
@@ -123,7 +123,7 @@ const PurchaseProject = () => {
     const { mutateAsync: createPresignedUrl } =
         trpc.spaces.createPresignedUrls.useMutation();
 
-    if (!project || !price) return <>Loading...</>;
+    if (!project) return <>Loading...</>;
 
     if (!project.nftSeries)
         return <div>No NFT series are attached to this project.</div>;
@@ -381,7 +381,7 @@ const PurchaseProject = () => {
                             >
                                 <div className="mt-4 flex items-end justify-start">
                                     <FormInput
-                                        className="float-left mt-3 mr-0 w-48"
+                                        className="float-left mr-0 mt-3 w-48"
                                         type="number"
                                         label="Amount of Credits to Purchase"
                                         step="any"
@@ -411,21 +411,21 @@ const PurchaseProject = () => {
                                 <div className="inline-block w-[100%] py-2">
                                     Purchase Price:{" $"}
                                     {Number(
-                                        (Number(credits) *
+                                        Number(credits) *
                                             Number(
                                                 project.nftSeries.creditPrice,
-                                            )) /
+                                            ) /*/
                                             (currency === "SOL"
                                                 ? // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
                                                   (price.data.solana
                                                       .usd as number)
-                                                : 1),
+                                                : 1),*/,
                                     ).toFixed(2)}
                                 </div>
                                 <FormInput
                                     size="full"
                                     label="Retired By"
-                                    className="mt-3 mb-3"
+                                    className="mb-3 mt-3"
                                     {...form.register("retireBy")}
                                 />
                                 <Button
