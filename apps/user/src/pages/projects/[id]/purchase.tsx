@@ -104,7 +104,7 @@ const PurchaseProject = () => {
     const date = useMemo(() => new Date(), []);
     const nftPreviewRef = useRef<HTMLDivElement | null>(null);
 
-    const currency = form.watch("currency");
+    // const currency = form.watch("currency");
     let credits;
     try {
         credits = form.watch("creditsPurchased").toNumber();
