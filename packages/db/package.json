@@ -5,21 +5,18 @@
     "main": "./index.ts",
     "types": "./index.ts",
     "prisma": {
-        "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts",
-        "lint": "eslint . --ext .ts,.tsx",
-        "lint:fix": "npm run lint --fix"
+        "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
     },
     "scripts": {
-        "clean": "run-script-os",
-        "clean:windows": "del /f /s node_modules",
-        "clean:default": "rm -rf node_modules",
-        "dev": "npm run db:studio",
-        "db:push": "prisma db push --skip-generate",
-        "db:seed": "prisma db seed",
+        "dev": "pnpm db:studio",
         "db:generate": "prisma generate",
+        "db:seed": "prisma db seed",
+        "db:push": "prisma db push --skip-generate",
         "db:studio": "prisma studio --browser=none",
-        "lint": "eslint . --ext .ts,.tsx",
-        "lint:fix": "npm run lint --fix"
+        "clean": "git clean -xdf .turbo node_modules",
+        "lint": "eslint .",
+        "lint:fix": "pnpm lint --fix",
+        "type-check": "tsc --noEmit"
     },
     "dependencies": {
         "@prisma/client": "^4.12.0",

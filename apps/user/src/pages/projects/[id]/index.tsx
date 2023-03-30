@@ -34,6 +34,7 @@ const ProjectDetails = () => {
         {
             identifier: id as string,
             series: true,
+            location: true,
         },
         { enabled: !!id },
     );
@@ -62,7 +63,7 @@ const ProjectDetails = () => {
                         backgroundSize: "cover",
                     }}
                 ></div>
-                <div className="absolute top-0 left-0 flex h-full w-full items-center justify-center bg-gradient-to-r from-black/70 to-transparent md:w-4/5"></div>
+                <div className="absolute left-0 top-0 flex h-full w-full items-center justify-center bg-gradient-to-r from-black/70 to-transparent md:w-4/5"></div>
                 {project.nftSeries?.isActive && (
                     <Button
                         intent={"sky"}
@@ -182,7 +183,7 @@ const ProjectDetails = () => {
                     <h1 className="mt-8 text-center font-head text-[36px] font-semibold uppercase leading-none text-slate-600">
                         Other projects for you to explore
                     </h1>
-                    <div className="grid w-full grid-cols-1 content-start gap-7 py-[5em]  px-8 sm:grid-cols-3 sm:px-[7em]">
+                    <div className="grid w-full grid-cols-1 content-start gap-7 px-8  py-[5em] sm:grid-cols-3 sm:px-[7em]">
                         {projects.pages.flatMap(({ projects }) => {
                             return projects.map(
                                 ({

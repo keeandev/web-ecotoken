@@ -5,10 +5,10 @@
     "scripts": {
         "dev": "next dev --port 3001",
         "build": "next build",
-        "clean": "rm -rf .next .turbo node_modules",
         "start": "next start",
-        "lint": "next lint",
-        "lint:fix": "npm run lint --fix",
+        "clean": "git clean -xdf .next .turbo node_modules",
+        "lint": "SKIP_ENV_VALIDATION=1 next lint",
+        "lint:fix": "pnpm lint --fix",
         "type-check": "tsc --noEmit"
     },
     "dependencies": {
@@ -41,6 +41,7 @@
         "react-hot-toast": "^2.4.0",
         "react-quill": "^2.0.0",
         "react-tabs": "^6.0.0",
+        "sharp": "^0.32.0",
         "zod": "^3.21.4"
     },
     "devDependencies": {

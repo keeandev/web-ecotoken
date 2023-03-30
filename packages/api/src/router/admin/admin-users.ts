@@ -24,12 +24,12 @@ import {
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { exclude, type AdminUser } from "@ecotoken/db";
+
 import {
     createAdminUserSchema,
     updateAdminUserSchema,
-} from "@ecotoken/api/src/schema/admin-user";
-import { exclude } from "@ecotoken/db";
-
+} from "../../schema/admin-user";
 import { adminAuthedProcedure, createTRPCRouter } from "../../trpc";
 
 export const adminUsersRouter = createTRPCRouter({

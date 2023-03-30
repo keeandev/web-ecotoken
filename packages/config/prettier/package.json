@@ -4,7 +4,7 @@
     "main": "index.js",
     "version": "0.0.0",
     "files": [
-        "index.cjs"
+        "index.js"
     ],
     "devDependencies": {
         "@ianvs/prettier-plugin-sort-imports": "^3.7.2",

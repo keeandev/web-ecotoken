@@ -3,11 +3,8 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "dev": "next dev",
+        "dev": "next dev --port 3000",
         "build": "next build",
-        "clean": "run-script-os",
-        "clean:windows": "del /f /s node_modules",
-        "clean:default": "rm -rf node_modules",
         "start": "next start",
         "lint": "next lint",
         "lint:fix": "npm run lint --fix",
@@ -50,6 +47,7 @@
         "react-dom": "18.2.0",
         "react-hook-form": "^7.43.8",
         "react-hot-toast": "^2.4.0",
+        "sharp": "^0.32.0",
         "zod": "^3.21.4"
     },
     "devDependencies": {
