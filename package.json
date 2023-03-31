@@ -10,7 +10,7 @@
         "db:push": "pnpm with-env turbo db:push",
         "db:seed": "pnpm with-env turbo db:seed",
         "db:studio": "pnpm with-env turbo db:studio",
-        "dev": "pnpm with-env turbo dev --parallel --concurrency 11",
+        "dev": "pnpm with-env turbo dev --parallel --concurrency 12",
         "format": "prettier --write \"**/*.{js,cjs,mjs,ts,tsx,md,json}\" --ignore-path .gitignore",
         "lint": "dotenv -- turbo lint && manypkg check",
         "lint:fix": "dotenv -- turbo lint:fix",

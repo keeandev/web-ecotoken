@@ -1,6 +1,7 @@
 packages:
     - apps/admin
     - apps/user
+    - apps/workshop
     - packages/api
     - packages/auth
     - packages/config/*

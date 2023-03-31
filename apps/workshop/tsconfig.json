@@ -15,25 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/** @type {import("eslint").Linter.Config} */
-const config = {
-    root: true,
-    extends: "@ecotoken/eslint-config",
-    parser: "@typescript-eslint/parser",
-    parserOptions: {
-        ecmaVersion: "latest",
-        tsconfigRootDir: __dirname,
-        project: [
-            "./tsconfig.json",
-            "./apps/*/tsconfig.json",
-            "./packages/*/tsconfig.json",
-        ],
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["./src/*"],
+            "#/*": ["./public/*"]
+        }
     },
-    settings: {
-        next: {
-            rootDir: ["apps/admin", "apps/user"],
-        },
-    },
-};
-
-module.exports = config;
+    "exclude": ["**/node_modules", "**/.*/"],
+    "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"]
+}

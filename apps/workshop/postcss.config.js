@@ -15,25 +15,4 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-/** @type {import("eslint").Linter.Config} */
-const config = {
-    root: true,
-    extends: "@ecotoken/eslint-config",
-    parser: "@typescript-eslint/parser",
-    parserOptions: {
-        ecmaVersion: "latest",
-        tsconfigRootDir: __dirname,
-        project: [
-            "./tsconfig.json",
-            "./apps/*/tsconfig.json",
-            "./packages/*/tsconfig.json",
-        ],
-    },
-    settings: {
-        next: {
-            rootDir: ["apps/admin", "apps/user"],
-        },
-    },
-};
-
-module.exports = config;
+module.exports = require("@ecotoken/tailwind-config/postcss");
