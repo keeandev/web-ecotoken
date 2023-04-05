@@ -32,7 +32,8 @@
         "prettier-plugin-tailwindcss": "^0.2.7",
         "run-script-os": "^1.1.6",
         "turbo": "^1.8.7",
-        "typescript": "^5.0.3"
+        "typescript": "^5.0.3",
+        "vercel": "^28.18.3"
     },
     "license": "AGPL-3.0-or-later"
 }

@@ -1,0 +1,147 @@
+name: Deploy Preview
+
+on:
+    pull_request:
+        types:
+            - opened
+            - reopened
+            - synchronize
+            - ready_for_review
+
+env:
+    TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+    TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+    VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+
+jobs:
+    deploy-user:
+        name: Deploy User Preview
+        runs-on: ubuntu-latest
+        environment:
+            name: Preview - User (web-ecotoken-user)
+            url: ${{ steps.deploy.outputs.url }}
+        if: ${{ !github.event.pull_request.draft }}
+        env:
+            VERCEL_PROJECT_ID: ${{ secrets.VERCEL_USER_PROJECT_ID }}
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v3
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v2.2.4
+
+            - name: Setup Node 18
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18
+
+            - name: Get pnpm store directory
+              id: pnpm-cache
+              run: |
+                  echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+            - name: Setup pnpm cache
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pnpm-store-
+
+            - name: Pull Environment Information
+              run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+            - name: Build Artifacts
+              run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+            - name: Deploy Artifacts to Vercel
+              id: deploy
+              run: echo "deploy_url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})" >> $GITHUB_OUTPUT
+
+    deploy-admin:
+        name: Deploy Admin Preview
+        runs-on: ubuntu-latest
+        environment:
+            name: Preview - Admin (web-ecotoken-admin)
+            url: ${{ steps.deploy.outputs.url }}
+        if: ${{ !github.event.pull_request.draft }}
+        env:
+            VERCEL_PROJECT_ID: ${{ secrets.VERCEL_ADMIN_PROJECT_ID }}
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v3
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v2.2.4
+
+            - name: Setup Node 18
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18
+
+            - name: Get pnpm store directory
+              id: pnpm-cache
+              run: |
+                  echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+            - name: Setup pnpm cache
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pnpm-store-
+
+            - name: Pull Environment Information
+              run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+            - name: Build Artifacts
+              run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+            - name: Deploy Artifacts to Vercel
+              id: deploy
+              run: echo "deploy_url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})" >> $GITHUB_OUTPUT
+
+    deploy-storybook:
+        name: Deploy Storybook Preview
+        runs-on: ubuntu-latest
+        environment:
+            name: Preview - Storybook (web-ecotoken-storybook)
+            url: ${{ steps.deploy.outputs.url }}
+        if: ${{ !github.event.pull_request.draft }}
+        env:
+            VERCEL_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v3
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v2.2.4
+
+            - name: Setup Node 18
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 18
+
+            - name: Get pnpm store directory
+              id: pnpm-cache
+              run: |
+                  echo "pnpm_cache_dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+            - name: Setup pnpm cache
+              uses: actions/cache@v3
+              with:
+                  path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+                  key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pnpm-store-
+
+            - name: Pull Environment Information
+              run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+            - name: Build Artifacts
+              run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+            - name: Deploy Artifacts to Vercel
+              id: deploy
+              run: echo "deploy_url=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})" >> $GITHUB_OUTPUT
