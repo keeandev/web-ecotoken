@@ -14,8 +14,6 @@
         "db:push": "prisma db push --skip-generate",
         "db:studio": "prisma studio --browser=none",
         "clean": "git clean -xdf .turbo node_modules",
-        "lint": "eslint .",
-        "lint:fix": "pnpm lint --fix",
         "type-check": "tsc --noEmit"
     },
     "dependencies": {

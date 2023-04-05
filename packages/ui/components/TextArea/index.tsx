@@ -51,7 +51,6 @@ const styles = cva(
         },
     },
 );
-
 export interface Props
     extends Omit<ComponentProps<"textarea">, "size">,
         VariantProps<typeof styles> {}
