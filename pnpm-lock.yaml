@@ -74,8 +74,8 @@ importers:
         specifier: ^1.7.13
         version: 1.7.13(react-dom@18.2.0)(react@18.2.0)
       '@hookform/resolvers':
-        specifier: ^3.0.0
-        version: 3.0.0(react-hook-form@7.43.9)
+        specifier: ^3.0.1
+        version: 3.0.1(react-hook-form@7.43.9)
       '@tanstack/react-query':
         specifier: ^4.28.0
         version: 4.28.0(react-dom@18.2.0)(react-native@0.71.5)(react@18.2.0)
@@ -4015,8 +4015,8 @@ packages:
       tailwindcss: 3.3.1(postcss@8.4.21)
     dev: true
 
-  /@hookform/resolvers@3.0.0(react-hook-form@7.43.9):
-    resolution: {integrity: sha512-SQPefakODpyq25b/phHXDKCdRrEfPcCXV7B4nAa139wE1DxufYbbNAjeo0T04ZXBokRxZ+wD8iA1kkVMa3QwjQ==}
+  /@hookform/resolvers@3.0.1(react-hook-form@7.43.9):
+    resolution: {integrity: sha512-n5oOt0cLw9mQNW3/k9zWaPsNWQcc0k6Jpc7XUrg2Q/AqqsHp3IVa1juqHCxczXI6uXHBa69ILc4pdtsRGyuzsw==}
     peerDependencies:
       react-hook-form: ^7.0.0
     dependencies:
