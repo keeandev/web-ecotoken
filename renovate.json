@@ -9,8 +9,15 @@
     "packageRules": [
         {
             "matchPackagePatterns": ["^@ecotoken/"],
-            "enabled": false
+            "matchUpdateTypes": ["patch", "minor"],
+            "automerge": true
         }
     ],
+    "lockFileMaintenance": {
+        "enabled": true,
+        "automerge": true,
+        "automergeType": "pr",
+        "platformAutomerge": true
+    },
     "assignees": ["hjozwiak"]
 }
