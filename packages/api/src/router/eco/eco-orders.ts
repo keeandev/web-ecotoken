@@ -45,6 +45,7 @@ import {
     type Cluster,
 } from "@solana/web3.js";
 import { TRPCError } from "@trpc/server";
+import axios from "axios";
 import bs58 from "bs58";
 import { z } from "zod";
 import { type EcoOrder } from "@ecotoken/db";
@@ -184,32 +185,60 @@ export const ordersRouter = createTRPCRouter({
                 });
             }
 
-            let vaildInput = false;
+            let validInput = false;
             try {
-                const txRes = await fetch(
+                const txRes = await axios.get(
                     `https://api.solscan.io/transaction?tx=${input.payHash}&cluster=devnet`,
                 );
                 // temporary fix
                 /* eslint-disable */
-                const data: any = txRes.json();
+                const data: any = txRes.data;
+                console.log(data);
+
+                // check usdc payment
                 if (
                     data.status! === "Success" &&
                     data.signer[0] === input.userWallet &&
                     data.mainActions[0].action === "spl-transfer" &&
-                    data.txStatus === "confirmed" &&
                     data.mainActions[0].data.source_owner ===
                         input.userWallet &&
                     data.mainActions[0].data.destination_owner ===
                         wallet.publicKey.toString() &&
                     data.mainActions[0].data.token.address ===
                         process.env.NEXT_PUBLIC_SOLANA_USDC &&
-                    data.mainActions[0].data.amount ===
+                    data.mainActions[0].data.amount.toString() ===
                         series.creditPrice
                             .times(input.creditsPurchased)
                             .times(1e6)
+                            .toString()
                 ) {
-                    vaildInput = true;
+                    validInput = true;
                 }
+                // check sol payment
+                if (
+                    input.currency === "SOL" &&
+                    data.status === "Success" &&
+                    data.signer[0] === input.userWallet &&
+                    data.mainActions[0].action === "sol-transfer" &&
+                    data.mainActions[0].data.source === input.userWallet &&
+                    data.mainActions[0].data.destination ===
+                        wallet.publicKey.toString()
+                ) {
+                    // get sol price
+                    const { data: solPrice } = await axios.get(
+                        "https://api.coingecko.com/api/v3/simple/price?ids=solana&include_last_updated_at=true&vs_currencies=usd",
+                    );
+                    if (
+                        data.mainActions[0].data.amount >
+                        series.creditPrice
+                            .times(input.creditsPurchased)
+                            .times(1e9)
+                            .div(solPrice.solana.usd)
+                    )
+                        validInput = true;
+                }
+
+                if (!validInput) throw new Error();
                 /* eslint-enable */
             } catch (error) {
                 throw new TRPCError({
@@ -346,6 +375,7 @@ export const ordersRouter = createTRPCRouter({
                     ],
                 });
 
+                console.log(validInput, input.currency);
                 console.log(uri, metadata);
                 /* const { nft } = */ await metaplex.nfts().create({
                     uri: uri,

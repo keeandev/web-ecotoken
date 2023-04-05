@@ -22,7 +22,6 @@ import { locationsRouter, ordersRouter, projectsRouter } from "./router/eco";
 import { nftBuilderRouter } from "./router/nft-builder";
 import { nftSeriesRouter } from "./router/nft-series";
 import { permissionsRouter } from "./router/permissions";
-import { coinPriceRouter } from "./router/price";
 import { rolesRouter } from "./router/roles";
 import { spacesRouter } from "./router/spaces";
 import { userAuthRouter } from "./router/user/user-auth";
@@ -44,7 +43,6 @@ export const appRouter = createTRPCRouter({
     roles: rolesRouter,
     nftBuilder: nftBuilderRouter,
     nftSeries: nftSeriesRouter,
-    coinPrice: coinPriceRouter,
     credit: creditRouter,
 });
 
