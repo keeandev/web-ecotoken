@@ -35,7 +35,7 @@ header:
         - ".vscode/*"
         - "note"
         - ".nvmrc"
-        - "package-lock.json"
+        - "pnpm-lock.yml"
         - "**/node_modules"
         - "schema.prisma"
     comment: on-failure
