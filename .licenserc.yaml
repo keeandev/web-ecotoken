@@ -14,24 +14,35 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 header:
-  license:
-    spdx-id: AGPL-3.0-or-later
-    copyright-owner: EcoToken Systems
+    license:
+        spdx-id: AGPL-3.0-or-later
+        copyright-owner: EcoToken Systems
 
-  paths-ignore:
-    - 'packages/ui/seed-data'
-    - 'dist'
-    - 'licenses'
-    - '**/*.md'
-    - 'LICENSE'
-    - 'NOTICE'
-
-  comment: on-failure
+    paths-ignore:
+        - ".github"
+        "*.mdx"
+        - "packages/ui/seed-data"
+        - "dist"
+        - "licenses"
+        - "**/*.md"
+        - "LICENSE"
+        - "NOTICE"
+        - "**/package.json"
+        - "vercel.json"
+        - "renovate.json"
+        - "turbo.json"
+        - ".vscode/*"
+        - "note"
+        - ".nvmrc"
+        - "package-lock.json"
+        - "**/node_modules"
+        - "schema.prisma"
+    comment: on-failure
 
 # If you don't want to check dependencies' license compatibility, remove the following part
 dependency:
-  files:
-    - pom.xml           # If this is a maven project.
-    - Cargo.toml        # If this is a rust project.
-    - package.json      # If this is a npm project.
-    - go.mod            # If this is a Go project.
+    files:
+        - pom.xml # If this is a maven project.
+        - Cargo.toml # If this is a rust project.
+        - package.json # If this is a npm project.
+        - go.mod # If this is a Go project.
