@@ -11,6 +11,10 @@ on:
 env:
     VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
 
+concurrency:
+    group: deploy-preview-${{ github.head_ref }}
+    cancel-in-progress: true
+
 jobs:
     CI:
         uses: ./.github/workflows/ci.yml # use the CI workflow

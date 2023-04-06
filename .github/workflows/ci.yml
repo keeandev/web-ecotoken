@@ -24,6 +24,10 @@ env:
   TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
   SKIP_ENV_VALIDATION: true
 
+concurrency:
+    group: ci-${{ github.head-ref }}
+    cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
