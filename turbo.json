@@ -30,6 +30,48 @@
                 "dist/**"
             ]
         },
+        "admin#build": {
+            "dependsOn": ["^build"],
+            "env": [
+                "REGEN_WALLET",
+                "REGEN_ENDPOINT",
+                "SOLANA_ADMIN_WALLET",
+                "COLLECTION_ADDRESS",
+                "EXTERNAL_URL",
+                "SPACES_BUCKET",
+                "SPACES_KEY",
+                "SPACES_SECRET",
+                "EMAIL_VERIFICATION_EXPIRE_TIME",
+                "EMAIL_VERIFICATION_EMAIL_ADDRESS",
+                "EMAIL_CLIENT_ID",
+                "EMAIL_PRIVATE_KEY",
+                "IRON_SESSION_PASSWORD",
+                "IRON_SESSION_EXPIRE_TIME",
+                "IRON_SESSION_COOKIE_EXPIRE_TIME"
+            ],
+            "outputs": [".next/**"]
+        },
+        "user#build": {
+            "dependsOn": ["^build"],
+            "env": [
+                "REGEN_WALLET",
+                "REGEN_ENDPOINT",
+                "SOLANA_ADMIN_WALLET",
+                "COLLECTION_ADDRESS",
+                "EXTERNAL_URL",
+                "SPACES_BUCKET",
+                "SPACES_KEY",
+                "SPACES_SECRET",
+                "EMAIL_VERIFICATION_EXPIRE_TIME",
+                "EMAIL_VERIFICATION_EMAIL_ADDRESS",
+                "EMAIL_CLIENT_ID",
+                "EMAIL_PRIVATE_KEY",
+                "IRON_SESSION_PASSWORD",
+                "IRON_SESSION_EXPIRE_TIME",
+                "IRON_SESSION_COOKIE_EXPIRE_TIME"
+            ],
+            "outputs": [".next/**"]
+        },
         "lint": {},
         "lint:fix": {},
         "clean": {
@@ -50,26 +92,11 @@
         "VERCEL_URL",
         "PORT",
         "NODE_ENV",
+        "SKIP_ENV_VALIDATION",
         "NEXT_PUBLIC_CDN_URL",
         "NEXT_PUBLIC_SOLANA_RPC",
         "NEXT_PUBLIC_SOLANA_NETWORK",
         "NEXT_PUBLIC_SOLANA_ADMIN_PUBKEY",
-        "NEXT_PUBLIC_SOLANA_USDC",
-        "SKIP_ENV_VALIDATION",
-        "SOLANA_ADMIN_WALLET",
-        "REGEN_WALLET",
-        "REGEN_ENDPOINT",
-        "COLLECTION_ADDRESS",
-        "EXTERNAL_URL",
-        "SPACES_BUCKET",
-        "SPACES_KEY",
-        "SPACES_SECRET",
-        "EMAIL_VERIFICATION_EXPIRE_TIME",
-        "EMAIL_VERIFICATION_EMAIL_ADDRESS",
-        "EMAIL_CLIENT_ID",
-        "EMAIL_PRIVATE_KEY",
-        "IRON_SESSION_PASSWORD",
-        "IRON_SESSION_EXPIRE_TIME",
-        "IRON_SESSION_COOKIE_EXPIRE_TIME"
+        "NEXT_PUBLIC_SOLANA_USDC"
     ]
 }
